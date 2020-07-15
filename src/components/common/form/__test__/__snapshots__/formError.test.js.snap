@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormError renders component 1`] = `
+<DocumentFragment>
+  <p
+    class="MuiTypography-root makeStyles-formError-1 MuiTypography-body1"
+    data-testid="FormErrorId"
+  >
+    This is an error message
+  </p>
+</DocumentFragment>
+`;

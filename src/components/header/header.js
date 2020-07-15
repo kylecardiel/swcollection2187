@@ -3,14 +3,19 @@ import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ToolBar from '@material-ui/core/Toolbar';
+import { HeaderButton } from 'components/common/buttons/headerButtons';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import Container from '@material-ui/core/Container';
+import { Color } from 'shared/styles/color';
+import { HeaderText } from 'components/common/text/headerText';
 
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
     },
     navBar: {
-        background: 'black',
+        background: Color.primary('eliteBlackGradient'),
         color: 'white',
     },
     title: {
@@ -39,13 +44,18 @@ const useStyles = makeStyles(theme => ({
     list: {
         width: 250,
         height: '100%',
-        background: 'black',
+        background: Color.primary('eliteBlackGradient'),
     },
     fullList: {
         width: 'auto',
     },
 }));
 
+const {
+    LOGIN,
+    SIGN_UP,
+    LOGOUT,
+} = HEADER_BUTTONS;
 
 export const Header = props => {
 
@@ -53,7 +63,13 @@ export const Header = props => {
 
     const {
         title,
+        userLoggedIn,
+        logoutUser,
     } = props;
+
+    const loginButton = <HeaderButton buttonLabel={LOGIN} route={ROUTE_CONSTANTS.LOGIN} />;
+    const signUpButton = <HeaderButton buttonLabel={SIGN_UP} route={ROUTE_CONSTANTS.SIGNUP} />;
+    const logoutButton = <HeaderButton buttonLabel={LOGOUT} onClick={logoutUser} userLoggedIn route={ROUTE_CONSTANTS.HOME} />;
 
     return (
         <AppBar position='static' className={classes.navBar} >
@@ -67,9 +83,14 @@ export const Header = props => {
                         spacing={1}
                     >
                         <Grid container item xs={10} md={8} spacing={1}>
-                            {title}
+                            <HeaderText text={title} textColor={'white'} staticTextSize/>
                         </Grid>
-                    
+                        <Grid container item xs={3} spacing={1} className={classes.normalButton}>
+                            {userLoggedIn
+                                ? logoutButton
+                                : <>{loginButton}{signUpButton}</>
+                            }
+                        </Grid>
                     </Grid>
                 </Container>
             </ToolBar>

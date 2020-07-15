@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormHeaderSection renders component 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root makeStyles-headerContainer-1 MuiGrid-container MuiGrid-spacing-xs-1"
+    data-testid="FormHeaderId"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="makeStyles-textSizeChange-105 makeStyles-textSizeChange-107"
+        data-testid="headerTextId"
+      >
+        This is test text
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
