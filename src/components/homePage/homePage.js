@@ -11,6 +11,7 @@ import { ActionButton } from 'components/common/buttons/actionButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,7 +32,7 @@ export const Homepage = props => {
     const [forNowBlackSeries, setForNowBlackSeries] = useState(null);
 
     useEffect(() => {
-        const recordsRef = CommonApi.read();
+        const recordsRef = CommonApi.read(FB_DB_CONSTANTS.ACTION_FIGURES.ALL);
         recordsRef.on('value', snapshot => {
             if(snapshot.val()){
                 let records = snapshot.val()["Black Series 6"];
@@ -49,11 +50,11 @@ export const Homepage = props => {
 
     const reimbursementComponents = forNowBlackSeries && forNowBlackSeries.map(record =>
         <Typography key={record.name} variant='body2' color='textSecondary' component='p'>
-            {` ${record.name}/${record.assortment}/$${record.purchaseprice}`}
+            {` ${record.name}/${record.assortment}/$${record.purchasePrice}`}
         </Typography>
     );
 
-    const total = forNowBlackSeries && forNowBlackSeries.reduce((a, {purchaseprice}) => a + parseInt(purchaseprice,10), 0);
+    const total = forNowBlackSeries && forNowBlackSeries.reduce((a, {purchasePrice}) => a + parseInt(purchasePrice,10), 0);
     const count = forNowBlackSeries && forNowBlackSeries.length;
 
     const modalSize = { height: '90%', width: '55%' };

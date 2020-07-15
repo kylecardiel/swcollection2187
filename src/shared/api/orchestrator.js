@@ -1,5 +1,4 @@
 import { database } from 'backend/Firebase';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 
 export class CommonApi {
     
@@ -9,7 +8,7 @@ export class CommonApi {
     };
 
     static read = (location)  => {
-        return database.ref("Action Figures")
+        return database.ref(location)
     };
 
     static update = (location, userId, record)  => {

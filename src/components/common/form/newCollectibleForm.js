@@ -46,9 +46,9 @@ export const NewCollectibleForm = ({ closeModal }) => {
     const onSubmit = collectible => {
         collectible['groups'] = groups;
 
-        const { collectiontype, series } = collectible;
+        const { collectionType, series } = collectible;
 
-        CommonApi.create(`${collectiontype}/${series}`, collectible)
+        CommonApi.create(`${collectionType}/${series}`, collectible)
         closeModal();
     };
 
@@ -69,14 +69,14 @@ export const NewCollectibleForm = ({ closeModal }) => {
                 <FormControl variant='outlined' className={classes.form}>
                     <InputLabel ref={inputLabel} id={`${selectorName}-label`}>{selectorName}</InputLabel>
                     <Controller
-                        name={selectorName.toLocaleLowerCase()}
+                        name={selectorName}
                         control={control}
                         as={
                             <Select
                                 label={selectorName}
                                 labelId={selectorName}
                                 labelWidth={labelWidth}
-                                inputProps={{ name: selectorName.toLocaleLowerCase() }}
+                                inputProps={{ name: selectorName }}
                             >
                                 {menuItemNone}
                                 {selectorValues.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
@@ -118,7 +118,7 @@ export const NewCollectibleForm = ({ closeModal }) => {
                     className={classes.form}
                     fullWidth
                     id={inputName}
-                    name={inputName.toLocaleLowerCase()}
+                    name={inputName}
                     label={inputName}
                     inputRef={register({ required: true })}
                 />

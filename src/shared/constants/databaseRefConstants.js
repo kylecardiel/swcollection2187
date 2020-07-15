@@ -1,12 +1,6 @@
 export const FB_DB_CONSTANTS = Object.freeze({
-    TOYS: {
-        ACTION_FIGURES: {
-            BLACK_SERIES: 'toys/actionFigures/blackSeries/',
-        },
-        LEGO: 'toys/lego/',
-    },
-    MEDIA: {
-        MOVIES: 'media/movies/',
-        VIDEO_GAMES: 'media/videoGames/',
+    ACTION_FIGURES: {
+        ALL: 'Action Figures/',
+        BLACK_SERIES: 'Action Figures/Black Series 6/',
     },
 });
