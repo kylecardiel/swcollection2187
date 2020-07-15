@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,27 +12,16 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-        margin: theme.spacing(1),
-    },
-    grid: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-}));
-
+import { UserConsumer } from 'components/auth/authContext';
 
 export const Homepage = props => {
+    const user = useContext(UserConsumer);
     const classes = useStyles();
     const [forNowBlackSeriesState] = useState(props);
     const [forNowBlackSeries, setForNowBlackSeries] = useState(null);
 
     useEffect(() => {
-        const recordsRef = CommonApi.read(FB_DB_CONSTANTS.ACTION_FIGURES.ALL);
+        const recordsRef = CommonApi.read(user.id, FB_DB_CONSTANTS.ACTION_FIGURES.ALL);
         recordsRef.on('value', snapshot => {
             if(snapshot.val()){
                 let records = snapshot.val()["Black Series 6"];
@@ -40,7 +29,7 @@ export const Homepage = props => {
                 setForNowBlackSeries(recordList);
             }
         });
-    }, [forNowBlackSeriesState]);
+    }, [forNowBlackSeriesState, user.id]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = record => {
@@ -94,3 +83,15 @@ export const Homepage = props => {
         </Container>
     );
 };
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+        margin: theme.spacing(1),
+    },
+    grid: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+}));

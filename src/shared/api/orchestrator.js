@@ -1,14 +1,13 @@
 import { database } from 'backend/FirebaseDb';
 
 export class CommonApi {
-    
-    static create = (location, record) => {
-        const ref = database.ref(location)
+    static create = (userId, location, record) => {
+        const ref = database.ref(`${userId}/${location}`)
         ref.push(record);
     };
 
-    static read = (location)  => {
-        return database.ref(location)
+    static read = (userId, location)  => {
+        return database.ref(`${userId}/${location}`)
     };
 
     static update = (location, userId, record)  => {

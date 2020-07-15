@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Color } from 'shared/styles/color';
 import { CommonApi } from 'shared/api/orchestrator';
@@ -24,9 +24,11 @@ import {
     GROUP_NAMES,
     VERSIONS,
 } from 'shared/constants/domainConstantSelectors';
+import { UserConsumer } from 'components/auth/authContext';
 
 
 export const NewCollectibleForm = ({ closeModal }) => {
+    const user = useContext(UserConsumer);
     const classes = useStyles();
 
     const { register, handleSubmit, control } = useForm();
@@ -48,7 +50,7 @@ export const NewCollectibleForm = ({ closeModal }) => {
 
         const { collectionType, series } = collectible;
 
-        CommonApi.create(`${collectionType}/${series}`, collectible)
+        CommonApi.create(user.id, `${collectionType}/${series}`, collectible)
         closeModal();
     };
 
