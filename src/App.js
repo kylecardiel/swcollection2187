@@ -42,12 +42,10 @@ export class App extends Component {
         displayName: firstName + ' ' + lastName,
         email: email,
       }).then(() => {
-        const userProfile = this.createUserProfile(user, firstName, lastName);
         this.setState({
           user: user,
           displayName: user.displayName,
           userId: user.uid,
-          roles: userProfile.roles,
         });
       })
     })
@@ -65,23 +63,14 @@ export class App extends Component {
   };
 
   render() {
-
-    const {
-      displayName,
-      userId,
-    } = this.state;
-
-    const userLoggedIn = displayName !== null;
-
+    const { userId } = this.state;
     return (
       <Routes
         registerUser={this.registerUser}
-        displayName={displayName}
-        userLoggedIn={userLoggedIn}
+        userLoggedIn={userId !== null}
         logoutUser={this.logoutUser}
         userId={userId}
       />
     );
-
   }
 }

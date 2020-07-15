@@ -48,7 +48,7 @@ export const Homepage = props => {
     }
     const closeModal = () => setIsModalOpen(false);
 
-    const reimbursementComponents = forNowBlackSeries && forNowBlackSeries.map(record =>
+    const forNowBlackSeriesComponents = forNowBlackSeries && forNowBlackSeries.map(record =>
         <Typography key={record.name} variant='body2' color='textSecondary' component='p'>
             {` ${record.name}/${record.assortment}/$${record.purchasePrice}`}
         </Typography>
@@ -87,7 +87,7 @@ export const Homepage = props => {
                         <Typography component='h1' variant='h5'>
                             {`$${total} on ${count} figures`}
                         </Typography>
-                        {reimbursementComponents}
+                        {forNowBlackSeriesComponents}
                     </Grid>
                 </Grid>
             </div>
