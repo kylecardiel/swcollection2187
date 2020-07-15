@@ -1,4 +1,4 @@
-import { database } from 'backend/Firebase';
+import { database } from 'backend/FirebaseDb';
 
 export class CommonApi {
     

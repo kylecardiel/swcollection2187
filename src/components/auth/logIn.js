@@ -12,9 +12,8 @@ import { useStyles } from 'components/auth/authMakeStyles';
 import { AUTH } from 'shared/constants/stringConstantsSelectors';
 import { useForm } from 'react-hook-form';
 import { FormError } from 'components/common/form/formError';
-import firebase from 'backend/Firebase';
+import { login } from 'backend/FirebaseAuth';
 import { Validator } from 'shared/util/validator';
-import { useHistory } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -36,23 +35,9 @@ export const LogIn = props => {
   } else {
     errorMessage = null;
   }
-
-  const history = useHistory();
-
+  
   const onSubmit = loginInfo => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(
-        loginInfo.email,
-        loginInfo.password
-      ).then(() => {
-        history.push(ROUTE_CONSTANTS.HOME);
-      })
-      .catch(error => {
-        if (error.message !== null) {
-          alert(error.message);
-        }
-      })
+    login(loginInfo.email, loginInfo.password);
   };
 
   return (
