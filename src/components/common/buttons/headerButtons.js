@@ -5,6 +5,26 @@ import { Button } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
+export const HeaderButton = ({ buttonLabel, onClick, route }) => {
+    const classes = useStyles();
+    return (
+        <Link
+            underline='none'
+            component={RouterLink}
+            to={route}
+        >
+            <Button
+                variant='contained'
+                className={classes.button}
+                onClick={onClick}
+                target='_blank'
+            >
+                {buttonLabel}
+            </Button>
+        </Link>
+    );
+};
+
 const useStyles = makeStyles(theme => ({
     button: {
         marginRight: theme.spacing(1),
@@ -18,36 +38,3 @@ const useStyles = makeStyles(theme => ({
         },
     }
 }));
-
-export const HeaderButton = props => {
-    const classes = useStyles();
-
-    const {
-        buttonLabel,
-        userLoggedIn,
-        onClick,
-        route,
-    } = props;
-
-    const buttonOnClick = userLoggedIn
-        ? onClick
-        : null;
-
-    return (
-
-        <Link 
-            underline='none' 
-            component={RouterLink} 
-            to={route} 
-        >
-            <Button
-                variant='contained'
-                className={classes.button}
-                onClick={buttonOnClick}
-                target='_blank'
-            >
-                {buttonLabel}
-            </Button>
-        </Link>
-    );
-};

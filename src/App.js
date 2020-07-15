@@ -1,76 +1,19 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes } from './routes/routes';
-import firebase from 'backend/Firebase';
+import { onAuthStateChange } from 'backend/FirebaseAuth';
+import { UserProvider } from 'components/auth/authContext';
 
-export class App extends Component {
+export const App = () => {
+  const [user, setUser] = useState({ loggedIn: false });
 
-  constructor() {
-    super();
-    this.state = {
-      user: null,
-      displayName: null,
-      userId: null,
-    };
-  }
+  useEffect(() => {
+    onAuthStateChange(setUser);
+  }, []);
 
-  componentDidMount() {
-    this.onAuthStateChanged();
-  }
+  return (
+    <UserProvider value={user}>
+      <Routes />
+    </UserProvider>
+  );
 
-  onAuthStateChanged = () => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          user: user,
-          displayName: user.displayName,
-          userId: user.uid,
-        });
-
-      } else {
-        this.setState({
-          user: null,
-          displayName: null,
-          userId: null,
-        });
-      }
-    });
-  }
-
-  registerUser = (firstName, lastName, email) => {
-    firebase.auth().onAuthStateChanged(user => {
-      user.updateProfile({
-        displayName: firstName + ' ' + lastName,
-        email: email,
-      }).then(() => {
-        this.setState({
-          user: user,
-          displayName: user.displayName,
-          userId: user.uid,
-        });
-      })
-    })
-  }
-
-
-  logoutUser = event => {
-    event.preventDefault();
-    this.setState({
-      user: null,
-      displayName: null,
-      userId: null,
-    });
-    firebase.auth().signOut().then(() => { })
-  };
-
-  render() {
-    const { userId } = this.state;
-    return (
-      <Routes
-        registerUser={this.registerUser}
-        userLoggedIn={userId !== null}
-        logoutUser={this.logoutUser}
-        userId={userId}
-      />
-    );
-  }
 }

@@ -12,12 +12,11 @@ import { useStyles } from 'components/auth/authMakeStyles';
 import { AUTH } from 'shared/constants/stringConstantsSelectors';
 import { useForm } from 'react-hook-form';
 import { FormError } from 'components/common/form/formError';
-import firebase from 'backend/Firebase';
 import { Validator } from 'shared/util/validator';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { useHistory } from 'react-router-dom';
+import { registerUser } from 'backend/FirebaseAuth';
 
-export const SignUp = props => {
+export const SignUp = () => {
 
   const { register, handleSubmit, watch } = useForm();
   const classes = useStyles();
@@ -41,23 +40,8 @@ export const SignUp = props => {
     errorMessage = null;
   }
 
-  const history = useHistory();
-
   const onSubmit = registrationInfo => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(
-        registrationInfo.email,
-        registrationInfo.password
-      ).then(() => {
-        props.registerUser(registrationInfo.firstName, registrationInfo.lastName, registrationInfo.email);
-        history.push(ROUTE_CONSTANTS.HOME);
-      })
-      .catch(error => {
-        if (error.message !== null) {
-          alert(error.message);
-        }
-      })
+    registerUser(registrationInfo);
   };
 
   const disableSubmitt = errorMessage !== null;
