@@ -48,6 +48,10 @@ export const NewCollectibleForm = ({ closeModal }) => {
     const onSubmit = collectible => {
         collectible['groups'] = groups;
 
+        Object.keys(collectible).forEach(
+            key => collectible[key] === undefined && delete collectible[key]
+        )
+
         const { collectionType, series } = collectible;
 
         CommonApi.create(user.id, `${collectionType}/${series}`, collectible)
@@ -122,7 +126,7 @@ export const NewCollectibleForm = ({ closeModal }) => {
                     id={inputName}
                     name={inputName}
                     label={inputName}
-                    inputRef={register({ required: true })}
+                    inputRef={register()}
                 />
             </Grid>
         </>;

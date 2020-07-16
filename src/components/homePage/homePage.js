@@ -13,6 +13,7 @@ import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { UserConsumer } from 'components/auth/authContext';
+import { ActionFigure } from 'components/display/actionfigure';
 
 export const Homepage = props => {
     const user = useContext(UserConsumer);
@@ -36,17 +37,11 @@ export const Homepage = props => {
         setIsModalOpen(true);
     }
     const closeModal = () => setIsModalOpen(false);
-
-    const forNowBlackSeriesComponents = forNowBlackSeries && forNowBlackSeries.map(record =>
-        <Typography key={record.name} variant='body2' color='textSecondary' component='p'>
-            {` ${record.name}/${record.assortment}/$${record.purchasePrice}`}
-        </Typography>
-    );
-
+    
     const total = forNowBlackSeries && forNowBlackSeries.reduce((a, {purchasePrice}) => a + parseInt(purchasePrice,10), 0);
     const count = forNowBlackSeries && forNowBlackSeries.length;
-
-    const modalSize = { height: '90%', width: '55%' };
+    const sortRecords = forNowBlackSeries && forNowBlackSeries.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    const modalSize = { height: '90%', width: '65%' };
 
     return (
         <Container component='main' maxWidth='lg'>
@@ -76,7 +71,7 @@ export const Homepage = props => {
                         <Typography component='h1' variant='h5'>
                             {`$${total} on ${count} figures`}
                         </Typography>
-                        {forNowBlackSeriesComponents}
+                        <ActionFigure records={sortRecords}/>
                     </Grid>
                 </Grid>
             </div>

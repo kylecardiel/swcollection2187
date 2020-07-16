@@ -105,7 +105,7 @@ export const DOMAIN_CONSTANTS = Object.freeze({
     },
     VERSIONS: {
         CARBONIZED: 'Carbonized',
-        FIRST_EDITION: 'First Edition White Box',
+        FIRST_EDITION: 'White Box',
         REGULAR: 'Regular',
     },
     CHARATERS: {
@@ -135,9 +135,9 @@ export const DOMAIN_CONSTANTS = Object.freeze({
                         BS_RED: 'Red - 2015-2020',
                         BS_ARCHIVE: 'Archive',
                         BS_CENTERPIECE: 'Centerpiece',
-                        BS_DELUX: 'Delux',
+                        BS_DELUX: 'Red - Delux',
                         BS_VEHICLE: 'With Vehicle',
-                        BS_40TH: '40th Anniversary Collection',
+                        BS_40TH: '40th Anniv',
                     },
                 },
                 ELITE_SERIES: {
