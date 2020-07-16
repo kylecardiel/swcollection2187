@@ -22,12 +22,13 @@ export const DisplayNameSection = ({ name, seriesNumber, assortment, series }) =
     };
 
     const classes = useStyles({ numberColor: seriesNumberColor, seriesColor: seriesColorGenerator(series)});
+    const formatedSeriesNumber = (seriesNumber && seriesNumber === '40th') ? `${seriesNumber}` : `#${seriesNumber}`
 
     return (
         <Grid container spacing={0} >
             <Grid item xs={nameSize} className={classes.nameText}>{name}</Grid>
             {seriesNumber &&
-                <Grid item xs={2} className={classes.seriesNumber}>{`#${seriesNumber}`}</Grid>
+                <Grid item xs={2} className={classes.seriesNumber}>{formatedSeriesNumber}</Grid>
             }
         </Grid>
     );
