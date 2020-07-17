@@ -10,14 +10,18 @@ import React, { useContext, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { CatalogApi, UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
 import { ASSORTMENT } from 'shared/constants/domainConstantSelectors';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
+import { PAGES } from 'shared/constants/stringConstantsSelectors';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
+const { HOME } = ROUTE_CONSTANTS;
 
 export const BlackSeriesCatalog = props => {
     const user = useContext(UserConsumer);
@@ -34,15 +38,16 @@ export const BlackSeriesCatalog = props => {
             }
         });
 
-        const userRef = UserApi.read(user.id, `${ACTION_FIGURES.ALL}`);
-        userRef.on('value', snapshot => {
-            if (snapshot.val()) {
-                let records = snapshot.val()["BlackSeries6"];
-                setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, "ownedId"));
-            }
-        });
-
-    }, [initialState, setCatalogData, setUserData, user.id]);
+        if(user.loggedIn){
+            const userRef = UserApi.read(user.id, `${ACTION_FIGURES.ALL}`);
+            userRef.on('value', snapshot => {
+                if (snapshot.val()) {
+                    let records = snapshot.val()["BlackSeries6"];
+                    setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, "ownedId"));
+                }
+            });
+        }
+    }, [initialState, setCatalogData, setUserData, user.id, user.loggedIn]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
@@ -52,10 +57,8 @@ export const BlackSeriesCatalog = props => {
 
     const modalSize = { height: '90%', width: '65%' };
 
-    console.log(merged)
-
     const generateAssortmentSection = (text, backgroundColor) => {
-        const records = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === text), "seriesNumber");
+        const records = SortingUtils.sortDataByStringIntAsc(merged.filter(el => el.assortment === text), "seriesNumber");
         return <>
             <AssortmentHeader text={text} backgroundColor={backgroundColor} />
             <ActionFigure catalog records={records} />
@@ -67,43 +70,57 @@ export const BlackSeriesCatalog = props => {
     const redAssort = generateAssortmentSection(ASSORTMENT.BS_RED, 'red');
     const deluxAssort = generateAssortmentSection(ASSORTMENT.BS_DELUX, 'red');
     const annivAssort = generateAssortmentSection(ASSORTMENT.BS_40TH, 'grey');
+    const archiveAssort = generateAssortmentSection(ASSORTMENT.BS_ARCHIVE, 'grey');
     const vehicleAssort = generateAssortmentSection(ASSORTMENT.BS_VEHICLE, 'yellow');
     const centerdAssort = generateAssortmentSection(ASSORTMENT.BS_CENTERPIECE, 'green');
 
+    const links = [
+        {
+            route: HOME,
+            title: PAGES.HOME_PAGE.TITLE,
+        },
+    ];
+
     return (
-        <Container component='main' maxWidth='lg'>
-            <Modal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                style={modalStyles(modalSize)}
-            >
-                <NewCollectibleForm
-                    closeModal={closeModal}
-                    catalog
-                />
-            </Modal>
-            <div className={classes.root}>
-                <Grid container spacing={1}>
-                    <Grid item xs={12} className={classes.grid}>
-                        <Grid item xs={12} className={classes.newEntryButtonModal}>
-                            <ActionButton
-                                buttonLabel={'New Entry'}
-                                icon={<AddBoxIcon />}
-                                onClick={openModal}
-                                color={Color.primary('green')}
-                            />
+        <React.Fragment>
+            <CommonBreadCrumbs links={links} currentTitle={PAGES.BLACK_SERIES_CATALOG.TITLE} />
+            <Container component='main' maxWidth='lg'>
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    style={modalStyles(modalSize)}
+                >
+                    <NewCollectibleForm
+                        closeModal={closeModal}
+                        catalog
+                    />
+                </Modal>
+                <div className={classes.root}>
+                    <Grid container spacing={1}>
+                        <Grid item xs={12} className={classes.grid}>
+                            {user.loggedIn && 
+                                <Grid item xs={12} className={classes.newEntryButtonModal}>
+                                    <ActionButton
+                                        buttonLabel={'New Entry'}
+                                        icon={<AddBoxIcon />}
+                                        onClick={openModal}
+                                        color={Color.primary('green')}
+                                    />
+                                </Grid>
+                            }
+                            {orangeAssort}
+                            {blueAssort}
+                            {redAssort}
+                            {deluxAssort}
+                            {annivAssort}
+                            {archiveAssort}
+                            {vehicleAssort}
+                            {centerdAssort}
                         </Grid>
-                        {orangeAssort}
-                        {blueAssort}
-                        {redAssort}
-                        {deluxAssort}
-                        {annivAssort}
-                        {vehicleAssort}
-                        {centerdAssort}
                     </Grid>
-                </Grid>
-            </div>
-        </Container>
+                </div>
+            </Container>
+        </React.Fragment>
     );
 };
 

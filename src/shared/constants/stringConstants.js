@@ -50,8 +50,11 @@ export const STRING_CONSTANTS = Object.freeze({
                 },
             },
         },
-        USER_PROFILE:{
-            TITLE: 'User Profile',
+        BLACK_SERIES_CATALOG:{
+            TITLE: 'Black Series Catalog',
+        },
+        MY_COLLECTION: {
+            TITLE: 'My Collection',
         },
         ADMIN: {
             TITLE: 'Administration',

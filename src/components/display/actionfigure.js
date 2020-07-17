@@ -41,19 +41,23 @@ export const ActionFigure = ({ catalog, records }) => {
         UserApi.delete(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId)
     };
 
+    const onclickCard = record => {
+        return record.owned
+            ? () => removeFigureToCollection(record)
+            : () => addFigureToCollection(record);
+    }
+
     const collectionButton = record => {
-        let text, className, onClick;
+        let text, className;
         if (record.owned) {
             text = 'Remove from Collection';
             className = classes.owned;
-            onClick = () => removeFigureToCollection(record);
         } else {
             text = 'Add to Collection';
             className = classes.nameText;
-            onClick = () => addFigureToCollection(record);
         }
 
-        return <Card className={classes.buttonCard} onClick={onClick}>
+        return <Card className={classes.buttonCard} onClick={onclickCard(record)}>
             <div className={className}>{text}</div>
         </Card>;
     };

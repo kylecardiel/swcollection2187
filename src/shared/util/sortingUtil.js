@@ -12,6 +12,10 @@ export class SortingUtils {
         return data.sort((a, b) => (a[attribute] > b[attribute]) ? 1 : -1);
     }
 
+    static sortDataByStringIntAsc = (data, attribute) => {
+        return data.sort((a, b) => (SortingUtils.alphaNumericSorting(a[attribute], b[attribute])));
+    }
+
     static alphaNumericSorting = (a, b) => {
         const regex = /^([a-z]*)(\d*)/i;
         let _a = a.match(regex);
