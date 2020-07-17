@@ -11,12 +11,12 @@ import {
 import { DisplayNameSection } from 'components/display/displayName';
 import { Color } from 'shared/styles/color';
 
-export const ActionFigure = ({ records }) => {
-    const classes = useStyles();
+export const ActionFigure = ({ catalog, records }) => {
+    const classes = useStyles({height: catalog ? 75 : 125});
 
     const generateBottomText = (label, value) => {
         return <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext} >
-            <span className={classes.textStyle}>{`${label}:`}</span>
+            <span className={classes.textStyle}>{`${label}`}</span>
             {value}
         </Typography>
     }
@@ -39,11 +39,17 @@ export const ActionFigure = ({ records }) => {
             </Card>
             <Card className={classes.bottomCard} key={record.id}>
                 <CardContent >
-                    {generateBottomText('Add', ` ${record.additionalNameDetails}`)}
-                    {generateBottomText('ASMT', ` ${record.assortment}`)}
-                    {generateBottomText('Version', ` ${record.version}`)}
-                    {generateBottomText('Buy', ` $${record.purchasePrice}`)}
-                    {generateBottomText('Qty', ` ${record.newInBoxQty} | ${record.looseCompleteQty} | ${record.looseIncompleteQty}`)}
+                    {generateBottomText(record.sourceMaterial)}
+                    {record.additionalNameDetails 
+                        && generateBottomText('Add Name', ` ${record.additionalNameDetails}`)}
+                    {record.version !== 'Regular' 
+                        ? generateBottomText('Version', ` ${record.version}`) 
+                        : null}
+                    {!catalog 
+                        && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
+                    {!catalog 
+                        && (record.newInBoxQty || record.looseCompleteQty || record.looseIncompleteQty) 
+                        && generateBottomText('Qty', ` ${record.newInBoxQty} | ${record.looseCompleteQty} | ${record.looseIncompleteQty}`)}
                 </CardContent>
             </Card>
         </Grid>
@@ -74,11 +80,13 @@ const useStyles = makeStyles(theme => ({
     card: {
         maxWidth: 325,
         maxHeight: 325,
+        borderRadius: 0,
     },
     bottomCard: {
         maxWidth: 325,
-        maxHeight: 325,
+        height: props => props.height,
         backgroundColor: Color.primary('black'),
+        borderRadius: 0,
     },
     bottomtext: {
         fontSize: '11px',

@@ -1,4 +1,16 @@
 import { database } from 'backend/FirebaseDb';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+
+
+const { CATALOG, USERS } = FB_DB_CONSTANTS;
+
+export class CatalogApi {
+    static read = location => CommonApi.read(`${CATALOG}${location}`);
+}
+
+export class UserApi {
+    static read = (userId, location) => CommonApi.read(`${USERS}${userId}/${location}`);
+}
 
 export class CommonApi {
     static create = (userId, location, record) => {
@@ -6,8 +18,8 @@ export class CommonApi {
         ref.push(record);
     };
 
-    static read = (userId, location)  => {
-        return database.ref(`${userId}/${location}`)
+    static read = location  => {
+        return database.ref(location)
     };
 
     static update = (location, userId, record)  => {

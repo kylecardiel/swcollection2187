@@ -1,6 +1,8 @@
 export const FB_DB_CONSTANTS = Object.freeze({
+    CATALOG: 'Catalog/',
+    USERS: 'users/',
     ACTION_FIGURES: {
-        ALL: 'Action Figures/',
-        BLACK_SERIES: 'Action Figures/Black Series 6/',
+        ALL: 'ActionFigures/',
+        BLACK_SERIES: 'ActionFigures/BlackSeries6/',
     },
 });
