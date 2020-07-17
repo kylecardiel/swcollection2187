@@ -8,4 +8,4 @@ export const defaultUser = {
  };
 const UserContext = createContext(defaultUser);
 export const UserProvider = UserContext.Provider;
-export const UserConsumer = UserContext.Consumer;
+export const UserConsumer = UserContext;

@@ -1,7 +1,6 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-// import Typography from '@material-ui/core/Typography';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import { UserConsumer } from 'components/auth/authContext';
 import { ActionButton } from 'components/common/buttons/actionButton';
@@ -23,25 +22,16 @@ const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 export const BlackSeriesCatalog = props => {
     const user = useContext(UserConsumer);
     const classes = useStyles();
-    const [forNowBlackSeriesState] = useState(props);
+    const { catalogList, setCatalogData, userList, setUserData } = props;
 
-    const [catalogList, setCatalogList] = useState(null);
-    const [userList, setUserList] = useState(null);
-
-    const [mergedList, setMergedList] = useState(null);
-
-
-    const [orangeSeries, setOrangeSeries] = useState(null);
-    const [blueSeries, setBlueSeries] = useState(null);
-    const [redSeries, setRedSeries] = useState(null);
-
+    const [initialState] = useState(props);
     useEffect(() => {
         const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
         catalogRef.on('value', snapshot => {
             if (snapshot.val()) {
                 let records = snapshot.val()["BlackSeries6"];
-                let catalogList = RecordUtils.convertDBNestedObjectsToArrayOfObjects(records);
-                setCatalogList(catalogList);
+                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records));
+
             }
         });
 
@@ -49,31 +39,37 @@ export const BlackSeriesCatalog = props => {
         userRef.on('value', snapshot => {
             if (snapshot.val()) {
                 let records = snapshot.val()["BlackSeries6"];
-                let userList = RecordUtils.convertDBNestedObjectsToArrayOfObjects(records);
-                setUserList(userList);
+                setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records));
             }
         });
 
-        const merged = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
-        setMergedList(merged);
-
-        if(merged.length > 0) {
-            setOrangeSeries(SortingUtils.sortDataByAttributeAsc(mergedList.filter(el => el.assortment === ASSORTMENT.BS_ORANGE), "seriesNumber"));
-            setBlueSeries(SortingUtils.sortDataByAttributeAsc(mergedList.filter(el => el.assortment === ASSORTMENT.BS_BLUE), "seriesNumber"));
-            setRedSeries(SortingUtils.sortDataByAttributeAsc(mergedList.filter(el => el.assortment === ASSORTMENT.BS_RED), "seriesNumber"));
-        }
-
-    }, [catalogList, forNowBlackSeriesState, mergedList, user.id, userList]);
-
+    }, [initialState, setCatalogData, setUserData, user.id]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-    // const total = forNowBlackSeries && forNowBlackSeries.reduce((a, { purchasePrice }) => a + parseInt(purchasePrice, 10), 0);
-    // const count = forNowBlackSeries && forNowBlackSeries.length;
-    // const sortRecords = forNowBlackSeries && forNowBlackSeries.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    const merged = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
+    const orangeSeries = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === ASSORTMENT.BS_ORANGE), "seriesNumber");
+    const blueSeries = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === ASSORTMENT.BS_BLUE), "seriesNumber");
+    const redSeries = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === ASSORTMENT.BS_RED), "seriesNumber");
+
     const modalSize = { height: '90%', width: '65%' };
+
+    const generateAssortmentSection = (text, backgroundColor, records) => {
+        return <>
+            <AssortmentHeader text={text} backgroundColor={backgroundColor} />
+            <ActionFigure catalog records={records} />
+        </>
+    };
+
+    const orangeAssort = generateAssortmentSection(ASSORTMENT.BS_ORANGE, 'orange', orangeSeries);
+    const blueAssort = generateAssortmentSection(ASSORTMENT.BS_BLUE, 'blue', blueSeries);
+    const redAssort = generateAssortmentSection(ASSORTMENT.BS_RED, 'red', redSeries);
+    const deluxAssort = generateAssortmentSection(ASSORTMENT.BS_DELUX, 'red', []);
+    const annivAssort = generateAssortmentSection(ASSORTMENT.BS_40TH, 'grey', []);
+    const vehicleAssort = generateAssortmentSection(ASSORTMENT.BS_VEHICLE, 'yellow', []);
+    const centerdAssort = generateAssortmentSection(ASSORTMENT.BS_CENTERPIECE, 'green', []);
 
     return (
         <Container component='main' maxWidth='lg'>
@@ -98,15 +94,13 @@ export const BlackSeriesCatalog = props => {
                                 color={Color.primary('green')}
                             />
                         </Grid>
-                        <AssortmentHeader text={ASSORTMENT.BS_ORANGE} backgroundColor={'orange'} />
-                        <ActionFigure catalog records={orangeSeries} />
-                        <AssortmentHeader text={ASSORTMENT.BS_BLUE} backgroundColor={'blue'} />
-                        <ActionFigure catalog records={blueSeries} />
-                        <AssortmentHeader text={ASSORTMENT.BS_RED} backgroundColor={'red'} />
-                        <ActionFigure catalog records={redSeries} />
-                        {/* <Typography component='h1' variant='h5'>
-                            {`${count} figures`}
-                        </Typography> */}
+                        {orangeAssort}
+                        {blueAssort}
+                        {redAssort}
+                        {deluxAssort}
+                        {annivAssort}
+                        {vehicleAssort}
+                        {centerdAssort}
                     </Grid>
                 </Grid>
             </div>

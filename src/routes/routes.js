@@ -8,7 +8,7 @@ import { SignUp } from 'components/auth/signUp';
 import { LogIn } from 'components/auth/logIn';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { UserConsumer } from 'components/auth/authContext';
-import { BlackSeriesCatalog } from 'components/blackSeries/blackSeriesCatalog';
+import BlackSeriesCatalogConnect from 'components/hoc/blackSeriesCatalogConnect';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, BLACK_SERIES } = ROUTE_CONSTANTS;
@@ -49,7 +49,7 @@ export const Routes = () => {
                         path={BLACK_SERIES} 
                         redirectPath={LOGIN}
                         userLoggedIn={loggedIn}
-                        component={BlackSeriesCatalog}
+                        component={BlackSeriesCatalogConnect}
                     />
                 </Switch>
             </Router>

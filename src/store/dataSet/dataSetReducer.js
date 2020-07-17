@@ -9,6 +9,16 @@ export const dataSet = (state = initialState.dataSet, action) => {
             ? updateState(state, 'displayedData', action.payload)
             : state;
     }
+    case actions.SET_CATALOG_DATA: {
+        return Array.isArray(action.payload)
+            ? updateState(state, 'catalogList', action.payload)
+            : state;
+    }
+    case actions.SET_USER_DATA: {
+        return Array.isArray(action.payload)
+            ? updateState(state, 'userList', action.payload)
+            : state;
+    }
     default:
         return state;
     }

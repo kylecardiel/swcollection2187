@@ -22,22 +22,21 @@ export const ActionFigure = ({ catalog, records }) => {
     }
 
     const actionFigureCard = records && records.map(record =>
-        <Grid item xs={12} md={2}>
-            <Card className={classes.card} key={record.id}>
+        <Grid item xs={12} md={2} key={record.id}>
+            <Card className={classes.card} >
                 <DisplayNameSection
                     name={record.name}
                     seriesNumber={record.seriesNumber}
                     assortment={record.assortment}
                     series={record.series}
                 />
-
                 <CardMedia
                     style={{ paddingTop: '60%', height: '250px' }}
                     image={record.assortment === '40th Anniv' ? record.newImageUrl : record.looseImageUrl}
                     title={record.id}
                 />
             </Card>
-            <Card className={classes.bottomCard} key={record.id}>
+            <Card className={classes.bottomCard}>
                 <CardContent >
                     {generateBottomText(record.sourceMaterial)}
                     {record.additionalNameDetails 
