@@ -15,11 +15,11 @@ export class RecordUtils {
         record.lastModifiedDate = DateUtils.getCurrentTimestamp();
     };
 
-    static convertDBNestedObjectsToArrayOfObjects = records => {
+    static convertDBNestedObjectsToArrayOfObjects = (records, idValue) => {
         let recordList =[]
         for (let item in records) {
             let record = records[item];
-            record.id = item;
+            record[idValue] = item;
             recordList.push(record)
         };
         return recordList;

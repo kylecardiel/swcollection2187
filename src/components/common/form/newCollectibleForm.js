@@ -11,10 +11,10 @@ import {
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Color } from 'shared/styles/color';
-import { CommonApi } from 'shared/api/orchestrator';
+import { CatalogApi } from 'shared/api/orchestrator';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import {
     ALL_SOURCE_NAMES,
@@ -24,11 +24,10 @@ import {
     GROUP_NAMES,
     VERSIONS,
 } from 'shared/constants/domainConstantSelectors';
-import { UserConsumer } from 'components/auth/authContext';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 
 
 export const NewCollectibleForm = ({ catalog, closeModal }) => {
-    const user = useContext(UserConsumer);
     const classes = useStyles();
 
     const { register, handleSubmit, control } = useForm();
@@ -50,11 +49,9 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
 
         Object.keys(collectible).forEach(
             key => collectible[key] === undefined && delete collectible[key]
-        )
+        );
 
-        const { collectionType, series } = collectible;
-
-        CommonApi.create(user.id, `${collectionType}/${series}`, collectible)
+        CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
         closeModal();
     };
 

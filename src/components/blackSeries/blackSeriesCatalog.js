@@ -30,8 +30,7 @@ export const BlackSeriesCatalog = props => {
         catalogRef.on('value', snapshot => {
             if (snapshot.val()) {
                 let records = snapshot.val()["BlackSeries6"];
-                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records));
-
+                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, "id"));
             }
         });
 
@@ -39,7 +38,7 @@ export const BlackSeriesCatalog = props => {
         userRef.on('value', snapshot => {
             if (snapshot.val()) {
                 let records = snapshot.val()["BlackSeries6"];
-                setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records));
+                setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, "ownedId"));
             }
         });
 
@@ -50,26 +49,26 @@ export const BlackSeriesCatalog = props => {
     const closeModal = () => setIsModalOpen(false);
 
     const merged = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
-    const orangeSeries = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === ASSORTMENT.BS_ORANGE), "seriesNumber");
-    const blueSeries = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === ASSORTMENT.BS_BLUE), "seriesNumber");
-    const redSeries = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === ASSORTMENT.BS_RED), "seriesNumber");
 
     const modalSize = { height: '90%', width: '65%' };
 
-    const generateAssortmentSection = (text, backgroundColor, records) => {
+    console.log(merged)
+
+    const generateAssortmentSection = (text, backgroundColor) => {
+        const records = SortingUtils.sortDataByAttributeAsc(merged.filter(el => el.assortment === text), "seriesNumber");
         return <>
             <AssortmentHeader text={text} backgroundColor={backgroundColor} />
             <ActionFigure catalog records={records} />
         </>
     };
 
-    const orangeAssort = generateAssortmentSection(ASSORTMENT.BS_ORANGE, 'orange', orangeSeries);
-    const blueAssort = generateAssortmentSection(ASSORTMENT.BS_BLUE, 'blue', blueSeries);
-    const redAssort = generateAssortmentSection(ASSORTMENT.BS_RED, 'red', redSeries);
-    const deluxAssort = generateAssortmentSection(ASSORTMENT.BS_DELUX, 'red', []);
-    const annivAssort = generateAssortmentSection(ASSORTMENT.BS_40TH, 'grey', []);
-    const vehicleAssort = generateAssortmentSection(ASSORTMENT.BS_VEHICLE, 'yellow', []);
-    const centerdAssort = generateAssortmentSection(ASSORTMENT.BS_CENTERPIECE, 'green', []);
+    const orangeAssort = generateAssortmentSection(ASSORTMENT.BS_ORANGE, 'orange');
+    const blueAssort = generateAssortmentSection(ASSORTMENT.BS_BLUE, 'blue');
+    const redAssort = generateAssortmentSection(ASSORTMENT.BS_RED, 'red');
+    const deluxAssort = generateAssortmentSection(ASSORTMENT.BS_DELUX, 'red');
+    const annivAssort = generateAssortmentSection(ASSORTMENT.BS_40TH, 'grey');
+    const vehicleAssort = generateAssortmentSection(ASSORTMENT.BS_VEHICLE, 'yellow');
+    const centerdAssort = generateAssortmentSection(ASSORTMENT.BS_CENTERPIECE, 'green');
 
     return (
         <Container component='main' maxWidth='lg'>
