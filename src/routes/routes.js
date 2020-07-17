@@ -8,50 +8,48 @@ import { SignUp } from 'components/auth/signUp';
 import { LogIn } from 'components/auth/logIn';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { UserConsumer } from 'components/auth/authContext';
+import { BlackSeriesCatalog } from 'components/blackSeries/blackSeriesCatalog';
+import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 
-const {
-    HOME,
-    LOGIN,
-    SIGNUP,
-    FORGOT_PASSWORD,
-} = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const Routes = () => {
-
-    const user = useContext(UserConsumer);
-    const { loggedIn } = user;
-
+    const { loggedIn } = useContext(UserConsumer);
     return (
         <React.Fragment>
             <Router>
-                <Header title={'@SWCollection2187'} userLoggedIn={loggedIn} />
-                <Route exact path='/' render={
-                    () => <Redirect to={HOME} />
-                }
-                />
+                <Header title={HEADER_TITLE} userLoggedIn={loggedIn} />
+                <Route exact path='/' render={ () => <Redirect to={HOME} /> } />
                 <Switch>
-                <ProtectedRoute
-                        path={LOGIN} redirectPath={HOME}
+                    <ProtectedRoute
+                        path={LOGIN} 
+                        redirectPath={HOME}
                         userLoggedIn={!loggedIn}
                         component={LogIn}
                     />
                     <ProtectedRoute
-                        path={FORGOT_PASSWORD} redirectPath={HOME}
+                        path={FORGOT_PASSWORD} 
+                        redirectPath={HOME}
                         userLoggedIn={!loggedIn}
                         component={ForgotPassword}
                     />
                     <ProtectedRoute
-                        path={SIGNUP} redirectPath={HOME}
+                        path={SIGNUP} 
+                        redirectPath={HOME}
                         userLoggedIn={!loggedIn}
                         component={SignUp}
                     />
                     <ProtectedRoute
-                        path={HOME} redirectPath={LOGIN}
-                        userLoggedIn={loggedIn} access={true}
-                        component={
-                            () => <Homepage
-                                userLoggedIn={loggedIn}
-                            />}
+                        path={HOME} 
+                        redirectPath={LOGIN}
+                        userLoggedIn={loggedIn}
+                        component={Homepage}
+                    />
+                    <ProtectedRoute
+                        path={BLACK_SERIES} 
+                        redirectPath={LOGIN}
+                        userLoggedIn={loggedIn}
+                        component={BlackSeriesCatalog}
                     />
                 </Switch>
             </Router>

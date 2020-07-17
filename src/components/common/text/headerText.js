@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 export const HeaderText = props => {
 
     const { textColor, staticTextSize } = props;
-    const classes = useStyles({ textColor: textColor });
+    const classes = useStyles({ textColor: textColor ? textColor : 'black'});
 
     return (
         <div data-testid='headerTextId' className={staticTextSize ? classes.textStatic : classes.textSizeChange}>

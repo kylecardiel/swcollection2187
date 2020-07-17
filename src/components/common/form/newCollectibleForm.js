@@ -27,7 +27,7 @@ import {
 import { UserConsumer } from 'components/auth/authContext';
 
 
-export const NewCollectibleForm = ({ closeModal }) => {
+export const NewCollectibleForm = ({ catalog, closeModal }) => {
     const user = useContext(UserConsumer);
     const classes = useStyles();
 
@@ -162,13 +162,13 @@ export const NewCollectibleForm = ({ closeModal }) => {
                         {nameInput}
                         {additionalNameDetailsInput}
                         {seriesNumberInput}
-                        {newInBoxQtyInput}
-                        {looseCompleteQtyInput}
-                        {looseIncompleteQtyInput}
+                        {!catalog && newInBoxQtyInput}
+                        {!catalog && looseCompleteQtyInput}
+                        {!catalog && looseIncompleteQtyInput}
                         {newInBoxImageURLInput}
                         {looseImageURLInput}
                         {groupSelectInput}
-                        {purchasePriceInput}
+                        {!catalog && purchasePriceInput}
                         <Grid item xs={12} className={classes.submitButtonrow}>
                             <Button
                                 type='submit'
