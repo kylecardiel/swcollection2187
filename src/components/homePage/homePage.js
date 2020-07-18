@@ -1,14 +1,16 @@
+import React, { useContext } from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { MediaCard } from 'components/common/card';
-import React from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE_CARDS } from 'shared/constants/stringConstantsSelectors';
+import { UserConsumer } from 'components/auth/authContext';
 
 export const Homepage = () => {
     const classes = useStyles();
+    const { loggedIn } = useContext(UserConsumer);
     return (
         <Container component='main' maxWidth='lg'>
             <div className={classes.root}>
@@ -20,12 +22,13 @@ export const Homepage = () => {
                             imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    {loggedIn && <Grid item xs={3}>
                         <MediaCard
                             cardText={HOME_PAGE_CARDS.ADMIN}
                             route={ROUTE_CONSTANTS.ADMIN}
                         />
                     </Grid>
+                    }
                 </Grid>
             </div>
         </Container>

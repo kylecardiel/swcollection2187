@@ -1,18 +1,12 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import AddBoxIcon from '@material-ui/icons/AddBox';
 import { UserConsumer } from 'components/auth/authContext';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import { ActionFigure } from 'components/display/actionfigure';
 import React, { useContext, useEffect, useState } from 'react';
-import Modal from 'react-modal';
 import { CatalogApi, UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { Color } from 'shared/styles/color';
-import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
@@ -49,13 +43,7 @@ export const BlackSeriesCatalog = props => {
         }
     }, [initialState, setCatalogData, setUserData, user.id, user.loggedIn]);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-
     const merged = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
-
-    const modalSize = { height: '90%', width: '65%' };
 
     const generateAssortmentSection = (text, backgroundColor) => {
         const records = SortingUtils.sortDataByStringIntAsc(merged.filter(el => el.assortment === text), "seriesNumber");
@@ -85,29 +73,9 @@ export const BlackSeriesCatalog = props => {
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={PAGES.BLACK_SERIES_CATALOG.TITLE} />
             <Container component='main' maxWidth='lg'>
-                <Modal
-                    isOpen={isModalOpen}
-                    onRequestClose={closeModal}
-                    style={modalStyles(modalSize)}
-                >
-                    <NewCollectibleForm
-                        closeModal={closeModal}
-                        catalog
-                    />
-                </Modal>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
                         <Grid item xs={12} className={classes.grid}>
-                            {user.loggedIn && 
-                                <Grid item xs={12} className={classes.newEntryButtonModal}>
-                                    <ActionButton
-                                        buttonLabel={'New Entry'}
-                                        icon={<AddBoxIcon />}
-                                        onClick={openModal}
-                                        color={Color.primary('green')}
-                                    />
-                                </Grid>
-                            }
                             {orangeAssort}
                             {blueAssort}
                             {redAssort}
