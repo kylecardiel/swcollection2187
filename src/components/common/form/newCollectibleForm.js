@@ -25,17 +25,44 @@ import {
     VERSIONS,
 } from 'shared/constants/domainConstantSelectors';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { storage } from 'backend/Firebase';
+import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
 
+const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
 export const NewCollectibleForm = ({ catalog, closeModal }) => {
     const classes = useStyles();
 
     const { register, handleSubmit, control } = useForm();
 
-    const [groups, setGroups] = React.useState([]);
+    const [groups, setGroups] = useState([]);
+    const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
+    const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
+    const [newFigureImageFile, setNewFigureImageFile] = useState(null);
+
+    // const [looseFigureImageURL, setLooseFigureImageURL] = useState(null);
+    // const [newFigureImageURL, setNewFigureImageURL] = useState(null);
 
     const handleChange = (event) => {
         setGroups(event.target.value);
+    };
+
+    const handleLooseImageChange = e => {
+        if (e.target.files[0]) {
+            setLooseFigureImageFile(e.target.files[0]);
+        }
+    };
+
+    const handleBlacLoosekImageChange = e => {
+        if (e.target.files[0]) {
+            setBlackLooseFigureImageFile(e.target.files[0]);
+        }
+    };
+
+    const handleNewImageChange = e => {
+        if (e.target.files[0]) {
+            setNewFigureImageFile(e.target.files[0]);
+        }
     };
 
     const inputLabel = useRef(null);
@@ -44,8 +71,96 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
+
+    // async function upload (image) {
+    //     try {  
+    //       const uploadTaskSnapshot = await storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
+    //       return await uploadTaskSnapshot.ref.getDownloadURL();
+        
+    //     } catch (error) {
+    //       console.log("ERR ===", error);
+    //       alert("Image uploading failed!");
+    //     }
+    //   }
+
+    async function upload (image) {
+        return new Promise((resolve, reject) => {
+            // Most of this was copied from firebase example with inputs adjusted for my usecase
+            const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
+            uploadTask.on('state_changed',
+                snapshot => {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                },
+                function error(err) {
+                    console.log('error', err);
+                    reject();
+                },
+                function complete() {
+                    uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+                        resolve(downloadURL);
+                    })
+                }
+            )
+        })
+    }
+
+
     const onSubmit = collectible => {
-        collectible['groups'] = groups;
+        // const promises = [];
+
+        // const uploadTaskLooseImage = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${looseFigureImageFile.name}`).put(looseFigureImageFile);
+        // promises.push(uploadTaskLooseImage);
+
+        // await uploadTaskLooseImage.on(
+        //     'state_changed',
+        //     function (snapshot) {
+        //         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //         console.log('Upload is ' + progress + '% done');
+        //     }, function (error) {
+        //         console.log(error)
+        //     }, async function () {
+        //         uploadTaskLooseImage.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+        //             console.log('***************************');
+        //             console.log(downloadURL)
+        //             setLooseFigureImageURL(downloadURL);
+        //             console.log('***************************');
+        //         });
+        //     }
+        // );
+
+        // const uploadTaskNewImage = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${newFigureImageFile.name}`).put(newFigureImageFile);
+        // promises.push(uploadTaskNewImage);
+
+        // uploadTaskNewImage.on(
+        //     'state_changed',
+        //     function (snapshot) {
+        //         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //         console.log('Upload is ' + progress + '% done');
+        //     }, function (error) {
+        //         console.log(error)
+        //     }, async function () {
+        //         uploadTaskNewImage.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+        //             console.log('***************************');
+        //             console.log(downloadURL)
+        //             setNewFigureImageURL(downloadURL);
+        //             console.log('***************************');
+        //         });
+        //     }
+        // );
+
+        // Promise.all(promises).then(tasks => {
+
+
+        collectible.looseImageUrl = upload(looseFigureImageFile);
+        collectible.newImageUrl = upload(newFigureImageFile);
+
+        console.log('all image uploads complete');
+        collectible.groups = groups;
+
+
+        // collectible.looseImageUrl = looseFigureImageURL;
+        // collectible.newImageUrl = newFigureImageURL;
 
         Object.keys(collectible).forEach(
             key => collectible[key] === undefined && delete collectible[key]
@@ -53,6 +168,10 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
 
         CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
         closeModal();
+        // });
+
+        //add new links to collectible
+
     };
 
     const menuItemNone = <MenuItem value={null}><em>{'none'}</em></MenuItem>;
@@ -129,6 +248,15 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
         </>;
     };
 
+    const generatorImageInput = (text, handleChange) => {
+        return <>
+            {generatorInputText(text)}
+            <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
+                <input type='file' onChange={handleChange} />
+            </Grid>
+        </>;
+    }
+
     const collectionTypeInput = generateSelector('Collection Type', 'collectionType', PRODUCT_TYPE);
     const seriesTypeInput = generateSelector('Series', 'series', PRODUCT_LINES);
     const assortmentInput = generateSelector('Assortment', 'assortment', ALL_ASSORTMENT);
@@ -140,10 +268,16 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
     const newInBoxQtyInput = generatorInput('NIB Qty', 'newInBoxQty');
     const looseCompleteQtyInput = generatorInput('Loose Complete Qty', 'looseCompleteQty');
     const looseIncompleteQtyInput = generatorInput('Loose incmplete Qty', 'looseIncompleteQty');
-    const newInBoxImageURLInput = generatorInput('NIB Image URL', 'newImageUrl');
-    const looseImageURLInput = generatorInput('Loose Image URL', 'looseImageUrl');
+    // const newInBoxImageURLInput = generatorInput('NIB Image URL', 'newImageUrl');
+    // const looseImageURLInput = generatorInput('Loose Image URL', 'looseImageUrl');
     const groupSelectInput = groupSelect();
     const purchasePriceInput = generatorInput('Purchase Price', 'purchasePrice');
+
+    const looseImageInput = generatorImageInput('Loose Image', handleLooseImageChange);
+    const looseBlackImageInput = generatorImageInput('Loose Black Image', handleBlacLoosekImageChange);
+    const newImageInput = generatorImageInput('NIB Image', handleNewImageChange);
+
+
 
     return (
         <React.Fragment>
@@ -162,8 +296,11 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
                         {!catalog && newInBoxQtyInput}
                         {!catalog && looseCompleteQtyInput}
                         {!catalog && looseIncompleteQtyInput}
-                        {newInBoxImageURLInput}
-                        {looseImageURLInput}
+                        {/* {newInBoxImageURLInput} */}
+                        {/* {looseImageURLInput} */}
+                        {looseImageInput}
+                        {looseBlackImageInput}
+                        {newImageInput}
                         {groupSelectInput}
                         {!catalog && purchasePriceInput}
                         <Grid item xs={12} className={classes.submitButtonrow}>
