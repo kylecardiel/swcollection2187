@@ -20,6 +20,12 @@ export const Homepage = () => {
                             imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
                         />
                     </Grid>
+                    <Grid item xs={3}>
+                        <MediaCard
+                            cardText={HOME_PAGE_CARDS.ADMIN}
+                            route={ROUTE_CONSTANTS.ADMIN}
+                        />
+                    </Grid>
                 </Grid>
             </div>
         </Container>

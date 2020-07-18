@@ -24,11 +24,13 @@ export const MediaCard = props => {
         <Link underline='none' component={RouterLink} to={props.route}>
             <Card className={classes.card}>
                 <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={props.imagePath}
-                        title={props.cardText.TITLE}
-                    />
+                    {props.imagePath && 
+                        <CardMedia
+                            className={classes.media}
+                            image={props.imagePath}
+                            title={props.cardText.TITLE}
+                        />
+                    }
                     <CardContent>
                         <Typography gutterBottom variant='h5' component='h2'>
                             {props.cardText.TITLE}

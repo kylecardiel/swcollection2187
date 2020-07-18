@@ -10,9 +10,9 @@ import { ForgotPassword } from 'components/auth/forgotPassword';
 import { UserConsumer } from 'components/auth/authContext';
 import BlackSeriesCatalogConnect from 'components/hoc/blackSeriesCatalogConnect';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
-import { MyCollection } from 'components/myCollection/myCollection';
+import { Admin } from 'components/admin/admin';
 
-const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, BLACK_SERIES, MY_COLLECTION } = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, BLACK_SERIES, MY_COLLECTION, ADMIN } = ROUTE_CONSTANTS;
 
 export const Routes = () => {
     const { loggedIn } = useContext(UserConsumer);
@@ -53,10 +53,10 @@ export const Routes = () => {
                         component={BlackSeriesCatalogConnect}
                     />
                     <ProtectedRoute
-                        path={MY_COLLECTION} 
+                        path={ADMIN} 
                         redirectPath={HOME}
                         userLoggedIn={loggedIn}
-                        component={MyCollection}
+                        component={Admin}
                     />
                 </Switch>
             </Router>

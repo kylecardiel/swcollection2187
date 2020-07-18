@@ -1,4 +1,4 @@
-import { database } from 'backend/FirebaseDb';
+import { database } from 'backend/Firebase';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 
 

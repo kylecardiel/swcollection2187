@@ -53,6 +53,9 @@ export const STRING_CONSTANTS = Object.freeze({
         BLACK_SERIES_CATALOG:{
             TITLE: 'Black Series Catalog',
         },
+        UPLOAD_IMAGE: {
+            TITLE: 'Upload Image',
+        },
         MY_COLLECTION: {
             TITLE: 'My Collection',
         },
