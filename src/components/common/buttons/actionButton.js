@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     button: {
         marginRight: theme.spacing(1),
         backgroundColor: props => props.backgroundColor,
-        borderRadius: '5',
+        borderRadius: '0',
         color: 'white',
         '&:hover': {
             backgroundColor: 'white',

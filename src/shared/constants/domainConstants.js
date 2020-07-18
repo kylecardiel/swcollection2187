@@ -106,7 +106,8 @@ export const DOMAIN_CONSTANTS = Object.freeze({
     VERSIONS: {
         CARBONIZED: 'Carbonized',
         FIRST_EDITION: 'White Box',
-        REGULAR: 'Regular',
+        CC_EXCLUSIVE: 'Comic-Con Exclusive',
+        // REGULAR: 'Regular',
     },
     CHARATERS: {
         CHEWBACCA: 'Chewbacca',
