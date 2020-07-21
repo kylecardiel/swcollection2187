@@ -11,6 +11,7 @@ import { UserConsumer } from 'components/auth/authContext';
 import BlackSeriesCatalogConnect from 'components/hoc/blackSeriesCatalogConnect';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 import { Admin } from 'components/admin/admin';
+import { MyCollection } from 'components/myCollection/myCollection';
 
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, BLACK_SERIES, MY_COLLECTION, ADMIN } = ROUTE_CONSTANTS;
 
@@ -57,6 +58,12 @@ export const Routes = () => {
                         redirectPath={HOME}
                         userLoggedIn={loggedIn}
                         component={Admin}
+                    />
+                    <ProtectedRoute
+                        path={MY_COLLECTION} 
+                        redirectPath={HOME}
+                        userLoggedIn={loggedIn}
+                        component={MyCollection}
                     />
                 </Switch>
             </Router>

@@ -13,9 +13,8 @@ import { Color } from 'shared/styles/color';
 import { UserConsumer } from 'components/auth/authContext';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { storage } from 'backend/Firebase';
 
-export const ActionFigure = ({ catalog, records }) => {
+export const ActionFigure = ({ catalog, records, newBoxImage }) => {
     const classes = useStyles({ height: catalog ? 75 : 125 });
     const { loggedIn, id } = useContext(UserConsumer);
 
@@ -63,7 +62,6 @@ export const ActionFigure = ({ catalog, records }) => {
         </Card>;
     };
 
-
     const actionFigureCard = records && records.map(record =>
         <Grid item xs={12} md={2} key={record.id}>
             <Card className={classes.card} >
@@ -75,8 +73,7 @@ export const ActionFigure = ({ catalog, records }) => {
                 />
                 <CardMedia
                     style={{ paddingTop: '60%', height: '250px' }}
-                    image={record.assortment === '40th Anniv' ? record.newImageUrl : record.looseImageUrl}
-                    // image={storage.ref(record.looseImageUrl)}
+                    image={newBoxImage ? record.newImageUrl : record.looseImageUrl}
                     title={record.name}
                 />
             </Card>
