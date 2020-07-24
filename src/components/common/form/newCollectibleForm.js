@@ -40,6 +40,8 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
     const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
     const [newFigureImageFile, setNewFigureImageFile] = useState(null);
 
+    const [looseFigureImageDownloadURL, setLooseFigureImageDownloadURL] = useState(null);
+
     // const [looseFigureImageURL, setLooseFigureImageURL] = useState(null);
     // const [newFigureImageURL, setNewFigureImageURL] = useState(null);
 
@@ -72,41 +74,49 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
     }, []);
 
 
-    // async function upload (image) {
-    //     try {  
-    //       const uploadTaskSnapshot = await storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
-    //       return await uploadTaskSnapshot.ref.getDownloadURL();
-        
-    //     } catch (error) {
-    //       console.log("ERR ===", error);
-    //       alert("Image uploading failed!");
-    //     }
+    // const uploadImage = async image => {
+    
+    //     return storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image)
+    //       .then(snap => {
+    //         return snap.ref.getDownloadURL();
+    //       })
+    //       .then(downloadURL => {
+    //         return downloadURL;
+    //       })
+    //       .catch(error => {
+    //         console.log(`An error occurred while uploading the file.\n\n${error}`);
+    //       });
     //   }
 
-    async function upload (image) {
-        return new Promise((resolve, reject) => {
+
+    const upload = async image => {
+        // return new Promise((resolve, reject) => {
             // Most of this was copied from firebase example with inputs adjusted for my usecase
             const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
-            uploadTask.on('state_changed',
+            // const downloadURL = await uploadTask.ref.getDownloadURL();
+            // return downloadURL;
+            return uploadTask.on('state_changed',
                 snapshot => {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
                 },
                 function error(err) {
                     console.log('error', err);
-                    reject();
+                    // reject();
                 },
                 function complete() {
-                    uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-                        resolve(downloadURL);
+                    uploadTask.snapshot.ref.getDownloadURL().then( downloadURL => {
+                        return downloadURL;
+                        // resolve(downloadURL);
+                        // setLooseFigureImageDownloadURL(downloadURL);
                     })
                 }
             )
-        })
+        // })
     }
 
 
-    const onSubmit = collectible => {
+    const onSubmit = async collectible => {
         // const promises = [];
 
         // const uploadTaskLooseImage = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${looseFigureImageFile.name}`).put(looseFigureImageFile);
@@ -151,30 +161,30 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
 
         // Promise.all(promises).then(tasks => {
 
+        upload(looseFigureImageFile).then(downloadURL => {
 
-        collectible.looseImageUrl = upload(looseFigureImageFile);
-        collectible.newImageUrl = upload(newFigureImageFile);
+            collectible.looseImageUrl = downloadURL;
+            console.log('all image uploads complete');
+            collectible.groups = groups;
+    
+            Object.keys(collectible).forEach(
+                key => collectible[key] === undefined && delete collectible[key]
+            );
+    
+            CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
+            closeModal();
 
-        console.log('all image uploads complete');
-        collectible.groups = groups;
 
+        })
 
-        // collectible.looseImageUrl = looseFigureImageURL;
-        // collectible.newImageUrl = newFigureImageURL;
-
-        Object.keys(collectible).forEach(
-            key => collectible[key] === undefined && delete collectible[key]
-        );
-
-        CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
-        closeModal();
+        // collectible.looseImageUrl = looseFigureImageDownloadURL;
+        // console.log(collectible.looseImageUrl);
+        // collectible.newImageUrl = await upload(newFigureImageFile);
+        // console.log(collectible.newImageUrl);
         // });
-
-        //add new links to collectible
-
     };
 
-    const menuItemNone = <MenuItem value={null}><em>{'none'}</em></MenuItem>;
+    const menuItemNone = <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>;
 
     const generatorInputText = text => {
         return <Grid item xs={12} md={4} className={classes.inputBoxInColumn}>
@@ -193,6 +203,7 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
                     <Controller
                         name={selectorName}
                         control={control}
+                        defaultValue={''}
                         as={
                             <Select
                                 label={selectorName}
@@ -231,7 +242,7 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
         </>;
     };
 
-    const generatorInput = (text, inputName) => {
+    const generatorInput = (text, inputName, number) => {
         return <>
             {generatorInputText(text)}
             <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
@@ -243,6 +254,7 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
                     name={inputName}
                     label={inputName}
                     inputRef={register()}
+                    type={number ? 'number' : 'string'}
                 />
             </Grid>
         </>;
@@ -264,10 +276,11 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
     const sourceMaterialTypeInput = generateSelector('Source Material', 'sourceMaterial', ALL_SOURCE_NAMES);
     const nameInput = generatorInput('Name', 'name');
     const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
-    const seriesNumberInput = generatorInput('Series Number', 'seriesNumber');
-    const newInBoxQtyInput = generatorInput('NIB Qty', 'newInBoxQty');
-    const looseCompleteQtyInput = generatorInput('Loose Complete Qty', 'looseCompleteQty');
-    const looseIncompleteQtyInput = generatorInput('Loose incmplete Qty', 'looseIncompleteQty');
+    const seriesNumberInput = generatorInput('Wave', 'wave', true);
+    const waveInput = generatorInput('Series Number', 'seriesNumber', true);
+    const newInBoxQtyInput = generatorInput('NIB Qty', 'newInBoxQty', true);
+    const looseCompleteQtyInput = generatorInput('Loose Complete Qty', 'looseCompleteQty', true);
+    const looseIncompleteQtyInput = generatorInput('Loose incmplete Qty', 'looseIncompleteQty', true);
     // const newInBoxImageURLInput = generatorInput('NIB Image URL', 'newImageUrl');
     // const looseImageURLInput = generatorInput('Loose Image URL', 'looseImageUrl');
     const groupSelectInput = groupSelect();
@@ -285,14 +298,15 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
             <Container component='main' maxWidth='xl' className={classes.conatiner}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={1} className={classes.submitButton}>
+                        {nameInput}
+                        {additionalNameDetailsInput}
                         {collectionTypeInput}
                         {seriesTypeInput}
                         {assortmentInput}
+                        {waveInput}
+                        {seriesNumberInput}
                         {versionTypeInput}
                         {sourceMaterialTypeInput}
-                        {nameInput}
-                        {additionalNameDetailsInput}
-                        {seriesNumberInput}
                         {!catalog && newInBoxQtyInput}
                         {!catalog && looseCompleteQtyInput}
                         {!catalog && looseIncompleteQtyInput}
