@@ -14,7 +14,7 @@ import { UserConsumer } from 'components/auth/authContext';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 
-export const ActionFigure = ({ catalog, records, newBoxImage }) => {
+export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => {
     const classes = useStyles({ height: catalog ? 75 : 125 });
     const { loggedIn, id } = useContext(UserConsumer);
 
@@ -28,9 +28,9 @@ export const ActionFigure = ({ catalog, records, newBoxImage }) => {
     const addFigureToCollection = figure => {
         let newCollectile = {
             catalogId: figure.id,
-            owned: true, 
-            looseCompleteQty: 0, 
-            looseIncompleteQty: 0, 
+            owned: true,
+            looseCompleteQty: 0,
+            looseIncompleteQty: 0,
             newInBoxQty: 0,
             purchasePrice: 0,
         };
@@ -64,35 +64,39 @@ export const ActionFigure = ({ catalog, records, newBoxImage }) => {
 
     const actionFigureCard = records && records.map(record =>
         <Grid item xs={12} md={2} key={record.id}>
-            <Card className={classes.card} >
-                <DisplayNameSection
-                    name={record.name}
-                    seriesNumber={record.seriesNumber}
-                    assortment={record.assortment}
-                    series={record.series}
-                />
-                <CardMedia
-                    style={{ paddingTop: '60%', height: '250px' }}
-                    image={newBoxImage ? record.newImageUrl : record.looseImageUrl}
-                    title={record.name}
-                />
-            </Card>
-            <Card className={classes.bottomCard}>
-                <CardContent >
-                    {generateBottomText(record.sourceMaterial)}
-                    {record.additionalNameDetails
-                        && generateBottomText('Add Name', ` ${record.additionalNameDetails}`)}
-                    {record.version && record.version !== 'Regular'
-                        ? generateBottomText('Version', ` ${record.version}`)
-                        : null}
-                    {!catalog
-                        && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
-                    {!catalog
-                        && record.owned
-                        && generateBottomText('Qty', ` ${record.newInBoxQty} | ${record.looseCompleteQty} | ${record.looseIncompleteQty}`)}
-                </CardContent>
-            </Card>
-            {catalog && loggedIn && collectionButton(record)}
+            {/* onClick={() => onClickCard(record)} */}
+            <div className={classes.fullCard}>
+                <Card className={classes.card} >
+                    <DisplayNameSection
+                        name={record.name}
+                        seriesNumber={record.seriesNumber}
+                        assortment={record.assortment}
+                        series={record.series}
+                    />
+                    <CardMedia
+                        style={{ paddingTop: '60%', height: '250px' }}
+                        image={newBoxImage ? record.newImageUrl : record.looseImageUrl}
+                        title={record.name}
+                        src={record.name}
+                    />
+                </Card>
+                <Card className={classes.bottomCard}>
+                    <CardContent >
+                        {generateBottomText(record.sourceMaterial)}
+                        {record.additionalNameDetails
+                            && generateBottomText('Add Name', ` ${record.additionalNameDetails}`)}
+                        {record.version && record.version !== 'Regular'
+                            ? generateBottomText('Version', ` ${record.version}`)
+                            : null}
+                        {!catalog
+                            && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
+                        {!catalog
+                            && record.owned
+                            && generateBottomText('Qty', ` ${record.newInBoxQty} | ${record.looseCompleteQty} | ${record.looseIncompleteQty}`)}
+                    </CardContent>
+                </Card>
+            </div>
+            {loggedIn && collectionButton(record)}
         </Grid>
     );
 
@@ -117,6 +121,9 @@ const useStyles = makeStyles(theme => ({
     },
     top: {
         marginTop: theme.spacing(1),
+    },
+    fullCard: {
+        cursor: 'pointer',
     },
     card: {
         maxWidth: 325,
@@ -191,7 +198,7 @@ const useStyles = makeStyles(theme => ({
         paddingBottom: theme.spacing(.5),
         cursor: 'pointer',
         '&:hover': {
-            backgroundColor:  Color.primary('red'),
+            backgroundColor: Color.primary('red'),
             color: Color.primary('black'),
         },
     },

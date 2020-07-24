@@ -1,43 +1,52 @@
 import Container from '@material-ui/core/Container';
+import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import { UserConsumer } from 'components/auth/authContext';
-import { ActionFigure } from 'components/display/actionfigure';
-import React, { useContext, useEffect, useState, useRef } from 'react';
-import { CatalogApi, UserApi } from 'shared/api/orchestrator';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { SortingUtils } from 'shared/util/sortingUtil';
-import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
-import { ASSORTMENT } from 'shared/constants/domainConstantSelectors';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {
-    ALL_SOURCE_NAMES,
-    ALL_ASSORTMENT,
-    CHARACTER_NAMES,
-    GROUP_NAMES,
-    VERSIONS,
-} from 'shared/constants/domainConstantSelectors';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import { Color } from 'shared/styles/color';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+import { makeStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+import { UserConsumer } from 'components/auth/authContext';
+import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import { ActionFigure } from 'components/display/actionfigure';
+import { ActionFigureDetails } from 'components/display/actionFigureDetail';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import Modal from 'react-modal';
+import { CatalogApi, UserApi } from 'shared/api/orchestrator';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import {
+    ALL_ASSORTMENT, ALL_SOURCE_NAMES, ASSORTMENT, CHARACTER_NAMES,
+    GROUP_NAMES,
+    VERSIONS
+} from 'shared/constants/domainConstantSelectors';
+import { Color } from 'shared/styles/color';
+import { modalStyles } from 'shared/styles/modalStyles';
+import { RecordUtils } from 'shared/util/recordUtils';
+import { SortingUtils } from 'shared/util/sortingUtil';
+import { TableStats } from 'components/blackSeries/tableStats';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
-const { HOME } = ROUTE_CONSTANTS;
 
 export const BlackSeriesCatalog = props => {
     const user = useContext(UserConsumer);
     const classes = useStyles();
-    const { catalogList, setCatalogData, userList, setUserData } = props;
+    const { catalogList, setCatalogData, userList, setUserData, catalog } = props;
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = figure => {
+        setViewActionFigureDetail(figure);
+        setViewSimilarActionFigures(catalogList.filter(el => el.name === figure.name && el.id !== figure.id))
+        setIsModalOpen(true);
+    }
+    const closeModal = () => setIsModalOpen(false);
+    const modalSize = { height: '90%', width: '95%' };
+
+    const [viewActionFigureDetail, setViewActionFigureDetail] = useState(false);
+    const [viewSimilarActionFigures, setViewSimilarActionFigures] = useState([]);
 
     const [viewFilters, setVewFilters] = useState(false);
     const handleChange = () => setVewFilters(!viewFilters);
@@ -102,6 +111,9 @@ export const BlackSeriesCatalog = props => {
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
+        if(!catalog){
+            mergedList = mergedList.filter(el => el.owned === true);
+        }
         if (filterBySourceMaterial) {
             mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
         }
@@ -127,11 +139,29 @@ export const BlackSeriesCatalog = props => {
         if (records.length > 0) {
             return <>
                 {showAssortmentHeaders && <AssortmentHeader text={text} backgroundColor={backgroundColor} />}
-                <ActionFigure catalog records={records} newBoxImage={newBoxImage} />
+                <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} onClickCard={openModal}/>
             </>
         }
         return null;
     };
+
+    const generateStats = () => {
+        let stats = {
+            count: displayList.length,
+            source: [],
+        };
+
+        ALL_SOURCE_NAMES.forEach(source => {
+            stats['source'].push({ 
+                        name: source,
+                        count: displayList.filter(figure => figure.sourceMaterial === source).length 
+                    })
+        });
+
+        return stats
+    };
+
+    const stats = generateStats();
 
     const orangeAssort = generateAssortmentSection(ASSORTMENT.BS_ORANGE, 'orange');
     const blueAssort = generateAssortmentSection(ASSORTMENT.BS_BLUE, 'blue');
@@ -157,14 +187,8 @@ export const BlackSeriesCatalog = props => {
         catalog
         records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
         newBoxImage={newBoxImage}
+        onClickCard={openModal}
     />
-
-    const links = [
-        {
-            route: HOME,
-            title: PAGES.HOME_PAGE.TITLE,
-        },
-    ];
 
     const menuItemsList = list => {
         return list.map(item =>
@@ -200,9 +224,20 @@ export const BlackSeriesCatalog = props => {
     const versionFilterComp = generateFilter(VERSIONS, handleVersionChange, 'Versions', filterByVersion);
     const assortmentFilterComp = generateFilter(ALL_ASSORTMENT, handleAssortmentChange, 'Assortment', filterByAssortment);
 
+
     return (
         <React.Fragment>
-            <CommonBreadCrumbs links={links} currentTitle={PAGES.BLACK_SERIES_CATALOG.TITLE} />
+            <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    style={modalStyles(modalSize)}
+                >
+                 <ActionFigureDetails 
+                    catalog
+                    figure={viewActionFigureDetail}
+                    similarFigures={viewSimilarActionFigures}
+                />   
+                </Modal>
             <Container component='main' maxWidth='lg'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
@@ -250,6 +285,10 @@ export const BlackSeriesCatalog = props => {
                             ? assortments
                             : allFigures
                         }
+                        <Grid item xs={6} className={classes.tableStats}>
+                            <AssortmentHeader text={'Stats'} backgroundColor={'yellow'} />
+                            <TableStats stats={stats} />
+                        </Grid>
                     </Grid>
                 </div>
             </Container>
@@ -276,5 +315,8 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 225,
+    },
+    tableStats: {
+        marginTop: theme.spacing(4),
     },
 }));

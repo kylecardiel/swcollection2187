@@ -8,7 +8,7 @@ import { SignUp } from 'components/auth/signUp';
 import { LogIn } from 'components/auth/logIn';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { UserConsumer } from 'components/auth/authContext';
-import BlackSeriesCatalogConnect from 'components/hoc/blackSeriesCatalogConnect';
+import { BlackSeries } from 'components/blackSeries/blackSeries';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 import { Admin } from 'components/admin/admin';
 import { MyCollection } from 'components/myCollection/myCollection';
@@ -43,15 +43,11 @@ export const Routes = () => {
                     />
                     <Route
                         path={HOME} 
-                        // redirectPath={LOGIN}
-                        // userLoggedIn={loggedIn}
                         component={Homepage}
                     />
                     <Route
                         path={BLACK_SERIES} 
-                        // redirectPath={LOGIN}
-                        // userLoggedIn={loggedIn}
-                        component={BlackSeriesCatalogConnect}
+                        component={BlackSeries}
                     />
                     <ProtectedRoute
                         path={ADMIN} 
