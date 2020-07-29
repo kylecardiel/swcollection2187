@@ -64,8 +64,7 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
 
     const actionFigureCard = records && records.map(record =>
         <Grid item xs={12} md={2} key={record.id}>
-            {/* onClick={() => onClickCard(record)} */}
-            <div className={classes.fullCard}>
+            <div className={classes.fullCard} onClick={() => onClickCard(record)}>
                 <Card className={classes.card} >
                     <DisplayNameSection
                         name={record.name}

@@ -17,7 +17,6 @@ import { Color } from 'shared/styles/color';
 import { CatalogApi } from 'shared/api/orchestrator';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import {
-    ALL_SOURCE_NAMES,
     ALL_ASSORTMENT,
     PRODUCT_LINES,
     PRODUCT_TYPE,
@@ -30,7 +29,7 @@ import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
-export const NewCollectibleForm = ({ catalog, closeModal }) => {
+export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const classes = useStyles();
 
     const { register, handleSubmit, control } = useForm();
@@ -90,7 +89,7 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
 
 
     const upload = async image => {
-        // return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             // Most of this was copied from firebase example with inputs adjusted for my usecase
             const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
             // const downloadURL = await uploadTask.ref.getDownloadURL();
@@ -102,17 +101,17 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
                 },
                 function error(err) {
                     console.log('error', err);
-                    // reject();
+                    reject();
                 },
                 function complete() {
                     uploadTask.snapshot.ref.getDownloadURL().then( downloadURL => {
-                        return downloadURL;
-                        // resolve(downloadURL);
+                        // return downloadURL;
+                        resolve(downloadURL);
                         // setLooseFigureImageDownloadURL(downloadURL);
                     })
                 }
             )
-        // })
+        })
     }
 
 
@@ -161,9 +160,8 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
 
         // Promise.all(promises).then(tasks => {
 
-        upload(looseFigureImageFile).then(downloadURL => {
 
-            collectible.looseImageUrl = downloadURL;
+            collectible.looseImageUrl = await upload(looseFigureImageFile);
             console.log('all image uploads complete');
             collectible.groups = groups;
     
@@ -174,8 +172,6 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
             CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
             closeModal();
 
-
-        })
 
         // collectible.looseImageUrl = looseFigureImageDownloadURL;
         // console.log(collectible.looseImageUrl);
@@ -267,13 +263,15 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
                 <input type='file' onChange={handleChange} />
             </Grid>
         </>;
-    }
+    };
+
+    const { sourceMaterial } = formData;
 
     const collectionTypeInput = generateSelector('Collection Type', 'collectionType', PRODUCT_TYPE);
     const seriesTypeInput = generateSelector('Series', 'series', PRODUCT_LINES);
     const assortmentInput = generateSelector('Assortment', 'assortment', ALL_ASSORTMENT);
     const versionTypeInput = generateSelector('Versions', 'version', VERSIONS);
-    const sourceMaterialTypeInput = generateSelector('Source Material', 'sourceMaterial', ALL_SOURCE_NAMES);
+    const sourceMaterialTypeInput = generateSelector('Source Material', 'sourceMaterial', sourceMaterial.values);
     const nameInput = generatorInput('Name', 'name');
     const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
     const seriesNumberInput = generatorInput('Wave', 'wave', true);

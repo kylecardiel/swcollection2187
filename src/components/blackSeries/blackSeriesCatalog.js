@@ -111,7 +111,7 @@ export const BlackSeriesCatalog = props => {
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
-        if(!catalog){
+        if (!catalog) {
             mergedList = mergedList.filter(el => el.owned === true);
         }
         if (filterBySourceMaterial) {
@@ -139,7 +139,7 @@ export const BlackSeriesCatalog = props => {
         if (records.length > 0) {
             return <>
                 {showAssortmentHeaders && <AssortmentHeader text={text} backgroundColor={backgroundColor} />}
-                <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} onClickCard={openModal}/>
+                <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} onClickCard={openModal} />
             </>
         }
         return null;
@@ -152,10 +152,10 @@ export const BlackSeriesCatalog = props => {
         };
 
         ALL_SOURCE_NAMES.forEach(source => {
-            stats['source'].push({ 
-                        name: source,
-                        count: displayList.filter(figure => figure.sourceMaterial === source).length 
-                    })
+            stats['source'].push({
+                name: source,
+                count: displayList.filter(figure => figure.sourceMaterial === source).length
+            })
         });
 
         return stats
@@ -228,16 +228,16 @@ export const BlackSeriesCatalog = props => {
     return (
         <React.Fragment>
             <Modal
-                    isOpen={isModalOpen}
-                    onRequestClose={closeModal}
-                    style={modalStyles(modalSize)}
-                >
-                 <ActionFigureDetails 
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                style={modalStyles(modalSize)}
+            >
+                <ActionFigureDetails
                     catalog
                     figure={viewActionFigureDetail}
                     similarFigures={viewSimilarActionFigures}
-                />   
-                </Modal>
+                />
+            </Modal>
             <Container component='main' maxWidth='lg'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
@@ -281,14 +281,19 @@ export const BlackSeriesCatalog = props => {
                                 </Grid>
                             </React.Fragment>
                         }
-                        {showAssortmentHeaders 
+                        {showAssortmentHeaders
                             ? assortments
                             : allFigures
                         }
-                        <Grid item xs={6} className={classes.tableStats}>
-                            <AssortmentHeader text={'Stats'} backgroundColor={'yellow'} />
-                            <TableStats stats={stats} />
-                        </Grid>
+                        {displayList.length > 0 &&
+                            <>
+                                <Grid item xs={3} className={classes.tableStats}></Grid>
+                                <Grid item xs={6} className={classes.tableStats}>
+                                    <AssortmentHeader text={'Stats'} backgroundColor={'yellow'} />
+                                    <TableStats stats={stats} />
+                                </Grid>
+                            </>
+                        }
                     </Grid>
                 </div>
             </Container>
