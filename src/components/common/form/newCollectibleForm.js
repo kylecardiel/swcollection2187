@@ -16,16 +16,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { Color } from 'shared/styles/color';
 import { CatalogApi } from 'shared/api/orchestrator';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import {
-    ALL_ASSORTMENT,
-    PRODUCT_LINES,
-    PRODUCT_TYPE,
-    GROUP_NAMES,
-    VERSIONS,
-} from 'shared/constants/domainConstantSelectors';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { storage } from 'backend/Firebase';
 import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
+import { ProgressBar } from 'components/common/progressBar';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
@@ -34,31 +28,27 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
 
     const { register, handleSubmit, control } = useForm();
 
-    const [groups, setGroups] = useState([]);
+    const [groupsSelected, setGroupsSelected] = useState([]);
     const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
     const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
     const [newFigureImageFile, setNewFigureImageFile] = useState(null);
+    const [submitDisabled, setSubmitDisabled] = useState(false);
+    const [percentage, setPercentage] = useState(0);
 
     const handleChange = (event) => {
-        setGroups(event.target.value);
+        setGroupsSelected(event.target.value);
     };
 
     const handleLooseImageChange = e => {
-        if (e.target.files[0]) {
-            setLooseFigureImageFile(e.target.files[0]);
-        }
+        if (e.target.files[0]) setLooseFigureImageFile(e.target.files[0]);
     };
 
     const handleBlacLoosekImageChange = e => {
-        if (e.target.files[0]) {
-            setBlackLooseFigureImageFile(e.target.files[0]);
-        }
+        if (e.target.files[0]) setBlackLooseFigureImageFile(e.target.files[0]);
     };
 
     const handleNewImageChange = e => {
-        if (e.target.files[0]) {
-            setNewFigureImageFile(e.target.files[0]);
-        }
+        if (e.target.files[0]) setNewFigureImageFile(e.target.files[0]);
     };
 
     const inputLabel = useRef(null);
@@ -67,13 +57,14 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const upload = async image => {
+    const upload = async (image, assortment) => {
         return new Promise((resolve, reject) => {
-            const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
+            const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${image.name}`).put(image);
             uploadTask.on('state_changed',
                 snapshot => {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
+                    setPercentage(progress);
                 },
                 function error(err) {
                     console.log('error', err);
@@ -89,21 +80,34 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     };
 
     const onSubmit = async collectible => {
-    
-        if(looseFigureImageFile) collectible.looseImageUrl = await upload(looseFigureImageFile);
-        if(looseBlackFigureImageFile) collectible.looseBlackImageUrl = await upload(looseBlackFigureImageFile);
-        if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile);
-        collectible.groups = groups;
+        setSubmitDisabled(true);
+
+        if(looseFigureImageFile) collectible.looseImageUrl = await upload(looseFigureImageFile, collectible.assortment);
+        if(looseBlackFigureImageFile) collectible.looseBlackImageUrl = await upload(looseBlackFigureImageFile, collectible.assortment);
+        if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile, collectible.assortment);
+
+        collectible.groups = groupsSelected;
 
         Object.keys(collectible).forEach(
             key => collectible[key] === undefined && delete collectible[key]
         );
 
-        CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
+        CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible);
+        setSubmitDisabled(false);
         closeModal();
     };
 
     const menuItemNone = <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>;
+
+    const { 
+        assortment, 
+        collectionType,
+        groups,
+        series,
+        sourceMaterial, 
+        sourceType,
+        version,
+    } = formData;
 
     const generatorInputText = text => {
         return <Grid item xs={12} md={4} className={classes.inputBoxInColumn}>
@@ -150,11 +154,11 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
                         labelId="Groups-label"
                         id="groups"
                         multiple
-                        value={groups}
+                        value={groupsSelected}
                         onChange={handleChange}
                         input={<Input />}
                     >
-                        {GROUP_NAMES.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
+                        {groups.values.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
                     </Select>
                 </FormControl>
             </Grid>
@@ -188,15 +192,12 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
         </>;
     };
 
-    const { sourceMaterial } = formData;
-    const sourceType = ['Movies', 'TV', 'Video Games', 'Books', 'Comics'];
-
-    const collectionTypeInput = generateSelector('Collection Type', 'collectionType', PRODUCT_TYPE);
-    const seriesTypeInput = generateSelector('Series', 'series', PRODUCT_LINES);
-    const assortmentInput = generateSelector('Assortment', 'assortment', ALL_ASSORTMENT);
-    const versionTypeInput = generateSelector('Versions', 'version', VERSIONS);
+    const collectionTypeInput = generateSelector('Collection Type', 'collectionType', collectionType.values);
+    const seriesTypeInput = generateSelector('Series', 'series', series.values);
+    const assortmentInput = generateSelector('Assortment', 'assortment', assortment.values);
+    const versionTypeInput = generateSelector('Versions', 'version', version.values);
     const sourceMaterialInput = generateSelector('Source Material', 'sourceMaterial', sourceMaterial.values);
-    const sourceTypeInput = generateSelector('Source Type', 'sourceType', sourceType);
+    const sourceTypeInput = generateSelector('Source Type', 'sourceType', sourceType.values);
     const nameInput = generatorInput('Name', 'name');
     const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
     const seriesNumberInput = generatorInput('Wave', 'wave', true);
@@ -236,12 +237,14 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
                                 fullWidth
                                 variant='contained'
                                 className={classes.submit}
+                                disabled={submitDisabled}
                             >
                                 {'Submit'}
                             </Button>
                         </Grid>
                     </Grid>
                 </form>
+            { submitDisabled && <ProgressBar percentage={percentage}/> }
             </Container>
         </React.Fragment>
     );

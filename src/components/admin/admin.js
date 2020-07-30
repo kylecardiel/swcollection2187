@@ -35,8 +35,17 @@ export const Admin = () => {
     const classes = useStyles();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    const [displayFormDataInput, setDisplayFormDataInput] = useState(true);
+
+    const openModal = () => {
+        setIsModalOpen(!isModalOpen);
+        setDisplayFormDataInput(!displayFormDataInput);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(!isModalOpen);
+        setDisplayFormDataInput(!displayFormDataInput);
+    };
 
     const [dataType, setDatatype] = useState();
     const handleChangeDataType = e => setDatatype(e.target.value);
@@ -49,19 +58,50 @@ export const Admin = () => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
+    const createFormDataObj = retreivedData => {
+        let data = {};
+        for (let id in retreivedData) {
+            data.id = id;
+            data.values = retreivedData[id];
+        };
+        return data;
+    }
+
     useEffect(() => {
         const helperDataRef = HelperDataApi.read(FB_DB_CONSTANTS.HELPER_DATA);
         helperDataRef.on('value', snapshot => {
             if (snapshot.val()) {
+
+                let retreivedCollectionType = snapshot.val().collectionType;
+                const collectionTypeData = createFormDataObj(retreivedCollectionType);
+
                 let retreivedSourceMaterial = snapshot.val().sourceMaterial;
-                let sourceMaterialData = {};
-                for (let id in retreivedSourceMaterial) {
-                    sourceMaterialData.id = id;
-                    sourceMaterialData.values = retreivedSourceMaterial[id];
-                };
+                const sourceMaterialData = createFormDataObj(retreivedSourceMaterial);
+
+                let retreivedSourceType = snapshot.val().sourceType;
+                const sourceTypeData = createFormDataObj(retreivedSourceType);
+
+                let retreivedSeries = snapshot.val().series;
+                const seriesData = createFormDataObj(retreivedSeries);
+
+                let retreivedVersion = snapshot.val().version;
+                const versionData = createFormDataObj(retreivedVersion);
+
+                let retreivedAssortment = snapshot.val().assortment;
+                const assortmentData = createFormDataObj(retreivedAssortment);
+
+                let retreivedGroups = snapshot.val().groups;
+                const groupsData = createFormDataObj(retreivedGroups);
+
                 // TODO: Add to Redux to store then when another compenent needs it checks first and then pulls if needed.
                 setHelperData({
+                    assortment: assortmentData,
+                    collectionType: collectionTypeData,
+                    groups: groupsData,
+                    series: seriesData,
                     sourceMaterial: sourceMaterialData,
+                    sourceType: sourceTypeData,
+                    version: versionData,
                 });
             }
         });
@@ -93,6 +133,17 @@ export const Admin = () => {
         },
     ];
 
+    const dataTypes = [
+        { key: 'none', value: null },
+        { key: 'Assortment', value: 'assortment' },
+        { key: 'Collection Type', value: 'collectionType' },
+        { key: 'Groups', value: 'groups' },
+        { key: 'Series', value: 'series' },
+        { key: 'Source Material', value: 'sourceMaterial' },
+        { key: 'Source Type', value: 'sourceType' },
+        { key: 'Version', value: 'version' },
+    ];
+
     const typeSelector =
         <FormControl variant='outlined' className={classes.form}>
             <InputLabel ref={inputLabel} id={`${'dataType'}-label`}>{'dataType'}</InputLabel>
@@ -104,10 +155,7 @@ export const Admin = () => {
                 defaultValue={''}
                 label={'dataType'}
             >
-                <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>
-                <MenuItem key={'sourceMaterial'} value={'sourceMaterial'}><em>{'Source Material'}</em></MenuItem>
-                <MenuItem key={'collectibleType'} value={'collectibleType'}><em>{'Collectible Type'}</em></MenuItem>
-                {/* {attributeList.map(attribute => <MenuItem value={attribute.toLocaleLowerCase()}>{attribute}</MenuItem>)} */}
+                {dataTypes.map(element => <MenuItem key={element.key} value={element.value}>{element.key}</MenuItem>)}
             </Select>
         </FormControl>;
 
@@ -134,9 +182,9 @@ export const Admin = () => {
         </Button>;
 
     const columnDef = headerValue => [{ headerName: headerValue, span: 2, }];
-    
+
     const generateTable = (colDefs, data, dataType) => {
-        return <Paper>
+        return <Paper className={classes.paperTable}>
             <Table>
                 <TableHeaders columnDefinitions={colDefs} />
                 <TableBody>
@@ -146,17 +194,22 @@ export const Admin = () => {
         </Paper>;
     };
 
-    let sourceMaterialColDef, sourceMaterialTable;
-
+    let assortmentTable, collectionTypeTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
     const buildTables = () => {
-        if(Object.keys(helperData).length !== 0){
-            sourceMaterialColDef = columnDef('Source Material');
-            sourceMaterialTable = generateTable(sourceMaterialColDef, helperData.sourceMaterial, 'sourceMaterial');
+        if (Object.keys(helperData).length !== 0) {
+            assortmentTable = generateTable(columnDef('Assortment'), helperData.assortment, 'assortment');
+            collectionTypeTable = generateTable(columnDef('Collection Type'), helperData.collectionType, 'collectionType');
+            groupsTable = generateTable(columnDef('Groups'), helperData.groups, 'groups');
+            seriesTable = generateTable(columnDef('Series'), helperData.series, 'series');
+            sourceMaterialTable = generateTable(columnDef('Source Material'), helperData.sourceMaterial, 'sourceMaterial');
+            sourceTypeTable = generateTable(columnDef('Source Type'), helperData.sourceType, 'sourceType');
+            versionTable = generateTable(columnDef('Version'), helperData.version, 'version');
         }
     };
 
     buildTables();
-    
+
+    console.log(helperData)
 
     return (
         <React.Fragment>
@@ -191,23 +244,33 @@ export const Admin = () => {
                             <Grid item xs={12}>{'These tables populate the form inputs:'}</Grid>
                             <Container component='main' maxWidth='lg'>
                                 <Grid container spacing={2} className={classes.gridContainer}>
-                                    <form
-                                        className={classes.form}
-                                        noValidate
-                                        onSubmit={handleSubmit(onSubmit)}
-                                    >
-                                        <Grid container spacing={1}>
-
-                                            <Grid item xs={12} md={4} >{typeSelector}</Grid>
-                                            <Grid item xs={12} md={4} >{valueTextInput}</Grid>
-                                            <Grid item xs={12} md={2} className={classes.gridAddButton}>{addButton}</Grid>
-                                        </Grid>
-                                    </form>
+                                    {displayFormDataInput &&
+                                        <form
+                                            className={classes.form}
+                                            noValidate
+                                            onSubmit={handleSubmit(onSubmit)}
+                                        >
+                                            <Grid container spacing={1}>
+                                                <Grid item xs={12} md={4} >{typeSelector}</Grid>
+                                                <Grid item xs={12} md={4} >{valueTextInput}</Grid>
+                                                <Grid item xs={12} md={2} className={classes.gridAddButton}>{addButton}</Grid>
+                                            </Grid>
+                                        </form>
+                                    }
                                     <Grid item xs={12} md={3}>
                                         {sourceMaterialTable}
                                     </Grid>
                                     <Grid item xs={12} md={3}>
-                                        <div>Table 2...</div>
+                                        {sourceTypeTable}
+                                        {collectionTypeTable}
+                                    </Grid>
+                                    <Grid item xs={12} md={3}>
+                                        {groupsTable}
+                                    </Grid>
+                                    <Grid item xs={12} md={3}>
+                                        {seriesTable}
+                                        {assortmentTable}
+                                        {versionTable}
                                     </Grid>
                                 </Grid>
                             </Container>
@@ -252,5 +315,8 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: 'white',
             color: Color.primary('green'),
         },
+    },
+    paperTable: {
+        marginTop: theme.spacing(2),
     },
 }));
