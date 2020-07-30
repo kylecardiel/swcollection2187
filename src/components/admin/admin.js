@@ -36,6 +36,7 @@ export const Admin = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [displayFormDataInput, setDisplayFormDataInput] = useState(true);
+    const [displayFormDataTable, setDisplayFormDataTable] = useState(true);
 
     const openModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -109,7 +110,7 @@ export const Admin = () => {
 
     const { register, handleSubmit, reset } = useForm();
 
-    const modalSize = { height: '90%', width: '65%' };
+    const modalSize = { height: '85%', width: '85%' };
 
     const onSubmit = attribute => {
         let existingData = helperData[dataType];
@@ -179,6 +180,17 @@ export const Admin = () => {
         >
             <AddBoxIcon />
             {'Add'}
+        </Button>;
+
+    const displayButton =
+        <Button
+            onClick={() => setDisplayFormDataTable(!displayFormDataTable)}
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.displayButton}
+        >
+            {displayFormDataTable ? 'Hide Tables' : 'Display Tables'}
         </Button>;
 
     const columnDef = headerValue => [{ headerName: headerValue, span: 2, }];
@@ -254,24 +266,29 @@ export const Admin = () => {
                                                 <Grid item xs={12} md={4} >{typeSelector}</Grid>
                                                 <Grid item xs={12} md={4} >{valueTextInput}</Grid>
                                                 <Grid item xs={12} md={2} className={classes.gridAddButton}>{addButton}</Grid>
+                                                <Grid item xs={12} md={2} className={classes.gridAddButton}>{displayButton}</Grid>
                                             </Grid>
                                         </form>
                                     }
-                                    <Grid item xs={12} md={3}>
-                                        {sourceMaterialTable}
-                                    </Grid>
-                                    <Grid item xs={12} md={3}>
-                                        {sourceTypeTable}
-                                        {collectionTypeTable}
-                                    </Grid>
-                                    <Grid item xs={12} md={3}>
-                                        {groupsTable}
-                                    </Grid>
-                                    <Grid item xs={12} md={3}>
-                                        {seriesTable}
-                                        {assortmentTable}
-                                        {versionTable}
-                                    </Grid>
+                                    {displayFormDataTable &&
+                                        <>
+                                            <Grid item xs={12} md={3}>
+                                                {sourceMaterialTable}
+                                            </Grid>
+                                            <Grid item xs={12} md={3}>
+                                                {sourceTypeTable}
+                                                {collectionTypeTable}
+                                            </Grid>
+                                            <Grid item xs={12} md={3}>
+                                                {groupsTable}
+                                            </Grid>
+                                            <Grid item xs={12} md={3}>
+                                                {seriesTable}
+                                                {assortmentTable}
+                                                {versionTable}
+                                            </Grid>
+                                        </>
+                                    }
                                 </Grid>
                             </Container>
                         </Grid>
@@ -303,6 +320,9 @@ const useStyles = makeStyles(theme => ({
         minWidth: 120,
         backgroundColor: 'white',
     },
+    gridContainer: {
+        paddingBottom: theme.spacing(2),
+    },
     gridAddButton: {
         marginTop: theme.spacing(-1),
     },
@@ -314,6 +334,16 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: 'white',
             color: Color.primary('green'),
+        },
+    },
+    displayButton: {
+        marginTop: theme.spacing(3),
+        marginRight: theme.spacing(8),
+        borderRadius: '5',
+        backgroundColor: Color.primary('blue'),
+        '&:hover': {
+            backgroundColor: 'white',
+            color: Color.primary('blue'),
         },
     },
     paperTable: {

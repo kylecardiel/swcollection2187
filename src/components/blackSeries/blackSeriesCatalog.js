@@ -79,6 +79,8 @@ export const BlackSeriesCatalog = props => {
         setFilterByGroup(null);
         setFilterByVersion(null);
         setFilterByAssortment(null);
+        setShowAssortmentHeaders(true);
+        setNewBoxImage(false);
     };
 
     const [initialState] = useState(props);

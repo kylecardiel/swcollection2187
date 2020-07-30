@@ -110,7 +110,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     } = formData;
 
     const generatorInputText = text => {
-        return <Grid item xs={12} md={4} className={classes.inputBoxInColumn}>
+        return <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
             <Typography variant='subtitle1' className={classes.text}>
                 {text}
             </Typography>
@@ -120,7 +120,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const generateSelector = (text, selectorName, selectorValues) => {
         return <>
             {generatorInputText(text)}
-            <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
+            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
                 <FormControl variant='outlined' className={classes.form}>
                     <InputLabel ref={inputLabel} id={`${selectorName}-label`}>{selectorName}</InputLabel>
                     <Controller
@@ -147,7 +147,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const groupSelect = () => {
         return <>
             {generatorInputText('Groups')}
-            <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
+            <Grid item xs={12} md={10} className={classes.inputBoxInColumn}>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="Groups-label">{'Groups'}</InputLabel>
                     <Select
@@ -168,7 +168,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const generatorInput = (text, inputName, number) => {
         return <>
             {generatorInputText(text)}
-            <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
+            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
                 <TextField
                     variant='outlined'
                     className={classes.form}
@@ -186,7 +186,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const generatorImageInput = (text, handleChange) => {
         return <>
             {generatorInputText(text)}
-            <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
+            <Grid item xs={12} md={10} className={classes.inputBoxInColumn}>
                 <input type='file' onChange={handleChange} />
             </Grid>
         </>;
@@ -204,33 +204,38 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const waveInput = generatorInput('Series Number', 'seriesNumber', true);
     const yearInput = generatorInput('Year', 'year', true);
     const groupSelectInput = groupSelect();
-    const purchasePriceInput = generatorInput('Purchase Price', 'purchasePrice');
+    const retailPrice = generatorInput('Retail Price', 'retailPrice');
     const looseImageInput = generatorImageInput('Loose Image', handleLooseImageChange);
     const looseBlackImageInput = generatorImageInput('Loose Black Image', handleBlacLoosekImageChange);
     const newImageInput = generatorImageInput('NIB Image', handleNewImageChange);
 
     return (
         <React.Fragment>
-            <FormHeaderSection text={'Feed the Collection'} textColor={'white'} />
+            <FormHeaderSection text={'Feed the Database!'} textColor={'white'} />
             <Container component='main' maxWidth='xl' className={classes.conatiner}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={1} className={classes.submitButton}>
                         {nameInput}
-                        {additionalNameDetailsInput}
                         {collectionTypeInput}
-                        {seriesTypeInput}
-                        {assortmentInput}
-                        {yearInput}
                         {waveInput}
+                        
+                        {additionalNameDetailsInput}
+                        {seriesTypeInput}
                         {seriesNumberInput}
-                        {versionTypeInput}
+    
                         {sourceTypeInput}
+                        {assortmentInput}
+                        {versionTypeInput}
+
                         {sourceMaterialInput}
+                        {yearInput}
+                        {retailPrice}
+                        
+                        {groupSelectInput}
+
                         {looseImageInput}
                         {looseBlackImageInput}
                         {newImageInput}
-                        {groupSelectInput}
-                        {!catalog && purchasePriceInput}
                         <Grid item xs={12} className={classes.submitButtonrow}>
                             <Button
                                 type='submit'
