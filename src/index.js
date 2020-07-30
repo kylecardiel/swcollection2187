@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "store/storeFactory";
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import firebase from 'backend/Firebase';
+import Modal from 'react-modal';
 
 const rrfConfig = { userProfile: 'users' }
 
@@ -15,6 +16,8 @@ const rrfProps = {
   config: rrfConfig,
   dispatch: store.dispatch,
 }
+
+Modal.setAppElement('body');
 
 ReactDOM.render(
     <Provider store={store}>

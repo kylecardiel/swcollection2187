@@ -17,7 +17,6 @@ import { Color } from 'shared/styles/color';
 import { CatalogApi } from 'shared/api/orchestrator';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import {
-    ALL_SOURCE_NAMES,
     ALL_ASSORTMENT,
     PRODUCT_LINES,
     PRODUCT_TYPE,
@@ -25,17 +24,41 @@ import {
     VERSIONS,
 } from 'shared/constants/domainConstantSelectors';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { storage } from 'backend/Firebase';
+import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
 
+const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
-export const NewCollectibleForm = ({ catalog, closeModal }) => {
+export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const classes = useStyles();
 
     const { register, handleSubmit, control } = useForm();
 
-    const [groups, setGroups] = React.useState([]);
+    const [groups, setGroups] = useState([]);
+    const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
+    const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
+    const [newFigureImageFile, setNewFigureImageFile] = useState(null);
 
     const handleChange = (event) => {
         setGroups(event.target.value);
+    };
+
+    const handleLooseImageChange = e => {
+        if (e.target.files[0]) {
+            setLooseFigureImageFile(e.target.files[0]);
+        }
+    };
+
+    const handleBlacLoosekImageChange = e => {
+        if (e.target.files[0]) {
+            setBlackLooseFigureImageFile(e.target.files[0]);
+        }
+    };
+
+    const handleNewImageChange = e => {
+        if (e.target.files[0]) {
+            setNewFigureImageFile(e.target.files[0]);
+        }
     };
 
     const inputLabel = useRef(null);
@@ -44,8 +67,33 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const onSubmit = collectible => {
-        collectible['groups'] = groups;
+    const upload = async image => {
+        return new Promise((resolve, reject) => {
+            const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
+            uploadTask.on('state_changed',
+                snapshot => {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                },
+                function error(err) {
+                    console.log('error', err);
+                    reject();
+                },
+                function complete() {
+                    uploadTask.snapshot.ref.getDownloadURL().then( downloadURL => {
+                        resolve(downloadURL);
+                    })
+                }
+            )
+        })
+    };
+
+    const onSubmit = async collectible => {
+    
+        if(looseFigureImageFile) collectible.looseImageUrl = await upload(looseFigureImageFile);
+        if(looseBlackFigureImageFile) collectible.looseBlackImageUrl = await upload(looseBlackFigureImageFile);
+        if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile);
+        collectible.groups = groups;
 
         Object.keys(collectible).forEach(
             key => collectible[key] === undefined && delete collectible[key]
@@ -55,7 +103,7 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
         closeModal();
     };
 
-    const menuItemNone = <MenuItem value={null}><em>{'none'}</em></MenuItem>;
+    const menuItemNone = <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>;
 
     const generatorInputText = text => {
         return <Grid item xs={12} md={4} className={classes.inputBoxInColumn}>
@@ -74,6 +122,7 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
                     <Controller
                         name={selectorName}
                         control={control}
+                        defaultValue={''}
                         as={
                             <Select
                                 label={selectorName}
@@ -112,7 +161,7 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
         </>;
     };
 
-    const generatorInput = (text, inputName) => {
+    const generatorInput = (text, inputName, number) => {
         return <>
             {generatorInputText(text)}
             <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
@@ -124,26 +173,40 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
                     name={inputName}
                     label={inputName}
                     inputRef={register()}
+                    type={number ? 'number' : 'string'}
                 />
             </Grid>
         </>;
     };
 
+    const generatorImageInput = (text, handleChange) => {
+        return <>
+            {generatorInputText(text)}
+            <Grid item xs={12} md={8} className={classes.inputBoxInColumn}>
+                <input type='file' onChange={handleChange} />
+            </Grid>
+        </>;
+    };
+
+    const { sourceMaterial } = formData;
+    const sourceType = ['Movies', 'TV', 'Video Games', 'Books', 'Comics'];
+
     const collectionTypeInput = generateSelector('Collection Type', 'collectionType', PRODUCT_TYPE);
     const seriesTypeInput = generateSelector('Series', 'series', PRODUCT_LINES);
     const assortmentInput = generateSelector('Assortment', 'assortment', ALL_ASSORTMENT);
     const versionTypeInput = generateSelector('Versions', 'version', VERSIONS);
-    const sourceMaterialTypeInput = generateSelector('Source Material', 'sourceMaterial', ALL_SOURCE_NAMES);
+    const sourceMaterialInput = generateSelector('Source Material', 'sourceMaterial', sourceMaterial.values);
+    const sourceTypeInput = generateSelector('Source Type', 'sourceType', sourceType);
     const nameInput = generatorInput('Name', 'name');
     const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
-    const seriesNumberInput = generatorInput('Series Number', 'seriesNumber');
-    const newInBoxQtyInput = generatorInput('NIB Qty', 'newInBoxQty');
-    const looseCompleteQtyInput = generatorInput('Loose Complete Qty', 'looseCompleteQty');
-    const looseIncompleteQtyInput = generatorInput('Loose incmplete Qty', 'looseIncompleteQty');
-    const newInBoxImageURLInput = generatorInput('NIB Image URL', 'newImageUrl');
-    const looseImageURLInput = generatorInput('Loose Image URL', 'looseImageUrl');
+    const seriesNumberInput = generatorInput('Wave', 'wave', true);
+    const waveInput = generatorInput('Series Number', 'seriesNumber', true);
+    const yearInput = generatorInput('Year', 'year', true);
     const groupSelectInput = groupSelect();
     const purchasePriceInput = generatorInput('Purchase Price', 'purchasePrice');
+    const looseImageInput = generatorImageInput('Loose Image', handleLooseImageChange);
+    const looseBlackImageInput = generatorImageInput('Loose Black Image', handleBlacLoosekImageChange);
+    const newImageInput = generatorImageInput('NIB Image', handleNewImageChange);
 
     return (
         <React.Fragment>
@@ -151,19 +214,20 @@ export const NewCollectibleForm = ({ catalog, closeModal }) => {
             <Container component='main' maxWidth='xl' className={classes.conatiner}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={1} className={classes.submitButton}>
+                        {nameInput}
+                        {additionalNameDetailsInput}
                         {collectionTypeInput}
                         {seriesTypeInput}
                         {assortmentInput}
-                        {versionTypeInput}
-                        {sourceMaterialTypeInput}
-                        {nameInput}
-                        {additionalNameDetailsInput}
+                        {yearInput}
+                        {waveInput}
                         {seriesNumberInput}
-                        {!catalog && newInBoxQtyInput}
-                        {!catalog && looseCompleteQtyInput}
-                        {!catalog && looseIncompleteQtyInput}
-                        {newInBoxImageURLInput}
-                        {looseImageURLInput}
+                        {versionTypeInput}
+                        {sourceTypeInput}
+                        {sourceMaterialInput}
+                        {looseImageInput}
+                        {looseBlackImageInput}
+                        {newImageInput}
                         {groupSelectInput}
                         {!catalog && purchasePriceInput}
                         <Grid item xs={12} className={classes.submitButtonrow}>

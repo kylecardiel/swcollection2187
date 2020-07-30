@@ -7,6 +7,7 @@ import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE_CARDS } from 'shared/constants/stringConstantsSelectors';
 import { UserConsumer } from 'components/auth/authContext';
+import Typography from '@material-ui/core/Typography';
 
 export const Homepage = () => {
     const classes = useStyles();
@@ -15,6 +16,17 @@ export const Homepage = () => {
         <Container component='main' maxWidth='lg'>
             <div className={classes.root}>
                 <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                        <Typography gutterBottom variant='h5' component='h2'>
+                            Hello There!
+                        </Typography>
+                        <Typography gutterBottom variant='h5' component='h2'>
+                            Do you love the Black Series? 
+                            Do you collect Black Series Figures? 
+                            Do you keep track of your collection?
+                            Do you want to keep track of your collection?... Then you're in the right spot
+                        </Typography>
+                    </Grid>
                     <Grid item xs={12}>
                         <MediaCard
                             cardText={HOME_PAGE_CARDS.BLACK_SERIES}

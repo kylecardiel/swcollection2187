@@ -1,6 +1,6 @@
 export const STRING_CONSTANTS = Object.freeze({
     HEADER: {
-        TITLE: 'Star Wars Collectors 2187',
+        TITLE: '@SW Collector 2187',
         BUTTONS: {
             LOGIN: 'Login',
             SIGN_UP: 'Sign Up',
