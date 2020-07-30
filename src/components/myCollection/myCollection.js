@@ -1,4 +1,3 @@
-import { makeStyles } from '@material-ui/core/styles';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import BlackSeriesCatalogConnect from 'components/hoc/blackSeriesCatalogConnect';
 import React from 'react';
@@ -9,15 +8,12 @@ const { HOME } = ROUTE_CONSTANTS;
 
 export const MyCollection = props => {
 
-    const classes = useStyles();
-
     const links = [
         {
             route: HOME,
             title: PAGES.HOME_PAGE.TITLE,
         },
     ];
-
 
     return (
         <React.Fragment>
@@ -26,10 +22,3 @@ export const MyCollection = props => {
         </React.Fragment>
     )
 }
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-        margin: theme.spacing(3),
-    },
-}));

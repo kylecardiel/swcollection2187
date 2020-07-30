@@ -227,7 +227,7 @@ const useStyles = makeStyles(theme => ({
     formDataContainer: {
         marginTop: theme.spacing(3),
         padding: theme.spacing(1),
-        border: '5px solid red',
+        border: '5px solid black',
     },
     form: {
         width: '100%',

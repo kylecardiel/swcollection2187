@@ -39,11 +39,6 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
     const [newFigureImageFile, setNewFigureImageFile] = useState(null);
 
-    const [looseFigureImageDownloadURL, setLooseFigureImageDownloadURL] = useState(null);
-
-    // const [looseFigureImageURL, setLooseFigureImageURL] = useState(null);
-    // const [newFigureImageURL, setNewFigureImageURL] = useState(null);
-
     const handleChange = (event) => {
         setGroups(event.target.value);
     };
@@ -72,29 +67,10 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-
-    // const uploadImage = async image => {
-    
-    //     return storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image)
-    //       .then(snap => {
-    //         return snap.ref.getDownloadURL();
-    //       })
-    //       .then(downloadURL => {
-    //         return downloadURL;
-    //       })
-    //       .catch(error => {
-    //         console.log(`An error occurred while uploading the file.\n\n${error}`);
-    //       });
-    //   }
-
-
     const upload = async image => {
         return new Promise((resolve, reject) => {
-            // Most of this was copied from firebase example with inputs adjusted for my usecase
             const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
-            // const downloadURL = await uploadTask.ref.getDownloadURL();
-            // return downloadURL;
-            return uploadTask.on('state_changed',
+            uploadTask.on('state_changed',
                 snapshot => {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
@@ -105,79 +81,26 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
                 },
                 function complete() {
                     uploadTask.snapshot.ref.getDownloadURL().then( downloadURL => {
-                        // return downloadURL;
                         resolve(downloadURL);
-                        // setLooseFigureImageDownloadURL(downloadURL);
                     })
                 }
             )
         })
-    }
-
+    };
 
     const onSubmit = async collectible => {
-        // const promises = [];
-
-        // const uploadTaskLooseImage = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${looseFigureImageFile.name}`).put(looseFigureImageFile);
-        // promises.push(uploadTaskLooseImage);
-
-        // await uploadTaskLooseImage.on(
-        //     'state_changed',
-        //     function (snapshot) {
-        //         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        //         console.log('Upload is ' + progress + '% done');
-        //     }, function (error) {
-        //         console.log(error)
-        //     }, async function () {
-        //         uploadTaskLooseImage.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-        //             console.log('***************************');
-        //             console.log(downloadURL)
-        //             setLooseFigureImageURL(downloadURL);
-        //             console.log('***************************');
-        //         });
-        //     }
-        // );
-
-        // const uploadTaskNewImage = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${newFigureImageFile.name}`).put(newFigureImageFile);
-        // promises.push(uploadTaskNewImage);
-
-        // uploadTaskNewImage.on(
-        //     'state_changed',
-        //     function (snapshot) {
-        //         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        //         console.log('Upload is ' + progress + '% done');
-        //     }, function (error) {
-        //         console.log(error)
-        //     }, async function () {
-        //         uploadTaskNewImage.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-        //             console.log('***************************');
-        //             console.log(downloadURL)
-        //             setNewFigureImageURL(downloadURL);
-        //             console.log('***************************');
-        //         });
-        //     }
-        // );
-
-        // Promise.all(promises).then(tasks => {
-
-
-            collectible.looseImageUrl = await upload(looseFigureImageFile);
-            console.log('all image uploads complete');
-            collectible.groups = groups;
     
-            Object.keys(collectible).forEach(
-                key => collectible[key] === undefined && delete collectible[key]
-            );
-    
-            CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
-            closeModal();
+        if(looseFigureImageFile) collectible.looseImageUrl = await upload(looseFigureImageFile);
+        if(looseBlackFigureImageFile) collectible.looseBlackImageUrl = await upload(looseBlackFigureImageFile);
+        if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile);
+        collectible.groups = groups;
 
+        Object.keys(collectible).forEach(
+            key => collectible[key] === undefined && delete collectible[key]
+        );
 
-        // collectible.looseImageUrl = looseFigureImageDownloadURL;
-        // console.log(collectible.looseImageUrl);
-        // collectible.newImageUrl = await upload(newFigureImageFile);
-        // console.log(collectible.newImageUrl);
-        // });
+        CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible)
+        closeModal();
     };
 
     const menuItemNone = <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>;
@@ -266,29 +189,24 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     };
 
     const { sourceMaterial } = formData;
+    const sourceType = ['Movies', 'TV', 'Video Games', 'Books', 'Comics'];
 
     const collectionTypeInput = generateSelector('Collection Type', 'collectionType', PRODUCT_TYPE);
     const seriesTypeInput = generateSelector('Series', 'series', PRODUCT_LINES);
     const assortmentInput = generateSelector('Assortment', 'assortment', ALL_ASSORTMENT);
     const versionTypeInput = generateSelector('Versions', 'version', VERSIONS);
-    const sourceMaterialTypeInput = generateSelector('Source Material', 'sourceMaterial', sourceMaterial.values);
+    const sourceMaterialInput = generateSelector('Source Material', 'sourceMaterial', sourceMaterial.values);
+    const sourceTypeInput = generateSelector('Source Type', 'sourceType', sourceType);
     const nameInput = generatorInput('Name', 'name');
     const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
     const seriesNumberInput = generatorInput('Wave', 'wave', true);
     const waveInput = generatorInput('Series Number', 'seriesNumber', true);
-    const newInBoxQtyInput = generatorInput('NIB Qty', 'newInBoxQty', true);
-    const looseCompleteQtyInput = generatorInput('Loose Complete Qty', 'looseCompleteQty', true);
-    const looseIncompleteQtyInput = generatorInput('Loose incmplete Qty', 'looseIncompleteQty', true);
-    // const newInBoxImageURLInput = generatorInput('NIB Image URL', 'newImageUrl');
-    // const looseImageURLInput = generatorInput('Loose Image URL', 'looseImageUrl');
+    const yearInput = generatorInput('Year', 'year', true);
     const groupSelectInput = groupSelect();
     const purchasePriceInput = generatorInput('Purchase Price', 'purchasePrice');
-
     const looseImageInput = generatorImageInput('Loose Image', handleLooseImageChange);
     const looseBlackImageInput = generatorImageInput('Loose Black Image', handleBlacLoosekImageChange);
     const newImageInput = generatorImageInput('NIB Image', handleNewImageChange);
-
-
 
     return (
         <React.Fragment>
@@ -301,15 +219,12 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
                         {collectionTypeInput}
                         {seriesTypeInput}
                         {assortmentInput}
+                        {yearInput}
                         {waveInput}
                         {seriesNumberInput}
                         {versionTypeInput}
-                        {sourceMaterialTypeInput}
-                        {!catalog && newInBoxQtyInput}
-                        {!catalog && looseCompleteQtyInput}
-                        {!catalog && looseIncompleteQtyInput}
-                        {/* {newInBoxImageURLInput} */}
-                        {/* {looseImageURLInput} */}
+                        {sourceTypeInput}
+                        {sourceMaterialInput}
                         {looseImageInput}
                         {looseBlackImageInput}
                         {newImageInput}

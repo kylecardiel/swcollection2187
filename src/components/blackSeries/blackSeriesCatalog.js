@@ -39,7 +39,8 @@ export const BlackSeriesCatalog = props => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = figure => {
         setViewActionFigureDetail(figure);
-        setViewSimilarActionFigures(catalogList.filter(el => el.name === figure.name && el.id !== figure.id))
+        setViewSimilarActionFigures(catalogList.filter(el => el.name === figure.name && el.id !== figure.id));
+        setVewFilters(false);
         setIsModalOpen(true);
     }
     const closeModal = () => setIsModalOpen(false);
