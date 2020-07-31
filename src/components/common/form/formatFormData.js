@@ -1,22 +1,14 @@
 export const formatFormData = snapshot => {
-    const collectionTypeData = createFormDataObj(snapshot.collectionType);
-    const sourceMaterialData = createFormDataObj(snapshot.sourceMaterial);
-    const sourceTypeData = createFormDataObj(snapshot.sourceType);
-    const seriesData = createFormDataObj(snapshot.series);
-    const versionData = createFormDataObj(snapshot.version);
-    const assortmentData = createFormDataObj(snapshot.assortment);
-    const groupsData = createFormDataObj(snapshot.groups);
-
-    let formatFormData = {
-        assortment: assortmentData,
-        collectionType: collectionTypeData,
-        groups: groupsData,
-        series: seriesData,
-        sourceMaterial: sourceMaterialData,
-        sourceType: sourceTypeData,
-        version: versionData,
+    return {
+        assortment: createFormDataObj(snapshot.assortment),
+        characters: createFormDataObj(snapshot.characters),
+        collectionType: createFormDataObj(snapshot.collectionType),
+        groups: createFormDataObj(snapshot.groups),
+        series: createFormDataObj(snapshot.series),
+        sourceMaterial: createFormDataObj(snapshot.sourceMaterial),
+        sourceType: createFormDataObj(snapshot.sourceType),
+        version: createFormDataObj(snapshot.version),
     };
-    return formatFormData;
 };
 
 const createFormDataObj = retreivedData => {

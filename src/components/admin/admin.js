@@ -4,18 +4,14 @@ import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
 import TextField from '@material-ui/core/TextField';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import { FormDataTableRow } from 'components/admin/formDataRow';
 import { UploadImage } from 'components/admin/uploadImage';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
-import { TableHeaders } from 'components/common/table/tableHeaders';
 import { isEmpty } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,7 +23,7 @@ import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { TableBody } from '@material-ui/core';
+import { FormDataTable } from 'components/admin/formDataTable';
 import { formatFormData } from 'components/common/form/formatFormData';
 
 const { HOME } = ROUTE_CONSTANTS;
@@ -99,6 +95,7 @@ export const Admin = () => {
     const dataTypes = [
         { key: 'none', value: null },
         { key: 'Assortment', value: 'assortment' },
+        { key: 'Characters', value: 'characters' },
         { key: 'Collection Type', value: 'collectionType' },
         { key: 'Groups', value: 'groups' },
         { key: 'Series', value: 'series' },
@@ -155,35 +152,21 @@ export const Admin = () => {
             {displayFormDataTable ? 'Hide Tables' : 'Display Tables'}
         </Button>;
 
-    const columnDef = headerValue => [{ headerName: headerValue, span: 2, }];
-
-    const generateTable = (colDefs, data, dataType) => {
-        return <Paper className={classes.paperTable}>
-            <Table>
-                <TableHeaders columnDefinitions={colDefs} />
-                <TableBody>
-                    <FormDataTableRow data={data} dataType={dataType} />
-                </TableBody>
-            </Table>
-        </Paper>;
-    };
-
-    let assortmentTable, collectionTypeTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
+    let assortmentTable, charactersTable, collectionTypeTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
-            assortmentTable = generateTable(columnDef('Assortment'), helperData.assortment, 'assortment');
-            collectionTypeTable = generateTable(columnDef('Collection Type'), helperData.collectionType, 'collectionType');
-            groupsTable = generateTable(columnDef('Groups'), helperData.groups, 'groups');
-            seriesTable = generateTable(columnDef('Series'), helperData.series, 'series');
-            sourceMaterialTable = generateTable(columnDef('Source Material'), helperData.sourceMaterial, 'sourceMaterial');
-            sourceTypeTable = generateTable(columnDef('Source Type'), helperData.sourceType, 'sourceType');
-            versionTable = generateTable(columnDef('Version'), helperData.version, 'version');
+            assortmentTable = <FormDataTable header={'Assortment'} data={helperData.assortment} dataType={'assortment'}/>;
+            collectionTypeTable = <FormDataTable header={'Collection Type'} data={helperData.collectionType} dataType={'collectionType'}/>;
+            charactersTable = <FormDataTable header={'Characters'} data={helperData.characters} dataType={'characters'}/>;
+            groupsTable = <FormDataTable header={'Groups'} data={helperData.groups} dataType={'groups'}/>;
+            seriesTable = <FormDataTable header={'Series'} data={helperData.series} dataType={'series'}/>;
+            sourceMaterialTable = <FormDataTable header={'Source Material'} data={helperData.sourceMaterial} dataType={'sourceMaterial'}/>;
+            sourceTypeTable = <FormDataTable header={'Source Type'} data={helperData.sourceType} dataType={'sourceType'}/>;
+            versionTable = <FormDataTable header={'Version'} data={helperData.version} dataType={'version'}/>;
         }
     };
 
     buildTables();
-
-    console.log(helperData)
 
     return (
         <React.Fragment>
@@ -236,18 +219,19 @@ export const Admin = () => {
                                         <>
                                             <Grid item xs={12} md={3}>
                                                 {sourceMaterialTable}
+                                                {sourceTypeTable}
                                             </Grid>
                                             <Grid item xs={12} md={3}>
-                                                {sourceTypeTable}
                                                 {collectionTypeTable}
+                                                {seriesTable}
+                                                {assortmentTable}
+                                                {versionTable}
                                             </Grid>
                                             <Grid item xs={12} md={3}>
                                                 {groupsTable}
                                             </Grid>
                                             <Grid item xs={12} md={3}>
-                                                {seriesTable}
-                                                {assortmentTable}
-                                                {versionTable}
+                                                {charactersTable}
                                             </Grid>
                                         </>
                                     }

@@ -14,7 +14,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { CatalogApi, UserApi, HelperDataApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { ASSORTMENT, CHARACTER_NAMES } from 'shared/constants/domainConstantSelectors';
+import { ASSORTMENT } from 'shared/constants/domainConstantSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
@@ -177,7 +177,7 @@ export const BlackSeriesCatalog = props => {
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
-            const { assortment, sourceMaterial, groups, version } = helperData;
+            const { assortment, characters, sourceMaterial, groups, version } = helperData;
             sourceMaterialFilterComp = <FormFilter
                 menuList={sourceMaterial.values}
                 onChange={handleSourceMaterialChange}
@@ -186,7 +186,7 @@ export const BlackSeriesCatalog = props => {
                 labelWidth={labelWidth}
             />
             characterFilterComp = <FormFilter
-                menuList={CHARACTER_NAMES}
+                menuList={characters.values}
                 onChange={handleCharacterChange}
                 label={'Characters'}
                 inputLabel={inputLabel}
