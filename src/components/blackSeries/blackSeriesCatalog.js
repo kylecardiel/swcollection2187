@@ -168,7 +168,7 @@ export const BlackSeriesCatalog = props => {
     </>
 
     const allFigures = <ActionFigure
-        catalog
+        catalog={catalog}
         records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
         newBoxImage={newBoxImage}
         onClickCard={openModal}
@@ -218,7 +218,7 @@ export const BlackSeriesCatalog = props => {
     buildFilters();
 
     const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
-    
+
     return (
         <React.Fragment>
             <Modal
@@ -227,7 +227,7 @@ export const BlackSeriesCatalog = props => {
                 style={modalStyles(modalSize)}
             >
                 <ActionFigureDetails
-                    catalog
+                    catalog={catalog}
                     figure={viewActionFigureDetail}
                     similarFigures={viewSimilarActionFigures}
                 />
@@ -240,19 +240,21 @@ export const BlackSeriesCatalog = props => {
                                 {`Search: `}
                             </Typography>
                         </Grid>
-                        <Grid item xs={3} className={classes.alwaysDisplayed}>
-                            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
-                                <TextField
-                                    variant='outlined'
-                                    className={classes.form}
-                                    onChange={handleInputNameChange}
-                                    fullWidth
-                                    id={'Character Name'}
-                                    name={'Character Name'}
-                                    label={'Character Name'}
-                                />
+                        {!isModalOpen &&
+                            <Grid item xs={3} className={classes.alwaysDisplayed}>
+                                <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
+                                    <TextField
+                                        variant='outlined'
+                                        className={classes.form}
+                                        onChange={handleInputNameChange}
+                                        fullWidth
+                                        id={'Character Name'}
+                                        name={'Character Name'}
+                                        label={'Character Name'}
+                                    />
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        }
                         <Grid item xs={8} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={viewFilters ? 'Hide Filters' : 'Show Filters'}
