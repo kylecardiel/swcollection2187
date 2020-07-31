@@ -1,9 +1,5 @@
 import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -16,13 +12,9 @@ import { ActionFigure } from 'components/display/actionfigure';
 import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
-import { CatalogApi, UserApi } from 'shared/api/orchestrator';
+import { CatalogApi, UserApi, HelperDataApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import {
-    ALL_ASSORTMENT, ALL_SOURCE_NAMES, ASSORTMENT, CHARACTER_NAMES,
-    GROUP_NAMES,
-    VERSIONS
-} from 'shared/constants/domainConstantSelectors';
+import { ASSORTMENT, CHARACTER_NAMES } from 'shared/constants/domainConstantSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
@@ -30,6 +22,9 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 import { TableStats } from 'components/blackSeries/tableStats';
 import { TextField } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import { formatFormData } from 'components/common/form/formatFormData';
+import { generateStatsBasedOnSource } from 'components/common/stats/stats';
+import { FormFilter } from 'components/common/form/formFilter';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -44,9 +39,11 @@ export const BlackSeriesCatalog = props => {
         setViewSimilarActionFigures(catalogList.filter(el => el.name === figure.name && el.id !== figure.id));
         setVewFilters(false);
         setIsModalOpen(true);
-    }
+    };
     const closeModal = () => setIsModalOpen(false);
     const modalSize = { height: '90%', width: '95%' };
+
+    const [helperData, setHelperData] = useState({});
 
     const [viewActionFigureDetail, setViewActionFigureDetail] = useState(false);
     const [viewSimilarActionFigures, setViewSimilarActionFigures] = useState([]);
@@ -78,6 +75,9 @@ export const BlackSeriesCatalog = props => {
     const [newBoxImage, setNewBoxImage] = useState(false);
     const handleImageChange = () => setNewBoxImage(!newBoxImage);
 
+    const inputLabel = useRef(null);
+    const [labelWidth, setLabelWidth] = useState(0);
+
     const handleClearFilters = () => {
         setFilterBySourceMaterial(null);
         setFilterByCharacter(null);
@@ -106,16 +106,21 @@ export const BlackSeriesCatalog = props => {
                     setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, "ownedId"));
                 }
             });
-        }
-    }, [initialState, setCatalogData, setUserData, user.id, user.loggedIn]);
+        };
 
-    const inputLabel = useRef(null);
-    const [labelWidth, setLabelWidth] = useState(0);
-    useEffect(() => {
+        const helperDataRef = HelperDataApi.read(FB_DB_CONSTANTS.HELPER_DATA);
+        helperDataRef.on('value', snapshot => {
+            const snapshotRef = snapshot.val();
+            if (snapshotRef) {
+                setHelperData(formatFormData(snapshotRef));
+            }
+        });
+
         if (viewFilters) {
             setLabelWidth(inputLabel.current.offsetWidth);
         }
-    }, [viewFilters]);
+
+    }, [initialState, setCatalogData, setUserData, user.id, user.loggedIn, viewFilters]);
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
@@ -141,24 +146,6 @@ export const BlackSeriesCatalog = props => {
         }
         return null;
     };
-
-    const generateStats = () => {
-        let stats = {
-            count: displayList.length,
-            source: [],
-        };
-
-        ALL_SOURCE_NAMES.forEach(source => {
-            stats['source'].push({
-                name: source,
-                count: displayList.filter(figure => figure.sourceMaterial === source).length
-            })
-        });
-
-        return stats
-    };
-
-    const stats = generateStats();
 
     const orangeAssort = generateAssortmentSection(ASSORTMENT.BS_ORANGE, 'orange');
     const blueAssort = generateAssortmentSection(ASSORTMENT.BS_BLUE, 'blue');
@@ -187,58 +174,51 @@ export const BlackSeriesCatalog = props => {
         onClickCard={openModal}
     />
 
-    const menuItemsList = list => {
-        return list.map(item =>
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-        )
-    };
-
-    const generateFilter = (menuList, onChange, label, value) => {
-        return <FormControl variant='outlined' className={classes.formControl}>
-            <InputLabel ref={inputLabel} id={`${label}-id`}>{label}</InputLabel>
-            <Select
-                labelId={`${label}-id`}
-                id={label}
-                onChange={onChange}
+    let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
+    const buildFilters = () => {
+        if (Object.keys(helperData).length !== 0) {
+            const { assortment, sourceMaterial, groups, version } = helperData;
+            sourceMaterialFilterComp = <FormFilter
+                menuList={sourceMaterial.values}
+                onChange={handleSourceMaterialChange}
+                label={'Source Material'}
+                inputLabel={inputLabel}
                 labelWidth={labelWidth}
-                defaultValue={''}
-                label={label}
-            >
-                <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>
-                {menuItemsList(menuList)}
-            </Select>
-        </FormControl>
+            />
+            characterFilterComp = <FormFilter
+                menuList={CHARACTER_NAMES}
+                onChange={handleCharacterChange}
+                label={'Characters'}
+                inputLabel={inputLabel}
+                labelWidth={labelWidth}
+            />
+            groupFilterComp = <FormFilter
+                menuList={groups.values}
+                onChange={handleGroupChange}
+                label={'Groups'}
+                inputLabel={inputLabel}
+                labelWidth={labelWidth}
+            />
+            versionFilterComp = <FormFilter
+                menuList={version.values}
+                onChange={handleVersionChange}
+                label={'Versions'}
+                inputLabel={inputLabel}
+                labelWidth={labelWidth}
+            />
+            assortmentFilterComp = <FormFilter
+                menuList={assortment.values}
+                onChange={handleAssortmentChange}
+                label={'Assortment'}
+                inputLabel={inputLabel}
+                labelWidth={labelWidth}
+            />
+        };
     };
+    buildFilters();
 
-    const filterDisplayButtonText = viewFilters ? 'Hide Filters' : 'Show Filters';
-    const filterDisplayButtonIcon = viewFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />;
-    const headerDisplayButtonText = showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers';
-    const imageDisplayButtonText = newBoxImage ? 'Out of Box Image' : 'In Box Image';
-
-    const sourceMaterialFilterComp = generateFilter(ALL_SOURCE_NAMES, handleSourceMaterialChange, 'Source Material', filterBySourceMaterial);
-    const characterFilterComp = generateFilter(CHARACTER_NAMES, handleCharacterChange, 'Characters', filterByCharacter);
-    const groupFilterComp = generateFilter(GROUP_NAMES, handleGroupChange, 'Groups', filterByGroup);
-    const versionFilterComp = generateFilter(VERSIONS, handleVersionChange, 'Versions', filterByVersion);
-    const assortmentFilterComp = generateFilter(ALL_ASSORTMENT, handleAssortmentChange, 'Assortment', filterByAssortment);
-
-    const generatorInput = inputName => {
-        return <>
-            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
-                <TextField
-                    variant='outlined'
-                    className={classes.form}
-                    onChange={handleInputNameChange}
-                    fullWidth
-                    id={inputName}
-                    name={inputName}
-                    label={inputName}
-                />
-            </Grid>
-        </>;
-    };
-
-    const search = generatorInput('Character Name');
-
+    const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
+    
     return (
         <React.Fragment>
             <Modal
@@ -260,11 +240,23 @@ export const BlackSeriesCatalog = props => {
                                 {`Search: `}
                             </Typography>
                         </Grid>
-                        <Grid item xs={3} className={classes.alwaysDisplayed}>{search}</Grid>
+                        <Grid item xs={3} className={classes.alwaysDisplayed}>
+                            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
+                                <TextField
+                                    variant='outlined'
+                                    className={classes.form}
+                                    onChange={handleInputNameChange}
+                                    fullWidth
+                                    id={'Character Name'}
+                                    name={'Character Name'}
+                                    label={'Character Name'}
+                                />
+                            </Grid>
+                        </Grid>
                         <Grid item xs={8} className={classes.viewFilters}>
                             <ActionButton
-                                buttonLabel={filterDisplayButtonText}
-                                icon={filterDisplayButtonIcon}
+                                buttonLabel={viewFilters ? 'Hide Filters' : 'Show Filters'}
+                                icon={viewFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                                 onClick={handleChange}
                                 color={Color.primary('black')}
                             />
@@ -278,14 +270,14 @@ export const BlackSeriesCatalog = props => {
                                 <Grid item xs={3}>{assortmentFilterComp}</Grid>
                                 <Grid item xs={3} className={classes.formControl}>
                                     <ActionButton
-                                        buttonLabel={headerDisplayButtonText}
+                                        buttonLabel={showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers'}
                                         onClick={handleAssortmentHeaderChange}
                                         color={Color.primary('green')}
                                     />
                                 </Grid>
-                                <Grid item xs={2} className={classes.formControl}>
+                                <Grid item xs={3} className={classes.formControl}>
                                     <ActionButton
-                                        buttonLabel={imageDisplayButtonText}
+                                        buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
                                         icon={<SwapHorizIcon />}
                                         onClick={handleImageChange}
                                         color={Color.primary('green')}

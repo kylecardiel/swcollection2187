@@ -28,6 +28,7 @@ import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { TableBody } from '@material-ui/core';
+import { formatFormData } from 'components/common/form/formatFormData';
 
 const { HOME } = ROUTE_CONSTANTS;
 
@@ -59,51 +60,12 @@ export const Admin = () => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const createFormDataObj = retreivedData => {
-        let data = {};
-        for (let id in retreivedData) {
-            data.id = id;
-            data.values = retreivedData[id];
-        };
-        return data;
-    }
-
     useEffect(() => {
         const helperDataRef = HelperDataApi.read(FB_DB_CONSTANTS.HELPER_DATA);
         helperDataRef.on('value', snapshot => {
-            if (snapshot.val()) {
-
-                let retreivedCollectionType = snapshot.val().collectionType;
-                const collectionTypeData = createFormDataObj(retreivedCollectionType);
-
-                let retreivedSourceMaterial = snapshot.val().sourceMaterial;
-                const sourceMaterialData = createFormDataObj(retreivedSourceMaterial);
-
-                let retreivedSourceType = snapshot.val().sourceType;
-                const sourceTypeData = createFormDataObj(retreivedSourceType);
-
-                let retreivedSeries = snapshot.val().series;
-                const seriesData = createFormDataObj(retreivedSeries);
-
-                let retreivedVersion = snapshot.val().version;
-                const versionData = createFormDataObj(retreivedVersion);
-
-                let retreivedAssortment = snapshot.val().assortment;
-                const assortmentData = createFormDataObj(retreivedAssortment);
-
-                let retreivedGroups = snapshot.val().groups;
-                const groupsData = createFormDataObj(retreivedGroups);
-
-                // TODO: Add to Redux to store then when another compenent needs it checks first and then pulls if needed.
-                setHelperData({
-                    assortment: assortmentData,
-                    collectionType: collectionTypeData,
-                    groups: groupsData,
-                    series: seriesData,
-                    sourceMaterial: sourceMaterialData,
-                    sourceType: sourceTypeData,
-                    version: versionData,
-                });
+            const snapshotRef = snapshot.val();
+            if (snapshotRef) {
+                setHelperData(formatFormData(snapshotRef));
             }
         });
     }, []);
