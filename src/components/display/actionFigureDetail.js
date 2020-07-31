@@ -132,6 +132,17 @@ export const ActionFigureDetails = ({ catalog, figure, similarFigures }) => {
                     </Grid>
                 </Grid>
             </Container>
+            {/* <Grid item>
+                        <ButtonBase className={classes.image}>
+                            <img className={classes.img} alt='complex' src={figure.looseImageUrl} />
+                        </ButtonBase>
+                    </Grid>
+ 
+                    <Grid item>
+                        <ButtonBase className={classes.image}>
+                            <img className={classes.img} alt='complex' src={figure.newImageUrl} />
+                        </ButtonBase>
+                    </Grid> */}
         </div>
     );
 }
@@ -226,17 +237,3 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid black',
     },
 }));
-
-
-
-{/* <Grid item>
-                        <ButtonBase className={classes.image}>
-                            <img className={classes.img} alt='complex' src={figure.looseImageUrl} />
-                        </ButtonBase>
-                    </Grid>
- 
-                    <Grid item>
-                        <ButtonBase className={classes.image}>
-                            <img className={classes.img} alt='complex' src={figure.newImageUrl} />
-                        </ButtonBase>
-                    </Grid> */}

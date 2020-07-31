@@ -69,7 +69,7 @@ export const BlackSeriesCatalog = props => {
     const [filterByAssortment, setFilterByAssortment] = useState();
     const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
 
-    const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(true);
+    const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(catalog);
     const handleAssortmentHeaderChange = () => setShowAssortmentHeaders(!showAssortmentHeaders);
 
     const [newBoxImage, setNewBoxImage] = useState(false);
