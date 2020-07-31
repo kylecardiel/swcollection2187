@@ -201,7 +201,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const nameInput = generatorInput('Name', 'name');
     const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
     const seriesNumberInput = generatorInput('Wave', 'wave', true);
-    const waveInput = generatorInput('Series Number', 'seriesNumber', true);
+    const waveInput = generatorInput('Series Number', 'seriesNumber');
     const yearInput = generatorInput('Year', 'year', true);
     const groupSelectInput = groupSelect();
     const retailPrice = generatorInput('Retail Price', 'retailPrice');
@@ -213,6 +213,11 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
         <React.Fragment>
             <FormHeaderSection text={'Feed the Database!'} textColor={'white'} />
             <Container component='main' maxWidth='xl' className={classes.conatiner}>
+                { submitDisabled && 
+                    <div className={classes.progressBar}>
+                        <ProgressBar percentage={percentage}/> 
+                    </div>
+                }
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={1} className={classes.submitButton}>
                         {nameInput}
@@ -249,7 +254,6 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
                         </Grid>
                     </Grid>
                 </form>
-            { submitDisabled && <ProgressBar percentage={percentage}/> }
             </Container>
         </React.Fragment>
     );
@@ -324,5 +328,8 @@ const useStyles = makeStyles(theme => ({
     warningMessage: {
         padding: theme.spacing(0),
         color: Color.primary('eliteRed'),
-    }
+    },
+    progressBar: {
+        margin: theme.spacing(2),
+    },
 }));

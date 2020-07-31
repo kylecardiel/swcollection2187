@@ -28,6 +28,8 @@ import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { TableStats } from 'components/blackSeries/tableStats';
+import { TextField } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -57,6 +59,9 @@ export const BlackSeriesCatalog = props => {
 
     const [filterByCharacter, setFilterByCharacter] = useState();
     const handleCharacterChange = e => setFilterByCharacter(e.target.value);
+
+    const [filterByInputName, setFilterByInputName] = useState();
+    const handleInputNameChange = e => setFilterByInputName(e.target.value);
 
     const [filterByGroup, setFilterByGroup] = useState();
     const handleGroupChange = e => setFilterByGroup(e.target.value);
@@ -114,24 +119,13 @@ export const BlackSeriesCatalog = props => {
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
-        if (!catalog) {
-            mergedList = mergedList.filter(el => el.owned === true);
-        }
-        if (filterBySourceMaterial) {
-            mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
-        }
-        if (filterByCharacter) {
-            mergedList = mergedList.filter(el => el.name === filterByCharacter);
-        }
-        if (filterByGroup) {
-            mergedList = mergedList.filter(el => el.groups.includes(filterByGroup));
-        }
-        if (filterByVersion) {
-            mergedList = mergedList.filter(el => el.version === filterByVersion);
-        }
-        if (filterByAssortment) {
-            mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
-        }
+        if (!catalog) mergedList = mergedList.filter(el => el.owned === true);
+        if (filterBySourceMaterial) mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
+        if (filterByCharacter) mergedList = mergedList.filter(el => el.name === filterByCharacter);
+        if (filterByInputName) mergedList = mergedList.filter(el => el.name.toLowerCase().includes(filterByInputName.toLowerCase()));
+        if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup));
+        if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
+        if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
         return mergedList;
     };
 
@@ -218,7 +212,7 @@ export const BlackSeriesCatalog = props => {
 
     const filterDisplayButtonText = viewFilters ? 'Hide Filters' : 'Show Filters';
     const filterDisplayButtonIcon = viewFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />;
-    const headerDisplayButtonText = showAssortmentHeaders ? ' Hide Assortment Headers' : 'Show Assortment Headers';
+    const headerDisplayButtonText = showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers';
     const imageDisplayButtonText = newBoxImage ? 'Out of Box Image' : 'In Box Image';
 
     const sourceMaterialFilterComp = generateFilter(ALL_SOURCE_NAMES, handleSourceMaterialChange, 'Source Material', filterBySourceMaterial);
@@ -227,6 +221,23 @@ export const BlackSeriesCatalog = props => {
     const versionFilterComp = generateFilter(VERSIONS, handleVersionChange, 'Versions', filterByVersion);
     const assortmentFilterComp = generateFilter(ALL_ASSORTMENT, handleAssortmentChange, 'Assortment', filterByAssortment);
 
+    const generatorInput = inputName => {
+        return <>
+            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
+                <TextField
+                    variant='outlined'
+                    className={classes.form}
+                    onChange={handleInputNameChange}
+                    fullWidth
+                    id={inputName}
+                    name={inputName}
+                    label={inputName}
+                />
+            </Grid>
+        </>;
+    };
+
+    const search = generatorInput('Character Name');
 
     return (
         <React.Fragment>
@@ -244,7 +255,13 @@ export const BlackSeriesCatalog = props => {
             <Container component='main' maxWidth='lg'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.alwaysDisplayed}>
+                            <Typography color="textSecondary">
+                                {`Search: `}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3} className={classes.alwaysDisplayed}>{search}</Grid>
+                        <Grid item xs={8} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={filterDisplayButtonText}
                                 icon={filterDisplayButtonIcon}
@@ -266,7 +283,7 @@ export const BlackSeriesCatalog = props => {
                                         color={Color.primary('green')}
                                     />
                                 </Grid>
-                                <Grid item xs={3} className={classes.formControl}>
+                                <Grid item xs={2} className={classes.formControl}>
                                     <ActionButton
                                         buttonLabel={imageDisplayButtonText}
                                         icon={<SwapHorizIcon />}
@@ -320,11 +337,28 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         marginBottom: theme.spacing(1),
     },
+    alwaysDisplayed: {
+        marginLeft: theme.spacing(1),
+    },
+    viewFilters: {
+        marginTop: theme.spacing(1),
+    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 225,
     },
     tableStats: {
         marginTop: theme.spacing(4),
+    },
+    inputBoxInColumn: {
+        marginBottom: theme.spacing(1),
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    form: {
+        width: '100%',
+        marginTop: theme.spacing(0),
+        minWidth: 225,
     },
 }));
