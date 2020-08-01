@@ -91,7 +91,7 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                             && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
                         {!catalog
                             && record.owned
-                            && generateBottomText('Qty', ` ${record.newInBoxQty} | ${record.looseCompleteQty} | ${record.looseIncompleteQty}`)}
+                            && generateBottomText('Total Owned', ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
                     </CardContent>
                 </Card>
             </div>

@@ -11,7 +11,7 @@ export class CatalogApi {
 export class UserApi {
     static create = (userId, location, record) => CommonApi.create(`${USERS}${userId}/${location}`, record);
     static read = (userId, location) => CommonApi.read(`${USERS}${userId}/${location}`);
-
+    static update = (userId, location, recordId, record) => CommonApi.update(`${USERS}${userId}/${location}${recordId}`, record);
     static delete = (userId, location, recordId) => CommonApi.delete(`${USERS}${userId}/${location}`, recordId);
 };
 
@@ -40,8 +40,8 @@ export class CommonApi {
 
     static read = location  => database.ref(location);
 
-    static update = (location, userId, record)  => {
-        const ref = database.ref(`${location}${userId}/${record.id}`);
+    static update = (location, record)  => {
+        const ref = database.ref(`${location}`);
         ref.update(record);
     };
 

@@ -3,14 +3,7 @@ import React from 'react';
 import { Color } from 'shared/styles/color';
 import Grid from '@material-ui/core/Grid';
 import { HeaderText } from 'components/common/text/headerText';
-
-const useStyles = makeStyles(theme => ({
-    headerContainer: {
-        paddingTop: theme.spacing(3),
-        paddingBottom: theme.spacing(3),
-        background: Color.primary('eliteBlackGradient'),
-    },
-}));
+import CancelIcon from '@material-ui/icons/Cancel';
 
 export const FormHeaderSection = props => {
     const classes = useStyles();
@@ -21,6 +14,25 @@ export const FormHeaderSection = props => {
             <Grid item xs={12} >
                 <HeaderText text={text} textColor={textColor}/>
             </Grid>
+            {/* <Grid item xs={1} className={classes.cancelGrid}>
+                <CancelIcon fontSize='large' style={{ color:'white' }} />
+            </Grid> */}
         </Grid>
     );
-}
+};
+
+const useStyles = makeStyles(theme => ({
+    headerContainer: {
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(3),
+        background: Color.primary('eliteBlackGradient'),
+    },
+    cancelGrid: {
+        display: 'flex,',
+        justifyContent: 'flex-end',
+        alignItems: 'right',
+    },
+    cancelIconColor: {
+        color: 'white',
+    },
+}));
