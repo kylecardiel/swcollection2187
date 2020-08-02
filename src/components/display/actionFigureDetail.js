@@ -15,7 +15,7 @@ import { Color } from 'shared/styles/color';
 
 const ADD = 'ADD';
 
-export const ActionFigureDetails = ({ catalog, figure, similarFigures }) => {
+export const ActionFigureDetails = ({ catalog, figure, similarFigures, multipackFigures }) => {
     const { id } = useContext(UserConsumer);
 
     const [newInBoxQty, setNewInBoxQty] = useState(figure.newInBoxQty);
@@ -155,6 +155,20 @@ export const ActionFigureDetails = ({ catalog, figure, similarFigures }) => {
                                         ))}
                                     </div>
                                 </Typography>
+                                {figure.multipack &&
+                                    <Typography variant='body2' gutterBottom className={classes.detailName}>
+                                        <span className={classes.textStyle}>{`Multipack Figures: (${multipackFigures.length})`}</span>
+                                        <div className={classes.similarFiguresContainer}>
+                                            {multipackFigures.map(f => (
+                                                <Typography variant='body2' gutterBottom className={classes.similarFigures}>
+                                                    {`${f.name} `}
+                                                    {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
+                                                    {`[${f.multipack}]`}
+                                                </Typography>
+                                            ))}
+                                        </div>
+                                    </Typography>
+                                }
                             </Grid>
                             {!catalog &&
                                 <>

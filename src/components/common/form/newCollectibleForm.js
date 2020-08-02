@@ -147,7 +147,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const groupSelect = () => {
         return <>
             {generatorInputText('Groups')}
-            <Grid item xs={12} md={10} className={classes.inputBoxInColumn}>
+            <Grid item xs={12} md={6} className={classes.inputBoxInColumn}>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="Groups-label">{'Groups'}</InputLabel>
                     <Select
@@ -205,6 +205,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const yearInput = generatorInput('Year', 'year', true);
     const groupSelectInput = groupSelect();
     const retailPrice = generatorInput('Retail Price', 'retailPrice');
+    const mulitipackInput = generatorInput('Multipack', 'multipack');
     const looseImageInput = generatorImageInput('Loose Image', handleLooseImageChange);
     const looseBlackImageInput = generatorImageInput('Loose Black Image', handleBlacLoosekImageChange);
     const newImageInput = generatorImageInput('NIB Image', handleNewImageChange);
@@ -237,6 +238,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
                         {retailPrice}
                         
                         {groupSelectInput}
+                        {mulitipackInput}
 
                         {looseImageInput}
                         {looseBlackImageInput}

@@ -40,6 +40,7 @@ export const BlackSeriesCatalog = props => {
     const openModal = figure => {
         setViewActionFigureDetail(figure);
         setViewSimilarActionFigures(catalogList.filter(el => el.name === figure.name && el.id !== figure.id));
+        setViewMultiPackActionFigures(catalogList.filter(el => el.multipack === figure.multipack && el.id !== figure.id))
         setVewFilters(false);
         setIsModalOpen(true);
     };
@@ -50,6 +51,7 @@ export const BlackSeriesCatalog = props => {
 
     const [viewActionFigureDetail, setViewActionFigureDetail] = useState(false);
     const [viewSimilarActionFigures, setViewSimilarActionFigures] = useState([]);
+    const [viewMultiPackActionFigures, setViewMultiPackActionFigures] = useState([]);
 
     const [viewFilters, setVewFilters] = useState(false);
     const handleChange = () => setVewFilters(!viewFilters);
@@ -238,6 +240,7 @@ export const BlackSeriesCatalog = props => {
                     catalog={catalog}
                     figure={viewActionFigureDetail}
                     similarFigures={viewSimilarActionFigures}
+                    multipackFigures={viewMultiPackActionFigures}
                 />
             </Modal>
             <Container component='main' maxWidth='lg'>

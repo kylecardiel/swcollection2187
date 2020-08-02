@@ -16,7 +16,7 @@ import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { ROLES } from 'shared/constants/roleConstants';
 
 export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => {
-    const classes = useStyles({ height: catalog ? 75 : 125 });
+    const classes = useStyles({ height: catalog ? 100 : 125 });
     const { loggedIn, id, email } = useContext(UserConsumer);
 
     const authEmail = email === ROLES.EMAIL;
@@ -91,6 +91,7 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                         {record.version && record.version !== 'Regular'
                             ? generateBottomText('Version', ` ${record.version}`)
                             : null}
+                        {record.multipack && generateBottomText('Multi', ` [${record.multipack}]`)}   
                         {!catalog
                             && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
                         {!catalog
