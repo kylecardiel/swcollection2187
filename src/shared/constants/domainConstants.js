@@ -139,6 +139,8 @@ export const DOMAIN_CONSTANTS = Object.freeze({
                         BS_DELUX: 'Red - Delux',
                         BS_VEHICLE: 'With Vehicle',
                         BS_40TH: '40th Anniv',
+                        BS_GAMING_GREATS: 'Gaming Greats',
+                        BS_RED_EXCLUSIVES: 'Red - Exclusives',
                     },
                 },
                 ELITE_SERIES: {

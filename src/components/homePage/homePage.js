@@ -8,10 +8,11 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE_CARDS } from 'shared/constants/stringConstantsSelectors';
 import { UserConsumer } from 'components/auth/authContext';
 import Typography from '@material-ui/core/Typography';
+import { ROLES } from 'shared/constants/roleConstants';
 
 export const Homepage = () => {
     const classes = useStyles();
-    const { loggedIn } = useContext(UserConsumer);
+    const { email } = useContext(UserConsumer);
     return (
         <Container component='main' maxWidth='lg'>
             <div className={classes.root}>
@@ -34,7 +35,7 @@ export const Homepage = () => {
                             imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
                         />
                     </Grid>
-                    {loggedIn && <Grid item xs={3}>
+                    {email === ROLES.EMAIL && <Grid item xs={3}>
                         <MediaCard
                             cardText={HOME_PAGE_CARDS.ADMIN}
                             route={ROUTE_CONSTANTS.ADMIN}

@@ -7,7 +7,6 @@ import { FormDataTableRow } from 'components/admin/formDataRow';
 export const FormDataTable = ({ header, data, dataType}) => {
     const classes = useStyles();
     const columnDef = headerValue => [{ headerName: headerValue, span: 2, }];
-    console.log(columnDef(header))
     return (
         <Paper className={classes.paperTable}>
             <Table>

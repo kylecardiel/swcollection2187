@@ -1,9 +1,9 @@
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import { HeaderText } from 'components/common/text/headerText';
 import React from 'react';
 import { Color } from 'shared/styles/color';
-import Grid from '@material-ui/core/Grid';
-import { HeaderText } from 'components/common/text/headerText';
-import CancelIcon from '@material-ui/icons/Cancel';
+// import CancelIcon from '@material-ui/icons/Cancel';
 
 export const FormHeaderSection = props => {
     const classes = useStyles();

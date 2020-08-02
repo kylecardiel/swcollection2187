@@ -73,8 +73,6 @@ export const Admin = () => {
     const onSubmit = attribute => {
         let existingData = helperData[dataType];
         if (!isEmpty(existingData)) {
-            console.log('existingData')
-            console.log(existingData)
             existingData.values.push(attribute.attributevalue);
             let newObject = {};
             newObject[existingData.id] = existingData.values.sort(SortingUtils.alphaNumericSorting);

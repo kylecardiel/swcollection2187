@@ -25,7 +25,7 @@ export const UploadImage = () => {
             function(snapshot){
                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setPercentage(progress);
-                console.log('Upload is ' + progress + '% done');
+                // console.log('Upload is ' + progress + '% done');
           }, function(error) {
                 console.log(error)
           }, function() {

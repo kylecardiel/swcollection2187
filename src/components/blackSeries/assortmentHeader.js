@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { Color } from 'shared/styles/color';
 import Grid from '@material-ui/core/Grid';
 import { HeaderText } from 'components/common/text/headerText';
 
@@ -10,7 +9,7 @@ const useStyles = makeStyles(theme => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
         width: '100%',
-        background: props => Color.primary(props.backgroundColor),
+        background: props => props.backgroundColor,
     },
 }));
 

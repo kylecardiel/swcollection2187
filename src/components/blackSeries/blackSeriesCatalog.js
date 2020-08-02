@@ -25,8 +25,11 @@ import Typography from '@material-ui/core/Typography';
 import { formatFormData } from 'components/common/form/formatFormData';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { FormFilter } from 'components/common/form/formFilter';
+import { assortmentColor } from 'components/blackSeries/assortmentColor';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
+const { BS_ORANGE, BS_BLUE, BS_RED, BS_DELUX, BS_40TH, BS_ARCHIVE, BS_VEHICLE, BS_CENTERPIECE, BS_GAMING_GREATS, BS_RED_EXCLUSIVES } = ASSORTMENT;
+
 
 export const BlackSeriesCatalog = props => {
     const user = useContext(UserConsumer);
@@ -128,7 +131,7 @@ export const BlackSeriesCatalog = props => {
         if (filterBySourceMaterial) mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
         if (filterByCharacter) mergedList = mergedList.filter(el => el.name === filterByCharacter);
         if (filterByInputName) mergedList = mergedList.filter(el => el.name.toLowerCase().includes(filterByInputName.toLowerCase()));
-        if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup));
+        if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup)); 
         if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
         if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
         return mergedList;
@@ -136,32 +139,37 @@ export const BlackSeriesCatalog = props => {
 
     const displayList = massageList();
 
-    const generateAssortmentSection = (text, backgroundColor) => {
-        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === text), "seriesNumber")
+    const generateAssortmentSection = assortment => {
+        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === assortment), "seriesNumber")
         if (records.length > 0) {
+            const backgroundColor = assortmentColor(assortment);
             return <>
-                {showAssortmentHeaders && <AssortmentHeader text={text} backgroundColor={backgroundColor} />}
+                {showAssortmentHeaders && <AssortmentHeader text={assortment} backgroundColor={backgroundColor} />}
                 <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} onClickCard={openModal} />
             </>
         }
         return null;
     };
 
-    const orangeAssort = generateAssortmentSection(ASSORTMENT.BS_ORANGE, 'orange');
-    const blueAssort = generateAssortmentSection(ASSORTMENT.BS_BLUE, 'blue');
-    const redAssort = generateAssortmentSection(ASSORTMENT.BS_RED, 'red');
-    const deluxAssort = generateAssortmentSection(ASSORTMENT.BS_DELUX, 'red');
-    const annivAssort = generateAssortmentSection(ASSORTMENT.BS_40TH, 'grey');
-    const archiveAssort = generateAssortmentSection(ASSORTMENT.BS_ARCHIVE, 'grey');
-    const vehicleAssort = generateAssortmentSection(ASSORTMENT.BS_VEHICLE, 'yellow');
-    const centerdAssort = generateAssortmentSection(ASSORTMENT.BS_CENTERPIECE, 'green');
+    const orangeAssort = generateAssortmentSection(BS_ORANGE);
+    const blueAssort = generateAssortmentSection(BS_BLUE);
+    const redAssort = generateAssortmentSection(BS_RED);
+    const redExAssort = generateAssortmentSection(BS_RED_EXCLUSIVES);
+    const deluxAssort = generateAssortmentSection(BS_DELUX);
+    const annivAssort = generateAssortmentSection(BS_40TH);
+    const gamingAssort = generateAssortmentSection(BS_GAMING_GREATS);
+    const archiveAssort = generateAssortmentSection(BS_ARCHIVE);
+    const vehicleAssort = generateAssortmentSection(BS_VEHICLE);
+    const centerdAssort = generateAssortmentSection(BS_CENTERPIECE);
 
     const assortments = <>
         {orangeAssort}
         {blueAssort}
         {redAssort}
+        {redExAssort}
         {deluxAssort}
         {annivAssort}
+        {gamingAssort}
         {archiveAssort}
         {vehicleAssort}
         {centerdAssort}
@@ -303,7 +311,7 @@ export const BlackSeriesCatalog = props => {
                             <>
                                 <Grid item xs={3} className={classes.tableStats}></Grid>
                                 <Grid item xs={6} className={classes.tableStats}>
-                                    <AssortmentHeader text={'Stats'} backgroundColor={'yellow'} />
+                                    <AssortmentHeader text={'Stats'} backgroundColor={Color.primary('darkYellow')} />
                                     <TableStats stats={stats} />
                                 </Grid>
                             </>

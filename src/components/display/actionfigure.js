@@ -13,10 +13,13 @@ import { Color } from 'shared/styles/color';
 import { UserConsumer } from 'components/auth/authContext';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { ROLES } from 'shared/constants/roleConstants';
 
 export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => {
     const classes = useStyles({ height: catalog ? 75 : 125 });
-    const { loggedIn, id } = useContext(UserConsumer);
+    const { loggedIn, id, email } = useContext(UserConsumer);
+
+    const authEmail = email === ROLES.EMAIL;
 
     const generateBottomText = (label, value) => {
         return <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext} >
@@ -84,6 +87,7 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                         {generateBottomText(record.sourceMaterial)}
                         {record.additionalNameDetails
                             && generateBottomText('Add Name', ` ${record.additionalNameDetails}`)}
+                        {generateBottomText('Assort.', ` ${record.assortment}`)}
                         {record.version && record.version !== 'Regular'
                             ? generateBottomText('Version', ` ${record.version}`)
                             : null}
@@ -92,6 +96,7 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                         {!catalog
                             && record.owned
                             && generateBottomText('Total Owned', ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
+                        {authEmail && catalog && generateBottomText(record.id)}
                     </CardContent>
                 </Card>
             </div>
