@@ -102,6 +102,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const { 
         assortment, 
         collectionType,
+        exclusiveRetailer,
         groups,
         series,
         sourceMaterial, 
@@ -147,7 +148,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const groupSelect = () => {
         return <>
             {generatorInputText('Groups')}
-            <Grid item xs={12} md={6} className={classes.inputBoxInColumn}>
+            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="Groups-label">{'Groups'}</InputLabel>
                     <Select
@@ -197,6 +198,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
     const assortmentInput = generateSelector('Assortment', 'assortment', assortment.values);
     const versionTypeInput = generateSelector('Versions', 'version', version.values);
     const sourceMaterialInput = generateSelector('Source Material', 'sourceMaterial', sourceMaterial.values);
+    const exclusiveRetailerInput = generateSelector('Exclusive Retailer', 'exclusiveRetailer', exclusiveRetailer.values);
     const sourceTypeInput = generateSelector('Source Type', 'sourceType', sourceType.values);
     const nameInput = generatorInput('Name', 'name');
     const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
@@ -238,6 +240,7 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
                         {retailPrice}
                         
                         {groupSelectInput}
+                        {exclusiveRetailerInput}
                         {mulitipackInput}
 
                         {looseImageInput}

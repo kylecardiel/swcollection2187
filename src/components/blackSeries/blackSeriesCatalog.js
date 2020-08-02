@@ -14,7 +14,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { CatalogApi, UserApi, HelperDataApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { ASSORTMENT } from 'shared/constants/domainConstantSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
@@ -28,8 +27,6 @@ import { FormFilter } from 'components/common/form/formFilter';
 import { assortmentColor } from 'components/blackSeries/assortmentColor';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
-const { BS_ORANGE, BS_BLUE, BS_RED, BS_DELUX, BS_40TH, BS_ARCHIVE, BS_VEHICLE, BS_CENTERPIECE, BS_GAMING_GREATS, BS_RED_EXCLUSIVES } = ASSORTMENT;
-
 
 export const BlackSeriesCatalog = props => {
     const user = useContext(UserConsumer);
@@ -146,43 +143,26 @@ export const BlackSeriesCatalog = props => {
         if (records.length > 0) {
             const backgroundColor = assortmentColor(assortment);
             return <>
-                {showAssortmentHeaders && <AssortmentHeader text={assortment} backgroundColor={backgroundColor} />}
+                {showAssortmentHeaders && <AssortmentHeader key={assortment} text={assortment} backgroundColor={backgroundColor} />}
                 <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} onClickCard={openModal} />
             </>
         }
         return null;
     };
 
-    const orangeAssort = generateAssortmentSection(BS_ORANGE);
-    const blueAssort = generateAssortmentSection(BS_BLUE);
-    const redAssort = generateAssortmentSection(BS_RED);
-    const redExAssort = generateAssortmentSection(BS_RED_EXCLUSIVES);
-    const deluxAssort = generateAssortmentSection(BS_DELUX);
-    const annivAssort = generateAssortmentSection(BS_40TH);
-    const gamingAssort = generateAssortmentSection(BS_GAMING_GREATS);
-    const archiveAssort = generateAssortmentSection(BS_ARCHIVE);
-    const vehicleAssort = generateAssortmentSection(BS_VEHICLE);
-    const centerdAssort = generateAssortmentSection(BS_CENTERPIECE);
-
     const assortments = <>
-        {orangeAssort}
-        {blueAssort}
-        {redAssort}
-        {redExAssort}
-        {deluxAssort}
-        {annivAssort}
-        {gamingAssort}
-        {archiveAssort}
-        {vehicleAssort}
-        {centerdAssort}
-    </>
+        {helperData 
+            && helperData.assortment 
+            && helperData.assortment.values.map(assortment => generateAssortmentSection(assortment))
+        }
+    </>;
 
     const allFigures = <ActionFigure
         catalog={catalog}
         records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
         newBoxImage={newBoxImage}
         onClickCard={openModal}
-    />
+    />;
 
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
     const buildFilters = () => {

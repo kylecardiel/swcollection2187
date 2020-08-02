@@ -75,7 +75,8 @@ export const Admin = () => {
         if (!isEmpty(existingData)) {
             existingData.values.push(attribute.attributevalue);
             let newObject = {};
-            newObject[existingData.id] = existingData.values.sort(SortingUtils.alphaNumericSorting);
+
+            newObject[existingData.id] = dataType !== 'assortment' ? existingData.values.sort(SortingUtils.alphaNumericSorting) : existingData.values;
             HelperDataApi.create(newObject, dataType);
         } else {
             HelperDataApi.createNewCategory([attribute.attributevalue], dataType)
@@ -95,6 +96,7 @@ export const Admin = () => {
         { key: 'Assortment', value: 'assortment' },
         { key: 'Characters', value: 'characters' },
         { key: 'Collection Type', value: 'collectionType' },
+        { key: 'Exclusive Retailer', value: 'exclusiveRetailer' },
         { key: 'Groups', value: 'groups' },
         { key: 'Series', value: 'series' },
         { key: 'Source Material', value: 'sourceMaterial' },
@@ -150,12 +152,13 @@ export const Admin = () => {
             {displayFormDataTable ? 'Hide Tables' : 'Display Tables'}
         </Button>;
 
-    let assortmentTable, charactersTable, collectionTypeTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
+    let assortmentTable, charactersTable, collectionTypeTable, exclusiveTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
             assortmentTable = <FormDataTable header={'Assortment'} data={helperData.assortment} dataType={'assortment'}/>;
             collectionTypeTable = <FormDataTable header={'Collection Type'} data={helperData.collectionType} dataType={'collectionType'}/>;
             charactersTable = <FormDataTable header={'Characters'} data={helperData.characters} dataType={'characters'}/>;
+            exclusiveTable = <FormDataTable header={'Exclusive Retailer'} data={helperData.exclusiveRetailer} dataType={'exclusiveRetailer'}/>;
             groupsTable = <FormDataTable header={'Groups'} data={helperData.groups} dataType={'groups'}/>;
             seriesTable = <FormDataTable header={'Series'} data={helperData.series} dataType={'series'}/>;
             sourceMaterialTable = <FormDataTable header={'Source Material'} data={helperData.sourceMaterial} dataType={'sourceMaterial'}/>;
@@ -224,6 +227,7 @@ export const Admin = () => {
                                                 {seriesTable}
                                                 {assortmentTable}
                                                 {versionTable}
+                                                {exclusiveTable}
                                             </Grid>
                                             <Grid item xs={12} md={3}>
                                                 {groupsTable}

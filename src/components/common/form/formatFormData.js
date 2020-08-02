@@ -3,6 +3,7 @@ export const formatFormData = snapshot => {
         assortment: createFormDataObj(snapshot.assortment),
         characters: createFormDataObj(snapshot.characters),
         collectionType: createFormDataObj(snapshot.collectionType),
+        exclusiveRetailer: createFormDataObj(snapshot.exclusiveRetailer),
         groups: createFormDataObj(snapshot.groups),
         series: createFormDataObj(snapshot.series),
         sourceMaterial: createFormDataObj(snapshot.sourceMaterial),

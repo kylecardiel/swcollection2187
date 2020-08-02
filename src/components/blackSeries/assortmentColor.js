@@ -25,6 +25,8 @@ export const assortmentColor = assortment => {
             return Color.primary('yellow');
         case BS_GAMING_GREATS:
             return Color.primary('purple');
+        case 'Convention Exclusive':
+            return Color.primary('green');
         default:
             return Color.primary('white');
     };

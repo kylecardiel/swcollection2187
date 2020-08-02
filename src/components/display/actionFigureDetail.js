@@ -109,6 +109,18 @@ export const ActionFigureDetails = ({ catalog, figure, similarFigures, multipack
             <span className={classes.textStyle}>Year:</span>
             {` ${figure.year}`}
         </Typography>
+        {figure.multipack && 
+            <Typography variant='body2' gutterBottom className={classes.detailName}>
+                <span className={classes.textStyle}>Part of Multipack:</span>
+                {` ${figure.multipack}`}
+            </Typography>
+        }
+        {figure.exclusiveRetailer && 
+            <Typography variant='body2' gutterBottom className={classes.detailName}>
+                <span className={classes.textStyle}>Exclusive Retailer:</span>
+                {` ${figure.exclusiveRetailer}`}
+            </Typography>
+        }
         <Typography variant='body2' gutterBottom className={classes.detailName}>
             <span className={classes.textStyle}>Retail Price:</span>
             {` $${figure.retailPrice}`}
