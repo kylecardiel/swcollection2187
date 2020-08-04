@@ -48,6 +48,9 @@ export const Admin = () => {
     const [dataType, setDatatype] = useState();
     const handleChangeDataType = e => setDatatype(e.target.value);
 
+    const [uploadAssortment, setUploadAssortment] = useState();
+    const handleChangeUploadAssortment = e => setUploadAssortment(e.target.value);
+
     const [helperData, setHelperData] = useState({});
 
     const inputLabel = useRef(null);
@@ -155,15 +158,15 @@ export const Admin = () => {
     let assortmentTable, charactersTable, collectionTypeTable, exclusiveTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
-            assortmentTable = <FormDataTable header={'Assortment'} data={helperData.assortment} dataType={'assortment'}/>;
-            collectionTypeTable = <FormDataTable header={'Collection Type'} data={helperData.collectionType} dataType={'collectionType'}/>;
-            charactersTable = <FormDataTable header={'Characters'} data={helperData.characters} dataType={'characters'}/>;
-            exclusiveTable = <FormDataTable header={'Exclusive Retailer'} data={helperData.exclusiveRetailer} dataType={'exclusiveRetailer'}/>;
-            groupsTable = <FormDataTable header={'Groups'} data={helperData.groups} dataType={'groups'}/>;
-            seriesTable = <FormDataTable header={'Series'} data={helperData.series} dataType={'series'}/>;
-            sourceMaterialTable = <FormDataTable header={'Source Material'} data={helperData.sourceMaterial} dataType={'sourceMaterial'}/>;
-            sourceTypeTable = <FormDataTable header={'Source Type'} data={helperData.sourceType} dataType={'sourceType'}/>;
-            versionTable = <FormDataTable header={'Version'} data={helperData.version} dataType={'version'}/>;
+            assortmentTable = <FormDataTable header={'Assortment'} data={helperData.assortment} dataType={'assortment'} />;
+            collectionTypeTable = <FormDataTable header={'Collection Type'} data={helperData.collectionType} dataType={'collectionType'} />;
+            charactersTable = <FormDataTable header={'Characters'} data={helperData.characters} dataType={'characters'} />;
+            exclusiveTable = <FormDataTable header={'Exclusive Retailer'} data={helperData.exclusiveRetailer} dataType={'exclusiveRetailer'} />;
+            groupsTable = <FormDataTable header={'Groups'} data={helperData.groups} dataType={'groups'} />;
+            seriesTable = <FormDataTable header={'Series'} data={helperData.series} dataType={'series'} />;
+            sourceMaterialTable = <FormDataTable header={'Source Material'} data={helperData.sourceMaterial} dataType={'sourceMaterial'} />;
+            sourceTypeTable = <FormDataTable header={'Source Type'} data={helperData.sourceType} dataType={'sourceType'} />;
+            versionTable = <FormDataTable header={'Version'} data={helperData.version} dataType={'version'} />;
         }
     };
 
@@ -194,10 +197,26 @@ export const Admin = () => {
                                 color={Color.primary('green')}
                             />
                         </Grid>
-                        <Grid item xs={12} className={classes.formDataContainer}>
-                            <UploadImage />
+                        <Grid item xs={6} className={classes.formDataContainer}>
+                            <UploadImage assortment={uploadAssortment} />
                         </Grid>
-
+                        <Grid item xs={6} className={classes.formDataContainer}>
+                            {helperData.assortment &&
+                                <FormControl variant='outlined' className={classes.form}>
+                                    <InputLabel ref={inputLabel} id={`${'assortment'}-label`}>{'assortment'}</InputLabel>
+                                    <Select
+                                        labelId={'assortment-id'}
+                                        id={'assortment'}
+                                        onChange={handleChangeUploadAssortment}
+                                        labelWidth={labelWidth}
+                                        defaultValue={''}
+                                        label={'assortment'}
+                                    >
+                                        {helperData.assortment.values.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)}
+                                    </Select>
+                                </FormControl>
+                            }
+                        </Grid>
                         <Grid item xs={12} className={classes.formDataContainer}>
                             <Grid item xs={12}>{'These tables populate the form inputs:'}</Grid>
                             <Container component='main' maxWidth='lg'>

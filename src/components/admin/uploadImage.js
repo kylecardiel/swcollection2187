@@ -5,7 +5,7 @@ import { ProgressBar } from 'components/common/progressBar';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
-export const UploadImage = () => {
+export const UploadImage = ({ assortment }) => {
 
     const [image, setImage] = useState(null);
     const [downloadURL, setDownloadURL] = useState(null);
@@ -15,11 +15,12 @@ export const UploadImage = () => {
         if(e.target.files[0]) {
             setImage(e.target.files[0]);
         }
-    }
+    };
 
     const handleUpload = () => {
         setDownloadURL(null);
-        const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`).put(image);
+        const location = assortment ? `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${image.name}` : `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`;
+        const uploadTask = storage.ref(location).put(image);
         uploadTask.on(
             'state_changed', 
             function(snapshot){
@@ -33,15 +34,15 @@ export const UploadImage = () => {
                 setDownloadURL(downloadURL)
             });
           });
-    }
+    };
 
     return (
         <React.Fragment>
-            <input type='file' onChange={handleChange}/>
+            <input type='file' onChange={handleChange}/>``
             <button onClick={handleUpload}>Upload</button>
             <ProgressBar percentage={percentage}/>
             <div>File available at:</div>
-            {downloadURL && <p>{downloadURL}</p>}
+            {downloadURL && <p className={{ overflow: 'scroll' }}>{downloadURL}</p>}
         </React.Fragment>
     );
 };
