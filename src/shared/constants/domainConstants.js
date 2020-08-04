@@ -1,72 +1,5 @@
 export const DOMAIN_CONSTANTS = Object.freeze({
     SOURCE: {
-        MOVIES: {
-            TPM: {
-                NAME: 'The Phantom Menace',
-                EPISODE: 'I',
-                SHORTHAND: 'TPM',
-            },
-            AOTC: {
-                NAME: 'Attack of the Clones',
-                EPISODE: 'II',
-                SHORTHAND: 'AOTC',
-            },
-            ROTS: {
-                NAME: 'Revenge of the Sith',
-                EPISODE: 'III',
-                SHORTHAND: 'ROTS',
-            },
-            ANH: {
-                NAME: 'A New Hope',
-                EPISODE: 'IV',
-                SHORTHAND: 'ANH',
-            },
-            ESB: {
-                NAME: 'The Empire Strikes Back',
-                EPISODE: 'V',
-                SHORTHAND: 'ESB',
-            },
-            ROTJ: {
-                NAME: 'Return of the Jedi',
-                EPISODE: 'VI',
-                SHORTHAND: 'ROTJ',
-            },
-            TFA: {
-                NAME: 'The Force Awakens',
-                EPISODE: 'VII',
-                SHORTHAND: 'TFA',
-            },
-            TLJ: {
-                NAME: 'The Last Jedi',
-                EPISODE: 'VIII',
-                SHORTHAND: 'TLJ',
-            },
-            TROS: {
-                NAME: 'The Rise of Skywalker',
-                EPISODE: 'IX',
-                SHORTHAND: 'TROS',
-            },
-            RO: {
-                NAME: 'Rogue One',
-                EPISODE: '',
-                SHORTHAND: 'RO',
-            },
-            SOLO: {
-                NAME: 'Solo',
-                EPISODE: '',
-                SHORTHAND: 'SOLO',
-            },
-        },
-        TV_SHOWS: {
-            CLONE_WARS: 'Clone Wars',
-            REBELS: 'Rebels',
-            RESISTANCE: 'Resistance',
-            MANDALORIAN: 'The Mandalorian',
-        },
-        VIDEO_GAME: {
-            BATTLEFRONT_II: 'BattleFront II',
-            JEDI_FALLEN_ORDER: 'Jedi Fallen Order',
-        },
         MOVIE_SETS: [
             '1990 VHS Release',
             '1997 Special Edition',
@@ -80,46 +13,6 @@ export const DOMAIN_CONSTANTS = Object.freeze({
             BLURAY: 'Blu-Ray',
             DIGITAL: 'Digital HD',
         },
-    },
-    GROUPS: {
-        ALIENS: 'Aliens',
-        BOUNTY_HUNTERS: 'Bounty Hunters',
-        DRIODS: 'Droids',
-        EMPIRE: 'Empire',
-        FIRST_ORDER: 'First Order',
-        HUMANS: 'Humans',
-        JEDI: 'Jedi',
-        JEDI_COUNSEL: 'Jedi Counsel',
-        LEGENDS: 'Legends',
-        OFFICERS: 'Officers',
-        ORIGINAL: 'Originals',
-        PIOLTS: 'Pilots',
-        PREQUELS: 'Prequels',
-        REBELS: 'Rebels',
-        REPUBLIC: 'Republic',
-        RESISTANCE: 'Resistance',
-        SEQUELS: 'Sequels',
-        SITH: 'Sith',
-        TRADE_FEDERATION: 'Trade Federation',
-        TROOPERS: 'Troopers', 
-    },
-    VERSIONS: {
-        CARBONIZED: 'Carbonized',
-        FIRST_EDITION: 'White Box',
-        CC_EXCLUSIVE: 'Comic-Con Exclusive',
-        // REGULAR: 'Regular',
-    },
-    CHARATERS: {
-        CHEWBACCA: 'Chewbacca',
-        VADER: 'Darth Vader',
-        FINN: 'Finn',
-        HAN: 'Han Solo',
-        KYLO: 'Kylo Ren',
-        LEIA: 'Leia Organa',
-        LUKE: 'Luke Skywalker',
-        OBIWAN: 'Obi-Wan Kenobi',
-        POE: 'Poe Dameron',
-        REY: 'Rey',
     },
     PRODUCT:{
         LINES: {

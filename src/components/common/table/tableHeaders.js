@@ -5,16 +5,6 @@ import TableRow from '@material-ui/core/TableRow';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-const useStyles = makeStyles(theme => ({
-    row: {
-        backgroundColor: grey[900],
-    },
-    columns: {
-        color: grey[100],
-        textAlign: 'center',
-    },
-}));
-
 export const TableHeaders = props => {
     
     const classes = useStyles(); 
@@ -32,3 +22,13 @@ export const TableHeaders = props => {
         </TableHead>
     );
 };
+
+const useStyles = makeStyles(theme => ({
+    row: {
+        backgroundColor: grey[900],
+    },
+    columns: {
+        color: grey[100],
+        textAlign: 'center',
+    },
+}));

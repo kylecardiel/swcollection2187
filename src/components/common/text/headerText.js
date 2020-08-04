@@ -1,6 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
+export const HeaderText = props => {
+
+    const { textColor, staticTextSize } = props;
+    const classes = useStyles({ textColor: textColor ? textColor : 'black'});
+
+    return (
+        <div data-testid='headerTextId' className={staticTextSize ? classes.textStatic : classes.textSizeChange}>
+            {props.text}
+        </div>
+    );
+};
+
 const useStyles = makeStyles(theme => ({
     textSizeChange: {
         display: 'flex',
@@ -28,15 +40,3 @@ const useStyles = makeStyles(theme => ({
         color: props => props.textColor
     },
 }));
-
-export const HeaderText = props => {
-
-    const { textColor, staticTextSize } = props;
-    const classes = useStyles({ textColor: textColor ? textColor : 'black'});
-
-    return (
-        <div data-testid='headerTextId' className={staticTextSize ? classes.textStatic : classes.textSizeChange}>
-            {props.text}
-        </div>
-    );
-}

@@ -8,15 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 
-const useStyles = makeStyles({
-    card: {
-        minWidth: 325,
-    },
-    media: {
-        height: 250,
-    },
-});
-
 export const MediaCard = props => {
     const classes = useStyles();
 
@@ -43,4 +34,13 @@ export const MediaCard = props => {
             </Card>
         </Link>
     );
-}
+};
+
+const useStyles = makeStyles({
+    card: {
+        minWidth: 325,
+    },
+    media: {
+        height: 250,
+    },
+});

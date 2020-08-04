@@ -1,21 +1,10 @@
 import { DOMAIN_CONSTANTS } from 'shared/constants/domainConstants';
 
-export const MOVIE_NAMES = Object.keys(DOMAIN_CONSTANTS.SOURCE.MOVIES).map(function(key) {
-    return DOMAIN_CONSTANTS.SOURCE.MOVIES[key].NAME;
-});
-
 const getAllKeysInArrayFormat = obj => Object.keys(obj).map(function(key) {
     return obj[key];
 });
 
-export const GROUP_NAMES = getAllKeysInArrayFormat(DOMAIN_CONSTANTS.GROUPS);
-export const VERSIONS = getAllKeysInArrayFormat(DOMAIN_CONSTANTS.VERSIONS);
-export const TV_SHOWS = getAllKeysInArrayFormat(DOMAIN_CONSTANTS.SOURCE.TV_SHOWS);
-export const VIDEO_GAME = getAllKeysInArrayFormat(DOMAIN_CONSTANTS.SOURCE.VIDEO_GAME);
-export const ALL_SOURCE_NAMES = MOVIE_NAMES.concat(TV_SHOWS).concat(VIDEO_GAME);
 export const MOVIE_FORMATS = getAllKeysInArrayFormat(DOMAIN_CONSTANTS.SOURCE.MOVIE_MEDIA_FORMATS);
-export const CHARACTER_NAMES = getAllKeysInArrayFormat(DOMAIN_CONSTANTS.CHARATERS);
-
 export const PRODUCT_TYPE = getAllKeysInArrayFormat(DOMAIN_CONSTANTS.PRODUCT.TYPE);
 export const GET_PRODUCT_TYPE = demoMode => {
     return demoMode

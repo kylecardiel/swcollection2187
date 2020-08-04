@@ -3,16 +3,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { HeaderText } from 'components/common/text/headerText';
 
-const useStyles = makeStyles(theme => ({
-    headerContainer: {
-        marginTop: theme.spacing(2),
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-        width: '100%',
-        background: props => props.backgroundColor,
-    },
-}));
-
 export const AssortmentHeader = props => {
     const { text, backgroundColor } = props;
     const classes = useStyles({backgroundColor: backgroundColor});
@@ -23,4 +13,14 @@ export const AssortmentHeader = props => {
             </Grid>
         </Grid>
     );
-}
+};
+
+const useStyles = makeStyles(theme => ({
+    headerContainer: {
+        marginTop: theme.spacing(2),
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+        width: '100%',
+        background: props => props.backgroundColor,
+    },
+}));

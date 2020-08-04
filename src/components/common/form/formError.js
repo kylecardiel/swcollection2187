@@ -3,6 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { red } from '@material-ui/core/colors';
 
+export const FormError = props => {
+    const classes = useStyles();
+    return (
+        <Typography data-testid='FormErrorId' component='p' className={classes.formError}>
+            {props.errorMessage}
+        </Typography>
+    );
+};
+
 const useStyles = makeStyles(theme => ({
     formError: {
         color: red[700],
@@ -15,14 +24,3 @@ const useStyles = makeStyles(theme => ({
         fontStyle: 'italic',
     },
 }));
-
-export const FormError = props => {
-
-    const classes = useStyles();
-
-    return (
-        <Typography data-testid='FormErrorId' component='p' className={classes.formError}>
-            {props.errorMessage}
-        </Typography>
-    );
-}

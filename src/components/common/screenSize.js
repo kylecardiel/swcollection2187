@@ -13,6 +13,6 @@ export const ScreenSize = setScreenSizes => {
     setScreenSizes(screenSize);
     
     return ( 
-        <>null</> 
+        <>{null}</> 
     );
 };

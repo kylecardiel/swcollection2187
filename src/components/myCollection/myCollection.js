@@ -6,7 +6,7 @@ import { PAGES } from 'shared/constants/stringConstantsSelectors';
 
 const { HOME } = ROUTE_CONSTANTS;
 
-export const MyCollection = props => {
+export const MyCollection = () => {
 
     const links = [
         {

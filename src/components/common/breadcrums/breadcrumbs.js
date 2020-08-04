@@ -7,21 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Color } from 'shared/styles/color';
 
-const useStyles = makeStyles(theme => ({
-    container: {
-        backgroundColor: 'black',
-        width: '100.25%',
-    },
-    breadcrumb: {
-        marginLeft: theme.spacing(3),
-        padding: theme.spacing(.5),
-        paddingLeft: theme.spacing(4),
-    },
-    text: {
-        color: Color.primary('yellow')
-    }
-}));
-
 export const CommonBreadCrumbs = props => {
 
     const classes = useStyles();
@@ -44,3 +29,18 @@ export const CommonBreadCrumbs = props => {
         </Grid>
     );
 };
+
+const useStyles = makeStyles(theme => ({
+    container: {
+        backgroundColor: 'black',
+        width: '100.25%',
+    },
+    breadcrumb: {
+        marginLeft: theme.spacing(3),
+        padding: theme.spacing(.5),
+        paddingLeft: theme.spacing(4),
+    },
+    text: {
+        color: Color.primary('yellow')
+    }
+}));

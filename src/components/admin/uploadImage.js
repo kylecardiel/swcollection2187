@@ -38,7 +38,7 @@ export const UploadImage = ({ assortment }) => {
 
     return (
         <React.Fragment>
-            <input type='file' onChange={handleChange}/>``
+            <input type='file' onChange={handleChange}/>
             <button onClick={handleUpload}>Upload</button>
             <ProgressBar percentage={percentage}/>
             <div>File available at:</div>
