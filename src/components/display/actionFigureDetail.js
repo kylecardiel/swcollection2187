@@ -15,7 +15,13 @@ import { Color } from 'shared/styles/color';
 
 const ADD = 'ADD';
 
-export const ActionFigureDetails = ({ catalog, figure, similarFigures, multipackFigures }) => {
+export const ActionFigureDetails = props => {
+    console.log(props)
+    const { catalog, similarFigures = [], multipackFigures = []} = props;
+
+    const { figure } = props.location.state;
+    console.log(figure)
+
     const { id } = useContext(UserConsumer);
 
     const [newInBoxQty, setNewInBoxQty] = useState(figure.newInBoxQty);

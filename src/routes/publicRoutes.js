@@ -3,6 +3,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { Homepage } from 'components/homePage/homePage';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { BlackSeries } from 'components/blackSeries/blackSeries';
+import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
@@ -19,6 +20,10 @@ export const PublicRoutes = () => {
                     <Route
                         path={BLACK_SERIES}
                         component={BlackSeries}
+                    />
+                    <Route
+                        path={`${BLACK_SERIES}/:id`} 
+                        component={ActionFigureDetails}
                     />
                 </Switch>
             </Router>
