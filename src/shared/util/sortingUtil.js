@@ -1,9 +1,5 @@
 export class SortingUtils {
 
-    static TimesheetEntriesByDateDesc = entries => {
-        return SortingUtils.sortDataByAttributeDesc(entries, 'date');
-    }
-
     static sortDataByAttributeDesc = (data, attribute) => {
         return data.sort((a, b) => (a[attribute] < b[attribute]) ? 1 : -1);
     }

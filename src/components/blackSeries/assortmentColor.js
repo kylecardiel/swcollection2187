@@ -3,31 +3,67 @@ import { Color } from 'shared/styles/color';
 
 const { BS_ORANGE, BS_BLUE, BS_RED, BS_DELUX, BS_40TH, BS_ARCHIVE, BS_VEHICLE, BS_CENTERPIECE, BS_GAMING_GREATS, BS_RED_EXCLUSIVES } = ASSORTMENT;
 
-export const assortmentColor = assortment => {
+export const assortmentAttributes = assortment => {
     switch (assortment) {
         case BS_ORANGE:
-            return Color.primary('orange');
+            return { 
+                color: Color.primary('orange'),
+                sortingAttribute: 'seriesNumber',
+            };
         case BS_BLUE:
-            return Color.primary('blue');
+            return { 
+                color: Color.primary('blue'),
+                sortingAttribute: 'seriesNumber',
+            };
         case BS_RED:
-            return Color.primary('red');
+            return { 
+                color: Color.primary('red'),
+                sortingAttribute: 'seriesNumber',
+            };
         case BS_DELUX:
-            return Color.primary('red');
+            return { 
+                color: Color.primary('red'),
+                sortingAttribute: 'seriesNumber',
+            };
         case BS_RED_EXCLUSIVES:
-            return Color.primary('red');
+            return { 
+                color: Color.primary('red'),
+                sortingAttribute: 'name',
+            };
         case BS_40TH:
-            return Color.primary('grey');
+            return { 
+                color: Color.primary('grey'),
+                sortingAttribute: 'sourceMaterial',
+            };
         case BS_ARCHIVE:
-            return Color.primary('lightGrey');
+            return { 
+                color: Color.primary('lightGrey'),
+                sortingAttribute: 'wave',
+            };
         case BS_VEHICLE:
-            return Color.primary('red');
+            return { 
+                color: Color.primary('red'),
+                sortingAttribute: 'seriesNumber',
+            };
         case BS_CENTERPIECE:
-            return Color.primary('yellow');
+            return { 
+                color: Color.primary('yellow'),
+                sortingAttribute: 'seriesNumber',
+            };
         case BS_GAMING_GREATS:
-            return Color.primary('purple');
+            return { 
+                color: Color.primary('purple'),
+                sortingAttribute: 'name',
+            };
         case 'Convention Exclusive':
-            return Color.primary('green');
+            return { 
+                color: Color.primary('green'),
+                sortingAttribute: 'name',
+            };
         default:
-            return Color.primary('white');
+            return { 
+                color: Color.primary('white'),
+                sortingAttribute: 'seriesNumber',
+            };
     };
 };

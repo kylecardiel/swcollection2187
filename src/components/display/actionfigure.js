@@ -14,6 +14,7 @@ import { UserConsumer } from 'components/auth/authContext';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { ROLES } from 'shared/constants/roleConstants';
+import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 
 export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => {
     const classes = useStyles({ height: 125 });
@@ -77,7 +78,11 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                     />
                     <CardMedia
                         style={{ paddingTop: '60%', height: '250px' }}
-                        image={newBoxImage ? record.newImageUrl : record.looseImageUrl}
+                        image={
+                        newBoxImage 
+                            ? (record.newImageUrl ? record.newImageUrl : IMAGE_PATHS.FILL_MURRAY)
+                            : (record.looseImageUrl ? record.looseImageUrl: IMAGE_PATHS.FILL_MURRAY)
+                        }
                         title={record.name}
                         src={record.name}
                     />

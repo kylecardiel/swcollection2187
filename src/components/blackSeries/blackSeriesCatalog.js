@@ -24,7 +24,7 @@ import Typography from '@material-ui/core/Typography';
 import { formatFormData } from 'components/common/form/formatFormData';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { FormFilter } from 'components/common/form/formFilter';
-import { assortmentColor } from 'components/blackSeries/assortmentColor';
+import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -36,7 +36,7 @@ export const BlackSeriesCatalog = props => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = figure => {
         setViewActionFigureDetail(figure);
-        setViewSimilarActionFigures(catalogList.filter(el => el.name === figure.name && el.id !== figure.id));
+        setViewSimilarActionFigures(SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year'));
         setViewMultiPackActionFigures(catalogList.filter(el => el.multipack === figure.multipack && el.id !== figure.id))
         setVewFilters(false);
         setIsModalOpen(true);
@@ -139,9 +139,10 @@ export const BlackSeriesCatalog = props => {
     const displayList = massageList();
 
     const generateAssortmentSection = assortment => {
-        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === assortment), "seriesNumber")
+        const assortAttributes = assortmentAttributes(assortment);
+        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === assortment), assortAttributes.sortingAttribute)
         if (records.length > 0) {
-            const backgroundColor = assortmentColor(assortment);
+            const backgroundColor = assortAttributes.color;
             return <>
                 {showAssortmentHeaders && <AssortmentHeader key={assortment} text={assortment} backgroundColor={backgroundColor} />}
                 <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} onClickCard={openModal} />

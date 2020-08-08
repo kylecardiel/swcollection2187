@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import Container from '@material-ui/core/Container';
-import { assortmentColor } from 'components/blackSeries/assortmentColor';
+import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
 import { UserConsumer } from 'components/auth/authContext';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
@@ -27,7 +27,7 @@ export const ActionFigureDetails = ({ catalog, figure, similarFigures, multipack
         setNewImage(!newImage);
     };
 
-    const seriesColor = assortmentColor(figure.assortment);
+    const seriesColor = assortmentAttributes(figure.assortment).color;
     const classes = useStyles({ seriesColor: seriesColor, catalog: catalog });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
@@ -132,10 +132,10 @@ export const ActionFigureDetails = ({ catalog, figure, similarFigures, multipack
             <FormHeaderSection text={headerText} textColor={'white'} />
             <Container maxWidth='sm' className={classes.container}>
                 <Grid container spacing={2} className={classes.gridContainer}>
-                    <Grid xs={4} item className={classes.verticalContainer}>
+                    <Grid xs={5} item className={classes.verticalContainer}>
                         {imageContainer}
                     </Grid>
-                    <Grid xs={8} item className={classes.verticalContainer}>
+                    <Grid xs={7} item className={classes.verticalContainer}>
                         <Grid container spacing={2} className={classes.detailsContainer}>
                             {releaseDetailsContainer}
                             {/* <Grid xs={12} md={6} item className={classes.detailComponent}>
@@ -161,8 +161,8 @@ export const ActionFigureDetails = ({ catalog, figure, similarFigures, multipack
                                             <Typography variant='body2' gutterBottom className={classes.similarFigures}>
                                                 {`${f.name} `}
                                                 {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
-                                                {`from ${f.assortment} assortment `}
-                                                {f.version && `${f.version}`}
+                                                {`from [${f.assortment} assortment] `}
+                                                {f.version && `[${f.version}]`}
                                             </Typography>
                                         ))}
                                     </div>

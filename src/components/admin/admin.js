@@ -201,7 +201,7 @@ export const Admin = () => {
                             <UploadImage assortment={uploadAssortment} />
                         </Grid>
                         <Grid item xs={6} className={classes.formDataContainer}>
-                            {helperData.assortment &&
+                            {helperData.assortment && displayFormDataInput && 
                                 <FormControl variant='outlined' className={classes.form}>
                                     <InputLabel ref={inputLabel} id={`${'assortment'}-label`}>{'assortment'}</InputLabel>
                                     <Select
