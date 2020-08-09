@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const FormFilter = ({ menuList, onChange, label, inputLabel, labelWidth }) => {
+export const FormFilter = ({ menuList, onChange, label, inputLabel, labelWidth, value }) => {
 
     const classes = useStyles();
     const menuItemsList = list => {
@@ -24,6 +24,7 @@ export const FormFilter = ({ menuList, onChange, label, inputLabel, labelWidth }
                 labelWidth={labelWidth}
                 defaultValue={''}
                 label={label}
+                value={value}
             >
                 <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>
                 {menuItemsList(menuList)}

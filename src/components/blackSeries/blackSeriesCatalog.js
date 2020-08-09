@@ -53,22 +53,22 @@ export const BlackSeriesCatalog = props => {
     const [viewFilters, setVewFilters] = useState(false);
     const handleChange = () => setVewFilters(!viewFilters);
 
-    const [filterBySourceMaterial, setFilterBySourceMaterial] = useState();
+    const [filterBySourceMaterial, setFilterBySourceMaterial] = useState('');
     const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
 
-    const [filterByCharacter, setFilterByCharacter] = useState();
+    const [filterByCharacter, setFilterByCharacter] = useState('');
     const handleCharacterChange = e => setFilterByCharacter(e.target.value);
 
-    const [filterByInputName, setFilterByInputName] = useState();
+    const [filterByInputName, setFilterByInputName] = useState('');
     const handleInputNameChange = e => setFilterByInputName(e.target.value);
 
-    const [filterByGroup, setFilterByGroup] = useState();
+    const [filterByGroup, setFilterByGroup] = useState('');
     const handleGroupChange = e => setFilterByGroup(e.target.value);
 
-    const [filterByVersion, setFilterByVersion] = useState();
+    const [filterByVersion, setFilterByVersion] = useState('');
     const handleVersionChange = e => setFilterByVersion(e.target.value);
 
-    const [filterByAssortment, setFilterByAssortment] = useState();
+    const [filterByAssortment, setFilterByAssortment] = useState('');
     const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
 
     const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(catalog);
@@ -175,6 +175,7 @@ export const BlackSeriesCatalog = props => {
                 label={'Source Material'}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
+                value={filterBySourceMaterial}
             />
             characterFilterComp = <FormFilter
                 menuList={characters.values}
@@ -182,6 +183,7 @@ export const BlackSeriesCatalog = props => {
                 label={'Characters'}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
+                value={filterByCharacter}
             />
             groupFilterComp = <FormFilter
                 menuList={groups.values}
@@ -189,6 +191,7 @@ export const BlackSeriesCatalog = props => {
                 label={'Groups'}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
+                value={filterByGroup}
             />
             versionFilterComp = <FormFilter
                 menuList={version.values}
@@ -196,6 +199,7 @@ export const BlackSeriesCatalog = props => {
                 label={'Versions'}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
+                value={filterByVersion}
             />
             assortmentFilterComp = <FormFilter
                 menuList={assortment.values}
@@ -203,6 +207,7 @@ export const BlackSeriesCatalog = props => {
                 label={'Assortment'}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
+                value={filterByAssortment}
             />
         };
     };
