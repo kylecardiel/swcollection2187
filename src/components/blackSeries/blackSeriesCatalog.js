@@ -9,13 +9,13 @@ import { UserConsumer } from 'components/auth/authContext';
 import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { ActionFigure } from 'components/display/actionfigure';
-import { ActionFigureDetails } from 'components/display/actionFigureDetail';
+// import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
 import { CatalogApi, UserApi, HelperDataApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
-import { modalStyles } from 'shared/styles/modalStyles';
+// import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { TableStats } from 'components/blackSeries/tableStats';
@@ -33,22 +33,22 @@ export const BlackSeriesCatalog = props => {
     const classes = useStyles();
     const { catalogList, setCatalogData, userList, setUserData, catalog } = props;
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = figure => {
-        setViewActionFigureDetail(figure);
-        setViewSimilarActionFigures(SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year'));
-        setViewMultiPackActionFigures(catalogList.filter(el => el.multipack === figure.multipack && el.id !== figure.id))
-        setVewFilters(false);
-        setIsModalOpen(true);
-    };
-    const closeModal = () => setIsModalOpen(false);
-    const modalSize = { height: '90%', width: '95%' };
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const openModal = figure => {
+        // setViewActionFigureDetail(figure);
+        // setViewSimilarActionFigures(SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year'));
+        // setViewMultiPackActionFigures(catalogList.filter(el => el.multipack === figure.multipack && el.id !== figure.id))
+    //     setVewFilters(false);
+    //     setIsModalOpen(true);
+    // };
+    // const closeModal = () => setIsModalOpen(false);
+    // const modalSize = { height: '90%', width: '95%' };
 
     const [helperData, setHelperData] = useState({});
 
-    const [viewActionFigureDetail, setViewActionFigureDetail] = useState(false);
-    const [viewSimilarActionFigures, setViewSimilarActionFigures] = useState([]);
-    const [viewMultiPackActionFigures, setViewMultiPackActionFigures] = useState([]);
+    // const [viewActionFigureDetail, setViewActionFigureDetail] = useState(false);
+    // const [viewSimilarActionFigures, setViewSimilarActionFigures] = useState([]);
+    // const [viewMultiPackActionFigures, setViewMultiPackActionFigures] = useState([]);
 
     const [viewFilters, setVewFilters] = useState(false);
     const handleChange = () => setVewFilters(!viewFilters);
@@ -145,7 +145,8 @@ export const BlackSeriesCatalog = props => {
             const backgroundColor = assortAttributes.color;
             return <>
                 {showAssortmentHeaders && <AssortmentHeader key={assortment} text={assortment} backgroundColor={backgroundColor} />}
-                <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} onClickCard={openModal} />
+                <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} catalogList={catalogList}/> 
+                {/* onClickCard={openModal} */}
             </>
         }
         return null;
@@ -162,7 +163,8 @@ export const BlackSeriesCatalog = props => {
         catalog={catalog}
         records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
         newBoxImage={newBoxImage}
-        onClickCard={openModal}
+        catalogList={catalogList}
+        // onClickCard={openModal}
     />;
 
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
@@ -217,7 +219,7 @@ export const BlackSeriesCatalog = props => {
 
     return (
         <React.Fragment>
-            <Modal
+            {/* <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}
                 style={modalStyles(modalSize)}
@@ -228,7 +230,7 @@ export const BlackSeriesCatalog = props => {
                     similarFigures={viewSimilarActionFigures}
                     multipackFigures={viewMultiPackActionFigures}
                 />
-            </Modal>
+            </Modal> */}
             <Container component='main' maxWidth='lg'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
@@ -237,7 +239,7 @@ export const BlackSeriesCatalog = props => {
                                 {`Search: `}
                             </Typography>
                         </Grid>
-                        {!isModalOpen &&
+                        {/* {!isModalOpen && */}
                             <Grid item xs={3} className={classes.alwaysDisplayed}>
                                 <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
                                     <TextField
@@ -251,7 +253,7 @@ export const BlackSeriesCatalog = props => {
                                     />
                                 </Grid>
                             </Grid>
-                        }
+                        {/* } */}
                         <Grid item xs={8} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={viewFilters ? 'Hide Filters' : 'Show Filters'}

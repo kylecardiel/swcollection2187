@@ -15,8 +15,9 @@ import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { ROLES } from 'shared/constants/roleConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
+import { Link, useRouteMatch } from 'react-router-dom';
 
-export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => {
+export const ActionFigure = ({ catalog, records, newBoxImage, catalogList }) => {
     const classes = useStyles({ height: 125 });
     const { loggedIn, id, email } = useContext(UserConsumer);
 
@@ -66,9 +67,21 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
         </Card>;
     };
 
+    let { url } = useRouteMatch();
+    
     const actionFigureCard = records && records.map(record =>
         <Grid item xs={12} md={2} key={record.id}>
-            <div className={classes.fullCard} onClick={() => onClickCard(record)}>
+            <Link
+                to={{
+                    pathname: `${url}/${record.id}`,
+                    state: { 
+                        figure: record,
+                        catalog: catalog,
+                        catalogList: catalogList,
+                    }
+                }}
+                style={{ textDecoration: 'none' }}
+            >
                 <Card className={classes.card} >
                     <DisplayNameSection
                         name={record.name}
@@ -79,9 +92,9 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                     <CardMedia
                         style={{ paddingTop: '60%', height: '250px' }}
                         image={
-                        newBoxImage 
-                            ? (record.newImageUrl ? record.newImageUrl : IMAGE_PATHS.FILL_MURRAY)
-                            : (record.looseImageUrl ? record.looseImageUrl: IMAGE_PATHS.FILL_MURRAY)
+                            newBoxImage
+                                ? (record.newImageUrl ? record.newImageUrl : IMAGE_PATHS.FILL_MURRAY)
+                                : (record.looseImageUrl ? record.looseImageUrl : IMAGE_PATHS.FILL_MURRAY)
                         }
                         title={record.name}
                         src={record.name}
@@ -96,7 +109,7 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                         {record.version && record.version !== 'Regular'
                             ? generateBottomText('Version', ` ${record.version}`)
                             : null}
-                        {record.multipack && generateBottomText('Multi', ` [${record.multipack}]`)}  
+                        {record.multipack && generateBottomText('Multi', ` [${record.multipack}]`)}
                         {record.exclusiveRetailer && generateBottomText('Excl', ` ${record.exclusiveRetailer}`)}
                         {!catalog
                             && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
@@ -106,7 +119,8 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                         {authEmail && catalog && generateBottomText(record.id)}
                     </CardContent>
                 </Card>
-            </div>
+            </Link>
+            {/* </div> */}
             {loggedIn && collectionButton(record)}
         </Grid>
     );
