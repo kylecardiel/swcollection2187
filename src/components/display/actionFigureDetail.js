@@ -12,17 +12,20 @@ import { Quantity } from 'components/display/quantity';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import { Color } from 'shared/styles/color';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { PAGES } from 'shared/constants/stringConstantsSelectors';
+import { SortingUtils } from 'shared/util/sortingUtil';
 
 const ADD = 'ADD';
+const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
-    console.log(props)
-    const { catalog, similarFigures = [], multipackFigures = []} = props;
-
-    const { figure } = props.location.state;
-    console.log(figure)
-
+    const { figure, catalog, catalogList } = props;
     const { id } = useContext(UserConsumer);
+
+    const similarFigures = SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year')
+    const multipackFigures = catalogList.filter(el => el.multipack === figure.multipack && el.id !== figure.id);
 
     const [newInBoxQty, setNewInBoxQty] = useState(figure.newInBoxQty);
     const [looseCompleteQty, setLooseCompleteQty] = useState(figure.looseCompleteQty);
@@ -74,6 +77,21 @@ export const ActionFigureDetails = props => {
         UserApi.update(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId, updateCollectible);
     };
 
+    const links = [
+        {
+            route: HOME,
+            title: PAGES.HOME_PAGE.TITLE,
+        },
+        {
+            route: BLACK_SERIES,
+            title: PAGES.BLACK_SERIES_CATALOG.TITLE,
+        },
+    ];
+    
+    const currentTitleBreadCrumbs = figure.additionalNameDetails
+        ? `${figure.name} (${figure.additionalNameDetails})`
+        : `${figure.name}`;
+
     const largeImage = newImage ? figure.newImageUrl : figure.looseImageUrl;
 
     const imageContainer = <Grid container spacing={2} className={classes.detailsContainer}>
@@ -115,13 +133,13 @@ export const ActionFigureDetails = props => {
             <span className={classes.textStyle}>Year:</span>
             {` ${figure.year}`}
         </Typography>
-        {figure.multipack && 
+        {figure.multipack &&
             <Typography variant='body2' gutterBottom className={classes.detailName}>
                 <span className={classes.textStyle}>Part of Multipack:</span>
                 {` ${figure.multipack}`}
             </Typography>
         }
-        {figure.exclusiveRetailer && 
+        {figure.exclusiveRetailer &&
             <Typography variant='body2' gutterBottom className={classes.detailName}>
                 <span className={classes.textStyle}>Exclusive Retailer:</span>
                 {` ${figure.exclusiveRetailer}`}
@@ -133,120 +151,126 @@ export const ActionFigureDetails = props => {
         </Typography>
     </Grid>;
 
+
+
     return (
-        <div className={classes.root}>
-            <FormHeaderSection text={headerText} textColor={'white'} />
-            <Container maxWidth='sm' className={classes.container}>
-                <Grid container spacing={2} className={classes.gridContainer}>
-                    <Grid xs={5} item className={classes.verticalContainer}>
-                        {imageContainer}
-                    </Grid>
-                    <Grid xs={7} item className={classes.verticalContainer}>
-                        <Grid container spacing={2} className={classes.detailsContainer}>
-                            {releaseDetailsContainer}
-                            {/* <Grid xs={12} md={6} item className={classes.detailComponent}>
+        <React.Fragment>
+            <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
+            <div className={classes.root}>
+                <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'}/>
+                <Container maxWidth='sm' className={classes.container}>
+                    <Grid container spacing={2} className={classes.gridContainer}>
+                        <Grid xs={5} item className={classes.verticalContainer}>
+                            {imageContainer}
+                        </Grid>
+                        <Grid xs={7} item className={classes.verticalContainer}>
+                            <Grid container spacing={2} className={classes.detailsContainer}>
+                                {releaseDetailsContainer}
+                                {/* <Grid xs={12} md={6} item className={classes.detailComponent}>
                                 Temp holding spot
                             </Grid> */}
-                            <Grid xs={12} md={2} item className={classes.seriesNumberComp}>
-                                <Typography variant='h3' className={classes.seriesNumberText} >
-                                    {figure.seriesNumber}
-                                </Typography>
-                            </Grid>
-                            <Grid xs={12} md={12} item className={classes.detailComponent}>
-                                <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
-                                    <span className={classes.textStyle}>Character Details:</span>
-                                </Typography>
-                                <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                    <span className={classes.textStyle}>Source/First Apperance:</span>
-                                    {` ${figure.sourceMaterial}`}
-                                </Typography>
-                                <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                    <span className={classes.textStyle}>{`More ${figure.name} Figures: (${similarFigures.length})`}</span>
-                                    <div className={classes.similarFiguresContainer}>
-                                        {similarFigures.length > 0 && similarFigures.map(f => (
-                                            <Typography variant='body2' gutterBottom className={classes.similarFigures}>
-                                                {`${f.name} `}
-                                                {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
-                                                {`from [${f.assortment} assortment] `}
-                                                {f.version && `[${f.version}]`}
-                                            </Typography>
-                                        ))}
-                                    </div>
-                                </Typography>
-                                {figure.multipack &&
+                                <Grid xs={12} md={2} item className={classes.seriesNumberComp}>
+                                    <Typography variant='h3' className={classes.seriesNumberText} >
+                                        {figure.seriesNumber}
+                                    </Typography>
+                                </Grid>
+                                <Grid xs={12} md={12} item className={classes.detailComponent}>
+                                    <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
+                                        <span className={classes.textStyle}>Character Details:</span>
+                                    </Typography>
                                     <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                        <span className={classes.textStyle}>{`Multipack Figures: (${multipackFigures.length})`}</span>
+                                        <span className={classes.textStyle}>Source/First Apperance:</span>
+                                        {` ${figure.sourceMaterial}`}
+                                    </Typography>
+                                    <Typography variant='body2' gutterBottom className={classes.detailName}>
+                                        <span className={classes.textStyle}>{`More ${figure.name} Figures: (${similarFigures.length})`}</span>
                                         <div className={classes.similarFiguresContainer}>
-                                            {multipackFigures.map(f => (
+                                            {similarFigures.length > 0 && similarFigures.map(f => (
                                                 <Typography variant='body2' gutterBottom className={classes.similarFigures}>
                                                     {`${f.name} `}
                                                     {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
-                                                    {`[${f.multipack}]`}
+                                                    {`from [${f.assortment} assortment] `}
+                                                    {f.version && `[${f.version}]`}
                                                 </Typography>
                                             ))}
                                         </div>
                                     </Typography>
-                                }
-                            </Grid>
-                            {!catalog &&
-                                <>
-                                    <Grid xs={12} md={10} item className={classes.detailComponent}>
-                                        <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
-                                            <span className={classes.textStyle}>Collector Details:</span>
+                                    {figure.multipack &&
+                                        <Typography variant='body2' gutterBottom className={classes.detailName}>
+                                            <span className={classes.textStyle}>{`Multipack Figures: (${multipackFigures.length})`}</span>
+                                            <div className={classes.similarFiguresContainer}>
+                                                {multipackFigures.map(f => (
+                                                    <Typography variant='body2' gutterBottom className={classes.similarFigures}>
+                                                        {`${f.name} `}
+                                                        {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
+                                                        {`[${f.multipack}]`}
+                                                    </Typography>
+                                                ))}
+                                            </div>
                                         </Typography>
-                                        {/* <Typography variant='body2' gutterBottom className={classes.detailName}>
+                                    }
+                                </Grid>
+                                {!catalog &&
+                                    <>
+                                        <Grid xs={12} md={10} item className={classes.detailComponent}>
+                                            <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
+                                                <span className={classes.textStyle}>Collector Details:</span>
+                                            </Typography>
+                                            {/* <Typography variant='body2' gutterBottom className={classes.detailName}>
                                             <span className={classes.textStyle}>Buy Price:</span>
                                             {purchasePrice}
                                         </Typography> */}
-                                        <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                            <span className={classes.textStyle}>Quantity Owned:</span>
-                                        </Typography>
-                                        <Typography variant='body2' gutterBottom className={classes.quantity}>
-                                            <Quantity
-                                                title={'New in Box:'}
-                                                qty={newInBoxQty}
-                                                qtyType={'newInBoxQty'}
-                                                changeQty={changeQty}
-                                            />
-                                        </Typography>
-                                        <Typography variant='body2' gutterBottom className={classes.quantity}>
-                                            <Quantity
-                                                title={'Open (complete):'}
-                                                qty={looseCompleteQty}
-                                                qtyType={'looseCompleteQty'}
-                                                changeQty={changeQty}
-                                            />
-                                        </Typography>
-                                        <Typography variant='body2' gutterBottom className={classes.quantity}>
-                                            <Quantity
-                                                title={'Open (incomplete):'}
-                                                qty={looseIncompleteQty}
-                                                qtyType={'looseIncompleteQty'}
-                                                changeQty={changeQty}
-                                            />
-                                        </Typography>
-                                    </Grid>
-                                    <Grid xs={12} md={2} item className={classes.totalQuanity}>
-                                        <Typography variant='subtitle2' className={classes.seriesNumberText} >
-                                            Total Owned
+                                            <Typography variant='body2' gutterBottom className={classes.detailName}>
+                                                <span className={classes.textStyle}>Quantity Owned:</span>
+                                            </Typography>
+                                            <Typography variant='body2' gutterBottom className={classes.quantity}>
+                                                <Quantity
+                                                    title={'New in Box:'}
+                                                    qty={newInBoxQty}
+                                                    qtyType={'newInBoxQty'}
+                                                    changeQty={changeQty}
+                                                />
+                                            </Typography>
+                                            <Typography variant='body2' gutterBottom className={classes.quantity}>
+                                                <Quantity
+                                                    title={'Open (complete):'}
+                                                    qty={looseCompleteQty}
+                                                    qtyType={'looseCompleteQty'}
+                                                    changeQty={changeQty}
+                                                />
+                                            </Typography>
+                                            <Typography variant='body2' gutterBottom className={classes.quantity}>
+                                                <Quantity
+                                                    title={'Open (incomplete):'}
+                                                    qty={looseIncompleteQty}
+                                                    qtyType={'looseIncompleteQty'}
+                                                    changeQty={changeQty}
+                                                />
+                                            </Typography>
+                                        </Grid>
+                                        <Grid xs={12} md={2} item className={classes.totalQuanity}>
+                                            <Typography variant='subtitle2' className={classes.seriesNumberText} >
+                                                Total Owned
                                 </Typography>
-                                        <Typography variant='h3' className={classes.seriesNumberText} >
-                                            {totalOwned}
-                                        </Typography>
-                                    </Grid>
-                                </>
-                            }
+                                            <Typography variant='h3' className={classes.seriesNumberText} >
+                                                {totalOwned}
+                                            </Typography>
+                                        </Grid>
+                                    </>
+                                }
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Container>
-        </div>
+                </Container>
+            </div>
+        </React.Fragment>
     );
 }
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        margin: theme.spacing(2),
 
     },
     container: {

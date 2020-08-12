@@ -15,13 +15,9 @@ import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { ROLES } from 'shared/constants/roleConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
+import { Link, useRouteMatch } from 'react-router-dom';
 
-import { Link, useRouteMatch,  Switch,
-    Route, } from 'react-router-dom';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { ActionFigureDetails } from 'components/display/actionFigureDetail';
-
-export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => {
+export const ActionFigure = ({ catalog, records, newBoxImage, catalogList }) => {
     const classes = useStyles({ height: 125 });
     const { loggedIn, id, email } = useContext(UserConsumer);
 
@@ -75,12 +71,16 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
     
     const actionFigureCard = records && records.map(record =>
         <Grid item xs={12} md={2} key={record.id}>
-            {/* <div className={classes.fullCard} onClick={() => onClickCard(record)}> */}
             <Link
                 to={{
                     pathname: `${url}/${record.id}`,
-                    state: { figure: record }
+                    state: { 
+                        figure: record,
+                        catalog: catalog,
+                        catalogList: catalogList,
+                    }
                 }}
+                style={{ textDecoration: 'none' }}
             >
                 <Card className={classes.card} >
                     <DisplayNameSection
@@ -135,12 +135,6 @@ export const ActionFigure = ({ catalog, records, newBoxImage, onClickCard }) => 
                     </Grid>
                 </Container>
             </Grid>
-            {/* <Switch>
-                <Route exact path={path}>
-                    <h3>Please select a topic.</h3>
-                </Route>
-                <Route path={`${path}/:id`} component={ActionFigureDetails} />
-            </Switch> */}
         </React.Fragment>
     );
 };

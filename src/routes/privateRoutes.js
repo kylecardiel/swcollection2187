@@ -11,8 +11,9 @@ import { MyCollection } from 'components/myCollection/myCollection';
 import { ROLES } from 'shared/constants/roleConstants';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
+import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 
-const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, MY_COLLECTION, ADMIN } = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, MY_COLLECTION, ADMIN, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = () => {
     const { loggedIn, email } = useContext(UserConsumer);
@@ -20,42 +21,50 @@ export const PrivateRoutes = () => {
         <React.Fragment>
             <Router>
                 <Header title={HEADER_TITLE} userLoggedIn={loggedIn} />
-                <Route exact path='/' render={ () => <Redirect to={HOME} /> } />
+                <Route exact path='/' render={() => <Redirect to={HOME} />} />
                 <Switch>
                     <ProtectedRoute
-                        path={LOGIN} 
+                        path={LOGIN}
                         redirectPath={HOME}
                         access={true}
                         userLoggedIn={!loggedIn}
                         component={LogIn}
                     />
                     <ProtectedRoute
-                        path={FORGOT_PASSWORD} 
+                        path={FORGOT_PASSWORD}
                         redirectPath={HOME}
                         access={true}
                         userLoggedIn={!loggedIn}
                         component={ForgotPassword}
                     />
                     <ProtectedRoute
-                        path={SIGNUP} 
+                        path={SIGNUP}
                         redirectPath={HOME}
                         access={true}
                         userLoggedIn={!loggedIn}
                         component={SignUp}
                     />
                     <ProtectedRoute
-                        path={ADMIN} 
+                        path={ADMIN}
                         redirectPath={HOME}
                         access={email === ROLES.EMAIL}
                         userLoggedIn={loggedIn}
                         component={Admin}
                     />
                     <ProtectedRoute
-                        path={MY_COLLECTION} 
+                        path={MY_COLLECTION}
                         redirectPath={HOME}
                         access={true}
                         userLoggedIn={loggedIn}
                         component={MyCollection}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={`${MY_COLLECTION}/:id`}
+                        redirectPath={HOME}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={ActionFigureDetails}
                     />
                 </Switch>
             </Router>
