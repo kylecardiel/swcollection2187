@@ -13,7 +13,7 @@ import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 
-const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, MY_COLLECTION, ADMIN, BLACK_SERIES } = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, MY_COLLECTION, ADMIN } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = () => {
     const { loggedIn, email } = useContext(UserConsumer);
