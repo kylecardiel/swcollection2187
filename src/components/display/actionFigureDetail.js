@@ -44,37 +44,24 @@ export const ActionFigureDetails = props => {
 
     const changeQty = (specificQty, direction) => {
         let updateQty;
-        let updateCollectible = {};
-        updateCollectible[figure.ownedId] = {
-            catalogId: figure.id,
-            owned: true,
-            looseCompleteQty: looseCompleteQty,
-            looseIncompleteQty: looseIncompleteQty,
-            newInBoxQty: newInBoxQty,
-            purchasePrice: figure.purchasePrice,
-        };
-
         switch (specificQty) {
             case 'newInBoxQty':
                 updateQty = direction === ADD ? newInBoxQty + 1 : newInBoxQty - 1;
                 setNewInBoxQty(updateQty);
-                updateCollectible.newInBoxQty = updateQty;
                 break;
             case 'looseCompleteQty':
                 updateQty = direction === ADD ? looseCompleteQty + 1 : looseCompleteQty - 1;
                 setLooseCompleteQty(updateQty);
-                updateCollectible.looseCompleteQty = updateQty;
                 break;
             case 'looseIncompleteQty':
                 updateQty = direction === ADD ? looseIncompleteQty + 1 : looseIncompleteQty - 1;
                 setLooseIncompleteQty(updateQty);
-                updateCollectible.looseIncompleteQty = updateQty;
                 break;
             default:
                 break;
         };
 
-        UserApi.update(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId, updateCollectible);
+        UserApi.update(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId, {[specificQty]: updateQty});
     };
 
     const links = [
