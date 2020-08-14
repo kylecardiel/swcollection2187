@@ -7,13 +7,10 @@ import { LogIn } from 'components/auth/logIn';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { UserConsumer } from 'components/auth/authContext';
 import { Admin } from 'components/admin/admin';
-import { MyCollection } from 'components/myCollection/myCollection';
 import { ROLES } from 'shared/constants/roleConstants';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
-import { ActionFigureDetails } from 'components/display/actionFigureDetail';
-
-const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, MY_COLLECTION, ADMIN } = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = () => {
     const { loggedIn, email } = useContext(UserConsumer);
@@ -50,21 +47,6 @@ export const PrivateRoutes = () => {
                         access={email === ROLES.EMAIL}
                         userLoggedIn={loggedIn}
                         component={Admin}
-                    />
-                    <ProtectedRoute
-                        path={MY_COLLECTION}
-                        redirectPath={HOME}
-                        access={true}
-                        userLoggedIn={loggedIn}
-                        component={MyCollection}
-                    />
-                    <ProtectedRoute
-                        exact
-                        path={`${MY_COLLECTION}/:id`}
-                        redirectPath={HOME}
-                        access={true}
-                        userLoggedIn={loggedIn}
-                        component={ActionFigureDetails}
                     />
                 </Switch>
             </Router>

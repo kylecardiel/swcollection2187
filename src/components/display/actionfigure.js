@@ -17,7 +17,7 @@ import { ROLES } from 'shared/constants/roleConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-export const ActionFigure = ({ catalog, records, newBoxImage, catalogList }) => {
+export const ActionFigure = ({ records, newBoxImage, catalogList }) => {
     const classes = useStyles({ height: 125 });
     const { loggedIn, id, email } = useContext(UserConsumer);
 
@@ -76,7 +76,6 @@ export const ActionFigure = ({ catalog, records, newBoxImage, catalogList }) => 
                     pathname: `${url}/${record.id}`,
                     state: { 
                         figure: record,
-                        catalog: catalog,
                         catalogList: catalogList,
                     }
                 }}
@@ -111,12 +110,12 @@ export const ActionFigure = ({ catalog, records, newBoxImage, catalogList }) => 
                             : null}
                         {record.multipack && generateBottomText('Multi', ` [${record.multipack}]`)}
                         {record.exclusiveRetailer && generateBottomText('Excl', ` ${record.exclusiveRetailer}`)}
-                        {!catalog
+                        {record.owned
                             && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
-                        {!catalog
+                        {record.owned
                             && record.owned
                             && generateBottomText('Total Owned', ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
-                        {authEmail && catalog && generateBottomText(record.id)}
+                        {authEmail && generateBottomText(record.id)}
                     </CardContent>
                 </Card>
             </Link>

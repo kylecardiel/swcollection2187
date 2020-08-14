@@ -21,11 +21,11 @@ const ADD = 'ADD';
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
-    const { figure, catalog, catalogList } = props;
+    const { figure, catalogList } = props;
     const { id } = useContext(UserConsumer);
 
     const similarFigures = SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year')
-    const multipackFigures = catalogList.filter(el => el.multipack === figure.multipack && el.id !== figure.id);
+    const multipackFigures = catalogList.filter(el => el.multipack !== '' && el.multipack === figure.multipack && el.id !== figure.id);
 
     const [newInBoxQty, setNewInBoxQty] = useState(figure.newInBoxQty);
     const [looseCompleteQty, setLooseCompleteQty] = useState(figure.looseCompleteQty);
@@ -37,7 +37,7 @@ export const ActionFigureDetails = props => {
     };
 
     const seriesColor = assortmentAttributes(figure.assortment).color;
-    const classes = useStyles({ seriesColor: seriesColor, catalog: catalog });
+    const classes = useStyles({ seriesColor: seriesColor });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
     // const purchasePrice = figure.purchasePrice ? ` $${figure.purchasePrice}` : '';
@@ -210,7 +210,7 @@ export const ActionFigureDetails = props => {
                                         </Typography>
                                     }
                                 </Grid>
-                                {!catalog &&
+                                {figure.owned &&
                                     <>
                                         <Grid xs={12} md={10} item className={classes.detailComponent}>
                                             <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
@@ -335,7 +335,7 @@ const useStyles = makeStyles((theme) => ({
     },
     similarFiguresContainer: {
         marginLeft: theme.spacing(2),
-        maxHeight: props => props.catalog ? 250 : 100,
+        maxHeight: 100,
         overflow: 'scroll',
     },
     similarFigures: {

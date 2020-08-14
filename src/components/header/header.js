@@ -28,7 +28,6 @@ export const Header = ({ title }) => {
     const loginButton = <HeaderButton buttonLabel={LOGIN} route={ROUTE_CONSTANTS.LOGIN} />;
     const signUpButton = <HeaderButton buttonLabel={SIGN_UP} route={ROUTE_CONSTANTS.SIGNUP} />;
     const logoutButton = <HeaderButton buttonLabel={LOGOUT} onClick={logout} route={ROUTE_CONSTANTS.HOME} />;
-    const personalCollectionButton = <HeaderButton buttonLabel={'My Collection'} route={ROUTE_CONSTANTS.MY_COLLECTION} />;
 
     return (
         <AppBar position='static' className={classes.navBar} >
@@ -46,7 +45,7 @@ export const Header = ({ title }) => {
                         </Grid>
                         <Grid container item xs={3} spacing={1} className={classes.normalButton}>
                             {loggedIn
-                                ? <>{personalCollectionButton}{logoutButton}</>
+                                ? logoutButton
                                 : <>{loginButton}{signUpButton}</>
                             }
                         </Grid>

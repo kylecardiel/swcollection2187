@@ -9,13 +9,10 @@ import { UserConsumer } from 'components/auth/authContext';
 import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { ActionFigure } from 'components/display/actionfigure';
-// import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-// import Modal from 'react-modal';
 import { CatalogApi, UserApi, HelperDataApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
-// import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { TableStats } from 'components/blackSeries/tableStats';
@@ -29,9 +26,9 @@ import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
 export const BlackSeriesCatalog = props => {
-    const user = useContext(UserConsumer);
+    const { id, loggedIn } = useContext(UserConsumer);
     const classes = useStyles();
-    const { catalogList, setCatalogData, userList, setUserData, catalog } = props;
+    const { catalogList, setCatalogData, userList, setUserData } = props;
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
     // const openModal = figure => {
@@ -75,7 +72,7 @@ export const BlackSeriesCatalog = props => {
     const [filterByAssortment, setFilterByAssortment] = useState('');
     const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
 
-    const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(catalog);
+    const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(true);
     const handleAssortmentHeaderChange = () => setShowAssortmentHeaders(!showAssortmentHeaders);
 
     const [newBoxImage, setNewBoxImage] = useState(false);
@@ -104,8 +101,8 @@ export const BlackSeriesCatalog = props => {
             }
         });
 
-        if (user.loggedIn) {
-            const userRef = UserApi.read(user.id, `${ACTION_FIGURES.ALL}`);
+        if (loggedIn) {
+            const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
             userRef.on('value', snapshot => {
                 if (snapshot.val()) {
                     let records = snapshot.val()["BlackSeries6"];
@@ -126,14 +123,16 @@ export const BlackSeriesCatalog = props => {
             setLabelWidth(inputLabel.current.offsetWidth);
         };
 
-    }, [initialState, setCatalogData, setUserData, user.id, user.loggedIn, viewFilters]);
+    }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters]);
 
     const massageList = () => {
-        let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : [];
-        if (!catalog) mergedList = mergedList.filter(el => el.owned === true);
+        let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
         if (filterBySourceMaterial) mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
         if (filterByCharacter) mergedList = mergedList.filter(el => el.name === filterByCharacter);
-        if (filterByInputName) mergedList = mergedList.filter(el => el.name.toLowerCase().includes(filterByInputName.toLowerCase()));
+        if (filterByInputName) mergedList = mergedList.filter(el => {
+            return el.name.toLowerCase().includes(filterByInputName.toLowerCase()) 
+                    || el.additionalNameDetails.toLowerCase().includes(filterByInputName.toLowerCase());
+        });
         if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup)); 
         if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
         if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
@@ -149,7 +148,7 @@ export const BlackSeriesCatalog = props => {
             const backgroundColor = assortAttributes.color;
             return <>
                 {showAssortmentHeaders && <AssortmentHeader key={assortment} text={assortment} backgroundColor={backgroundColor} />}
-                <ActionFigure catalog={catalog} records={records} newBoxImage={newBoxImage} catalogList={catalogList}/> 
+                <ActionFigure records={records} newBoxImage={newBoxImage} catalogList={catalogList}/> 
                 {/* onClickCard={openModal} */}
             </>
         }
@@ -164,7 +163,6 @@ export const BlackSeriesCatalog = props => {
     </>;
 
     const allFigures = <ActionFigure
-        catalog={catalog}
         records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
         newBoxImage={newBoxImage}
         catalogList={catalogList}
