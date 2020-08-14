@@ -160,10 +160,10 @@ export const ActionFigureDetails = props => {
                 <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'}/>
                 <Container maxWidth='sm' className={classes.container}>
                     <Grid container spacing={2} className={classes.gridContainer}>
-                        <Grid xs={5} item className={classes.verticalContainer}>
+                        <Grid xs={12} md={5} item className={classes.verticalContainer}>
                             {imageContainer}
                         </Grid>
-                        <Grid xs={7} item className={classes.verticalContainer}>
+                        <Grid xs={12} md={7} item className={classes.verticalContainer}>
                             <Grid container spacing={2} className={classes.detailsContainer}>
                                 {releaseDetailsContainer}
                                 {/* <Grid xs={12} md={6} item className={classes.detailComponent}>

@@ -60,7 +60,11 @@ export const BlackSeriesCatalog = props => {
     const handleCharacterChange = e => setFilterByCharacter(e.target.value);
 
     const [filterByInputName, setFilterByInputName] = useState('');
-    const handleInputNameChange = e => setFilterByInputName(e.target.value);
+    const handleInputNameChange = e => {
+        const { value } = e.target;
+        setFilterByInputName(value);
+        value ? setShowAssortmentHeaders(false) : setShowAssortmentHeaders(true);
+    };
 
     const [filterByGroup, setFilterByGroup] = useState('');
     const handleGroupChange = e => setFilterByGroup(e.target.value);
@@ -120,7 +124,7 @@ export const BlackSeriesCatalog = props => {
 
         if (viewFilters) {
             setLabelWidth(inputLabel.current.offsetWidth);
-        }
+        };
 
     }, [initialState, setCatalogData, setUserData, user.id, user.loggedIn, viewFilters]);
 
@@ -172,6 +176,7 @@ export const BlackSeriesCatalog = props => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, sourceMaterial, groups, version } = helperData;
             sourceMaterialFilterComp = <FormFilter
+                key={'Source Material'}    
                 menuList={sourceMaterial.values}
                 onChange={handleSourceMaterialChange}
                 label={'Source Material'}
@@ -180,6 +185,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterBySourceMaterial}
             />
             characterFilterComp = <FormFilter
+                key={'Characters'}    
                 menuList={characters.values}
                 onChange={handleCharacterChange}
                 label={'Characters'}
@@ -188,6 +194,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterByCharacter}
             />
             groupFilterComp = <FormFilter
+                key={'Groups'}    
                 menuList={groups.values}
                 onChange={handleGroupChange}
                 label={'Groups'}
@@ -196,6 +203,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterByGroup}
             />
             versionFilterComp = <FormFilter
+                key={'Versions'}    
                 menuList={version.values}
                 onChange={handleVersionChange}
                 label={'Versions'}
@@ -204,6 +212,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterByVersion}
             />
             assortmentFilterComp = <FormFilter
+                key={'Assortment'}    
                 menuList={assortment.values}
                 onChange={handleAssortmentChange}
                 label={'Assortment'}
@@ -240,7 +249,7 @@ export const BlackSeriesCatalog = props => {
                             </Typography>
                         </Grid>
                         {/* {!isModalOpen && */}
-                            <Grid item xs={3} className={classes.alwaysDisplayed}>
+                            <Grid item xs={12} md={3} className={classes.alwaysDisplayed}>
                                 <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
                                     <TextField
                                         variant='outlined'
@@ -254,7 +263,7 @@ export const BlackSeriesCatalog = props => {
                                 </Grid>
                             </Grid>
                         {/* } */}
-                        <Grid item xs={8} className={classes.viewFilters}>
+                        <Grid item xs={12} md={8} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={viewFilters ? 'Hide Filters' : 'Show Filters'}
                                 icon={viewFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -264,19 +273,19 @@ export const BlackSeriesCatalog = props => {
                         </Grid>
                         {viewFilters &&
                             <React.Fragment>
-                                <Grid item xs={3}>{sourceMaterialFilterComp}</Grid>
-                                <Grid item xs={3}>{characterFilterComp}</Grid>
-                                <Grid item xs={3}>{groupFilterComp}</Grid>
-                                <Grid item xs={3}>{versionFilterComp}</Grid>
-                                <Grid item xs={3}>{assortmentFilterComp}</Grid>
-                                <Grid item xs={3} className={classes.formControl}>
+                                <Grid item xs={12} md={3}>{sourceMaterialFilterComp}</Grid>
+                                <Grid item xs={12} md={3}>{characterFilterComp}</Grid>
+                                <Grid item xs={12} md={3}>{groupFilterComp}</Grid>
+                                <Grid item xs={12} md={3}>{versionFilterComp}</Grid>
+                                <Grid item xs={12} md={3}>{assortmentFilterComp}</Grid>
+                                <Grid item xs={12} md={3} className={classes.formControl}>
                                     <ActionButton
                                         buttonLabel={showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers'}
                                         onClick={handleAssortmentHeaderChange}
                                         color={Color.primary('green')}
                                     />
                                 </Grid>
-                                <Grid item xs={3} className={classes.formControl}>
+                                <Grid item xs={12} md={3} className={classes.formControl}>
                                     <ActionButton
                                         buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
                                         icon={<SwapHorizIcon />}
@@ -300,8 +309,8 @@ export const BlackSeriesCatalog = props => {
                         }
                         {displayList.length > 0 &&
                             <>
-                                <Grid item xs={3} className={classes.tableStats}></Grid>
-                                <Grid item xs={6} className={classes.tableStats}>
+                                <Grid item xs={12} md={3}  className={classes.tableStats}></Grid>
+                                <Grid item xs={12} md={6} className={classes.tableStats}>
                                     <AssortmentHeader text={'Stats'} backgroundColor={Color.primary('darkYellow')} />
                                     <TableStats stats={stats} />
                                 </Grid>
