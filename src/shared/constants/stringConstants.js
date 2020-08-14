@@ -10,7 +10,7 @@ export const STRING_CONSTANTS = Object.freeze({
         AUTH: {
             LOGIN: 'Login',
             SIGN_UP: 'Sign Up',
-            LOG_IN: 'Log In',
+            LOG_IN: 'LogIn',
             FORGOT_PW: 'Forgot password?',
             NO_ACCOUNT: "Don't have an account? Sign Up",
             HAVE_ACCOUNT: 'Already have an account? Sign in',
@@ -24,7 +24,7 @@ export const STRING_CONSTANTS = Object.freeze({
             FIELD_LABELS: {
                 FIRST_NAME: 'First Name',
                 LAST_NAME: 'Last Name',
-                EMAIL: 'Email Address',
+                EMAIL: 'Email',
                 PASSWORD: 'Password',
                 CONFIRM_PASSWORD: 'Confrim Password',
                 REMEMBER_ME: 'Remember me',

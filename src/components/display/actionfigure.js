@@ -17,15 +17,15 @@ import { ROLES } from 'shared/constants/roleConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-export const ActionFigure = ({ records, newBoxImage, catalogList }) => {
-    const classes = useStyles({ height: 125 });
+export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders }) => {
+    const classes = useStyles();
     const { loggedIn, id, email } = useContext(UserConsumer);
 
     const authEmail = email === ROLES.EMAIL;
 
     const generateBottomText = (label, value) => {
         return <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext} >
-            <span className={classes.textStyle}>{`${label}`}</span>
+            <span className={classes.textStyle}>{`${label} `}</span>
             {value}
         </Typography>
     };
@@ -89,11 +89,11 @@ export const ActionFigure = ({ records, newBoxImage, catalogList }) => {
                         series={record.series}
                     />
                     <CardMedia
-                        style={{ paddingTop: '60%', height: '250px' }}
+                        style={{ paddingTop: '60%', height: 250 }}
                         image={
                             newBoxImage
-                                ? (record.newImageUrl ? record.newImageUrl : IMAGE_PATHS.FILL_MURRAY)
-                                : (record.looseImageUrl ? record.looseImageUrl : IMAGE_PATHS.FILL_MURRAY)
+                                ? (record.newImageUrl || IMAGE_PATHS.FILL_MURRAY)
+                                : (record.looseImageUrl || IMAGE_PATHS.FILL_MURRAY)
                         }
                         title={record.name}
                         src={record.name}
@@ -101,32 +101,26 @@ export const ActionFigure = ({ records, newBoxImage, catalogList }) => {
                 </Card>
                 <Card className={classes.bottomCard}>
                     <CardContent >
+                        {record.additionalNameDetails && generateBottomText('', `( ${record.additionalNameDetails} )`)}
                         {generateBottomText(record.sourceMaterial)}
-                        {record.additionalNameDetails
-                            && generateBottomText('Add Name', ` ${record.additionalNameDetails}`)}
-                        {generateBottomText('Assort.', ` ${record.assortment}`)}
-                        {record.version && record.version !== 'Regular'
-                            ? generateBottomText('Version', ` ${record.version}`)
-                            : null}
-                        {record.multipack && generateBottomText('Multi', ` [${record.multipack}]`)}
-                        {record.exclusiveRetailer && generateBottomText('Excl', ` ${record.exclusiveRetailer}`)}
+                        {!showAssortmentHeaders && generateBottomText('', `${record.assortment}`)}
+                        {record.version && generateBottomText('Version: ', ` ${record.version}`)}
+                        {record.multipack && generateBottomText('', ` [${record.multipack}]`)}
+                        {record.exclusiveRetailer && generateBottomText('', ` ${record.exclusiveRetailer}`)}
                         {record.owned
                             && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
                         {record.owned
-                            && record.owned
-                            && generateBottomText('Total Owned', ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
+                            && generateBottomText('Total Owned: ', ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
+                        
                         {authEmail && generateBottomText(record.id)}
                     </CardContent>
                 </Card>
             </Link>
-            {/* </div> */}
             {loggedIn && collectionButton(record)}
         </Grid>
     );
 
     return (
-
-        <React.Fragment>
             <Grid container spacing={2} className={classes.top}>
                 <Container component='main' maxWidth='xl'>
                     <Grid container spacing={2} className={classes.top}>
@@ -134,7 +128,6 @@ export const ActionFigure = ({ records, newBoxImage, catalogList }) => {
                     </Grid>
                 </Container>
             </Grid>
-        </React.Fragment>
     );
 };
 
@@ -156,17 +149,19 @@ const useStyles = makeStyles(theme => ({
     },
     bottomCard: {
         maxWidth: 325,
-        height: props => props.height,
+        height: 125,
         backgroundColor: Color.primary('black'),
         borderRadius: 0,
     },
     bottomtext: {
         fontSize: '11px',
-        color: Color.primary('white')
+        color: Color.primary('white'),
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     buttonCard: {
         maxWidth: 325,
-        height: 20,
         borderRadius: 0,
     },
     textStyle: {
@@ -192,7 +187,7 @@ const useStyles = makeStyles(theme => ({
     },
     nameText: {
         display: 'flex',
-        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
         fontFamily: 'Raleway, sans-serif',
         fontSize: '12px',
@@ -200,30 +195,27 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'uppercase',
         color: Color.primary('white'),
         backgroundColor: Color.primary('green'),
-        paddingTop: theme.spacing(.5),
-        paddingBottom: theme.spacing(.5),
         cursor: 'pointer',
         '&:hover': {
             backgroundColor: 'white',
             color: Color.primary('green'),
         },
+        height: 30,
     },
     owned: {
         display: 'flex',
-        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
         fontFamily: 'Raleway, sans-serif',
         fontSize: '12px',
         fontWeight: '800',
         textTransform: 'uppercase',
-        color: Color.primary('black'),
+        color: Color.primary('white'),
         backgroundColor: Color.primary('grey'),
-        paddingTop: theme.spacing(.5),
-        paddingBottom: theme.spacing(.5),
         cursor: 'pointer',
         '&:hover': {
             backgroundColor: Color.primary('red'),
-            color: Color.primary('black'),
         },
+        height: 30,
     },
 }));

@@ -22,6 +22,8 @@ import { formatFormData } from 'components/common/form/formatFormData';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { FormFilter } from 'components/common/form/formFilter';
 import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
+import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -30,22 +32,7 @@ export const BlackSeriesCatalog = props => {
     const classes = useStyles();
     const { catalogList, setCatalogData, userList, setUserData } = props;
 
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-    // const openModal = figure => {
-        // setViewActionFigureDetail(figure);
-        // setViewSimilarActionFigures(SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year'));
-        // setViewMultiPackActionFigures(catalogList.filter(el => el.multipack === figure.multipack && el.id !== figure.id))
-    //     setVewFilters(false);
-    //     setIsModalOpen(true);
-    // };
-    // const closeModal = () => setIsModalOpen(false);
-    // const modalSize = { height: '90%', width: '95%' };
-
     const [helperData, setHelperData] = useState({});
-
-    // const [viewActionFigureDetail, setViewActionFigureDetail] = useState(false);
-    // const [viewSimilarActionFigures, setViewSimilarActionFigures] = useState([]);
-    // const [viewMultiPackActionFigures, setViewMultiPackActionFigures] = useState([]);
 
     const [viewFilters, setVewFilters] = useState(false);
     const handleChange = () => setVewFilters(!viewFilters);
@@ -78,6 +65,31 @@ export const BlackSeriesCatalog = props => {
     const [newBoxImage, setNewBoxImage] = useState(false);
     const handleImageChange = () => setNewBoxImage(!newBoxImage);
 
+    const [viewAllFigures, setViewAllFigures] = useState(true);
+    const [viewOnlyOwnedFigures, setViewOnlyOwnedFigures] = useState(false);
+    const [viewOnlyUnownedFigures, setViewOnlyUnownedFigures] = useState(false);
+    
+    const handleViewAllFiguresCheckBoxChange = () => {
+        if(!viewAllFigures){
+            setViewOnlyOwnedFigures(false);
+            setViewOnlyUnownedFigures(false);
+        } else {
+            setViewOnlyOwnedFigures(true);
+        }
+        setViewAllFigures(!viewAllFigures)
+    };
+
+    const handleOwnedFiguresCheckBoxChange = () => {
+        setViewOnlyOwnedFigures(!viewOnlyOwnedFigures);
+        setViewAllFigures(!viewAllFigures)
+    };
+
+    const handleUnownedFiguresCheckBoxChange = () => {
+        setViewOnlyUnownedFigures(!viewOnlyUnownedFigures);
+        // if(viewAllFigures) setViewAllFigures(false);
+        setViewAllFigures(!viewAllFigures)
+    };
+
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
 
@@ -96,8 +108,8 @@ export const BlackSeriesCatalog = props => {
         const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
         catalogRef.on('value', snapshot => {
             if (snapshot.val()) {
-                let records = snapshot.val()["BlackSeries6"];
-                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, "id"));
+                let records = snapshot.val()['BlackSeries6'];
+                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
             }
         });
 
@@ -105,8 +117,8 @@ export const BlackSeriesCatalog = props => {
             const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
             userRef.on('value', snapshot => {
                 if (snapshot.val()) {
-                    let records = snapshot.val()["BlackSeries6"];
-                    setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, "ownedId"));
+                    let records = snapshot.val()['BlackSeries6'];
+                    setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
                 }
             });
         };
@@ -127,13 +139,18 @@ export const BlackSeriesCatalog = props => {
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
+        if(!viewAllFigures) {
+            if(viewOnlyOwnedFigures) mergedList = mergedList.filter(el => el.owned === true);
+            if(viewOnlyUnownedFigures) mergedList = mergedList.filter(el => el.owned !== true);
+        };
+
         if (filterBySourceMaterial) mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
         if (filterByCharacter) mergedList = mergedList.filter(el => el.name === filterByCharacter);
         if (filterByInputName) mergedList = mergedList.filter(el => {
-            return el.name.toLowerCase().includes(filterByInputName.toLowerCase()) 
-                    || el.additionalNameDetails.toLowerCase().includes(filterByInputName.toLowerCase());
+            return el.name.toLowerCase().includes(filterByInputName.toLowerCase())
+                || el.additionalNameDetails.toLowerCase().includes(filterByInputName.toLowerCase());
         });
-        if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup)); 
+        if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup));
         if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
         if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
         return mergedList;
@@ -147,17 +164,16 @@ export const BlackSeriesCatalog = props => {
         if (records.length > 0) {
             const backgroundColor = assortAttributes.color;
             return <>
-                {showAssortmentHeaders && <AssortmentHeader key={assortment} text={assortment} backgroundColor={backgroundColor} />}
-                <ActionFigure records={records} newBoxImage={newBoxImage} catalogList={catalogList}/> 
-                {/* onClickCard={openModal} */}
+                {showAssortmentHeaders && <AssortmentHeader id={assortment} key={assortment} text={assortment} backgroundColor={backgroundColor} />}
+                <ActionFigure records={records} newBoxImage={newBoxImage} catalogList={catalogList} showAssortmentHeaders={showAssortmentHeaders} />
             </>
         }
         return null;
     };
 
     const assortments = <>
-        {helperData 
-            && helperData.assortment 
+        {helperData
+            && helperData.assortment
             && helperData.assortment.values.map(assortment => generateAssortmentSection(assortment))
         }
     </>;
@@ -166,7 +182,7 @@ export const BlackSeriesCatalog = props => {
         records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
         newBoxImage={newBoxImage}
         catalogList={catalogList}
-        // onClickCard={openModal}
+        showAssortmentHeaders={showAssortmentHeaders}
     />;
 
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
@@ -174,7 +190,7 @@ export const BlackSeriesCatalog = props => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, sourceMaterial, groups, version } = helperData;
             sourceMaterialFilterComp = <FormFilter
-                key={'Source Material'}    
+                key={'Source Material'}
                 menuList={sourceMaterial.values}
                 onChange={handleSourceMaterialChange}
                 label={'Source Material'}
@@ -183,7 +199,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterBySourceMaterial}
             />
             characterFilterComp = <FormFilter
-                key={'Characters'}    
+                key={'Characters'}
                 menuList={characters.values}
                 onChange={handleCharacterChange}
                 label={'Characters'}
@@ -192,7 +208,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterByCharacter}
             />
             groupFilterComp = <FormFilter
-                key={'Groups'}    
+                key={'Groups'}
                 menuList={groups.values}
                 onChange={handleGroupChange}
                 label={'Groups'}
@@ -201,7 +217,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterByGroup}
             />
             versionFilterComp = <FormFilter
-                key={'Versions'}    
+                key={'Versions'}
                 menuList={version.values}
                 onChange={handleVersionChange}
                 label={'Versions'}
@@ -210,7 +226,7 @@ export const BlackSeriesCatalog = props => {
                 value={filterByVersion}
             />
             assortmentFilterComp = <FormFilter
-                key={'Assortment'}    
+                key={'Assortment'}
                 menuList={assortment.values}
                 onChange={handleAssortmentChange}
                 label={'Assortment'}
@@ -222,45 +238,49 @@ export const BlackSeriesCatalog = props => {
     };
     buildFilters();
 
+    const generateCheckBoxForm = (state, handleChange, labelText) => {
+        return <FormControlLabel
+                    control={<CustomCheckbox
+                                checked={state}
+                                onChange={handleChange}
+                                labelStyle={{ color: 'green' }}
+                                iconStyle={{ fill: 'green' }}
+                    />}
+                    label={labelText}
+                    labelPlacement='start'
+            />;
+    };
+
+    const allViewCheckBox = generateCheckBoxForm(viewAllFigures, handleViewAllFiguresCheckBoxChange, 'View All');
+    const ownedCheckBox = generateCheckBoxForm(viewOnlyOwnedFigures, handleOwnedFiguresCheckBoxChange, 'Owned Figures');
+    const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, 'Not Owned Figures');
+
     const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
 
     return (
         <React.Fragment>
-            {/* <Modal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                style={modalStyles(modalSize)}
-            >
-                <ActionFigureDetails
-                    catalog={catalog}
-                    figure={viewActionFigureDetail}
-                    similarFigures={viewSimilarActionFigures}
-                    multipackFigures={viewMultiPackActionFigures}
-                />
-            </Modal> */}
             <Container component='main' maxWidth='lg'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
                         <Grid item xs={12} className={classes.alwaysDisplayed}>
-                            <Typography color="textSecondary">
+                            <Typography color='textSecondary'>
                                 {`Search: `}
                             </Typography>
                         </Grid>
-                        {/* {!isModalOpen && */}
-                            <Grid item xs={12} md={3} className={classes.alwaysDisplayed}>
-                                <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
-                                    <TextField
-                                        variant='outlined'
-                                        className={classes.form}
-                                        onChange={handleInputNameChange}
-                                        fullWidth
-                                        id={'Character Name'}
-                                        name={'Character Name'}
-                                        label={'Character Name'}
-                                    />
-                                </Grid>
+
+                        <Grid item xs={12} md={3} className={classes.alwaysDisplayed}>
+                            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
+                                <TextField
+                                    variant='outlined'
+                                    className={classes.form}
+                                    onChange={handleInputNameChange}
+                                    fullWidth
+                                    id={'Character Name'}
+                                    name={'Character Name'}
+                                    label={'Character Name'}
+                                />
                             </Grid>
-                        {/* } */}
+                        </Grid>
                         <Grid item xs={12} md={8} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={viewFilters ? 'Hide Filters' : 'Show Filters'}
@@ -282,6 +302,7 @@ export const BlackSeriesCatalog = props => {
                                         onClick={handleAssortmentHeaderChange}
                                         color={Color.primary('green')}
                                     />
+                                    {allViewCheckBox}
                                 </Grid>
                                 <Grid item xs={12} md={3} className={classes.formControl}>
                                     <ActionButton
@@ -290,6 +311,7 @@ export const BlackSeriesCatalog = props => {
                                         onClick={handleImageChange}
                                         color={Color.primary('green')}
                                     />
+                                    {ownedCheckBox}
                                 </Grid>
                                 <Grid item xs={2} className={classes.formControl}>
                                     <ActionButton
@@ -298,6 +320,7 @@ export const BlackSeriesCatalog = props => {
                                         onClick={handleClearFilters}
                                         color={Color.primary('red')}
                                     />
+                                    {unownedCheckBox}
                                 </Grid>
                             </React.Fragment>
                         }
@@ -307,7 +330,7 @@ export const BlackSeriesCatalog = props => {
                         }
                         {displayList.length > 0 &&
                             <>
-                                <Grid item xs={12} md={3}  className={classes.tableStats}></Grid>
+                                <Grid item xs={12} md={3} className={classes.tableStats}></Grid>
                                 <Grid item xs={12} md={6} className={classes.tableStats}>
                                     <AssortmentHeader text={'Stats'} backgroundColor={Color.primary('darkYellow')} />
                                     <TableStats stats={stats} />

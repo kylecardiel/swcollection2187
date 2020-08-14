@@ -6,6 +6,8 @@ const checkBoxStyles = theme => ({
       '&$checked': {
         color: '#388e3c',
       },
+      '&:hover': {
+      },
     },
     checked: {},
    })
