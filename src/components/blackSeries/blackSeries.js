@@ -17,7 +17,7 @@ export const BlackSeries = () => {
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={PAGES.BLACK_SERIES_CATALOG.TITLE} />
-            <BlackSeriesCatalogConnect x/>
+            <BlackSeriesCatalogConnect />
         </React.Fragment>
     )
 }

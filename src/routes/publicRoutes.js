@@ -7,7 +7,7 @@ import { ActionFigureDetailsConnect } from 'components/hoc/actionFigureDetailsCo
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const PublicRoutes = () => {
+export const PublicRoutes = () => {    
     return (
         <React.Fragment>
             <Router>
