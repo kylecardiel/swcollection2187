@@ -14,31 +14,23 @@ export const Quantity = ({ title, qty, qtyType, changeQty }) => {
     const zeroQty = qty === 0;
     const minusColor = zeroQty ? 'grey' : 'red';
     
-    const minus = () => {
-        if(!zeroQty){
-            changeQty(qtyType, MINUS);
-        }
-    };
+    const minus = () => !zeroQty && changeQty(qtyType, MINUS);
 
     return (
         <Grid container spacing={2} className={classes.detailsContainer}>
             <Grid container spacing={2} className={classes.detailsContainer}>
                 <div className={classes.quantityDetailHeader}>{title}</div>
-                <div className={classes.quantityDetailIcons}>
+                <div className={classes.quantityDetailIcons} onClick={() => minus()}>
                     <RemoveCircleIcon 
-                        fontSize='small' 
+                        fontSize='large' 
                         style={{ color: Color.primary(minusColor) }} 
-                        onClick={() => minus()}
-                        className={classes.icon}
                     />
                 </div>
                 <div className={classes.quantityDetail}>{qty}</div>
-                <div className={classes.quantityDetailIcons}>
+                <div className={classes.quantityDetailIcons} onClick={() => changeQty(qtyType, ADD)} >
                     <AddCircleIcon 
-                        fontSize='small' 
+                        fontSize='large' 
                         style={{ color: Color.primary('green') }} 
-                        onClick={() => changeQty(qtyType, ADD)} 
-                        className={classes.icon}
                     />
                 </div>
             </Grid>
@@ -54,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
     quantityDetailHeader: {
         marginLeft: theme.spacing(3),
         marginTop: theme.spacing(2),
-        // border: '1px solid purple',
+        // border: '1px solid green',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
         minWidth: 200,
     },
     quantityDetailIcons: {
@@ -63,16 +58,18 @@ const useStyles = makeStyles((theme) => ({
         // border: '1px solid purple',
         minWidth: 50,
         textAlign: 'center',
-        // cursor: 'pointer',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer',
     },
     quantityDetail: {
         marginLeft: theme.spacing(2),
         marginTop: theme.spacing(2),
-        // border: '1px solid purple',
+        // border: '1px solid red',
         minWidth: 50,
-        textAlign: 'center',
-    },
-    icon: {
-        cursor: 'pointer',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 }));
