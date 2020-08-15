@@ -1,25 +1,32 @@
 import {
     Button,
     FormControl,
-    InputLabel,
+
+
+
+
+
+
+    Input, InputLabel,
     makeStyles,
-    TextField,
+
     MenuItem,
-    Select,
-    Typography,
-    Input,
+    Select, TextField,
+
+
+    Typography
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import { storage } from 'backend/Firebase';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { ProgressBar } from 'components/common/progressBar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Color } from 'shared/styles/color';
 import { CatalogApi } from 'shared/api/orchestrator';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { storage } from 'backend/Firebase';
 import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
-import { ProgressBar } from 'components/common/progressBar';
+import { Color } from 'shared/styles/color';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
@@ -288,21 +295,21 @@ const useStyles = makeStyles(theme => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
         maxWidth: 200,
-        backgroundColor: Color.primary('blue'),
-        color: Color.primary('white'),
+        backgroundColor: Color.blue(),
+        color: Color.white(),
         '&:hover': {
-            color: Color.primary('blue'),
-            backgroundColor: Color.primary('white'),
+            color: Color.blue(),
+            backgroundColor: Color.white(),
         },
     },
     deleteButton: {
         margin: theme.spacing(3, 0, 2),
         maxWidth: 200,
-        color: Color.primary('eliteRed'),
-        backgroundColor: Color.primary('white'),
+        color: Color.red(),
+        backgroundColor: Color.white(),
         '&:hover': {
-            backgroundColor: Color.primary('eliteRed'),
-            color: Color.primary('white'),
+            backgroundColor: Color.red(),
+            color: Color.white(),
         },
     },
     dateTimeSelector: {
@@ -332,7 +339,7 @@ const useStyles = makeStyles(theme => ({
     },
     warningMessage: {
         padding: theme.spacing(0),
-        color: Color.primary('eliteRed'),
+        color: Color.red(),
     },
     progressBar: {
         margin: theme.spacing(2),

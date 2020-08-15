@@ -2,12 +2,6 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
-    main: {
-        backgroundColor: props => props.backgroundColor,
-    },
-}));
-
 export const FormTextField = props => {
 
     const { backgroundColor } = props;
@@ -30,6 +24,11 @@ export const FormTextField = props => {
                 shrink: true,
             }}
         />
-
     );
 }
+
+const useStyles = makeStyles(() => ({
+    main: {
+        backgroundColor: props => props.backgroundColor,
+    },
+}));

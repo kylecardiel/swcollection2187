@@ -3,9 +3,8 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { HeaderText } from 'components/common/text/headerText';
 
-export const AssortmentHeader = props => {
-    const { text, backgroundColor } = props;
-    const classes = useStyles({backgroundColor: backgroundColor});
+export const AssortmentHeader = ({ text, backgroundColor }) => {
+    const classes = useStyles({ backgroundColor });
     return (
         <Grid container spacing={1} className={classes.headerContainer}>
             <Grid item xs={12} >

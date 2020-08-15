@@ -1,0 +1,34 @@
+{
+    "extends": [
+        "react-app",
+        "eslint:recommended",
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+        "semi": ["error", "always"],
+        // "no-duplciate-imports": ["error", {"includeExports": true}],
+        "object-curly-spacing": ["error", "always"],
+        "quote": ["single", {"avoidEscape": true}],
+        "comma-dangle": [1, "always-multiline"],
+        "indent": ["error", 4]
+    },
+    "import/order": [
+        "error",
+        {
+          "groups": ["builtin", "external", "internal"],
+          "pathGroups": [
+            {
+              "pattern": "react",
+              "group": "external",
+              "position": "before"
+            }
+          ],
+          "pathGroupsExcludedImportTypes": ["react"],
+          "newlines-between": "always",
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          }
+        }
+      ]
+}

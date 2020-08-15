@@ -1,21 +1,18 @@
-import React, { useContext } from 'react';
 import {
-    Grid,
     Card,
     CardContent,
-    Typography,
-    Container,
-    makeStyles,
-    CardMedia,
+    CardMedia, Container, Grid,
+    makeStyles, Typography
 } from '@material-ui/core';
-import { DisplayNameSection } from 'components/display/displayName';
-import { Color } from 'shared/styles/color';
 import { UserConsumer } from 'components/auth/authContext';
+import { DisplayNameSection } from 'components/display/displayName';
+import React, { useContext } from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { ROLES } from 'shared/constants/roleConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { ROLES } from 'shared/constants/roleConstants';
+import { Color } from 'shared/styles/color';
 
 export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders }) => {
     const classes = useStyles();
@@ -150,12 +147,12 @@ const useStyles = makeStyles(theme => ({
     bottomCard: {
         maxWidth: 325,
         height: 125,
-        backgroundColor: Color.primary('black'),
+        backgroundColor: Color.black(),
         borderRadius: 0,
     },
     bottomtext: {
         fontSize: '11px',
-        color: Color.primary('white'),
+        color: Color.white(),
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -166,7 +163,7 @@ const useStyles = makeStyles(theme => ({
     },
     textStyle: {
         fontWeight: 'bold',
-        color: Color.primary('yellow'),
+        color: Color.yellow(),
         display: 'inline-block',
 
     },
@@ -193,12 +190,12 @@ const useStyles = makeStyles(theme => ({
         fontSize: '12px',
         fontWeight: '800',
         textTransform: 'uppercase',
-        color: Color.primary('white'),
-        backgroundColor: Color.primary('green'),
+        color: Color.white(),
+        backgroundColor: Color.green(),
         cursor: 'pointer',
         '&:hover': {
             backgroundColor: 'white',
-            color: Color.primary('green'),
+            color: Color.green(),
         },
         height: 30,
     },
@@ -210,11 +207,11 @@ const useStyles = makeStyles(theme => ({
         fontSize: '12px',
         fontWeight: '800',
         textTransform: 'uppercase',
-        color: Color.primary('white'),
-        backgroundColor: Color.primary('grey'),
+        color: Color.white(),
+        backgroundColor: Color.grey(),
         cursor: 'pointer',
         '&:hover': {
-            backgroundColor: Color.primary('red'),
+            backgroundColor: Color.red(),
         },
         height: 30,
     },

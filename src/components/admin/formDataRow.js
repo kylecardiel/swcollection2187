@@ -1,11 +1,11 @@
-import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Color } from 'shared/styles/color';
-import { ActionButton } from 'components/common/buttons/actionButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { makeStyles } from '@material-ui/core/styles';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import React from 'react';
 import { HelperDataApi } from 'shared/api/orchestrator';
+import { Color } from 'shared/styles/color';
 
 export const FormDataTableRow = props => {
 
@@ -24,7 +24,7 @@ export const FormDataTableRow = props => {
         return <TableRow key={val} >
             <TableCell >{val}</TableCell>
             <TableCell className={classes.buttonColumn}>
-                <ActionButton icon={<DeleteForeverIcon />} color={Color.primary('red')} onClick={() => onDelete(val)} />
+                <ActionButton icon={<DeleteForeverIcon />} color={Color.red()} onClick={() => onDelete(val)} />
             </TableCell>
         </TableRow>
     });

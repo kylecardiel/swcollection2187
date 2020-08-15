@@ -1,19 +1,17 @@
-import React from 'react';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import { Color } from 'shared/styles/color';
 
-export const CommonBreadCrumbs = props => {
-
+export const CommonBreadCrumbs = ({ links, currentTitle }) => {
     const classes = useStyles();
-    const { links, currentTitle } = props;
 
     const linkBreadcrums = links.map(link => {
-        return <Link key={link.route}  href={`#${link.route}`} className={classes.text}>
+        return <Link key={link.route} href={`#${link.route}`} className={classes.text}>
             {link.title}
         </Link>
     });
@@ -21,7 +19,11 @@ export const CommonBreadCrumbs = props => {
     return (
         <Grid container spacing={1} className={classes.container}>
             <Grid item xs={12} >
-                <Breadcrumbs aria-label='breadcrumb' separator={<NavigateNextIcon fontSize='small' style={{ color: Color.primary('yellow') }} />} className={classes.breadcrumb}>
+                <Breadcrumbs 
+                    aria-label='breadcrumb' 
+                    separator={<NavigateNextIcon fontSize='small' style={{ color: Color.yellow() }} />} 
+                    className={classes.breadcrumb}
+                >
                     {linkBreadcrums}
                     <Typography color='textPrimary' className={classes.text}>{currentTitle}</Typography>
                 </Breadcrumbs>
@@ -41,6 +43,6 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: theme.spacing(4),
     },
     text: {
-        color: Color.primary('yellow')
+        color: Color.yellow()
     }
 }));

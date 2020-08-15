@@ -1,32 +1,32 @@
 import Button from '@material-ui/core/Button';
-import React from 'react';
-import { Color } from 'shared/styles/color';
-import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { Color } from 'shared/styles/color';
 
 const useStyles = makeStyles(theme => ({
     deleteButton: {
         margin: theme.spacing(3, 0, 2),
         maxWidth: 200,
-        color: Color.primary('eliteRed'),
-        backgroundColor: Color.primary('white'),
+        color: Color.red(),
+        backgroundColor: Color.white(),
         '&:hover': {
-            backgroundColor: Color.primary('eliteRed'),
-            color: Color.primary('white'),
+            backgroundColor: Color.red(),
+            color: Color.white(),
         },
     },
     cancelButton: {
         margin: theme.spacing(3, 0, 2),
         maxWidth: 200,
-        color: Color.primary('blue'),
-        backgroundColor: Color.primary('white'),
+        color: Color.blue(),
+        backgroundColor: Color.white(),
         '&:hover': {
-            backgroundColor: Color.primary('blue'),
-            color: Color.primary('white'),
+            backgroundColor: Color.blue(),
+            color: Color.white(),
         },
     },
 }));

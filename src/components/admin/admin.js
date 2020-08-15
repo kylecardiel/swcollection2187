@@ -8,9 +8,11 @@ import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import { FormDataTable } from 'components/admin/formDataTable';
 import { UploadImage } from 'components/admin/uploadImage';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
+import { formatFormData } from 'components/common/form/formatFormData';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import { isEmpty } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
@@ -23,8 +25,6 @@ import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { FormDataTable } from 'components/admin/formDataTable';
-import { formatFormData } from 'components/common/form/formatFormData';
 
 const { HOME } = ROUTE_CONSTANTS;
 
@@ -194,7 +194,7 @@ export const Admin = () => {
                                 buttonLabel={'New Entry'}
                                 icon={<AddBoxIcon />}
                                 onClick={openModal}
-                                color={Color.primary('green')}
+                                color={Color.green()}
                             />
                         </Grid>
                         <Grid item xs={6} className={classes.formDataContainer}>
@@ -297,20 +297,20 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(3),
         marginRight: theme.spacing(8),
         borderRadius: '5',
-        backgroundColor: Color.primary('green'),
+        backgroundColor: Color.green(),
         '&:hover': {
             backgroundColor: 'white',
-            color: Color.primary('green'),
+            color: Color.green(),
         },
     },
     displayButton: {
         marginTop: theme.spacing(3),
         marginRight: theme.spacing(8),
         borderRadius: '5',
-        backgroundColor: Color.primary('blue'),
+        backgroundColor: Color.blue(),
         '&:hover': {
             backgroundColor: 'white',
-            color: Color.primary('blue'),
+            color: Color.blue(),
         },
     },
     paperTable: {

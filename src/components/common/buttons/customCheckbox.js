@@ -1,10 +1,11 @@
 import { withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
+import { Color } from 'shared/styles/color';
 
-const checkBoxStyles = theme => ({
+const checkBoxStyles = () => ({
     root: {
       '&$checked': {
-        color: '#388e3c',
+        color: Color.darkGreen(),
       },
       '&:hover': {
       },

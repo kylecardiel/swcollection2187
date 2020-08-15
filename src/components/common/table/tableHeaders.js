@@ -5,10 +5,8 @@ import TableRow from '@material-ui/core/TableRow';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-export const TableHeaders = props => {
-    
+export const TableHeaders = ({ columnDefinitions }) => {
     const classes = useStyles(); 
-    const { columnDefinitions } = props;
 
     const headerColumn = columnDefinitions.map((record, i) => (
         <TableCell key={i} colSpan={record.span} className={classes.columns}>{record.headerName}</TableCell>

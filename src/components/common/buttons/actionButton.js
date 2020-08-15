@@ -1,23 +1,22 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import { Color } from 'shared/styles/color';
 
-export const ActionButton = props => {
-    const classProps = { backgroundColor: props.color};
-    const classes = useStyles(classProps);
-
-    const labelComponent = props.buttonLabel && 
+export const ActionButton = ({ color, buttonLabel, icon, onClick }) => {
+    const classes = useStyles({ backgroundColor: color});
+    const labelComponent = buttonLabel && 
                                 <div style={{ marginLeft: '5px' }}>
-                                    {props.buttonLabel}
+                                    {buttonLabel}
                                 </div>;
 
     return (
         <Button 
             variant="contained" 
             className={classes.button} 
-            onClick={e => props.onClick()}
+            onClick={e => onClick()}
         >
-            {props.icon}
+            {icon}
             {labelComponent}
         </Button>
     );
@@ -28,9 +27,9 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
         backgroundColor: props => props.backgroundColor,
         borderRadius: '0',
-        color: 'white',
+        color: Color.white(),
         '&:hover': {
-            backgroundColor: 'white',
+            backgroundColor: Color.white(),
             color: props => props.backgroundColor,
         },
     }
