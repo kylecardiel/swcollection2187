@@ -34,7 +34,12 @@ export const STRING_CONSTANTS = Object.freeze({
     PAGES: {
         HOME_PAGE: {
             TITLE: 'Home',
-            WELCOME: value => `Welcome ${value}!`,
+            WELCOME: 'Hello There!',
+            INTRO_PARAGRAPH: [
+                'Do you love the Black Series? Do you collect Black Series Figures?',
+                'Do you keep track of your collection? Do you want to keep track of your collection?...',
+                "Then you're in the right spot!"
+              ].join("\n"),
             CARDS: {
                 BLACK_SERIES: {
                     TITLE: 'Black Series Catalog',

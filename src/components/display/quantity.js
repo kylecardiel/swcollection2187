@@ -1,8 +1,8 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import React from 'react';
 import { Color } from 'shared/styles/color';
 
 const ADD = 'ADD';
@@ -12,7 +12,7 @@ export const Quantity = ({ title, qty, qtyType, changeQty }) => {
     const classes = useStyles();
 
     const zeroQty = qty === 0;
-    const minusColor = zeroQty ? 'grey' : 'red';
+    const minusColor = zeroQty ? Color.grey() : Color.red();
     
     const minus = () => !zeroQty && changeQty(qtyType, MINUS);
 
@@ -23,14 +23,14 @@ export const Quantity = ({ title, qty, qtyType, changeQty }) => {
                 <div className={classes.quantityDetailIcons} onClick={() => minus()}>
                     <RemoveCircleIcon 
                         fontSize='large' 
-                        style={{ color: Color.primary(minusColor) }} 
+                        style={{ color: minusColor }} 
                     />
                 </div>
                 <div className={classes.quantityDetail}>{qty}</div>
                 <div className={classes.quantityDetailIcons} onClick={() => changeQty(qtyType, ADD)} >
                     <AddCircleIcon 
                         fontSize='large' 
-                        style={{ color: Color.primary('green') }} 
+                        style={{ color: Color.green() }} 
                     />
                 </div>
             </Grid>

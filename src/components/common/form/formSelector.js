@@ -29,7 +29,7 @@ export const FormSelector = props => {
       setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const classProps = { backgroundColor: props.disabled ? Color.primary('lightGrey') : Color.primary('white') };
+    const classProps = { backgroundColor: props.disabled ? Color.lightGrey() : Color.white() };
     const classes = useStyles(classProps);
 
     let menuItems = [];

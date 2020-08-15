@@ -18,91 +18,91 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { Link as RouterLink } from 'react-router-dom';
 
 export const LogIn = props => {
-  const { register, handleSubmit, watch } = useForm();
-  const classes = useStyles();
+    const { register, handleSubmit, watch } = useForm();
+    const classes = useStyles();
 
-  const {
-    FIELD_LABELS,
-    INVALID_EMAIL,
-    DONT_HAVE_AN_ACCOUNT,
-  } = AUTH;
+    const {
+        FIELD_LABELS,
+        INVALID_EMAIL,
+        DONT_HAVE_AN_ACCOUNT,
+    } = AUTH;
 
-  const emailInput = watch('email');
-  let errorMessage;
+    const emailInput = watch('email');
+    let errorMessage;
 
-  if (emailInput && !Validator.isEmailValid(emailInput)) {
-    errorMessage = INVALID_EMAIL;
-  } else {
-    errorMessage = null;
-  }
-  
-  const onSubmit = loginInfo => {
-    login(loginInfo.email, loginInfo.password);
-  };
+    if (emailInput && !Validator.isEmailValid(emailInput)) {
+        errorMessage = INVALID_EMAIL;
+    } else {
+        errorMessage = null;
+    }
 
-  return (
-    <Container component='main' maxWidth='xs'>
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component='h1' variant='h5'>
-          {AUTH.LOGIN}
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
-            id='email'
-            label={FIELD_LABELS.EMAIL}
-            name='email'
-            autoComplete='email'
-            inputRef={register({ required: true })}
-            autoFocus
-          />
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
-            name='password'
-            label={FIELD_LABELS.PASSWORD}
-            type='password'
-            id='password'
-            autoComplete='current-password'
-            inputRef={register({ required: true })}
-          />
-          {errorMessage &&
-            <Grid item xs={12}>
-              <FormError errorMessage={errorMessage} />
-            </Grid>
-          }
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.submit}
-          >
-            {AUTH.LOG_IN}
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.FORGOT_PASSWORD} >
-                {AUTH.FORGOT_PW}
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.SIGNUP} >
-                {DONT_HAVE_AN_ACCOUNT}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
-  );
+    const onSubmit = loginInfo => {
+        login(loginInfo.email, loginInfo.password);
+    };
+
+    return (
+        <Container component='main' maxWidth='xs'>
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component='h1' variant='h5'>
+                    {AUTH.LOGIN}
+                </Typography>
+                <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        variant='outlined'
+                        margin='normal'
+                        required
+                        fullWidth
+                        id='email'
+                        label={FIELD_LABELS.EMAIL}
+                        name='email'
+                        autoComplete='email'
+                        inputRef={register({ required: true })}
+                        autoFocus
+                    />
+                    <TextField
+                        variant='outlined'
+                        margin='normal'
+                        required
+                        fullWidth
+                        name='password'
+                        label={FIELD_LABELS.PASSWORD}
+                        type='password'
+                        id='password'
+                        autoComplete='current-password'
+                        inputRef={register({ required: true })}
+                    />
+                    {errorMessage &&
+                        <Grid item xs={12}>
+                            <FormError errorMessage={errorMessage} />
+                        </Grid>
+                    }
+                    <Button
+                        type='submit'
+                        fullWidth
+                        variant='contained'
+                        color='primary'
+                        className={classes.submit}
+                    >
+                        {AUTH.LOG_IN}
+                    </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.FORGOT_PASSWORD} >
+                                {AUTH.FORGOT_PW}
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.SIGNUP} >
+                                {DONT_HAVE_AN_ACCOUNT}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        </Container>
+    );
 }

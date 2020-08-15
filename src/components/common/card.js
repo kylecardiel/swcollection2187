@@ -8,26 +8,26 @@ import Typography from '@material-ui/core/Typography';
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@material-ui/core/Link'
 
-export const MediaCard = props => {
+export const MediaCard = ({ route, imagePath, cardText}) => {
     const classes = useStyles();
 
     return (
-        <Link underline='none' component={RouterLink} to={props.route}>
+        <Link underline='none' component={RouterLink} to={route}>
             <Card className={classes.card}>
                 <CardActionArea>
-                    {props.imagePath && 
+                    {imagePath && 
                         <CardMedia
                             className={classes.media}
-                            image={props.imagePath}
-                            title={props.cardText.TITLE}
+                            image={imagePath}
+                            title={cardText.TITLE}
                         />
                     }
                     <CardContent>
                         <Typography gutterBottom variant='h5' component='h2'>
-                            {props.cardText.TITLE}
+                            {cardText.TITLE}
                         </Typography>
                         <Typography variant='body2' color='textSecondary' component='p'>
-                            {props.cardText.BODY}
+                            {cardText.BODY}
                         </Typography>
                     </CardContent>
                 </CardActionArea>

@@ -8,11 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
-
 export const TableStats = ({ stats }) => {
-
     const classes = useStyles();
-
     return (
         <TableContainer component={Paper} className={classes.table}>
             <Table size='small' aria-label='a dense table'>

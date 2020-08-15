@@ -1,20 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import Container from '@material-ui/core/Container';
-import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import { UserConsumer } from 'components/auth/authContext';
+import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { Quantity } from 'components/display/quantity';
+import React, { useContext, useState } from 'react';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { Quantity } from 'components/display/quantity';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import { Color } from 'shared/styles/color';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 import { SortingUtils } from 'shared/util/sortingUtil';
 
 const ADD = 'ADD';
@@ -138,8 +138,6 @@ export const ActionFigureDetails = props => {
         </Typography>
     </Grid>;
 
-
-
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
@@ -238,7 +236,7 @@ export const ActionFigureDetails = props => {
                                         <Grid xs={12} md={2} item className={classes.totalQuanity}>
                                             <Typography variant='subtitle2' className={classes.seriesNumberText} >
                                                 Total Owned
-                                </Typography>
+                                            </Typography>
                                             <Typography variant='h3' className={classes.seriesNumberText} >
                                                 {totalOwned}
                                             </Typography>
@@ -336,7 +334,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         overflow: 'hidden',
         '&:hover': {
-            backgroundColor: Color.primary('grey'),
+            backgroundColor: Color.grey(),
         },
     },
     largeImageContainer: {

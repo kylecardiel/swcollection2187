@@ -1,14 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import { Color } from 'shared/styles/color';
 
-export const HeaderText = props => {
-
-    const { textColor, staticTextSize } = props;
-    const classes = useStyles({ textColor: textColor ? textColor : 'black'});
-
+export const HeaderText = ({ textColor, staticTextSize, text }) => {
+    const classes = useStyles({ textColor: textColor ? textColor : Color.black()});
+    const className = staticTextSize ? classes.textStatic : classes.textSizeChange;
     return (
-        <div data-testid='headerTextId' className={staticTextSize ? classes.textStatic : classes.textSizeChange}>
-            {props.text}
+        <div data-testid='headerTextId' className={className}>
+            {text}
         </div>
     );
 };

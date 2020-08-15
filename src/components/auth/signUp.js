@@ -18,134 +18,134 @@ import { registerUser } from 'backend/FirebaseAuth';
 
 export const SignUp = () => {
 
-  const { register, handleSubmit, watch } = useForm();
-  const classes = useStyles();
+    const { register, handleSubmit, watch } = useForm();
+    const classes = useStyles();
 
-  const {
-    FIELD_LABELS,
-    PASSWORD_DONT_MATCH,
-    INVALID_EMAIL,
-  } = AUTH;
+    const {
+        FIELD_LABELS,
+        PASSWORD_DONT_MATCH,
+        INVALID_EMAIL,
+    } = AUTH;
 
-  const passwordInput = watch('password');
-  const confrimPasswordInput = watch('confirmPassword');
-  const emailInput = watch('email');
-  let errorMessage;
+    const passwordInput = watch('password');
+    const confrimPasswordInput = watch('confirmPassword');
+    const emailInput = watch('email');
+    let errorMessage;
 
-  if (confrimPasswordInput && passwordInput !== confrimPasswordInput) {
-    errorMessage = PASSWORD_DONT_MATCH;
-  } else if (emailInput && !Validator.isEmailValid(emailInput)) {
-    errorMessage = INVALID_EMAIL;
-  } else {
-    errorMessage = null;
-  }
+    if (confrimPasswordInput && passwordInput !== confrimPasswordInput) {
+        errorMessage = PASSWORD_DONT_MATCH;
+    } else if (emailInput && !Validator.isEmailValid(emailInput)) {
+        errorMessage = INVALID_EMAIL;
+    } else {
+        errorMessage = null;
+    }
 
-  const onSubmit = registrationInfo => {
-    registerUser(registrationInfo);
-  };
+    const onSubmit = registrationInfo => {
+        registerUser(registrationInfo);
+    };
 
-  const disableSubmitt = errorMessage !== null;
+    const disableSubmitt = errorMessage !== null;
 
-  return (
-    <Container component='main' maxWidth='xs'>
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component='h1' variant='h5'>
-          {AUTH.SIGN_UP}
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete='fname'
-                name='firstName'
-                variant='outlined'
-                required
-                fullWidth
-                id='firstName'
-                label={FIELD_LABELS.FIRST_NAME}
-                autoFocus
-                inputRef={register({ required: true })}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant='outlined'
-                required
-                fullWidth
-                id='lastName'
-                label={FIELD_LABELS.LAST_NAME}
-                name='lastName'
-                autoComplete='lname'
-                inputRef={register({ required: true })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant='outlined'
-                required
-                fullWidth
-                id='email'
-                label={FIELD_LABELS.EMAIL}
-                name='email'
-                autoComplete='email'
-                inputRef={register({ required: true })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant='outlined'
-                required
-                fullWidth
-                name='password'
-                label={FIELD_LABELS.PASSWORD}
-                type='password'
-                id='password'
-                autoComplete='current-password'
-                inputRef={register({ required: true })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant='outlined'
-                required
-                fullWidth
-                name='confirmPassword'
-                label={FIELD_LABELS.CONFIRM_PASSWORD}
-                type='password'
-                id='confirmPassword'
-                autoComplete='current-password'
-                inputRef={register({ required: true })}
-              />
-            </Grid>
-            {errorMessage &&
-              <Grid item xs={12}>
-                <FormError errorMessage={errorMessage} />
-              </Grid>
-            }
-          </Grid>
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            disabled={disableSubmitt}
-            className={classes.submit}
-          >
-            {AUTH.SIGN_UP}
-          </Button>
-          <Grid container justify='flex-end'>
-            <Grid item>
-              <Link href={`#${ROUTE_CONSTANTS.LOGIN}`} variant='body2'>
-                {AUTH.HAVE_ACCOUNT}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
-  );
+    return (
+        <Container component='main' maxWidth='xs'>
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component='h1' variant='h5'>
+                    {AUTH.SIGN_UP}
+                </Typography>
+                <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete='fname'
+                                name='firstName'
+                                variant='outlined'
+                                required
+                                fullWidth
+                                id='firstName'
+                                label={FIELD_LABELS.FIRST_NAME}
+                                autoFocus
+                                inputRef={register({ required: true })}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant='outlined'
+                                required
+                                fullWidth
+                                id='lastName'
+                                label={FIELD_LABELS.LAST_NAME}
+                                name='lastName'
+                                autoComplete='lname'
+                                inputRef={register({ required: true })}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant='outlined'
+                                required
+                                fullWidth
+                                id='email'
+                                label={FIELD_LABELS.EMAIL}
+                                name='email'
+                                autoComplete='email'
+                                inputRef={register({ required: true })}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant='outlined'
+                                required
+                                fullWidth
+                                name='password'
+                                label={FIELD_LABELS.PASSWORD}
+                                type='password'
+                                id='password'
+                                autoComplete='current-password'
+                                inputRef={register({ required: true })}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant='outlined'
+                                required
+                                fullWidth
+                                name='confirmPassword'
+                                label={FIELD_LABELS.CONFIRM_PASSWORD}
+                                type='password'
+                                id='confirmPassword'
+                                autoComplete='current-password'
+                                inputRef={register({ required: true })}
+                            />
+                        </Grid>
+                        {errorMessage &&
+                            <Grid item xs={12}>
+                                <FormError errorMessage={errorMessage} />
+                            </Grid>
+                        }
+                    </Grid>
+                    <Button
+                        type='submit'
+                        fullWidth
+                        variant='contained'
+                        color='primary'
+                        disabled={disableSubmitt}
+                        className={classes.submit}
+                    >
+                        {AUTH.SIGN_UP}
+                    </Button>
+                    <Grid container justify='flex-end'>
+                        <Grid item>
+                            <Link href={`#${ROUTE_CONSTANTS.LOGIN}`} variant='body2'>
+                                {AUTH.HAVE_ACCOUNT}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        </Container>
+    );
 }

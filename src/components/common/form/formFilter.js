@@ -31,7 +31,6 @@ export const FormFilter = ({ menuList, onChange, label, inputLabel, labelWidth, 
             </Select>
         </FormControl>
     )
-
 }
 
 const useStyles = makeStyles((theme) => ({

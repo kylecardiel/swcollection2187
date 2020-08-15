@@ -1,29 +1,29 @@
+import { TextField } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import ClearIcon from '@material-ui/icons/Clear';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { UserConsumer } from 'components/auth/authContext';
+import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
 import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
+import { TableStats } from 'components/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
+import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
+import { formatFormData } from 'components/common/form/formatFormData';
+import { FormFilter } from 'components/common/form/formFilter';
+import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { ActionFigure } from 'components/display/actionfigure';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { CatalogApi, UserApi, HelperDataApi } from 'shared/api/orchestrator';
+import { CatalogApi, HelperDataApi, UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { TableStats } from 'components/blackSeries/tableStats';
-import { TextField } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import { formatFormData } from 'components/common/form/formatFormData';
-import { generateStatsBasedOnSource } from 'components/common/stats/stats';
-import { FormFilter } from 'components/common/form/formFilter';
-import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
-import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -286,7 +286,7 @@ export const BlackSeriesCatalog = props => {
                                 buttonLabel={viewFilters ? 'Hide Filters' : 'Show Filters'}
                                 icon={viewFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                                 onClick={handleChange}
-                                color={Color.primary('black')}
+                                color={Color.black()}
                             />
                         </Grid>
                         {viewFilters &&
@@ -300,7 +300,7 @@ export const BlackSeriesCatalog = props => {
                                     <ActionButton
                                         buttonLabel={showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers'}
                                         onClick={handleAssortmentHeaderChange}
-                                        color={Color.primary('green')}
+                                        color={Color.green()}
                                     />
                                     {allViewCheckBox}
                                 </Grid>
@@ -309,7 +309,7 @@ export const BlackSeriesCatalog = props => {
                                         buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
                                         icon={<SwapHorizIcon />}
                                         onClick={handleImageChange}
-                                        color={Color.primary('green')}
+                                        color={Color.green()}
                                     />
                                     {ownedCheckBox}
                                 </Grid>
@@ -318,7 +318,7 @@ export const BlackSeriesCatalog = props => {
                                         buttonLabel={'Clear Filters'}
                                         icon={<ClearIcon />}
                                         onClick={handleClearFilters}
-                                        color={Color.primary('red')}
+                                        color={Color.red()}
                                     />
                                     {unownedCheckBox}
                                 </Grid>
@@ -332,7 +332,7 @@ export const BlackSeriesCatalog = props => {
                             <>
                                 <Grid item xs={12} md={3} className={classes.tableStats}></Grid>
                                 <Grid item xs={12} md={6} className={classes.tableStats}>
-                                    <AssortmentHeader text={'Stats'} backgroundColor={Color.primary('darkYellow')} />
+                                    <AssortmentHeader text={'Stats'} backgroundColor={Color.darkYellow()} />
                                     <TableStats stats={stats} />
                                 </Grid>
                             </>

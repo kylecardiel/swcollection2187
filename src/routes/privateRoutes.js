@@ -10,6 +10,7 @@ import { Admin } from 'components/admin/admin';
 import { ROLES } from 'shared/constants/roleConstants';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
+
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = () => {
