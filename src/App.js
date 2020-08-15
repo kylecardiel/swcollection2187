@@ -7,7 +7,7 @@ import { ScreenSizeProvider } from 'context/screenSizeContext';
 import { useMediaQuery } from 'react-responsive';
 import { SREEN_SIZE } from 'shared/constants/screenSize';
 
-export const App = ({ setScreenSizes }) => {
+export const App = () => {
   const [user, setUser] = useState({ loggedIn: false });
   const [screenSize] = useState({
     isLargeDesktopOrLaptop: useMediaQuery({ minDeviceWidth: SREEN_SIZE.XL }),
@@ -25,8 +25,8 @@ export const App = ({ setScreenSizes }) => {
   return (
     <ScreenSizeProvider value={screenSize}>
       <UserProvider value={user}>
-        <PrivateRoutes />
-        <PublicRoutes setScreenSizes={setScreenSizes} />
+        <PrivateRoutes/>
+        <PublicRoutes/>
       </UserProvider>
     </ScreenSizeProvider>
   );
