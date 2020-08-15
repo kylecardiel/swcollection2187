@@ -3,23 +3,27 @@ import { PublicRoutes } from './routes/publicRoutes';
 import { PrivateRoutes } from './routes/privateRoutes';
 import { onAuthStateChange } from 'backend/FirebaseAuth';
 import { UserProvider } from 'components/auth/authContext';
-// import { ScreenSize } from 'components/common/screenSize';
+import { setScreenSizes } from 'store/screenSize/screenSizeActions';
+import { connect } from 'react-redux';
 
-export const App = () => {
+export const App = ({ setScreenSizes }) => {
   const [user, setUser] = useState({ loggedIn: false });
-  // const [screenSizes, setScreenSizes] = useState({});
 
   useEffect(() => {
     onAuthStateChange(setUser);
   }, []);
 
-  // console.log(screenSizes);
   
   return (
     <UserProvider value={user}>
       <PrivateRoutes />
-      <PublicRoutes />
+      <PublicRoutes setScreenSizes={setScreenSizes}/>
     </UserProvider>
   );
+};
 
-}
+export const mapDispatchToProps = dispatch => ({
+  setScreenSizes: size => dispatch(setScreenSizes(size)),
+});
+
+export default connect(null, mapDispatchToProps)(App);
