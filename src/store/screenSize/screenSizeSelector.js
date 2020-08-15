@@ -1,1 +1,0 @@
-export const getScreenSize = state => state.screenSize;

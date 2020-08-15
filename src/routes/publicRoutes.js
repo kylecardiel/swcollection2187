@@ -4,11 +4,10 @@ import { Homepage } from 'components/homePage/homePage';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { BlackSeries } from 'components/blackSeries/blackSeries';
 import { ActionFigureDetailsConnect } from 'components/hoc/actionFigureDetailsConnect';
-import { ScreenSize } from 'components/common/screenSize';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const PublicRoutes = ({ setScreenSizes }) => {
+export const PublicRoutes = () => {    
     return (
         <React.Fragment>
             <Router>
@@ -31,7 +30,6 @@ export const PublicRoutes = ({ setScreenSizes }) => {
                     />
                 </Switch>
             </Router>
-            <ScreenSize setScreenSizes={setScreenSizes}/>
         </React.Fragment>
     );
 };

@@ -5,11 +5,4 @@ export const initialState = {
         userList: [],
     },
     helperData: {},
-    screenSize: {
-        isLargeDesktopOrLaptop: false,
-        isMediumDesktopOrLaptop: false,
-        isTablet: false,
-        isMobileDevice: false,
-        isPortrait: false,
-    },
 };
