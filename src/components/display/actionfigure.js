@@ -14,7 +14,7 @@ import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROLES } from 'shared/constants/roleConstants';
 import { Color } from 'shared/styles/color';
 
-export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders }) => {
+export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders, view }) => {
     const classes = useStyles();
     const { loggedIn, id, email } = useContext(UserConsumer);
 
@@ -66,7 +66,7 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
 
     let { url } = useRouteMatch();
     
-    const actionFigureCard = records && records.map(record =>
+    const actionFigureCard = view && records && records.map(record =>
         <Grid item xs={12} md={2} key={record.id}>
             <Link
                 to={{

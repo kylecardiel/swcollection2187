@@ -38,10 +38,16 @@ export const BlackSeriesCatalog = props => {
     const handleChange = () => setVewFilters(!viewFilters);
 
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState('');
-    const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
+    const handleSourceMaterialChange = e => {
+        setFilterBySourceMaterial(e.target.value);
+        setCollapsibleAssortments([]);
+    };
 
     const [filterByCharacter, setFilterByCharacter] = useState('');
-    const handleCharacterChange = e => setFilterByCharacter(e.target.value);
+    const handleCharacterChange = e => {
+        setFilterByCharacter(e.target.value);
+        setCollapsibleAssortments([]);;
+    };
 
     const [filterByInputName, setFilterByInputName] = useState('');
     const handleInputNameChange = e => {
@@ -51,13 +57,22 @@ export const BlackSeriesCatalog = props => {
     };
 
     const [filterByGroup, setFilterByGroup] = useState('');
-    const handleGroupChange = e => setFilterByGroup(e.target.value);
+    const handleGroupChange = e => {
+        setFilterByGroup(e.target.value);
+        setCollapsibleAssortments([]);
+    };
 
     const [filterByVersion, setFilterByVersion] = useState('');
-    const handleVersionChange = e => setFilterByVersion(e.target.value);
+    const handleVersionChange = e => {
+        setFilterByVersion(e.target.value);
+        setCollapsibleAssortments([]);
+    };
 
     const [filterByAssortment, setFilterByAssortment] = useState('');
-    const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
+    const handleAssortmentChange = e => {
+        setFilterByAssortment(e.target.value);
+        setCollapsibleAssortments([]);
+    };
 
     const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(true);
     const handleAssortmentHeaderChange = () => setShowAssortmentHeaders(!showAssortmentHeaders);
@@ -86,8 +101,15 @@ export const BlackSeriesCatalog = props => {
 
     const handleUnownedFiguresCheckBoxChange = () => {
         setViewOnlyUnownedFigures(!viewOnlyUnownedFigures);
-        // if(viewAllFigures) setViewAllFigures(false);
         setViewAllFigures(!viewAllFigures)
+    };
+
+    const [collapsibleAssortments, setCollapsibleAssortments] = useState([]);
+    const handleCollapsibleChange = assortment => {
+        const updated = collapsibleAssortments.includes(assortment)
+            ? collapsibleAssortments.filter(el => el !== assortment)
+            : [...[assortment], ...collapsibleAssortments];
+        setCollapsibleAssortments(updated);
     };
 
     const inputLabel = useRef(null);
@@ -101,6 +123,7 @@ export const BlackSeriesCatalog = props => {
         setFilterByAssortment(null);
         setShowAssortmentHeaders(true);
         setNewBoxImage(false);
+        setCollapsibleAssortments(helperData.assortment.values.filter(el => el !== 'Orange - 2013/2014'));
     };
 
     const [initialState] = useState(props);
@@ -127,7 +150,9 @@ export const BlackSeriesCatalog = props => {
         helperDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
             if (snapshotRef) {
-                setHelperData(formatFormData(snapshotRef));
+                const data = formatFormData(snapshotRef);
+                setHelperData(data);
+                setCollapsibleAssortments(data.assortment.values.filter(el => el !== 'Orange - 2013/2014'));
             }
         });
 
@@ -160,12 +185,26 @@ export const BlackSeriesCatalog = props => {
 
     const generateAssortmentSection = assortment => {
         const assortAttributes = assortmentAttributes(assortment);
-        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === assortment), assortAttributes.sortingAttribute)
+        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === assortment), assortAttributes.sortingAttribute);
         if (records.length > 0) {
-            const backgroundColor = assortAttributes.color;
+            const view = showAssortmentHeaders ? !collapsibleAssortments.includes(assortment) : true
             return <>
-                {showAssortmentHeaders && <AssortmentHeader id={assortment} key={assortment} text={assortment} backgroundColor={backgroundColor} />}
-                <ActionFigure records={records} newBoxImage={newBoxImage} catalogList={catalogList} showAssortmentHeaders={showAssortmentHeaders} />
+                {showAssortmentHeaders && 
+                    <AssortmentHeader 
+                        id={assortment} 
+                        key={assortment} 
+                        text={assortment} 
+                        backgroundColor={assortAttributes.color} 
+                        onViewChange={() => handleCollapsibleChange(assortment)}
+                        view={view}
+                    />}
+                <ActionFigure 
+                    records={records} 
+                    newBoxImage={newBoxImage} 
+                    catalogList={catalogList} 
+                    showAssortmentHeaders={showAssortmentHeaders} 
+                    view={view}
+                />
             </>
         }
         return null;
@@ -183,6 +222,7 @@ export const BlackSeriesCatalog = props => {
         newBoxImage={newBoxImage}
         catalogList={catalogList}
         showAssortmentHeaders={showAssortmentHeaders}
+        view={true}
     />;
 
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
