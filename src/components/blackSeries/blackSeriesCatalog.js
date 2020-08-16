@@ -195,7 +195,7 @@ export const BlackSeriesCatalog = props => {
                         key={assortment} 
                         text={assortment} 
                         backgroundColor={assortAttributes.color} 
-                        onViewChange={() => handleCollapsibleChange(assortment)}
+                        collapseonChangeButton={() => handleCollapsibleChange(assortment)}
                         view={view}
                     />}
                 <ActionFigure 

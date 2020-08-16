@@ -6,15 +6,15 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { Color } from 'shared/styles/color';
 
-export const AssortmentHeader = ({ text, backgroundColor, onViewChange, view }) => {
+export const AssortmentHeader = ({ text, backgroundColor, collapseonChangeButton, view }) => {
     const classes = useStyles({ backgroundColor });
     const icon = view ? <ExpandLessIcon fontSize='large'/> : <ExpandMoreIcon fontSize='large'/>;
     return (
         <Grid container spacing={1} className={classes.headerContainer}>
-            <Grid item xs={1} onClick={onViewChange}>
+            {collapseonChangeButton && <Grid item xs={1} onClick={collapseonChangeButton}>
                 <div className={classes.button}>{icon}</div>
-            </Grid>
-            <Grid item xs={10} >
+            </Grid>}
+            <Grid item xs={collapseonChangeButton ? 10 : 12} >
                 <HeaderText text={text} />
             </Grid>
         </Grid>
