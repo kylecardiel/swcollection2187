@@ -6,62 +6,67 @@ const { BS_ORANGE, BS_BLUE, BS_RED, BS_DELUX, BS_40TH, BS_ARCHIVE, BS_VEHICLE, B
 export const assortmentAttributes = assortment => {
     switch (assortment) {
         case BS_ORANGE:
-            return { 
+            return {
                 color: Color.orange(),
                 sortingAttribute: 'seriesNumber',
             };
         case BS_BLUE:
-            return { 
+            return {
                 color: Color.blue(),
                 sortingAttribute: 'seriesNumber',
             };
         case BS_RED:
-            return { 
+            return {
                 color: Color.red(),
                 sortingAttribute: 'seriesNumber',
             };
         case BS_DELUX:
-            return { 
+            return {
                 color: Color.red(),
                 sortingAttribute: 'seriesNumber',
             };
         case BS_RED_EXCLUSIVES:
-            return { 
+            return {
                 color: Color.red(),
                 sortingAttribute: 'name',
             };
         case BS_40TH:
-            return { 
+            return {
                 color: Color.grey(),
                 sortingAttribute: 'sourceMaterial',
             };
         case BS_ARCHIVE:
-            return { 
+            return {
                 color: Color.lightGrey(),
                 sortingAttribute: 'wave',
             };
         case BS_VEHICLE:
-            return { 
+            return {
                 color: Color.red(),
                 sortingAttribute: 'seriesNumber',
             };
         case BS_CENTERPIECE:
-            return { 
+            return {
                 color: Color.yellow(),
                 sortingAttribute: 'seriesNumber',
             };
         case BS_GAMING_GREATS:
-            return { 
+            return {
                 color: Color.purple(),
                 sortingAttribute: 'name',
             };
         case 'Convention Exclusive':
-            return { 
+            return {
                 color: Color.green(),
                 sortingAttribute: 'name',
             };
+        case 'Red - Mini':
+            return {
+                color: Color.red(),
+                sortingAttribute: 'year',
+            };
         default:
-            return { 
+            return {
                 color: Color.white(),
                 sortingAttribute: 'seriesNumber',
             };
