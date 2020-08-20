@@ -20,3 +20,7 @@ const createFormDataObj = retreivedData => {
     };
     return data;
 };
+
+export const convertArrayObjectToArrayOfObjectProperty = (data, attribute) => {
+    return data.values.map(obj => obj[attribute]);
+}

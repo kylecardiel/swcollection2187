@@ -50,6 +50,7 @@ export const Admin = () => {
 
 
     const [newAssortment, setNewAssortment] = useState({ values: []});
+    const [newSourceMaterial, setNewSourceMaterial] = useState({ values: []});
     const [uploadAssortment, setUploadAssortment] = useState();
     const handleChangeUploadAssortment = e => setUploadAssortment(e.target.value);
 
@@ -70,6 +71,9 @@ export const Admin = () => {
                 setHelperData(formattedData);
                 setNewAssortment({
                     values: formattedData.assortment.values.map(({ name }) => name ),
+                });
+                setNewSourceMaterial({
+                    values: formattedData.sourceMaterial.values.map(({ name }) => name ),
                 });
             }
         });
@@ -108,7 +112,7 @@ export const Admin = () => {
         { key: 'Exclusive Retailer', value: 'exclusiveRetailer' },
         { key: 'Groups', value: 'groups' },
         { key: 'Series', value: 'series' },
-        { key: 'Source Material', value: 'sourceMaterial' },
+        // { key: 'Source Material', value: 'sourceMaterial' },
         { key: 'Source Type', value: 'sourceType' },
         { key: 'Version', value: 'version' },
     ];
@@ -164,13 +168,13 @@ export const Admin = () => {
     let assortmentTable, charactersTable, collectionTypeTable, exclusiveTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
-            assortmentTable = <FormDataTable header={'Assortment'} data={newAssortment} dataType={'assortment'} />;
+            assortmentTable = <FormDataTable header={'Assortment'} data={newAssortment} dataType={'assortment'} disable/>;
             collectionTypeTable = <FormDataTable header={'Collection Type'} data={helperData.collectionType} dataType={'collectionType'} />;
             charactersTable = <FormDataTable header={'Characters'} data={helperData.characters} dataType={'characters'} />;
             exclusiveTable = <FormDataTable header={'Exclusive Retailer'} data={helperData.exclusiveRetailer} dataType={'exclusiveRetailer'} />;
             groupsTable = <FormDataTable header={'Groups'} data={helperData.groups} dataType={'groups'} />;
             seriesTable = <FormDataTable header={'Series'} data={helperData.series} dataType={'series'} />;
-            sourceMaterialTable = <FormDataTable header={'Source Material'} data={helperData.sourceMaterial} dataType={'sourceMaterial'} />;
+            sourceMaterialTable = <FormDataTable header={'Source Material'} data={newSourceMaterial} dataType={'sourceMaterial'} disable/>;
             sourceTypeTable = <FormDataTable header={'Source Type'} data={helperData.sourceType} dataType={'sourceType'} />;
             versionTable = <FormDataTable header={'Version'} data={helperData.version} dataType={'version'} />;
         }

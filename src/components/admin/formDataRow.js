@@ -7,9 +7,7 @@ import React from 'react';
 import { HelperDataApi } from 'shared/api/orchestrator';
 import { Color } from 'shared/styles/color';
 
-export const FormDataTableRow = props => {
-
-    const { data, dataType } = props;
+export const FormDataTableRow = ({ data, dataType, disable }) => {
     const { id, values } = data;
 
     const classes = useStyles();
@@ -24,7 +22,7 @@ export const FormDataTableRow = props => {
         return <TableRow key={val} >
             <TableCell >{val}</TableCell>
             <TableCell className={classes.buttonColumn}>
-                <ActionButton icon={<DeleteForeverIcon />} color={Color.red()} onClick={() => onDelete(val)} />
+                {!disable && <ActionButton icon={<DeleteForeverIcon />} color={Color.red()} onClick={() => onDelete(val)} /> }
             </TableCell>
         </TableRow>
     });

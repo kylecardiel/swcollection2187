@@ -13,7 +13,7 @@ import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
 import { TableStats } from 'components/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
-import { formatFormData } from 'components/common/form/formatFormData';
+import { formatFormData, convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { FormFilter } from 'components/common/form/formFilter';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { ActionFigure } from 'components/display/actionfigure';
@@ -229,9 +229,11 @@ export const BlackSeriesCatalog = props => {
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, sourceMaterial, groups, version } = helperData;
+            const formattedSourceMaterial = convertArrayObjectToArrayOfObjectProperty(sourceMaterial, 'name');
+            const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, 'name');
             sourceMaterialFilterComp = <FormFilter
                 key={'Source Material'}
-                menuList={sourceMaterial.values}
+                menuList={formattedSourceMaterial}
                 onChange={handleSourceMaterialChange}
                 label={'Source Material'}
                 inputLabel={inputLabel}
@@ -267,7 +269,7 @@ export const BlackSeriesCatalog = props => {
             />
             assortmentFilterComp = <FormFilter
                 key={'Assortment'}
-                menuList={assortment.values}
+                menuList={formattedAssortment}
                 onChange={handleAssortmentChange}
                 label={'Assortment'}
                 inputLabel={inputLabel}
