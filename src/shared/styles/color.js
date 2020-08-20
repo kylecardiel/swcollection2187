@@ -6,7 +6,7 @@ export class Color {
     }
 
     static black = () => Color.primary('black');
-    static blackGradient = () => Color.primary('radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(135,135,147,1) 0%, rgba(0,0,0,1) 100%)');
+    static blackGradient = () => Color.primary('blackGradient');
     
     static blue = () => Color.primary('blue');
     

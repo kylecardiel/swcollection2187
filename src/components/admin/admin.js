@@ -48,6 +48,8 @@ export const Admin = () => {
     const [dataType, setDatatype] = useState();
     const handleChangeDataType = e => setDatatype(e.target.value);
 
+
+    const [newAssortment, setNewAssortment] = useState({ values: []});
     const [uploadAssortment, setUploadAssortment] = useState();
     const handleChangeUploadAssortment = e => setUploadAssortment(e.target.value);
 
@@ -64,7 +66,11 @@ export const Admin = () => {
         helperDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
             if (snapshotRef) {
-                setHelperData(formatFormData(snapshotRef));
+                const formattedData = formatFormData(snapshotRef);
+                setHelperData(formattedData);
+                setNewAssortment({
+                    values: formattedData.assortment.values.map(({ name }) => name ),
+                });
             }
         });
     }, []);
@@ -96,7 +102,7 @@ export const Admin = () => {
 
     const dataTypes = [
         { key: 'none', value: null },
-        { key: 'Assortment', value: 'assortment' },
+        // { key: 'Assortment', value: 'assortment' },
         { key: 'Characters', value: 'characters' },
         { key: 'Collection Type', value: 'collectionType' },
         { key: 'Exclusive Retailer', value: 'exclusiveRetailer' },
@@ -158,7 +164,7 @@ export const Admin = () => {
     let assortmentTable, charactersTable, collectionTypeTable, exclusiveTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
-            assortmentTable = <FormDataTable header={'Assortment'} data={helperData.assortment} dataType={'assortment'} />;
+            assortmentTable = <FormDataTable header={'Assortment'} data={newAssortment} dataType={'assortment'} />;
             collectionTypeTable = <FormDataTable header={'Collection Type'} data={helperData.collectionType} dataType={'collectionType'} />;
             charactersTable = <FormDataTable header={'Characters'} data={helperData.characters} dataType={'characters'} />;
             exclusiveTable = <FormDataTable header={'Exclusive Retailer'} data={helperData.exclusiveRetailer} dataType={'exclusiveRetailer'} />;
@@ -212,7 +218,7 @@ export const Admin = () => {
                                         defaultValue={''}
                                         label={'assortment'}
                                     >
-                                        {helperData.assortment.values.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)}
+                                        {newAssortment.values.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)}
                                     </Select>
                                 </FormControl>
                             }
