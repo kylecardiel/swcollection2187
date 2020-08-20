@@ -9,7 +9,6 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { UserConsumer } from 'components/auth/authContext';
-import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
 import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
 import { TableStats } from 'components/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
@@ -152,7 +151,7 @@ export const BlackSeriesCatalog = props => {
             if (snapshotRef) {
                 const data = formatFormData(snapshotRef);
                 setHelperData(data);
-                setCollapsibleAssortments(data.assortment.values.filter(el => el !== 'Orange - 2013/2014'));
+                setCollapsibleAssortments(data.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
             }
         });
 
@@ -184,19 +183,19 @@ export const BlackSeriesCatalog = props => {
     const displayList = massageList();
 
     const generateAssortmentSection = assortment => {
-        const assortAttributes = assortmentAttributes(assortment);
-        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === assortment), assortAttributes.sortingAttribute);
+        const { color, name, sortingAttribute, textColor} = assortment;
+        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === name), sortingAttribute);
         if (records.length > 0) {
-            const view = showAssortmentHeaders ? !collapsibleAssortments.includes(assortment) : true
+            const view = showAssortmentHeaders ? !collapsibleAssortments.includes(name) : true
             return <>
                 {showAssortmentHeaders && 
                     <AssortmentHeader 
-                        id={assortment} 
-                        key={assortment} 
-                        text={assortment} 
-                        textColor={assortAttributes.textColor}
-                        backgroundColor={assortAttributes.color} 
-                        collapseonChangeButton={() => handleCollapsibleChange(assortment)}
+                        id={name} 
+                        key={name} 
+                        text={name} 
+                        textColor={textColor}
+                        backgroundColor={color} 
+                        collapseonChangeButton={() => handleCollapsibleChange(name)}
                         view={view}
                     />}
                 <ActionFigure 
@@ -373,7 +372,7 @@ export const BlackSeriesCatalog = props => {
                             <>
                                 <Grid item xs={12} md={3} className={classes.tableStats}></Grid>
                                 <Grid item xs={12} md={6} className={classes.tableStats}>
-                                    <AssortmentHeader text={'Stats'} backgroundColor={Color.darkYellow()} />
+                                    <AssortmentHeader text={'Stats'} backgroundColor={'darkYellow'} />
                                     <TableStats stats={stats} />
                                 </Grid>
                             </>

@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         paddingBottom: theme.spacing(1),
         paddingLeft: theme.spacing(1),
         width: '100%',
-        background: props => props.backgroundColor,
+        background: props => Color.primary(props.backgroundColor),
     },
     button: {
         borderRadius: 100,
