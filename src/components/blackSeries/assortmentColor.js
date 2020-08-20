@@ -47,7 +47,7 @@ export const assortmentAttributes = assortment => {
             };
         case BS_CENTERPIECE:
             return {
-                color: Color.yellow(),
+                color: Color.red(),
                 sortingAttribute: 'seriesNumber',
             };
         case BS_GAMING_GREATS:
@@ -64,6 +64,12 @@ export const assortmentAttributes = assortment => {
             return {
                 color: Color.red(),
                 sortingAttribute: 'year',
+            };
+        case 'Series 4.0':
+            return {
+                color: Color.black(),
+                sortingAttribute: 'seriesNumber',
+                textColor: Color.darkYellow(),
             };
         default:
             return {

@@ -30,7 +30,7 @@ export const DOMAIN_CONSTANTS = Object.freeze({
                         BS_ARCHIVE: 'Archive',
                         BS_CENTERPIECE: 'Centerpiece',
                         BS_DELUX: 'Red - Delux',
-                        BS_VEHICLE: 'With Vehicle',
+                        BS_VEHICLE: 'With Vehicle/Creatures',
                         BS_40TH: '40th Anniv',
                         BS_GAMING_GREATS: 'Gaming Greats',
                         BS_RED_EXCLUSIVES: 'Red - Exclusives',

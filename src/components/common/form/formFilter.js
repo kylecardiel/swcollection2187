@@ -4,6 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
+import { Color } from 'shared/styles/color';
 
 export const FormFilter = ({ menuList, onChange, label, inputLabel, labelWidth, value }) => {
 
@@ -37,5 +38,6 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 225,
+        backgroundColor: Color.white(),
     },
 }));

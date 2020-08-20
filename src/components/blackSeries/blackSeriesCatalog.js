@@ -194,6 +194,7 @@ export const BlackSeriesCatalog = props => {
                         id={assortment} 
                         key={assortment} 
                         text={assortment} 
+                        textColor={assortAttributes.textColor}
                         backgroundColor={assortAttributes.color} 
                         collapseonChangeButton={() => handleCollapsibleChange(assortment)}
                         view={view}
@@ -303,7 +304,7 @@ export const BlackSeriesCatalog = props => {
                 <div className={classes.root}>
                     <Grid container spacing={1}>
                         <Grid item xs={12} className={classes.alwaysDisplayed}>
-                            <Typography color='textSecondary'>
+                            <Typography>
                                 {`Search: `}
                             </Typography>
                         </Grid>
@@ -423,5 +424,6 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         marginTop: theme.spacing(0),
         minWidth: 225,
+        backgroundColor: Color.white(),
     },
 }));

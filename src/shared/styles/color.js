@@ -17,6 +17,8 @@ export class Color {
     static red = () => 'red';
 
     static white = () => '#ffffff';
+    static nearWhite = () => '#ededed';
+
     static yellow = () => '#fac519';
     static darkYellow = () => '#f2d61b';
 

@@ -20,8 +20,9 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
 
     const authEmail = email === ROLES.EMAIL;
 
-    const generateBottomText = (label, value) => {
-        return <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext} >
+    const generateBottomText = (label, value, source) => {
+        const className = source ? [classes.bottomtext, classes.source] : [classes.bottomtext];
+        return <Typography variant='body2' color='textSecondary' component='p' className={className} >
             <span className={classes.textStyle}>{`${label} `}</span>
             {value}
         </Typography>
@@ -67,7 +68,7 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
     let { url } = useRouteMatch();
     
     const actionFigureCard = view && records && records.map(record =>
-        <Grid item xs={12} md={2} key={record.id}>
+        <Grid item xs={12} md={2} key={record.id} >
             <Link
                 to={{
                     pathname: `${url}/${record.id}`,
@@ -99,7 +100,7 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
                 <Card className={classes.bottomCard}>
                     <CardContent >
                         {record.additionalNameDetails && generateBottomText('', `( ${record.additionalNameDetails} )`)}
-                        {generateBottomText(record.sourceMaterial)}
+                        {generateBottomText(record.sourceMaterial,'', record.sourceMaterial === 'Series 4.0')}
                         {!showAssortmentHeaders && generateBottomText('', `${record.assortment}`)}
                         {record.version && generateBottomText('Version: ', ` ${record.version}`)}
                         {record.multipack && generateBottomText('', ` [${record.multipack}]`)}
@@ -156,6 +157,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    source: {
+        backgroundColor: Color.blue(),
+        width: '100%',
     },
     buttonCard: {
         maxWidth: 325,
