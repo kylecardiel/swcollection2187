@@ -187,6 +187,8 @@ export const BlackSeriesCatalog = props => {
         const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === name), sortingAttribute);
         if (records.length > 0) {
             const view = showAssortmentHeaders ? !collapsibleAssortments.includes(name) : true
+            console.log('assortments')
+            console.log(helperData)
             return <>
                 {showAssortmentHeaders && 
                     <AssortmentHeader 
@@ -225,6 +227,8 @@ export const BlackSeriesCatalog = props => {
         catalogList={catalogList}
         showAssortmentHeaders={showAssortmentHeaders}
         view={true}
+        sourceMaterials={helperData.sourceMaterial}
+        assortments={helperData.assortment}
     />;
 
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;

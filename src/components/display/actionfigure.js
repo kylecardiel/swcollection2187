@@ -56,7 +56,7 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
         <Grid item xs={12} md={2} key={record.id} >
             <Link
                 to={{
-                    pathname: `${url}/${record.id}`,
+                    pathname: `${url}/${record.name}${record.id}`,
                     state: { 
                         figure: record,
                         catalogList: catalogList,
