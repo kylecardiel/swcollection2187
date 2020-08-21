@@ -1,4 +1,4 @@
-import { Card, CardMedia, Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Card, CardMedia, Container, Grid, makeStyles } from '@material-ui/core';
 import { UserConsumer } from 'components/auth/authContext';
 import { DisplayNameSection } from 'components/display/displayName';
 import React, { useContext } from 'react';
@@ -6,7 +6,6 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
-import { ROLES } from 'shared/constants/roleConstants';
 import { Color } from 'shared/styles/color';
 import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
 
