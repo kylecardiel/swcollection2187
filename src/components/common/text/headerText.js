@@ -3,7 +3,7 @@ import React from 'react';
 import { Color } from 'shared/styles/color';
 
 export const HeaderText = ({ textColor, staticTextSize, text }) => {
-    const classes = useStyles({ textColor: textColor ? textColor : Color.black()});
+    const classes = useStyles({ textColor: textColor ? textColor : 'black'});
     const className = staticTextSize ? classes.textStatic : classes.textSizeChange;
     return (
         <div data-testid='headerTextId' className={className}>
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
         },
         fontWeight: '800',
         textTransform: 'uppercase',
-        color: props => props.textColor
+        color: props => Color.primary(props.textColor),
     },
     textStatic: {
         display: 'flex',
@@ -36,6 +36,6 @@ const useStyles = makeStyles(theme => ({
         fontSize: '36px',
         fontWeight: '800',
         textTransform: 'uppercase',
-        color: props => props.textColor
+        color: props => Color.primary(props.textColor),
     },
 }));

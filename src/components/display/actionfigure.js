@@ -1,9 +1,4 @@
-import {
-    Card,
-    CardContent,
-    CardMedia, Container, Grid,
-    makeStyles, Typography
-} from '@material-ui/core';
+import { Card, CardMedia, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import { UserConsumer } from 'components/auth/authContext';
 import { DisplayNameSection } from 'components/display/displayName';
 import React, { useContext } from 'react';
@@ -13,21 +8,12 @@ import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROLES } from 'shared/constants/roleConstants';
 import { Color } from 'shared/styles/color';
+import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
 
-export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders, view }) => {
+export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders, view, sourceMaterials, assortments }) => {
     const classes = useStyles();
-    const { loggedIn, id, email } = useContext(UserConsumer);
-
-    const authEmail = email === ROLES.EMAIL;
-
-    const generateBottomText = (label, value, source) => {
-        const className = source ? [classes.bottomtext, classes.source] : [classes.bottomtext];
-        return <Typography variant='body2' color='textSecondary' component='p' className={className} >
-            <span className={classes.textStyle}>{`${label} `}</span>
-            {value}
-        </Typography>
-    };
-
+    const { loggedIn, id } = useContext(UserConsumer);
+    
     const addFigureToCollection = figure => {
         let newCollectile = {
             catalogId: figure.id,
@@ -81,10 +67,9 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
             >
                 <Card className={classes.card} >
                     <DisplayNameSection
-                        name={record.name}
-                        seriesNumber={record.seriesNumber}
-                        assortment={record.assortment}
-                        series={record.series}
+                        record={record}
+                        sourceMaterials={sourceMaterials}
+                        assortments={assortments}
                     />
                     <CardMedia
                         style={{ paddingTop: '60%', height: 250 }}
@@ -97,22 +82,11 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
                         src={record.name}
                     />
                 </Card>
-                <Card className={classes.bottomCard}>
-                    <CardContent >
-                        {record.additionalNameDetails && generateBottomText('', `( ${record.additionalNameDetails} )`)}
-                        {generateBottomText(record.sourceMaterial,'', record.sourceMaterial === 'Series 4.0')}
-                        {!showAssortmentHeaders && generateBottomText('', `${record.assortment}`)}
-                        {record.version && generateBottomText('Version: ', ` ${record.version}`)}
-                        {record.multipack && generateBottomText('', ` [${record.multipack}]`)}
-                        {record.exclusiveRetailer && generateBottomText('', ` ${record.exclusiveRetailer}`)}
-                        {record.owned
-                            && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
-                        {record.owned
-                            && generateBottomText('Total Owned: ', ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
-                        
-                        {authEmail && generateBottomText(record.id)}
-                    </CardContent>
-                </Card>
+                <ActionFigureCardContent 
+                    record={record}
+                    showAssortmentHeaders={showAssortmentHeaders} 
+                    sourceMaterials={sourceMaterials}
+                />
             </Link>
             {loggedIn && collectionButton(record)}
         </Grid>
@@ -159,7 +133,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
     source: {
-        backgroundColor: Color.blue(),
+        backgroundColor: Color.white(),
         width: '100%',
     },
     buttonCard: {

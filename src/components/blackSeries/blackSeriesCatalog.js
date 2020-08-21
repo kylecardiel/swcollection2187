@@ -204,6 +204,8 @@ export const BlackSeriesCatalog = props => {
                     catalogList={catalogList} 
                     showAssortmentHeaders={showAssortmentHeaders} 
                     view={view}
+                    sourceMaterials={helperData.sourceMaterial}
+                    assortments={helperData.assortment}
                 />
             </>
         }
