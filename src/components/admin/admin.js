@@ -12,19 +12,18 @@ import { FormDataTable } from 'components/admin/formDataTable';
 import { UploadImage } from 'components/admin/uploadImage';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
-import { formatFormData } from 'components/common/form/formatFormData';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import { isEmpty } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { HelperDataApi } from 'shared/api/orchestrator';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
+import { HelperDataConsumer } from 'context/helperDataContext';
 
 const { HOME } = ROUTE_CONSTANTS;
 
@@ -54,7 +53,7 @@ export const Admin = () => {
     const [uploadAssortment, setUploadAssortment] = useState();
     const handleChangeUploadAssortment = e => setUploadAssortment(e.target.value);
 
-    const [helperData, setHelperData] = useState({});
+    const helperData = useContext(HelperDataConsumer);
 
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
@@ -63,21 +62,13 @@ export const Admin = () => {
     }, []);
 
     useEffect(() => {
-        const helperDataRef = HelperDataApi.read(FB_DB_CONSTANTS.HELPER_DATA);
-        helperDataRef.on('value', snapshot => {
-            const snapshotRef = snapshot.val();
-            if (snapshotRef) {
-                const formattedData = formatFormData(snapshotRef);
-                setHelperData(formattedData);
-                setNewAssortment({
-                    values: formattedData.assortment.values.map(({ name }) => name ),
-                });
-                setNewSourceMaterial({
-                    values: formattedData.sourceMaterial.values.map(({ name }) => name ),
-                });
-            }
+        setNewAssortment({
+            values: helperData.assortment.values.map(({ name }) => name ),
         });
-    }, []);
+        setNewSourceMaterial({
+            values: helperData.sourceMaterial.values.map(({ name }) => name ),
+        });
+    }, [helperData]);
 
     const { register, handleSubmit, reset } = useForm();
 

@@ -13,16 +13,17 @@ import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
 import { TableStats } from 'components/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
-import { formatFormData, convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
+import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { FormFilter } from 'components/common/form/formFilter';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { ActionFigure } from 'components/display/actionfigure';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { CatalogApi, HelperDataApi, UserApi } from 'shared/api/orchestrator';
+import { CatalogApi, UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
+import { HelperDataConsumer } from 'context/helperDataContext';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -31,7 +32,8 @@ export const BlackSeriesCatalog = props => {
     const classes = useStyles();
     const { catalogList, setCatalogData, userList, setUserData } = props;
 
-    const [helperData, setHelperData] = useState({});
+    // const [helperData, setHelperData] = useState({});
+    const helperData = useContext(HelperDataConsumer);
 
     const [viewFilters, setVewFilters] = useState(false);
     const handleChange = () => setVewFilters(!viewFilters);
@@ -145,21 +147,13 @@ export const BlackSeriesCatalog = props => {
             });
         };
 
-        const helperDataRef = HelperDataApi.read(FB_DB_CONSTANTS.HELPER_DATA);
-        helperDataRef.on('value', snapshot => {
-            const snapshotRef = snapshot.val();
-            if (snapshotRef) {
-                const data = formatFormData(snapshotRef);
-                setHelperData(data);
-                setCollapsibleAssortments(data.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
-            }
-        });
+        setCollapsibleAssortments(helperData.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
 
         if (viewFilters) {
             setLabelWidth(inputLabel.current.offsetWidth);
         };
 
-    }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters]);
+    }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters, helperData]);
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
