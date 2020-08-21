@@ -7,8 +7,12 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { Color } from 'shared/styles/color';
 
 export const AssortmentHeader = ({ text, textColor = Color.black(), backgroundColor, collapseonChangeButton, view }) => {
-    const classes = useStyles({ backgroundColor, textColor });
-    const icon = view ? <ExpandLessIcon fontSize='large'/> : <ExpandMoreIcon fontSize='large'/>;
+    const classes = useStyles({ backgroundColor });
+    const iconColor = { color: Color.white() };
+    const icon = view 
+        ? <ExpandLessIcon fontSize='large' style={iconColor} /> 
+        : <ExpandMoreIcon fontSize='large' style={iconColor} />;
+        
     return (
         <Grid container spacing={1} className={classes.headerContainer}>
             {collapseonChangeButton && <Grid item xs={1} onClick={collapseonChangeButton}>
@@ -28,7 +32,7 @@ const useStyles = makeStyles(theme => ({
         paddingBottom: theme.spacing(1),
         paddingLeft: theme.spacing(1),
         width: '100%',
-        background: props => props.backgroundColor,
+        background: props => Color.primary(props.backgroundColor),
     },
     button: {
         borderRadius: 100,
@@ -36,7 +40,8 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         '&:hover': {
-            backgroundColor: Color.white(),
+            backgroundColor: Color.black(),
         },
+        cursor: 'pointer',
     },
 }));

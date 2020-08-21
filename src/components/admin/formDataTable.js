@@ -4,7 +4,7 @@ import { TableHeaders } from 'components/common/table/tableHeaders';
 import { Paper, Table, TableBody } from '@material-ui/core';
 import { FormDataTableRow } from 'components/admin/formDataRow';
 
-export const FormDataTable = ({ header, data, dataType}) => {
+export const FormDataTable = ({ header, data, dataType, disable}) => {
     const classes = useStyles();
     const columnDef = headerValue => [{ headerName: headerValue, span: 2, }];
     return (
@@ -12,7 +12,7 @@ export const FormDataTable = ({ header, data, dataType}) => {
             <Table>
                 <TableHeaders columnDefinitions={columnDef(header)} />
                 <TableBody>
-                    <FormDataTableRow data={data} dataType={dataType} />
+                    <FormDataTableRow data={data} dataType={dataType} disable={disable}/>
                 </TableBody>
             </Table>
         </Paper>

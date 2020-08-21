@@ -7,11 +7,11 @@ export const generateStatsBasedOnSource = (data, groupValues, attribute) => {
     };
 
     if(groupValues){
-        groupValues.values.forEach(source => {
+        groupValues.values.forEach(({ name }) => {
             stats['source'].push({
-                name: source,
-                count: data.filter(figure => figure[attribute] === source).length,
-                cost: sumCost(data.filter(figure => figure[attribute] === source)),
+                name: name,
+                count: data.filter(figure => figure[attribute] === name).length,
+                cost: sumCost(data.filter(figure => figure[attribute] === name)),
             });
         });
     }

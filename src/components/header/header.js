@@ -35,7 +35,7 @@ export const Header = ({ title }) => {
                         spacing={1}
                     >
                         <Grid container item xs={10} md={8} spacing={1}>
-                            <HeaderText text={title} textColor={Color.white()} staticTextSize/>
+                            <HeaderText text={title} textColor={'white'} staticTextSize/>
                         </Grid>
                         <Grid container item xs={3} spacing={1} className={classes.normalButton}>
                             {loggedIn ? logoutButton : <>{loginButton}{signUpButton}</> }

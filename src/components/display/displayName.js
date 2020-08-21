@@ -2,24 +2,39 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Color } from 'shared/styles/color';
-import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
+import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
 
-export const DisplayNameSection = ({ name, seriesNumber, assortment }) => {
-    const nameSize = seriesNumber ? 10 : 12;
-    const classes = useStyles({ color: assortmentAttributes(assortment).color });
+export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => {
+    const nameSize = record.seriesNumber ? 10 : 12;
+
+    const numberBackgroundColor = () => {
+        const isSeries4 = record.assortment === 'Series 4.0';
+        let color = '';
+        if (isSeries4) {
+            const sourceMaterialColors = getSourceColor(sourceMaterials.values, record.sourceMaterial);
+            color = sourceMaterialColors.backgroundColor;
+        } else {
+            const assortmentColors = getAssortmentColor(assortments.values, record.assortment);
+            color = assortmentColors.backgroundColor;
+        }
+        return color;
+    }
+
+    const classes = useStyles({ color: numberBackgroundColor() });
+    
     const formattedSeriesNumber = () => {
-        switch (seriesNumber) {
+        switch (record.seriesNumber) {
             case '40th':
                 return '40';
             default:
-                return seriesNumber;
+                return record.seriesNumber;
         };
     };
 
     return (
         <Grid container spacing={0} >
-            <Grid item xs={nameSize} className={classes.nameText}>{name}</Grid>
-            {seriesNumber &&
+            <Grid item xs={nameSize} className={classes.nameText}>{record.name}</Grid>
+            {record.seriesNumber &&
                 <Grid item xs={2} className={classes.seriesNumber}>{formattedSeriesNumber()}</Grid>
             }
         </Grid>
@@ -49,7 +64,7 @@ const useStyles = makeStyles(theme => ({
         fontWeight: '800',
         textTransform: 'uppercase',
         color: Color.black(),
-        backgroundColor: props => props.color,
+        backgroundColor: props => Color.primary(props.color),
         paddingTop: theme.spacing(.5),
         paddingBottom: theme.spacing(.5),
     },

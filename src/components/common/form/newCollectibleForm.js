@@ -1,19 +1,10 @@
 import {
     Button,
     FormControl,
-
-
-
-
-
-
     Input, InputLabel,
     makeStyles,
-
     MenuItem,
     Select, TextField,
-
-
     Typography
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
@@ -27,10 +18,11 @@ import { CatalogApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
 import { Color } from 'shared/styles/color';
+import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
-export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
+export const NewCollectibleForm = ({ closeModal, formData }) => {
     const classes = useStyles();
 
     const { register, handleSubmit, control } = useForm();
@@ -200,11 +192,14 @@ export const NewCollectibleForm = ({ catalog, closeModal, formData }) => {
         </>;
     };
 
+    const formattedSourceMaterial = convertArrayObjectToArrayOfObjectProperty(sourceMaterial, 'name');
+    const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, 'name');
+
     const collectionTypeInput = generateSelector('Collection Type', 'collectionType', collectionType.values);
     const seriesTypeInput = generateSelector('Series', 'series', series.values);
-    const assortmentInput = generateSelector('Assortment', 'assortment', assortment.values);
+    const assortmentInput = generateSelector('Assortment', 'assortment', formattedAssortment);
     const versionTypeInput = generateSelector('Versions', 'version', version.values);
-    const sourceMaterialInput = generateSelector('Source Material', 'sourceMaterial', sourceMaterial.values);
+    const sourceMaterialInput = generateSelector('Source Material', 'sourceMaterial', formattedSourceMaterial);
     const exclusiveRetailerInput = generateSelector('Exclusive Retailer', 'exclusiveRetailer', exclusiveRetailer.values);
     const sourceTypeInput = generateSelector('Source Type', 'sourceType', sourceType.values);
     const nameInput = generatorInput('Name', 'name');
