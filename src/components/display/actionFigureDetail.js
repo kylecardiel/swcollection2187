@@ -16,12 +16,16 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { SortingUtils } from 'shared/util/sortingUtil';
+import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
 
 const ADD = 'ADD';
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
-    const { figure, catalogList } = props;
+    const { figure, catalogList, sourceMaterials, assortments } = props;
+
+    console.log(props)
+
     const { id } = useContext(UserConsumer);
 
     const similarFigures = SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year')
@@ -36,8 +40,22 @@ export const ActionFigureDetails = props => {
         setNewImage(!newImage);
     };
 
-    const seriesColor = assortmentAttributes(figure.assortment).color;
-    const classes = useStyles({ seriesColor: seriesColor });
+    // const seriesColor = assortmentAttributes(figure.assortment).color;
+
+    const numberBackgroundColor = () => {
+        const isSeries4 = figure.assortment === 'Series 4.0';
+        let color = '';
+        if (isSeries4) {
+            const sourceMaterialColors = getSourceColor(sourceMaterials.values, figure.sourceMaterial);
+            color = sourceMaterialColors.backgroundColor;
+        } else {
+            const assortmentColors = getAssortmentColor(assortments.values, figure.assortment);
+            color = assortmentColors.backgroundColor;
+        }
+        return color;
+    }
+
+    const classes = useStyles({ seriesColor: Color.primary(numberBackgroundColor()) });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
     // const purchasePrice = figure.purchasePrice ? ` $${figure.purchasePrice}` : '';
@@ -263,13 +281,15 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         maxWidth: '99%',
         // border: '5px solid red',
-        height: '75vh'
+        height: '75vh',
+
     },
     gridContainer: {
         display: 'flex',
         flexFlow: 'row',
         height: '70vh',
         // border: '5px solid green',
+        backgroundColor: Color.white(),
     },
     verticalContainer: {
         flexGrow: 1,

@@ -60,6 +60,8 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
                     state: { 
                         figure: record,
                         catalogList: catalogList,
+                        sourceMaterials,
+                        assortments,
                     }
                 }}
                 style={{ textDecoration: 'none' }}

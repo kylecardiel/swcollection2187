@@ -2,8 +2,13 @@ import React from 'react';
 import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 
 export const ActionFigureDetailsConnect = props => {
-    const { catalog, catalogList, figure } = props.location.state;
+    const { catalogList, figure, sourceMaterials, assortments } = props.location.state;
     return ( 
-        <ActionFigureDetails figure={figure} catalog={catalog} catalogList={catalogList}/> 
+        <ActionFigureDetails 
+            figure={figure} 
+            catalogList={catalogList} 
+            sourceMaterials={sourceMaterials} 
+            assortments={assortments}
+        /> 
     );
 };
