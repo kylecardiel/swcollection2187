@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import { UserConsumer } from 'components/auth/authContext';
-import { assortmentAttributes } from 'components/blackSeries/assortmentColor';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { Quantity } from 'components/display/quantity';
