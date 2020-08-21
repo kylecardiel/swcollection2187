@@ -108,7 +108,8 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1),
     },
     top: {
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(.5),
+        marginBottom: theme.spacing(.5),
     },
     fullCard: {
         cursor: 'pointer',
