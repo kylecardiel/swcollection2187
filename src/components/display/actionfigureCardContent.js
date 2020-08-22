@@ -6,10 +6,15 @@ import { Color } from 'shared/styles/color';
 import { getSourceColor } from 'components/display/figureColors';
 
 export const ActionFigureCardContent = ({ record, showAssortmentHeaders, sourceMaterials }) => {
-    const classes = useStyles();
     const { email } = useContext(UserConsumer);
-
     const authEmail = email === ROLES.EMAIL;
+    console.log(email)
+    let bottomCardHieght = 100;
+    if(email) bottomCardHieght = 125;
+    
+
+    const classes = useStyles({ bottomCardHieght });
+
 
     const generateBottomText = (label, value) => {
         return <Grid item xs={12} key={value} >
@@ -82,7 +87,7 @@ export const ActionFigureCardContent = ({ record, showAssortmentHeaders, sourceM
 const useStyles = makeStyles(theme => ({
     bottomCard: {
         maxWidth: 325,
-        height: 125,
+        height: props => props.bottomCardHieght,
         backgroundColor: Color.black(),
         borderRadius: 0,
     },
