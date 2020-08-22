@@ -15,19 +15,21 @@ export const Quantity = ({ title, qty, qtyType, changeQty }) => {
     const minusColor = zeroQty ? Color.grey() : Color.red();
     
     const minus = () => !zeroQty && changeQty(qtyType, MINUS);
+    const onClickMinus = () => minus();
+    const onClickAdd = () => changeQty(qtyType, ADD);
 
     return (
         <Grid container spacing={2} className={classes.detailsContainer}>
             <Grid container spacing={2} className={classes.detailsContainer}>
                 <div className={classes.quantityDetailHeader}>{title}</div>
-                <div className={classes.quantityDetailIcons} onClick={() => minus()}>
+                <div className={classes.quantityDetailIcons} onClick={onClickMinus}>
                     <RemoveCircleIcon 
                         fontSize='large' 
                         style={{ color: minusColor }} 
                     />
                 </div>
                 <div className={classes.quantityDetail}>{qty}</div>
-                <div className={classes.quantityDetailIcons} onClick={() => changeQty(qtyType, ADD)} >
+                <div className={classes.quantityDetailIcons} onClick={onClickAdd} >
                     <AddCircleIcon 
                         fontSize='large' 
                         style={{ color: Color.green() }} 

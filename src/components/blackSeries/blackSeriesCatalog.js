@@ -84,9 +84,9 @@ export const BlackSeriesCatalog = props => {
     const [viewAllFigures, setViewAllFigures] = useState(true);
     const [viewOnlyOwnedFigures, setViewOnlyOwnedFigures] = useState(false);
     const [viewOnlyUnownedFigures, setViewOnlyUnownedFigures] = useState(false);
-    
+
     const handleViewAllFiguresCheckBoxChange = () => {
-        if(!viewAllFigures){
+        if (!viewAllFigures) {
             setViewOnlyOwnedFigures(false);
             setViewOnlyUnownedFigures(false);
         } else {
@@ -157,9 +157,9 @@ export const BlackSeriesCatalog = props => {
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
-        if(!viewAllFigures) {
-            if(viewOnlyOwnedFigures) mergedList = mergedList.filter(el => el.owned === true);
-            if(viewOnlyUnownedFigures) mergedList = mergedList.filter(el => el.owned !== true);
+        if (!viewAllFigures) {
+            if (viewOnlyOwnedFigures) mergedList = mergedList.filter(el => el.owned === true);
+            if (viewOnlyUnownedFigures) mergedList = mergedList.filter(el => el.owned !== true);
         };
 
         if (filterBySourceMaterial) mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
@@ -177,28 +177,27 @@ export const BlackSeriesCatalog = props => {
     const displayList = massageList();
 
     const generateAssortmentSection = assortment => {
-        const { color, name, sortingAttribute, textColor} = assortment;
+        const { color, name, sortingAttribute, textColor } = assortment;
         const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === name), sortingAttribute);
         if (records.length > 0) {
             const view = showAssortmentHeaders ? !collapsibleAssortments.includes(name) : true
-            console.log('assortments')
-            console.log(helperData)
+            const collapseonChangeButton = () => handleCollapsibleChange(name);
             return <>
-                {showAssortmentHeaders && 
-                    <AssortmentHeader 
-                        id={name} 
-                        key={name} 
-                        text={name} 
+                {showAssortmentHeaders &&
+                    <AssortmentHeader
+                        id={name}
+                        key={name}
+                        text={name}
                         textColor={textColor}
-                        backgroundColor={color} 
-                        collapseonChangeButton={() => handleCollapsibleChange(name)}
+                        backgroundColor={color}
+                        collapseonChangeButton={collapseonChangeButton}
                         view={view}
                     />}
-                <ActionFigure 
-                    records={records} 
-                    newBoxImage={newBoxImage} 
-                    catalogList={catalogList} 
-                    showAssortmentHeaders={showAssortmentHeaders} 
+                <ActionFigure
+                    records={records}
+                    newBoxImage={newBoxImage}
+                    catalogList={catalogList}
+                    showAssortmentHeaders={showAssortmentHeaders}
                     view={view}
                     sourceMaterials={helperData.sourceMaterial}
                     assortments={helperData.assortment}
@@ -208,22 +207,27 @@ export const BlackSeriesCatalog = props => {
         return null;
     };
 
-    const assortments = <>
-        {helperData
-            && helperData.assortment
-            && helperData.assortment.values.map(assortment => generateAssortmentSection(assortment))
+    const assortments = () => {
+        if (helperData && helperData.assortment) {
+            return <>
+                {helperData.assortment.values.map(assortment => generateAssortmentSection(assortment))}
+            </>;
         }
-    </>;
+    }
 
-    const allFigures = <ActionFigure
-        records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
-        newBoxImage={newBoxImage}
-        catalogList={catalogList}
-        showAssortmentHeaders={showAssortmentHeaders}
-        view={true}
-        sourceMaterials={helperData.sourceMaterial}
-        assortments={helperData.assortment}
-    />;
+    const allFigures = () => {
+        return <ActionFigure
+            records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
+            newBoxImage={newBoxImage}
+            catalogList={catalogList}
+            showAssortmentHeaders={showAssortmentHeaders}
+            view={true}
+            sourceMaterials={helperData.sourceMaterial}
+            assortments={helperData.assortment}
+        />;
+    }
+
+    const viewableCatalog = showAssortmentHeaders ? assortments() : allFigures();
 
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
     const buildFilters = () => {
@@ -282,15 +286,15 @@ export const BlackSeriesCatalog = props => {
 
     const generateCheckBoxForm = (state, handleChange, labelText) => {
         return <FormControlLabel
-                    control={<CustomCheckbox
-                                checked={state}
-                                onChange={handleChange}
-                                labelStyle={{ color: 'green' }}
-                                iconStyle={{ fill: 'green' }}
-                    />}
-                    label={labelText}
-                    labelPlacement='start'
-            />;
+            control={<CustomCheckbox
+                checked={state}
+                onChange={handleChange}
+                labelStyle={{ color: 'green' }}
+                iconStyle={{ fill: 'green' }}
+            />}
+            label={labelText}
+            labelPlacement='start'
+        />;
     };
 
     const allViewCheckBox = generateCheckBoxForm(viewAllFigures, handleViewAllFiguresCheckBoxChange, 'View All');
@@ -298,6 +302,8 @@ export const BlackSeriesCatalog = props => {
     const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, 'Not Owned Figures');
 
     const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
+    const styleViewFilters = viewFilters ? {} : { display: 'none' };
+
 
     return (
         <React.Fragment>
@@ -331,45 +337,38 @@ export const BlackSeriesCatalog = props => {
                                 color={Color.black()}
                             />
                         </Grid>
-                        {viewFilters &&
-                            <React.Fragment>
-                                <Grid item xs={12} md={3}>{sourceMaterialFilterComp}</Grid>
-                                <Grid item xs={12} md={3}>{characterFilterComp}</Grid>
-                                <Grid item xs={12} md={3}>{groupFilterComp}</Grid>
-                                <Grid item xs={12} md={3}>{versionFilterComp}</Grid>
-                                <Grid item xs={12} md={3}>{assortmentFilterComp}</Grid>
-                                <Grid item xs={12} md={3} className={classes.formControl}>
-                                    <ActionButton
-                                        buttonLabel={showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers'}
-                                        onClick={handleAssortmentHeaderChange}
-                                        color={Color.green()}
-                                    />
-                                    {allViewCheckBox}
-                                </Grid>
-                                <Grid item xs={12} md={3} className={classes.formControl}>
-                                    <ActionButton
-                                        buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
-                                        icon={<SwapHorizIcon />}
-                                        onClick={handleImageChange}
-                                        color={Color.green()}
-                                    />
-                                    {ownedCheckBox}
-                                </Grid>
-                                <Grid item xs={2} className={classes.formControl}>
-                                    <ActionButton
-                                        buttonLabel={'Clear Filters'}
-                                        icon={<ClearIcon />}
-                                        onClick={handleClearFilters}
-                                        color={Color.red()}
-                                    />
-                                    {unownedCheckBox}
-                                </Grid>
-                            </React.Fragment>
-                        }
-                        {showAssortmentHeaders
-                            ? assortments
-                            : allFigures
-                        }
+                        <Grid item xs={12} md={3} style={styleViewFilters}>{sourceMaterialFilterComp}</Grid>
+                        <Grid item xs={12} md={3} style={styleViewFilters}>{characterFilterComp}</Grid>
+                        <Grid item xs={12} md={3} style={styleViewFilters}>{groupFilterComp}</Grid>
+                        <Grid item xs={12} md={3} style={styleViewFilters}>{versionFilterComp}</Grid>
+                        <Grid item xs={12} md={3} style={styleViewFilters}>{assortmentFilterComp}</Grid>
+                        <Grid item xs={12} md={3} className={classes.formControl} style={styleViewFilters}>
+                            <ActionButton
+                                buttonLabel={showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers'}
+                                onClick={handleAssortmentHeaderChange}
+                                color={Color.green()}
+                            />
+                            {allViewCheckBox}
+                        </Grid>
+                        <Grid item xs={12} md={3} className={classes.formControl} style={styleViewFilters}>
+                            <ActionButton
+                                buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
+                                icon={<SwapHorizIcon />}
+                                onClick={handleImageChange}
+                                color={Color.green()}
+                            />
+                            {ownedCheckBox}
+                        </Grid>
+                        <Grid item xs={2} className={classes.formControl} style={styleViewFilters}>
+                            <ActionButton
+                                buttonLabel={'Clear Filters'}
+                                icon={<ClearIcon />}
+                                onClick={handleClearFilters}
+                                color={Color.red()}
+                            />
+                            {unownedCheckBox}
+                        </Grid>
+                        {viewableCatalog}
                         {displayList.length > 0 &&
                             <>
                                 <Grid item xs={12} md={3} className={classes.tableStats}></Grid>
