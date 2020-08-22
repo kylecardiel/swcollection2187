@@ -8,13 +8,10 @@ import { getSourceColor } from 'components/display/figureColors';
 export const ActionFigureCardContent = ({ record, showAssortmentHeaders, sourceMaterials }) => {
     const { email } = useContext(UserConsumer);
     const authEmail = email === ROLES.EMAIL;
-    console.log(email)
+    
     let bottomCardHieght = 100;
     if(email) bottomCardHieght = 125;
-    
-
     const classes = useStyles({ bottomCardHieght });
-
 
     const generateBottomText = (label, value) => {
         return <Grid item xs={12} key={value} >
