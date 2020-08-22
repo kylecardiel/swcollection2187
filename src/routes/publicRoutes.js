@@ -1,21 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Homepage } from 'components/homePage/homePage';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { BlackSeries } from 'components/blackSeries/blackSeries';
 import { ActionFigureDetailsConnect } from 'components/hoc/actionFigureDetailsConnect';
-import { HelperDataConsumer } from 'context/helperDataContext';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
-    
-    const helperData = useContext(HelperDataConsumer);
-    console.log(helperData)
+    const redirectHome = () => <Redirect to={HOME} />;
     return (
         <React.Fragment>
             <Router>
-                <Route exact path='/' render={() => <Redirect to={HOME} />} />
+                <Route exact path='/' render={redirectHome} />
                 <Switch>
                     <Route
                         exact

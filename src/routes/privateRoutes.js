@@ -15,11 +15,12 @@ const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = () => {
     const { loggedIn, email } = useContext(UserConsumer);
+    const redirectRender = () => <Redirect to={HOME} />;
     return (
         <React.Fragment>
             <Router>
                 <Header title={HEADER_TITLE} userLoggedIn={loggedIn} />
-                <Route exact path='/' render={() => <Redirect to={HOME} />} />
+                <Route exact path='/' render={redirectRender} />
                 <Switch>
                     <ProtectedRoute
                         path={LOGIN}

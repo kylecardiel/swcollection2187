@@ -1,18 +1,19 @@
-import { Card, CardMedia, Container, Grid, makeStyles } from '@material-ui/core';
+import { Card, Container, Grid, makeStyles } from '@material-ui/core';
 import { UserConsumer } from 'components/auth/authContext';
+import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
 import { DisplayNameSection } from 'components/display/displayName';
+import { LazyImage } from 'components/display/lazyImage';
 import React, { useContext } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Color } from 'shared/styles/color';
-import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
 
 export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders, view, sourceMaterials, assortments }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
-    
+
     const addFigureToCollection = figure => {
         let newCollectile = {
             catalogId: figure.id,
@@ -51,13 +52,13 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
     };
 
     let { url } = useRouteMatch();
-    
+
     const actionFigureCard = view && records && records.map(record =>
         <Grid item xs={12} md={2} key={record.id} >
             <Link
                 to={{
                     pathname: `${url}/${record.name}${record.id}`,
-                    state: { 
+                    state: {
                         figure: record,
                         catalogList: catalogList,
                         sourceMaterials,
@@ -72,20 +73,17 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
                         sourceMaterials={sourceMaterials}
                         assortments={assortments}
                     />
-                    <CardMedia
-                        style={{ paddingTop: '60%', height: 250 }}
-                        image={
-                            newBoxImage
+                    <LazyImage
+                        key={record.id}
+                        src={newBoxImage
                                 ? (record.newImageUrl || IMAGE_PATHS.FILL_MURRAY)
-                                : (record.looseImageUrl || IMAGE_PATHS.FILL_MURRAY)
-                        }
-                        title={record.name}
-                        src={record.name}
+                                : (record.looseImageUrl || IMAGE_PATHS.FILL_MURRAY)}
+                        name={record.name}
                     />
                 </Card>
-                <ActionFigureCardContent 
+                <ActionFigureCardContent
                     record={record}
-                    showAssortmentHeaders={showAssortmentHeaders} 
+                    showAssortmentHeaders={showAssortmentHeaders}
                     sourceMaterials={sourceMaterials}
                 />
             </Link>
@@ -94,13 +92,13 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
     );
 
     return (
-            <Grid container spacing={2} className={classes.top}>
-                <Container component='main' maxWidth='xl'>
-                    <Grid container spacing={2} className={classes.top}>
-                        {actionFigureCard}
-                    </Grid>
-                </Container>
-            </Grid>
+        <Grid container spacing={2} className={classes.top}>
+            <Container component='main' maxWidth='xl'>
+                <Grid container spacing={2} className={classes.top}>
+                    {actionFigureCard}
+                </Grid>
+            </Container>
+        </Grid>
     );
 };
 
