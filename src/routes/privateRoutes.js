@@ -6,7 +6,7 @@ import { SignUp } from 'components/auth/signUp';
 import { LogIn } from 'components/auth/logIn';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { UserConsumer } from 'components/auth/authContext';
-import { Admin } from 'components/admin/admin';
+import Admin from 'components/admin/admin';
 import { ROLES } from 'shared/constants/roleConstants';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';

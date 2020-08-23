@@ -14,7 +14,7 @@ import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import { isEmpty } from 'lodash';
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 import { HelperDataApi } from 'shared/api/orchestrator';
@@ -23,11 +23,12 @@ import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { HelperDataConsumer } from 'context/helperDataContext';
+import { connect } from 'react-redux';
+import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 
 const { HOME } = ROUTE_CONSTANTS;
 
-export const Admin = () => {
+export const Admin = props => {
     const classes = useStyles();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +54,7 @@ export const Admin = () => {
     const [uploadAssortment, setUploadAssortment] = useState();
     const handleChangeUploadAssortment = e => setUploadAssortment(e.target.value);
 
-    const helperData = useContext(HelperDataConsumer);
+    const helperData = props.helperData;
 
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
@@ -266,6 +267,13 @@ export const Admin = () => {
         </React.Fragment>
     );
 };
+
+export const mapStateToProps = state => ({
+    helperData: getHelperDataSet(state),
+});
+
+
+export default connect(mapStateToProps)(Admin);
 
 const useStyles = makeStyles(theme => ({
     root: {

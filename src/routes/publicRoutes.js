@@ -34,4 +34,3 @@ export const PublicRoutes = () => {
         </React.Fragment>
     );
 };
-

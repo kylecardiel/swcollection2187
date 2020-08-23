@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import LazyLoad from "react-lazyload";
 import styled, { keyframes } from "styled-components";
@@ -23,11 +22,6 @@ export const LazyImage = ({ name, src, alt }) => {
             </LazyLoad>
         </ImageWrapper>
     );
-};
-
-LazyImage.propTypes = {
-    src: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired
 };
 
 const ImageWrapper = styled.div`
