@@ -22,8 +22,6 @@ export const STRING_CONSTANTS = Object.freeze({
             DIVIDER: '───────────── OR ────────────',
             DONT_HAVE_AN_ACCOUNT: "Don't have an account? Sign Up",
             FIELD_LABELS: {
-                FIRST_NAME: 'First Name',
-                LAST_NAME: 'Last Name',
                 EMAIL: 'Email',
                 PASSWORD: 'Password',
                 CONFIRM_PASSWORD: 'Confrim Password',
@@ -39,7 +37,7 @@ export const STRING_CONSTANTS = Object.freeze({
                 'Do you love the Black Series? Do you collect Black Series Figures?',
                 'Do you keep track of your collection? Do you want to keep track of your collection?...',
                 "Then you're in the right spot!"
-              ].join("\n"),
+            ].join("\n"),
             CARDS: {
                 BLACK_SERIES: {
                     TITLE: 'Black Series Catalog',
@@ -55,7 +53,7 @@ export const STRING_CONSTANTS = Object.freeze({
                 },
             },
         },
-        BLACK_SERIES_CATALOG:{
+        BLACK_SERIES_CATALOG: {
             TITLE: 'Black Series Catalog',
         },
         UPLOAD_IMAGE: {

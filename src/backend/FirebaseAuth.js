@@ -7,12 +7,11 @@ export const auth = firebase.auth();
 export const onAuthStateChange = callback => {
   return auth.onAuthStateChanged(user => {
     if (user) {
-      callback({ 
-        loggedIn: true, 
+      callback({
+        loggedIn: true,
         email: user.email,
         id: user.uid,
-        displayName: user.displayName,
-     });
+      });
     } else {
       callback(defaultUser);
     }
@@ -34,19 +33,18 @@ export const logout = () => {
 
 export const registerUser = registrationInfo => {
   auth.createUserWithEmailAndPassword(
-        registrationInfo.email,
-        registrationInfo.password
-      ).then(() => {
-        auth.onAuthStateChanged(user => {
-          user.updateProfile({
-            displayName: registrationInfo.firstName + ' ' + registrationInfo.lastName,
-            email: registrationInfo.email,
-          })
-        })
+    registrationInfo.email,
+    registrationInfo.password
+  ).then(() => {
+    auth.onAuthStateChanged(user => {
+      user.updateProfile({
+        email: registrationInfo.email,
       })
-      .catch(error => {
-        if (error.message !== null) {
-          alert(error.message);
-        }
-      })
+    })
+  })
+    .catch(error => {
+      if (error.message !== null) {
+        alert(error.message);
+      }
+    })
 };

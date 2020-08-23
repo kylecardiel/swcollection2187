@@ -4,7 +4,6 @@ export const defaultUser = {
     loggedIn: false, 
     email: '',
     id: '',
-    displayName: '',
 };
 
 const UserContext = createContext(defaultUser);

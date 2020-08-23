@@ -58,31 +58,6 @@ export const SignUp = () => {
                 </Typography>
                 <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete='fname'
-                                name='firstName'
-                                variant='outlined'
-                                required
-                                fullWidth
-                                id='firstName'
-                                label={FIELD_LABELS.FIRST_NAME}
-                                autoFocus
-                                inputRef={register({ required: true })}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant='outlined'
-                                required
-                                fullWidth
-                                id='lastName'
-                                label={FIELD_LABELS.LAST_NAME}
-                                name='lastName'
-                                autoComplete='lname'
-                                inputRef={register({ required: true })}
-                            />
-                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 variant='outlined'
