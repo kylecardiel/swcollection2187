@@ -1,5 +1,6 @@
 import { Card, Container, Grid, makeStyles } from '@material-ui/core';
 import { UserConsumer } from 'components/auth/authContext';
+import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
 import { DisplayNameSection } from 'components/display/displayName';
 import { LazyImage } from 'components/display/lazyImage';
@@ -7,12 +8,12 @@ import React, { useContext } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Color } from 'shared/styles/color';
 
 export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders, view, sourceMaterials, assortments }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
+    const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
     const addFigureToCollection = figure => {
         let newCollectile = {
@@ -63,6 +64,7 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
                         catalogList: catalogList,
                         sourceMaterials,
                         assortments,
+                        commingSoonPhotoUrl,
                     }
                 }}
                 style={{ textDecoration: 'none' }}
@@ -76,8 +78,8 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
                     <LazyImage
                         key={record.id}
                         src={newBoxImage
-                                ? (record.newImageUrl || IMAGE_PATHS.FILL_MURRAY)
-                                : (record.looseImageUrl || IMAGE_PATHS.FILL_MURRAY)}
+                                ? (record.newImageUrl || commingSoonPhotoUrl)
+                                : (record.looseImageUrl || commingSoonPhotoUrl)}
                         name={record.name}
                     />
                 </Card>

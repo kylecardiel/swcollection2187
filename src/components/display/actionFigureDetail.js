@@ -21,7 +21,7 @@ const ADD = 'ADD';
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
-    const { figure, catalogList, sourceMaterials, assortments } = props;
+    const { figure, catalogList, sourceMaterials, assortments, commingSoonPhotoUrl } = props;
 
     console.log(props)
 
@@ -96,7 +96,9 @@ export const ActionFigureDetails = props => {
         ? `${figure.name} (${figure.additionalNameDetails})`
         : `${figure.name}`;
 
-    const largeImage = newImage ? figure.newImageUrl : figure.looseImageUrl;
+    const guardedNewImageUrl = figure.newImageUrl ? figure.newImageUrl : commingSoonPhotoUrl;
+    const guardedLooseImageUrl = figure.looseImageUrl ? figure.looseImageUrl : commingSoonPhotoUrl;
+    const largeImage = newImage ? guardedNewImageUrl : guardedLooseImageUrl;
 
     const imageContainer = <Grid container spacing={2} className={classes.detailsContainer}>
         <Grid xs={1} item className={classes.largeImageArrowContainer} onClick={changeImage}>
@@ -109,7 +111,7 @@ export const ActionFigureDetails = props => {
             <KeyboardArrowRightIcon />
         </Grid>
         <Grid xs={6} item className={classes.smallImageContainer}>
-            <img className={classes.smallImage} alt='complex' src={figure.looseImageUrl} />
+            <img className={classes.smallImage} alt='complex' src={guardedLooseImageUrl} />
         </Grid>
         {/* {figure.looseBlackImageUrl &&
             <Grid xs={4} item className={classes.smallImageContainer}>
@@ -117,7 +119,7 @@ export const ActionFigureDetails = props => {
             </Grid>
         } */}
         <Grid xs={6} item className={classes.smallImageContainer}>
-            <img className={classes.smallImage} alt='complex' src={figure.newImageUrl} />
+            <img className={classes.smallImage} alt='complex' src={guardedNewImageUrl} />
         </Grid>
     </Grid>;
 
