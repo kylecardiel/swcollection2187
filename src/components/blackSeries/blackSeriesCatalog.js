@@ -1,12 +1,8 @@
-import { TextField } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { UserConsumer } from 'components/auth/authContext';
 import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
@@ -24,6 +20,9 @@ import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { HelperDataConsumer } from 'context/helperDataContext';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -52,9 +51,11 @@ export const BlackSeriesCatalog = props => {
 
     const [filterByInputName, setFilterByInputName] = useState('');
     const handleInputNameChange = e => {
-        const { value } = e.target;
-        setFilterByInputName(value);
-        value ? setShowAssortmentHeaders(false) : setShowAssortmentHeaders(true);
+        if (e.target) {
+            const { value } = e.target;
+            setTimeout(setFilterByInputName(value), 500);
+            value ? setShowAssortmentHeaders(false) : setShowAssortmentHeaders(true);
+        }
     };
 
     const [filterByGroup, setFilterByGroup] = useState('');
@@ -148,10 +149,7 @@ export const BlackSeriesCatalog = props => {
         };
 
         setCollapsibleAssortments(helperData.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
-
-        if (viewFilters) {
-            setLabelWidth(inputLabel.current.offsetWidth);
-        };
+        if (viewFilters) setLabelWidth(inputLabel.current.offsetWidth);
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters, helperData]);
 
@@ -310,29 +308,27 @@ export const BlackSeriesCatalog = props => {
             <Container component='main' maxWidth='lg'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
-                        <Grid item xs={12} className={classes.alwaysDisplayed}>
-                            <Typography>
-                                {`Search: `}
-                            </Typography>
-                        </Grid>
-
-                        <Grid item xs={12} md={3} className={classes.alwaysDisplayed}>
-                            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
-                                <TextField
-                                    variant='outlined'
-                                    className={classes.form}
+                        <Grid item xs={12} md={8} className={classes.alwaysDisplayed}>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon />
+                                </div>
+                                <InputBase
+                                    placeholder="Search…"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
                                     onChange={handleInputNameChange}
-                                    fullWidth
-                                    id={'Character Name'}
-                                    name={'Character Name'}
-                                    label={'Character Name'}
+                                    inputProps={{ 'aria-label': 'search' }}
                                 />
-                            </Grid>
+                            </div>
+                            <div className={classes.grow} />
                         </Grid>
-                        <Grid item xs={12} md={8} className={classes.viewFilters}>
+                        <Grid item xs={12} md={2} className={classes.alwaysDisplayed}></Grid>
+                        <Grid item xs={12} md={1} className={classes.viewFilters}>
                             <ActionButton
-                                buttonLabel={viewFilters ? 'Hide Filters' : 'Show Filters'}
-                                icon={viewFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                icon={<FilterListIcon />}
                                 onClick={handleChange}
                                 color={Color.black()}
                             />
@@ -406,6 +402,8 @@ const useStyles = makeStyles(theme => ({
     },
     viewFilters: {
         marginTop: theme.spacing(1),
+        display: 'flex',
+        justifyContent: 'flex-end',
     },
     formControl: {
         margin: theme.spacing(1),
@@ -425,5 +423,47 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(0),
         minWidth: 225,
         backgroundColor: Color.white(),
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: Color.white(),
+            borderColor: Color.black(),
+        },
+        marginTop: theme.spacing(1),
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+        border: '2px solid',
+        borderColor: Color.grey(),
+        cursor: 'pointer',
+    },
+    searchIcon: {
+        width: theme.spacing(7),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputRoot: {
+        color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: 200,
+        },
     },
 }));

@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
         marginLeft: theme.spacing(1),
         backgroundColor: red[900],
-        borderRadius: '0',
+        borderRadius: '5',
         color: 'white',
         '&:hover': {
             backgroundColor: 'white',
