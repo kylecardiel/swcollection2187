@@ -2,16 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BlackSeriesCatalog } from 'components/blackSeries/blackSeriesCatalog';
 import { getCatalogList, getUserList } from 'store/dataSet/dataSetSelector';
-import { setCatalogData, setUserData} from 'store/dataSet/dataSetActions';
+import { setCatalogData, setUserData } from 'store/dataSet/dataSetActions';
+import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 
 export const BlackSeriesCatalogConnect = () => {
-    return ( <BlackSeriesCatalog /> );
+    return (<BlackSeriesCatalog />);
 };
 
-export const mapStateToProps = (state, ownProps) => ({
-    catalog: ownProps.catalog,
+export const mapStateToProps = state => ({
     catalogList: getCatalogList(state),
     userList: getUserList(state),
+    helperData: getHelperDataSet(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

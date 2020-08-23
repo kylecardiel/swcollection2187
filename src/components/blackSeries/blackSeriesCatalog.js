@@ -1,7 +1,7 @@
 import Container from '@material-ui/core/Container';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { UserConsumer } from 'components/auth/authContext';
@@ -19,7 +19,6 @@ import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { HelperDataConsumer } from 'context/helperDataContext';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -31,8 +30,7 @@ export const BlackSeriesCatalog = props => {
     const classes = useStyles();
     const { catalogList, setCatalogData, userList, setUserData } = props;
 
-    // const [helperData, setHelperData] = useState({});
-    const helperData = useContext(HelperDataConsumer);
+    const helperData = props.helperData;
 
     const [viewFilters, setVewFilters] = useState(false);
     const handleChange = () => setVewFilters(!viewFilters);
@@ -148,7 +146,7 @@ export const BlackSeriesCatalog = props => {
             });
         };
 
-        setCollapsibleAssortments(helperData.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
+        if (helperData.assortment) setCollapsibleAssortments(helperData.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
         if (viewFilters) setLabelWidth(inputLabel.current.offsetWidth);
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters, helperData]);
@@ -430,9 +428,8 @@ const useStyles = makeStyles(theme => ({
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: Color.white(),
         '&:hover': {
-            backgroundColor: Color.white(),
             borderColor: Color.black(),
         },
         marginTop: theme.spacing(1),
@@ -442,7 +439,7 @@ const useStyles = makeStyles(theme => ({
             marginLeft: theme.spacing(3),
             width: 'auto',
         },
-        border: '2px solid',
+        border: '1px solid',
         borderColor: Color.grey(),
         cursor: 'pointer',
     },
