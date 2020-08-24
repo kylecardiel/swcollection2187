@@ -6,6 +6,8 @@ export const getSourceColor = (sourceMaterials, source) => {
 };
 
 export const getAssortmentColor = (assortments, assort) => {
+    console.log(assortments)
+    console.log(assort)
     return {
         backgroundColor: assortments.filter(s => s.name === assort)[0].color,
         textColor: 'black',
