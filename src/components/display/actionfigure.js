@@ -10,7 +10,7 @@ import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
 
-export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortmentHeaders, view, sourceMaterials, assortments }) => {
+export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, view, sourceMaterials, assortments }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
@@ -58,14 +58,7 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
         <Grid item xs={12} md={2} key={record.id} >
             <Link
                 to={{
-                    pathname: `${url}/${record.name}${record.id}`,
-                    state: {
-                        figure: record,
-                        catalogList: catalogList,
-                        sourceMaterials,
-                        assortments,
-                        commingSoonPhotoUrl,
-                    }
+                    pathname:`${url}/${record.id}`
                 }}
                 style={{ textDecoration: 'none' }}
             >
@@ -78,8 +71,8 @@ export const ActionFigure = ({ records, newBoxImage, catalogList, showAssortment
                     <LazyImage
                         key={record.id}
                         src={newBoxImage
-                                ? (record.newImageUrl || commingSoonPhotoUrl)
-                                : (record.looseImageUrl || commingSoonPhotoUrl)}
+                            ? (record.newImageUrl || commingSoonPhotoUrl)
+                            : (record.looseImageUrl || commingSoonPhotoUrl)}
                         name={record.name}
                     />
                 </Card>

@@ -300,7 +300,6 @@ export const BlackSeriesCatalog = props => {
     const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
     const styleViewFilters = viewFilters ? {} : { display: 'none' };
 
-
     return (
         <React.Fragment>
             <Container component='main' maxWidth='lg'>

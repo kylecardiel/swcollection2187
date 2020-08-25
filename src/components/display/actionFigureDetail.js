@@ -16,19 +16,21 @@ import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
+import { StorageReferenceConsumer } from 'context/storageReferenceContext';
+import { RecordUtils } from 'shared/util/recordUtils';
 
 const ADD = 'ADD';
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
-    const { figure, catalogList, sourceMaterials, assortments, commingSoonPhotoUrl } = props;
-
-    console.log(props)
-
+    const { figureId, catalogList, userList, sourceMaterials, assortments } = props;
     const { id } = useContext(UserConsumer);
+    const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
-    const similarFigures = SortingUtils.sortDataByStringIntAsc(catalogList.filter(el => el.name === figure.name && el.id !== figure.id), 'year')
-    const multipackFigures = catalogList.filter(el => el.multipack !== '' && el.multipack === figure.multipack && el.id !== figure.id);
+    const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
+    const figure = singleList.filter(f => f.id === figureId)[0];
+    const similarFigures = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.name === figure.name && el.id !== figure.id), 'year')
+    const multipackFigures = singleList.filter(el => el.multipack !== '' && el.multipack === figure.multipack && el.id !== figure.id);
 
     const [newInBoxQty, setNewInBoxQty] = useState(figure.newInBoxQty);
     const [looseCompleteQty, setLooseCompleteQty] = useState(figure.looseCompleteQty);
@@ -39,16 +41,14 @@ export const ActionFigureDetails = props => {
         setNewImage(!newImage);
     };
 
-    // const seriesColor = assortmentAttributes(figure.assortment).color;
-
     const numberBackgroundColor = () => {
         const isSeries4 = figure.assortment === 'Series 4.0';
         let color = '';
         if (isSeries4) {
-            const sourceMaterialColors = getSourceColor(sourceMaterials.values, figure.sourceMaterial);
+            const sourceMaterialColors = getSourceColor(sourceMaterials, figure.sourceMaterial);
             color = sourceMaterialColors.backgroundColor;
         } else {
-            const assortmentColors = getAssortmentColor(assortments.values, figure.assortment);
+            const assortmentColors = getAssortmentColor(assortments, figure.assortment);
             color = assortmentColors.backgroundColor;
         }
         return color;
@@ -270,6 +270,8 @@ export const ActionFigureDetails = props => {
         </React.Fragment>
     );
 }
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
