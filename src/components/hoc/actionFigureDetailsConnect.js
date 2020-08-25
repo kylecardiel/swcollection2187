@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 import { getAssortments, getSourceMaterial } from 'store/helperData/helperDataSetSelector';
 
 export const ActionFigureDetailsConnect = () => {
-
-    console.log('lkajsdhflkahsd;kfhkjasd;fhaksdfa')
-
     return ( 
         <ActionFigureDetails /> 
     );

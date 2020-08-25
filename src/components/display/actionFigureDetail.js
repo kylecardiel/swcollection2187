@@ -23,7 +23,6 @@ const ADD = 'ADD';
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
-    console.log(props)
     const { figureId, catalogList, userList, sourceMaterials, assortments } = props;
     const { id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);

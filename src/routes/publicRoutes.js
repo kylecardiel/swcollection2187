@@ -9,7 +9,6 @@ const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
     const redirectHome = () => <Redirect to={HOME} />;
-    console.log('uy4irehkdjfnsvblncaj k;gp')
     return (
         <React.Fragment>
             <Router>
