@@ -5,13 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { UserConsumer } from 'components/auth/authContext';
-import { AssortmentHeader } from 'components/blackSeries/assortmentHeader';
-import { TableStats } from 'components/blackSeries/tableStats';
+// import { TableStats } from 'components/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { FormFilter } from 'components/common/form/formFilter';
-import { generateStatsBasedOnSource } from 'components/common/stats/stats';
+// import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { ActionFigure } from 'components/display/actionfigure';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CatalogApi, UserApi } from 'shared/api/orchestrator';
@@ -36,46 +35,27 @@ export const BlackSeriesCatalog = props => {
     const handleChange = () => setVewFilters(!viewFilters);
 
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState('');
-    const handleSourceMaterialChange = e => {
-        setFilterBySourceMaterial(e.target.value);
-        setCollapsibleAssortments([]);
-    };
+    const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
 
     const [filterByCharacter, setFilterByCharacter] = useState('');
-    const handleCharacterChange = e => {
-        setFilterByCharacter(e.target.value);
-        setCollapsibleAssortments([]);;
-    };
+    const handleCharacterChange = e => setFilterByCharacter(e.target.value);;
 
     const [filterByInputName, setFilterByInputName] = useState('');
     const handleInputNameChange = e => {
         if (e.target) {
             const { value } = e.target;
             setTimeout(setFilterByInputName(value), 500);
-            value ? setShowAssortmentHeaders(false) : setShowAssortmentHeaders(true);
         }
     };
 
     const [filterByGroup, setFilterByGroup] = useState('');
-    const handleGroupChange = e => {
-        setFilterByGroup(e.target.value);
-        setCollapsibleAssortments([]);
-    };
+    const handleGroupChange = e => setFilterByGroup(e.target.value);
 
     const [filterByVersion, setFilterByVersion] = useState('');
-    const handleVersionChange = e => {
-        setFilterByVersion(e.target.value);
-        setCollapsibleAssortments([]);
-    };
+    const handleVersionChange = e => setFilterByVersion(e.target.value);
 
     const [filterByAssortment, setFilterByAssortment] = useState('');
-    const handleAssortmentChange = e => {
-        setFilterByAssortment(e.target.value);
-        setCollapsibleAssortments([]);
-    };
-
-    const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(true);
-    const handleAssortmentHeaderChange = () => setShowAssortmentHeaders(!showAssortmentHeaders);
+    const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
 
     const [newBoxImage, setNewBoxImage] = useState(false);
     const handleImageChange = () => setNewBoxImage(!newBoxImage);
@@ -104,14 +84,6 @@ export const BlackSeriesCatalog = props => {
         setViewAllFigures(!viewAllFigures)
     };
 
-    const [collapsibleAssortments, setCollapsibleAssortments] = useState([]);
-    const handleCollapsibleChange = assortment => {
-        const updated = collapsibleAssortments.includes(assortment)
-            ? collapsibleAssortments.filter(el => el !== assortment)
-            : [...[assortment], ...collapsibleAssortments];
-        setCollapsibleAssortments(updated);
-    };
-
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
 
@@ -121,9 +93,7 @@ export const BlackSeriesCatalog = props => {
         setFilterByGroup(null);
         setFilterByVersion(null);
         setFilterByAssortment(null);
-        setShowAssortmentHeaders(true);
         setNewBoxImage(false);
-        setCollapsibleAssortments(helperData.assortment.values.filter(el => el !== 'Orange - 2013/2014'));
     };
 
     const [initialState] = useState(props);
@@ -146,7 +116,6 @@ export const BlackSeriesCatalog = props => {
             });
         };
 
-        if (helperData.assortment) setCollapsibleAssortments(helperData.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
         if (viewFilters) setLabelWidth(inputLabel.current.offsetWidth);
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters, helperData]);
@@ -172,58 +141,18 @@ export const BlackSeriesCatalog = props => {
 
     const displayList = massageList();
 
-    const generateAssortmentSection = assortment => {
-        const { color, name, sortingAttribute, textColor } = assortment;
-        const records = SortingUtils.sortDataByStringIntAsc(displayList.filter(el => el.assortment === name), sortingAttribute);
-        if (records.length > 0) {
-            const view = showAssortmentHeaders ? !collapsibleAssortments.includes(name) : true
-            const collapseonChangeButton = () => handleCollapsibleChange(name);
-            return <>
-                {showAssortmentHeaders &&
-                    <AssortmentHeader
-                        id={name}
-                        key={name}
-                        text={name}
-                        textColor={textColor}
-                        backgroundColor={color}
-                        collapseonChangeButton={collapseonChangeButton}
-                        view={view}
-                    />}
-                <ActionFigure
-                    records={records}
-                    newBoxImage={newBoxImage}
-                    catalogList={catalogList}
-                    showAssortmentHeaders={showAssortmentHeaders}
-                    view={view}
-                    sourceMaterials={helperData.sourceMaterial}
-                    assortments={helperData.assortment}
-                />
-            </>
-        }
-        return null;
-    };
-
-    const assortments = () => {
-        if (helperData && helperData.assortment) {
-            return <>
-                {helperData.assortment.values.map(assortment => generateAssortmentSection(assortment))}
-            </>;
-        }
-    }
-
     const allFigures = () => {
         return <ActionFigure
             records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
             newBoxImage={newBoxImage}
             catalogList={catalogList}
-            showAssortmentHeaders={showAssortmentHeaders}
             view={true}
             sourceMaterials={helperData.sourceMaterial}
             assortments={helperData.assortment}
         />;
     }
 
-    const viewableCatalog = showAssortmentHeaders ? assortments() : allFigures();
+    const viewableCatalog = allFigures();
 
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
     const buildFilters = () => {
@@ -297,12 +226,12 @@ export const BlackSeriesCatalog = props => {
     const ownedCheckBox = generateCheckBoxForm(viewOnlyOwnedFigures, handleOwnedFiguresCheckBoxChange, 'Owned Figures');
     const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, 'Not Owned Figures');
 
-    const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
+    // const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
     const styleViewFilters = viewFilters ? {} : { display: 'none' };
 
     return (
         <React.Fragment>
-            <Container component='main' maxWidth='lg'>
+            <Container component='main' maxWidth='xl'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
                         <Grid item xs={12} md={8} className={classes.alwaysDisplayed}>
@@ -330,38 +259,43 @@ export const BlackSeriesCatalog = props => {
                                 color={Color.black()}
                             />
                         </Grid>
-                        <Grid item xs={12} md={3} style={styleViewFilters}>{sourceMaterialFilterComp}</Grid>
-                        <Grid item xs={12} md={3} style={styleViewFilters}>{characterFilterComp}</Grid>
-                        <Grid item xs={12} md={3} style={styleViewFilters}>{groupFilterComp}</Grid>
-                        <Grid item xs={12} md={3} style={styleViewFilters}>{versionFilterComp}</Grid>
-                        <Grid item xs={12} md={3} style={styleViewFilters}>{assortmentFilterComp}</Grid>
-                        <Grid item xs={12} md={3} className={classes.formControl} style={styleViewFilters}>
-                            <ActionButton
-                                buttonLabel={showAssortmentHeaders ? ' Hide Assort. Headers' : 'Show Assort. Headers'}
-                                onClick={handleAssortmentHeaderChange}
-                                color={Color.green()}
-                            />
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{sourceMaterialFilterComp}</Grid>
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{characterFilterComp}</Grid>
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{groupFilterComp}</Grid>
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{assortmentFilterComp}</Grid>
+                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
                             {allViewCheckBox}
                         </Grid>
-                        <Grid item xs={12} md={3} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                            {ownedCheckBox}
+                        </Grid>
+                        <Grid itemxs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                            {unownedCheckBox}
+                        </Grid>
+                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
                             <ActionButton
                                 buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
                                 icon={<SwapHorizIcon />}
                                 onClick={handleImageChange}
                                 color={Color.green()}
                             />
-                            {ownedCheckBox}
                         </Grid>
-                        <Grid item xs={2} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
                             <ActionButton
                                 buttonLabel={'Clear Filters'}
                                 icon={<ClearIcon />}
                                 onClick={handleClearFilters}
                                 color={Color.red()}
                             />
-                            {unownedCheckBox}
                         </Grid>
-                        {viewableCatalog}
+                    </Grid>
+                </div>
+            </Container>
+            {viewableCatalog}
+            {/* <Container component='main' maxWidth='xl'>
+                <div className={classes.root}>
+                    <Grid container spacing={1}>
                         {displayList.length > 0 &&
                             <>
                                 <Grid item xs={12} md={3} className={classes.tableStats}></Grid>
@@ -373,7 +307,7 @@ export const BlackSeriesCatalog = props => {
                         }
                     </Grid>
                 </div>
-            </Container>
+            </Container> */}
         </React.Fragment >
     );
 };

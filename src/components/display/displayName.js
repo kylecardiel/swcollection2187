@@ -37,6 +37,7 @@ export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => 
             {record.seriesNumber &&
                 <Grid item xs={2} className={classes.seriesNumber}>{formattedSeriesNumber()}</Grid>
             }
+            <Grid item xs={12} className={classes.seriesNumber}>{record.assortment}</Grid>
         </Grid>
     );
 };

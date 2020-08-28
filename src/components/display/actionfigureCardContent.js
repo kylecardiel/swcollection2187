@@ -65,8 +65,7 @@ export const ActionFigureCardContent = ({ record, showAssortmentHeaders, sourceM
             <CardContent >
                 <Grid container spacing={0} className={classes.top}>
                     {generateAdditionalNameText(record.additionalNameDetails)}
-                    {generateSourceMaterialText()}
-                    {!showAssortmentHeaders && generateBottomText('', `${record.assortment}`)}
+                    {record.sourceMaterial && generateSourceMaterialText()}
                     {record.version && generateBottomText('Version: ', ` ${record.version}`)}
                     {record.multipack && generateBottomText('', ` [${record.multipack}]`)}
                     {record.exclusiveRetailer && generateBottomText('', ` ${record.exclusiveRetailer}`)}
