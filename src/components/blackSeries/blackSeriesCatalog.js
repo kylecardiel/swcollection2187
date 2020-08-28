@@ -76,23 +76,27 @@ export const BlackSeriesCatalog = props => {
     const [viewOnlyUnownedFigures, setViewOnlyUnownedFigures] = useState(false);
 
     const handleViewAllFiguresCheckBoxChange = () => {
-        if (!viewAllFigures) {
+        if(!viewAllFigures) {
             setViewOnlyOwnedFigures(false);
             setViewOnlyUnownedFigures(false);
-        } else {
-            setViewOnlyOwnedFigures(true);
         }
-        setViewAllFigures(!viewAllFigures)
+        setViewAllFigures(!viewAllFigures);
     };
 
     const handleOwnedFiguresCheckBoxChange = () => {
+        if(!viewOnlyOwnedFigures) {
+            setViewAllFigures(false);
+            setViewOnlyUnownedFigures(false);
+        }
         setViewOnlyOwnedFigures(!viewOnlyOwnedFigures);
-        setViewAllFigures(!viewAllFigures)
     };
 
     const handleUnownedFiguresCheckBoxChange = () => {
+        if(!viewOnlyUnownedFigures) {
+            setViewAllFigures(false);
+            setViewOnlyOwnedFigures(false);
+        }
         setViewOnlyUnownedFigures(!viewOnlyUnownedFigures);
-        setViewAllFigures(!viewAllFigures)
     };
 
     const inputLabel = useRef(null);
