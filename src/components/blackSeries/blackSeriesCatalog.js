@@ -141,9 +141,12 @@ export const BlackSeriesCatalog = props => {
 
     const displayList = massageList();
 
+    // console.log(displayList)
+    // console.log(SortingUtils.sortDataByAttributeAsc(displayList, 'name'))
+
     const allFigures = () => {
         return <ActionFigure
-            records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
+            records={SortingUtils.sortDataByAttributeAsc(displayList, 'name')}
             newBoxImage={newBoxImage}
             catalogList={catalogList}
             view={true}
