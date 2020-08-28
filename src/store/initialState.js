@@ -4,5 +4,5 @@ export const initialState = {
         catalogList: [],
         userList: [],
     },
-    helperData: {},
+    helperDataSet: {},
 };

@@ -80,7 +80,7 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, view
         for (let i = startIndex; i <= stopIndex; i++) {
             cards.push(
                 <div
-                    key={records[i]}
+                    key={`${records[i]}-${i}`}
                     className={classes.sampleCard}
                     style={{
                         flex: `0 0 ${cardWidth}px`,
@@ -132,7 +132,6 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, view
     };
 
     function ListWrapper({ height, itemCount, width }) {
-        console.log(width)
         const columnCount = Math.floor((width - GAP_SIZE) / (CARD_WIDTH + GAP_SIZE));
         const rowCount = Math.ceil(itemCount / columnCount);
 

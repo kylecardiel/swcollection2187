@@ -270,7 +270,7 @@ export const BlackSeriesCatalog = props => {
                         <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
                             {ownedCheckBox}
                         </Grid>
-                        <Grid itemxs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
                             {unownedCheckBox}
                         </Grid>
                         <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
