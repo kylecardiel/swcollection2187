@@ -27,7 +27,7 @@ export const LazyImage = ({ name, src, alt }) => {
 const ImageWrapper = styled.div`
     position: relative;
     width: 100%;
-    height: 50vw;
+    height: 47vw;
 `;
 
 const loadingAnimation = keyframes`
