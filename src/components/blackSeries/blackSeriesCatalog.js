@@ -58,6 +58,9 @@ export const BlackSeriesCatalog = props => {
     const [filterByAssortment, setFilterByAssortment] = useState('');
     const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
 
+    const [filterByYear, setFilterByYear] = useState();
+    const handleYearChange = e => setFilterByYear(e.target.value);
+
     const [newBoxImage, setNewBoxImage] = useState(false);
     const handleImageChange = () => setNewBoxImage(!newBoxImage);
 
@@ -145,6 +148,7 @@ export const BlackSeriesCatalog = props => {
         if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup));
         if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
         if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
+        if (filterByYear) mergedList = mergedList.filter(el => parseInt(el.year) === filterByYear);
 
         if (sortingAttribute) {
             if (sortingAttribute === 'seriesNumber') {
@@ -172,7 +176,9 @@ export const BlackSeriesCatalog = props => {
 
     const viewableCatalog = allFigures();
 
-    let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp, sortingAttibuteFilter;
+    const filteribleYears = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021];
+
+    let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp, sortingAttibuteFilter, yearFilter;
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, sourceMaterial, groups, version } = helperData;
@@ -232,6 +238,15 @@ export const BlackSeriesCatalog = props => {
                 labelWidth={labelWidth}
                 value={sortingAttribute}
             />
+            yearFilter = <FormFilter
+            key={'Year'}
+            menuList={filteribleYears}
+            onChange={handleYearChange}
+            label={'Year'}
+            inputLabel={inputLabel}
+            labelWidth={labelWidth}
+            value={filterByYear}
+        />
         };
     };
     buildFilters();
@@ -277,7 +292,9 @@ export const BlackSeriesCatalog = props => {
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={12} md={4} className={classes.alwaysDisplayed}></Grid>
+                        <Grid item xs={12} md={1}></Grid>
+                        <Grid item xs={12} md={2}>{sortingAttibuteFilter}</Grid>
+                        <Grid item xs={12} md={1}></Grid>
                         <Grid item xs={12} md={1} className={classes.viewFilters}>
                             <ActionButton
                                 icon={<FilterListIcon />}
@@ -290,7 +307,7 @@ export const BlackSeriesCatalog = props => {
                         <Grid item xs={12} md={2} style={styleViewFilters}>{groupFilterComp}</Grid>
                         <Grid item xs={12} md={2} style={styleViewFilters}>{assortmentFilterComp}</Grid>
                         <Grid item xs={12} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{sortingAttibuteFilter}</Grid>
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{yearFilter}</Grid>
                         <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
                             {allViewCheckBox}
                         </Grid>
@@ -414,10 +431,12 @@ const useStyles = makeStyles(theme => ({
     },
     inputRoot: {
         color: 'inherit',
+        height: 53,
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 7),
         transition: theme.transitions.create('width'),
         width: '100%',
+        height: 53,
     },
 }));
