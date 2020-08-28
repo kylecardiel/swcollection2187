@@ -10,7 +10,7 @@ import { ActionButton } from 'components/common/buttons/actionButton';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { FormFilter } from 'components/common/form/formFilter';
-import { generateStatsBasedOnSource } from 'components/common/stats/stats';
+// import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { ActionFigure } from 'components/display/actionfigure';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CatalogApi, UserApi } from 'shared/api/orchestrator';
@@ -35,16 +35,10 @@ export const BlackSeriesCatalog = props => {
     const handleChange = () => setVewFilters(!viewFilters);
 
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState('');
-    const handleSourceMaterialChange = e => {
-        setFilterBySourceMaterial(e.target.value);
-        setCollapsibleAssortments([]);
-    };
+    const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
 
     const [filterByCharacter, setFilterByCharacter] = useState('');
-    const handleCharacterChange = e => {
-        setFilterByCharacter(e.target.value);
-        setCollapsibleAssortments([]);;
-    };
+    const handleCharacterChange = e => setFilterByCharacter(e.target.value);;
 
     const [filterByInputName, setFilterByInputName] = useState('');
     const handleInputNameChange = e => {
@@ -55,25 +49,13 @@ export const BlackSeriesCatalog = props => {
     };
 
     const [filterByGroup, setFilterByGroup] = useState('');
-    const handleGroupChange = e => {
-        setFilterByGroup(e.target.value);
-        setCollapsibleAssortments([]);
-    };
+    const handleGroupChange = e => setFilterByGroup(e.target.value);
 
     const [filterByVersion, setFilterByVersion] = useState('');
-    const handleVersionChange = e => {
-        setFilterByVersion(e.target.value);
-        setCollapsibleAssortments([]);
-    };
+    const handleVersionChange = e => setFilterByVersion(e.target.value);
 
     const [filterByAssortment, setFilterByAssortment] = useState('');
-    const handleAssortmentChange = e => {
-        setFilterByAssortment(e.target.value);
-        setCollapsibleAssortments([]);
-    };
-
-    const [showAssortmentHeaders, setShowAssortmentHeaders] = useState(false);
-    const handleAssortmentHeaderChange = () => setShowAssortmentHeaders(!showAssortmentHeaders);
+    const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
 
     const [newBoxImage, setNewBoxImage] = useState(false);
     const handleImageChange = () => setNewBoxImage(!newBoxImage);
@@ -102,14 +84,6 @@ export const BlackSeriesCatalog = props => {
         setViewAllFigures(!viewAllFigures)
     };
 
-    const [collapsibleAssortments, setCollapsibleAssortments] = useState([]);
-    const handleCollapsibleChange = assortment => {
-        const updated = collapsibleAssortments.includes(assortment)
-            ? collapsibleAssortments.filter(el => el !== assortment)
-            : [...[assortment], ...collapsibleAssortments];
-        setCollapsibleAssortments(updated);
-    };
-
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
 
@@ -120,7 +94,6 @@ export const BlackSeriesCatalog = props => {
         setFilterByVersion(null);
         setFilterByAssortment(null);
         setNewBoxImage(false);
-        setCollapsibleAssortments(helperData.assortment.values.filter(el => el !== 'Orange - 2013/2014'));
     };
 
     const [initialState] = useState(props);
@@ -143,7 +116,6 @@ export const BlackSeriesCatalog = props => {
             });
         };
 
-        if (helperData.assortment) setCollapsibleAssortments(helperData.assortment.values.map(({ name }) => name !== 'Orange - 2013/2014' ? name : ''));
         if (viewFilters) setLabelWidth(inputLabel.current.offsetWidth);
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters, helperData]);
@@ -174,7 +146,6 @@ export const BlackSeriesCatalog = props => {
             records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
             newBoxImage={newBoxImage}
             catalogList={catalogList}
-            showAssortmentHeaders={showAssortmentHeaders}
             view={true}
             sourceMaterials={helperData.sourceMaterial}
             assortments={helperData.assortment}
@@ -255,7 +226,7 @@ export const BlackSeriesCatalog = props => {
     const ownedCheckBox = generateCheckBoxForm(viewOnlyOwnedFigures, handleOwnedFiguresCheckBoxChange, 'Owned Figures');
     const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, 'Not Owned Figures');
 
-    const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
+    // const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
     const styleViewFilters = viewFilters ? {} : { display: 'none' };
 
     return (
