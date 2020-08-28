@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         fontFamily: 'Raleway, sans-serif',
         [theme.breakpoints.down('md')]: {
-            fontSize: '18px',
+            fontSize: '20px',
         },
         [theme.breakpoints.up('md')]: {
             fontSize: '36px',

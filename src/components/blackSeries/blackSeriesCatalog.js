@@ -234,7 +234,7 @@ export const BlackSeriesCatalog = props => {
             <Container component='main' maxWidth='xl'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
-                        <Grid item xs={12} md={8} className={classes.alwaysDisplayed}>
+                        <Grid item xs={12} md={6} className={classes.alwaysDisplayed}>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon />
@@ -249,9 +249,8 @@ export const BlackSeriesCatalog = props => {
                                     inputProps={{ 'aria-label': 'search' }}
                                 />
                             </div>
-                            <div className={classes.grow} />
                         </Grid>
-                        <Grid item xs={12} md={2} className={classes.alwaysDisplayed}></Grid>
+                        <Grid item xs={12} md={4} className={classes.alwaysDisplayed}></Grid>
                         <Grid item xs={12} md={1} className={classes.viewFilters}>
                             <ActionButton
                                 icon={<FilterListIcon />}
@@ -262,15 +261,15 @@ export const BlackSeriesCatalog = props => {
                         <Grid item xs={12} md={2} style={styleViewFilters}>{sourceMaterialFilterComp}</Grid>
                         <Grid item xs={12} md={2} style={styleViewFilters}>{characterFilterComp}</Grid>
                         <Grid item xs={12} md={2} style={styleViewFilters}>{groupFilterComp}</Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
                         <Grid item xs={12} md={2} style={styleViewFilters}>{assortmentFilterComp}</Grid>
-                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
+                        <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
                             {allViewCheckBox}
                         </Grid>
-                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
                             {ownedCheckBox}
                         </Grid>
-                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
                             {unownedCheckBox}
                         </Grid>
                         <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
@@ -315,7 +314,6 @@ export const BlackSeriesCatalog = props => {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        margin: theme.spacing(1),
     },
     grid: {
         display: 'flex',
@@ -329,12 +327,13 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(1),
     },
     alwaysDisplayed: {
-        marginLeft: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     viewFilters: {
         marginTop: theme.spacing(1),
         display: 'flex',
         justifyContent: 'flex-end',
+        marginBottom: theme.spacing(1),
     },
     formControl: {
         margin: theme.spacing(1),
@@ -392,8 +391,5 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(1, 1, 1, 7),
         transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
     },
 }));

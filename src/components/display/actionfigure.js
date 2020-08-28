@@ -20,7 +20,7 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, view
     const screenSize = useContext(ScreenSizeConsumer); //TODO: Update overall width based on screen size/device type
 
     const windowWidth = () => {
-        if(screenSize.isMobileDevice && !screenSize.isPortrait) return 250;
+        if(screenSize.isMobileDevice && !screenSize.isPortrait) return 100;
         if(screenSize.isMobileDevice && screenSize.isPortrait) return 500;
         if(screenSize.isTablet && !screenSize.isPortrait) return SREEN_SIZE.MD;
         if(screenSize.isTablet && screenSize.isPortrait) return SREEN_SIZE.LG;

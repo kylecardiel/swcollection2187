@@ -30,7 +30,7 @@ export const Homepage = () => {
                         />
                     </Grid>
                     {ROLES.EMAIL === email && 
-                        <Grid item xs={3}>
+                        <Grid item xs={12} md={3}>
                             <MediaCard
                                 cardText={HOME_PAGE.CARDS.ADMIN}
                                 route={ROUTE_CONSTANTS.ADMIN}
@@ -46,6 +46,5 @@ export const Homepage = () => {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        margin: theme.spacing(3),
     },
 }));

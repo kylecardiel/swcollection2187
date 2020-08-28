@@ -8,11 +8,10 @@ import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnec
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
-    const redirectHome = () => <Redirect to={HOME} />;
     return (
         <React.Fragment>
             <Router>
-                <Route exact path='/' render={redirectHome} />
+                <Route exact path='/' render={() => <Redirect to={HOME} />} />
                 <Switch>
                     <Route
                         exact
