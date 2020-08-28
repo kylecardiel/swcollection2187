@@ -21,6 +21,7 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import { camelCase } from 'lodash'
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -60,6 +61,13 @@ export const BlackSeriesCatalog = props => {
     const [newBoxImage, setNewBoxImage] = useState(false);
     const handleImageChange = () => setNewBoxImage(!newBoxImage);
 
+    const [sortingAttribute, setSortingAttribute] = useState();
+    const handleSortingChange = e => {
+        let value = null;
+        if (e.target.value) value = camelCase(e.target.value);
+        setSortingAttribute(value);
+    }
+
     const [viewAllFigures, setViewAllFigures] = useState(true);
     const [viewOnlyOwnedFigures, setViewOnlyOwnedFigures] = useState(false);
     const [viewOnlyUnownedFigures, setViewOnlyUnownedFigures] = useState(false);
@@ -94,6 +102,7 @@ export const BlackSeriesCatalog = props => {
         setFilterByVersion(null);
         setFilterByAssortment(null);
         setNewBoxImage(false);
+        setSortingAttribute();
     };
 
     const [initialState] = useState(props);
@@ -136,14 +145,23 @@ export const BlackSeriesCatalog = props => {
         if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup));
         if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
         if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
-        return mergedList;
+
+        if (sortingAttribute) {
+            if (sortingAttribute === 'seriesNumber') {
+                return SortingUtils.sortDataByStringIntAsc(mergedList, sortingAttribute);
+            } else {
+                return SortingUtils.sortDataByAttributeAsc(mergedList, sortingAttribute);
+            }
+        } else {
+            return SortingUtils.sortDataByAttributeAsc(mergedList, 'name');
+        }
     };
 
     const displayList = massageList();
 
     const allFigures = () => {
         return <ActionFigure
-            records={SortingUtils.sortDataByStringIntAsc(displayList, 'name')}
+            records={displayList}
             newBoxImage={newBoxImage}
             catalogList={catalogList}
             view={true}
@@ -154,7 +172,7 @@ export const BlackSeriesCatalog = props => {
 
     const viewableCatalog = allFigures();
 
-    let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp;
+    let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp, sortingAttibuteFilter;
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, sourceMaterial, groups, version } = helperData;
@@ -204,6 +222,15 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByAssortment}
+            />
+            sortingAttibuteFilter = <FormFilter
+                key={'Sorting'}
+                menuList={['Name', 'Series Number', 'Source Material', 'Year']}
+                onChange={handleSortingChange}
+                label={'Sorting'}
+                inputLabel={inputLabel}
+                labelWidth={labelWidth}
+                value={sortingAttribute}
             />
         };
     };
@@ -263,6 +290,7 @@ export const BlackSeriesCatalog = props => {
                         <Grid item xs={12} md={2} style={styleViewFilters}>{groupFilterComp}</Grid>
                         <Grid item xs={12} md={2} style={styleViewFilters}>{assortmentFilterComp}</Grid>
                         <Grid item xs={12} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
+                        <Grid item xs={12} md={2} style={styleViewFilters}>{sortingAttibuteFilter}</Grid>
                         <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
                             {allViewCheckBox}
                         </Grid>
