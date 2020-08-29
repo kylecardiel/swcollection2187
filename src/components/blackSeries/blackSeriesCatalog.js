@@ -260,8 +260,6 @@ export const BlackSeriesCatalog = props => {
             control={<CustomCheckbox
                 checked={state}
                 onChange={handleChange}
-                labelStyle={{ color: 'green' }}
-                iconStyle={{ fill: 'green' }}
             />}
             label={labelText}
             labelPlacement='start'
