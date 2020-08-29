@@ -12,20 +12,21 @@ import { ScreenSizeConsumer } from 'context/screenSizeContext';
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { SREEN_SIZE } from 'shared/constants/screenSize';
+import { LoadingSpinner } from 'components/display/loading';
 
-export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, view, sourceMaterials, assortments }) => {
+export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
-    const screenSize = useContext(ScreenSizeConsumer); //TODO: Update overall width based on screen size/device type
+    const screenSize = useContext(ScreenSizeConsumer);
 
     const windowWidth = () => {
-        if(screenSize.isMobileDevice && !screenSize.isPortrait) return 100;
-        if(screenSize.isMobileDevice && screenSize.isPortrait) return 500;
-        if(screenSize.isTablet && !screenSize.isPortrait) return SREEN_SIZE.MD;
-        if(screenSize.isTablet && screenSize.isPortrait) return SREEN_SIZE.LG;
-        if(screenSize.isMediumDesktopOrLaptop) return 1400;
-        if(screenSize.isLargeDesktopOrLaptop) return SREEN_SIZE.XL;
+        if (screenSize.isMobileDevice && !screenSize.isPortrait) return 100;
+        if (screenSize.isMobileDevice && screenSize.isPortrait) return 500;
+        if (screenSize.isTablet && !screenSize.isPortrait) return SREEN_SIZE.MD;
+        if (screenSize.isTablet && screenSize.isPortrait) return SREEN_SIZE.LG;
+        if (screenSize.isMediumDesktopOrLaptop) return 1400;
+        if (screenSize.isLargeDesktopOrLaptop) return SREEN_SIZE.XL;
     }
 
     const addFigureToCollection = figure => {
@@ -161,15 +162,22 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, view
     }
 
     return (
-        <AutoSizer>
-            {() => (
-                <ListWrapper
-                    height={1000}
-                    itemCount={records.length}
-                    width={windowWidth()}
-                />
-            )}
-        </AutoSizer>
+        <>
+            {sourceMaterials && assortments ?
+                <AutoSizer>
+                    {() => (
+                        <ListWrapper
+                            height={1000}
+                            itemCount={records.length}
+                            width={windowWidth()}
+                        />
+                    )}
+                </AutoSizer>
+                : <div className={classes.centerLoader}>
+                    <LoadingSpinner />
+                </div>
+            }
+        </>
     )
 };
 
@@ -289,4 +297,10 @@ const useStyles = makeStyles(theme => ({
         },
         height: 30,
     },
+    centerLoader: {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+    }
 }));
