@@ -5,7 +5,7 @@ import { ROLES } from 'shared/constants/roleConstants';
 import { Color } from 'shared/styles/color';
 import { getSourceColor } from 'components/display/figureColors';
 
-export const ActionFigureCardContent = ({ record, showAssortmentHeaders, sourceMaterials }) => {
+export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
     const { email } = useContext(UserConsumer);
     const authEmail = email === ROLES.EMAIL;
     
@@ -86,6 +86,7 @@ const useStyles = makeStyles(theme => ({
         height: props => props.bottomCardHieght,
         backgroundColor: Color.black(),
         borderRadius: 0,
+        boxShadow: '0 0 5px',
     },
     br: {
         fontSize: '11px',

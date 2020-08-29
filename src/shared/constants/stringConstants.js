@@ -33,6 +33,7 @@ export const STRING_CONSTANTS = Object.freeze({
         HOME_PAGE: {
             TITLE: 'Home',
             WELCOME: 'Hello There!',
+            TAG_LINE: 'Digitally organize your Star Wars Black Series collection!',
             INTRO_PARAGRAPH: [
                 'Do you love the Black Series? Do you collect Black Series Figures?',
                 'Do you keep track of your collection? Do you want to keep track of your collection?...',

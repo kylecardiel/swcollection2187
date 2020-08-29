@@ -222,6 +222,7 @@ const useStyles = makeStyles(theme => ({
         maxWidth: 325,
         maxHeight: 325,
         borderRadius: 0,
+        boxShadow: '0 0 5px',
     },
     bottomCard: {
         maxWidth: 325,
@@ -243,6 +244,7 @@ const useStyles = makeStyles(theme => ({
     buttonCard: {
         maxWidth: 325,
         borderRadius: 0,
+        boxShadow: '0 0 5px',
     },
     textStyle: {
         fontWeight: 'bold',

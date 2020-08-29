@@ -13,14 +13,19 @@ import { ROLES } from 'shared/constants/roleConstants';
 export const Homepage = () => {
     const classes = useStyles();
     const { email } = useContext(UserConsumer);
-    
+
     return (
         <Container component='main' maxWidth='xl'>
             <div className={classes.root}>
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
-                        <Typography gutterBottom variant='h5' component='h2'>{HOME_PAGE.WELCOME}</Typography>
-                        <Typography gutterBottom variant='h5' component='h2'>{HOME_PAGE.INTRO_PARAGRAPH}</Typography>
+                        <h1>{HOME_PAGE.TAG_LINE}</h1>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <section>
+                            <h3>{HOME_PAGE.WELCOME}</h3>
+                            <p>{HOME_PAGE.INTRO_PARAGRAPH}</p>
+                        </section>
                     </Grid>
                     <Grid item xs={12}>
                         <MediaCard
@@ -29,7 +34,7 @@ export const Homepage = () => {
                             imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
                         />
                     </Grid>
-                    {ROLES.EMAIL === email && 
+                    {ROLES.EMAIL === email &&
                         <Grid item xs={12} md={3}>
                             <MediaCard
                                 cardText={HOME_PAGE.CARDS.ADMIN}
@@ -46,5 +51,6 @@ export const Homepage = () => {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+        overflow: 'hidden',
     },
 }));
