@@ -1,7 +1,7 @@
 import { database } from 'backend/Firebase';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 
-const { CATALOG, USERS, HELPER_DATA, STORAGE_REFERENCES } = FB_DB_CONSTANTS;
+const { CATALOG, USERS, HELPER_DATA, STORAGE_REFERENCES, FEATURE_FLAG } = FB_DB_CONSTANTS;
 
 export class CatalogApi {
     static create = (location, record) => CommonApi.create(`${CATALOG}${location}`, record);
@@ -34,8 +34,13 @@ export class HelperDataApi {
 
 export class StorageReferencesApi {
     static create = (location, record) => CommonApi.create(`${STORAGE_REFERENCES}${location}`, record);
-    static read = location => CommonApi.read(location);
-}
+    static read = () => CommonApi.read(STORAGE_REFERENCES);
+};
+
+export class FeatureFlagApi {
+    static read = () => CommonApi.read(FEATURE_FLAG);
+};
+
 
 export class CommonApi {
     static create = (location, record) => {
