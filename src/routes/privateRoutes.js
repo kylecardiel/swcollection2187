@@ -12,8 +12,11 @@ import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 import { FeatureFlagConsumer } from '../context/featureFlagsContext';
 import { NoSignUp } from 'components/auth/noSignUp';
+import { Homepage } from 'components/homePage/homePage';
+import { BlackSeries } from 'components/blackSeries/blackSeries';
+import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
 
-const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN } = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = () => {
     const { loggedIn, email } = useContext(UserConsumer);
@@ -26,6 +29,13 @@ export const PrivateRoutes = () => {
                 <Header title={HEADER_TITLE} userLoggedIn={loggedIn} />
                 <Route exact path='/' render={redirectRender} />
                 <Switch>
+                    <ProtectedRoute
+                        path={HOME} 
+                        redirectPath={LOGIN}
+                        access={true}
+                        userLoggedIn={loggedIn} 
+                        component={Homepage}
+                    />
                     <ProtectedRoute
                         path={LOGIN}
                         redirectPath={HOME}
@@ -53,6 +63,20 @@ export const PrivateRoutes = () => {
                         access={email === ROLES.EMAIL}
                         userLoggedIn={loggedIn}
                         component={Admin}
+                    />
+                    <ProtectedRoute 
+                        path={BLACK_SERIES}
+                        redirectPath={HOME}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={BlackSeries}
+                    />
+                    <ProtectedRoute
+                        path={`${BLACK_SERIES}/:id`} 
+                        redirectPath={HOME}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={ActionFigureDetailsConnect}
                     />
                 </Switch>
             </Router>
