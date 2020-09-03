@@ -28,7 +28,7 @@ const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 export const BlackSeriesCatalog = props => {
     const { id, loggedIn } = useContext(UserConsumer);
     const classes = useStyles();
-    const { catalogList, setCatalogData, userList, setUserData } = props;
+    const { catalogList, setCatalogData, userList, setUserData, screenSize } = props;
 
     const helperData = props.helperData;
 
@@ -175,6 +175,7 @@ export const BlackSeriesCatalog = props => {
             view={true}
             sourceMaterials={helperData.sourceMaterial}
             assortments={helperData.assortment}
+            screenSize={screenSize}
         />;
     }
 
@@ -295,9 +296,9 @@ export const BlackSeriesCatalog = props => {
                             </div>
                         </Grid>
                         <Grid item xs={12} md={1}></Grid>
-                        <Grid item xs={12} md={2}>{sortingAttibuteFilter}</Grid>
-                        <Grid item xs={12} md={1}></Grid>
-                        <Grid item xs={12} md={1} className={classes.viewFilters}>
+                        <Grid item xs={6} md={2}>{sortingAttibuteFilter}</Grid>
+                        <Grid item xs={3} md={1}></Grid>
+                        <Grid item xs={3} md={1} className={classes.viewFilters}>
                             <ActionButton
                                 icon={<FilterListIcon />}
                                 onClick={handleChange}

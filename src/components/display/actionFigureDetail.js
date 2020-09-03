@@ -23,7 +23,7 @@ const ADD = 'ADD';
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
-    const { figureId, catalogList, userList, sourceMaterials, assortments } = props;
+    const { figureId, catalogList, userList, sourceMaterials, assortments, screenSize } = props;
     const { id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
@@ -52,9 +52,11 @@ export const ActionFigureDetails = props => {
             color = assortmentColors.backgroundColor;
         }
         return color;
-    }
+    };
 
-    const classes = useStyles({ seriesColor: Color.primary(numberBackgroundColor()) });
+    const flexFlowDirection = screenSize.isMobileDevice && screenSize.isPortrait ? 'column' : 'row';
+
+    const classes = useStyles({ seriesColor: Color.primary(numberBackgroundColor()), flexFlowDirection });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
     // const purchasePrice = figure.purchasePrice ? ` $${figure.purchasePrice}` : '';
@@ -233,6 +235,7 @@ export const ActionFigureDetails = props => {
                                                     qty={newInBoxQty}
                                                     qtyType={'newInBoxQty'}
                                                     changeQty={changeQty}
+                                                    isMobileDevice={screenSize.isMobileDevice}
                                                 />
                                             </Typography>
                                             <Typography variant='body2' gutterBottom className={classes.quantity}>
@@ -241,6 +244,7 @@ export const ActionFigureDetails = props => {
                                                     qty={looseCompleteQty}
                                                     qtyType={'looseCompleteQty'}
                                                     changeQty={changeQty}
+                                                    isMobileDevice={screenSize.isMobileDevice}
                                                 />
                                             </Typography>
                                             <Typography variant='body2' gutterBottom className={classes.quantity}>
@@ -249,6 +253,7 @@ export const ActionFigureDetails = props => {
                                                     qty={looseIncompleteQty}
                                                     qtyType={'looseIncompleteQty'}
                                                     changeQty={changeQty}
+                                                    isMobileDevice={screenSize.isMobileDevice}
                                                 />
                                             </Typography>
                                         </Grid>
@@ -289,7 +294,7 @@ const useStyles = makeStyles((theme) => ({
     },
     gridContainer: {
         display: 'flex',
-        flexFlow: 'row',
+        flexFlow: props => props.flexFlowDirection,
         height: '70vh',
         // border: '5px solid green',
         backgroundColor: Color.white(),
