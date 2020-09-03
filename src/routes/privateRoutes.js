@@ -15,10 +15,11 @@ import { NoSignUp } from 'components/auth/noSignUp';
 import { Homepage } from 'components/homePage/homePage';
 import { BlackSeries } from 'components/blackSeries/blackSeries';
 import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
+import { ScreenSize } from 'components/common/screenSize';
 
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const PrivateRoutes = () => {
+export const PrivateRoutes = ({ setScreenSizes }) => {
     const { loggedIn, email } = useContext(UserConsumer);
     const { signUpPage } = useContext(FeatureFlagConsumer);
     const redirectRender = () => <Redirect to={HOME} />;
@@ -80,6 +81,7 @@ export const PrivateRoutes = () => {
                     }
                 </Switch>
             </Router>
+            <ScreenSize setScreenSizes={setScreenSizes}/>
         </React.Fragment>
     );
 };

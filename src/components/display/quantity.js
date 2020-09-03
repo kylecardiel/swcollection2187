@@ -8,8 +8,10 @@ import { Color } from 'shared/styles/color';
 const ADD = 'ADD';
 const MINUS = 'MINUS';
 
-export const Quantity = ({ title, qty, qtyType, changeQty }) => {
-    const classes = useStyles();
+export const Quantity = ({ title, qty, qtyType, changeQty, isMobileDevice }) => {
+    
+    const minWidth = isMobileDevice ? '100%' : '200px';
+    const classes = useStyles({ minWidth });
 
     const zeroQty = qty === 0;
     const minusColor = zeroQty ? Color.grey() : Color.red();
@@ -52,7 +54,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        minWidth: 200,
+        // minWidth: 200,
+        minWidth: props => props.minWidth,
     },
     quantityDetailIcons: {
         marginLeft: theme.spacing(2),

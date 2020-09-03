@@ -1,29 +1,20 @@
 import { onAuthStateChange } from 'backend/FirebaseAuth';
 import { UserProvider } from 'components/auth/authContext';
-import { ScreenSizeProvider } from 'context/screenSizeContext';
 import { StorageReferenceProvider } from 'context/storageReferenceContext';
 import { FeatureFlagProvider } from 'context/featureFlagsContext';
 import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import { SREEN_SIZE } from 'shared/constants/screenSize';
 import { PrivateRoutes } from './routes/privateRoutes';
 import { PublicRoutes } from './routes/publicRoutes';
 import { formatFormData } from 'components/common/form/formatFormData';
 import { HelperDataApi, StorageReferencesApi, FeatureFlagApi } from 'shared/api/orchestrator';
 import { connect } from 'react-redux';
 import { setHelperData } from 'store/helperData/helperDataSetActions';
+import { setScreenSizes } from 'store/screenSize/screenSizeActions';
 
-export const App = ({ setHelperData }) => {
+export const App = ({ setHelperData, setScreenSizes }) => {
     const [user, setUser] = useState({ loggedIn: false });
     const [storageReferences, setStorageReferences] = useState({});
     const [featureFlags, setFeatureFlags] = useState({});
-    const [screenSize] = useState({
-        isLargeDesktopOrLaptop: useMediaQuery({ minDeviceWidth: SREEN_SIZE.XL }),
-        isMediumDesktopOrLaptop: useMediaQuery({ minDeviceWidth: SREEN_SIZE.LG }),
-        isTablet: useMediaQuery({ maxWidth: SREEN_SIZE.LG }),
-        isMobileDevice: useMediaQuery({ maxDeviceWidth: SREEN_SIZE.SM }),
-        isPortrait: useMediaQuery({ orientation: 'portrait' }),
-    });
 
     useEffect(() => {
         onAuthStateChange(setUser);
@@ -50,20 +41,19 @@ export const App = ({ setHelperData }) => {
 
     return (
         <FeatureFlagProvider value={featureFlags}>
-            <ScreenSizeProvider value={screenSize}>
                 <StorageReferenceProvider value={storageReferences}>
                     <UserProvider value={user}>
-                        <PrivateRoutes />
+                        <PrivateRoutes setScreenSizes={setScreenSizes} />
                         <PublicRoutes />
                     </UserProvider>
                 </StorageReferenceProvider>
-            </ScreenSizeProvider>
         </FeatureFlagProvider>
     );
 };
 
 export const mapDispatchToProps = dispatch => ({
     setHelperData: data => dispatch(setHelperData(data)),
+    setScreenSizes: size => dispatch(setScreenSizes(size)),
 });
 
 export default connect(null, mapDispatchToProps)(App);

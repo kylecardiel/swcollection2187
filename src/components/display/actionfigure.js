@@ -8,24 +8,22 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
-import { ScreenSizeConsumer } from 'context/screenSizeContext';
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { SREEN_SIZE } from 'shared/constants/screenSize';
 import { LoadingSpinner } from 'components/display/loading';
 
-export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments }) => {
+export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments, screenSize }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
-    const screenSize = useContext(ScreenSizeConsumer);
 
     const windowWidth = () => {
-        if (screenSize.isMobileDevice && !screenSize.isPortrait) return 100;
-        if (screenSize.isMobileDevice && screenSize.isPortrait) return 500;
-        if (screenSize.isTablet && !screenSize.isPortrait) return SREEN_SIZE.MD;
-        if (screenSize.isTablet && screenSize.isPortrait) return SREEN_SIZE.LG;
-        if (screenSize.isMediumDesktopOrLaptop) return 1400;
+        if (screenSize.isMobileDevice && screenSize.isPortrait) return SREEN_SIZE.SM - 200;
+        if (screenSize.isMobileDevice && !screenSize.isPortrait) return SREEN_SIZE.SM;
+        if (screenSize.isTablet && !screenSize.isPortrait) return SREEN_SIZE.SM;
+        if (screenSize.isTablet && screenSize.isPortrait) return SREEN_SIZE.MD;
+        if (screenSize.isMediumDesktopOrLaptop && !screenSize.isLargeDesktopOrLaptop) return SREEN_SIZE.LG;
         if (screenSize.isLargeDesktopOrLaptop) return SREEN_SIZE.XL;
     }
 

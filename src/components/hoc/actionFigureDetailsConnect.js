@@ -3,6 +3,7 @@ import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 import { getCatalogList, getUserList } from 'store/dataSet/dataSetSelector';
 import { connect } from 'react-redux';
 import { getAssortments, getSourceMaterial } from 'store/helperData/helperDataSetSelector';
+import { getScreenSize } from 'store/screenSize/screenSizeSelector';
 
 export const ActionFigureDetailsConnect = () => {
     return ( 
@@ -16,6 +17,7 @@ export const mapStateToProps = (state, ownProps) => ({
     userList: getUserList(state),
     sourceMaterials: getSourceMaterial(state).values,
     assortments: getAssortments(state).values,
+    screenSize: getScreenSize(state),
 });
 
 export default connect(mapStateToProps)(ActionFigureDetails);
