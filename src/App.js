@@ -9,7 +9,7 @@ import { SREEN_SIZE } from 'shared/constants/screenSize';
 import { PrivateRoutes } from './routes/privateRoutes';
 import { PublicRoutes } from './routes/publicRoutes';
 import { formatFormData } from 'components/common/form/formatFormData';
-import { HelperDataApi, StorageReferencesApi, FeatureFlagApi, UserApi } from 'shared/api/orchestrator';
+import { HelperDataApi, StorageReferencesApi, FeatureFlagApi } from 'shared/api/orchestrator';
 import { connect } from 'react-redux';
 import { setHelperData } from 'store/helperData/helperDataSetActions';
 
@@ -31,31 +31,22 @@ export const App = ({ setHelperData }) => {
         const helperDataRef = HelperDataApi.read();
         helperDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
-            console.log(snapshotRef)
             if (snapshotRef) setHelperData(formatFormData(snapshotRef));
         });
 
         const storageReferencesDataRef = StorageReferencesApi.read();
         storageReferencesDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
-            console.log(snapshotRef)
             if (snapshotRef) setStorageReferences({ commingSoonPhotoUrl: snapshotRef.photoComingSoon['-MFRMcLIEPfRlDK8O3Ye'] })
         });
 
-        const featureFlagDataRef = UserApi.read();
-        console.log(featureFlagDataRef)
+        const featureFlagDataRef = FeatureFlagApi.read();
         featureFlagDataRef.on('value', snapshot => {
-            console.log(snapshot)
             const snapshotRef = snapshot.val();
-            console.log('hitting??')
-            console.log(snapshotRef)
             if (snapshotRef) setFeatureFlags(snapshotRef)
         });
 
     }, [setHelperData, setFeatureFlags]);
-
-    console.log(featureFlags)
-    console.log(storageReferences)
 
     return (
         <FeatureFlagProvider value={featureFlags}>
