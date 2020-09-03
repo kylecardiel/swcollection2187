@@ -7,7 +7,6 @@ import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
 import { UserConsumer } from 'components/auth/authContext';
-import Typography from '@material-ui/core/Typography';
 import { ROLES } from 'shared/constants/roleConstants';
 
 export const Homepage = () => {

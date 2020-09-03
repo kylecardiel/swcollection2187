@@ -10,12 +10,16 @@ import Admin from 'components/admin/admin';
 import { ROLES } from 'shared/constants/roleConstants';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
+import { FeatureFlagConsumer } from '../context/featureFlagsContext';
+import { NoSignUp } from 'components/auth/noSignUp';
 
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = () => {
     const { loggedIn, email } = useContext(UserConsumer);
+    const { signUpPage } = useContext(FeatureFlagConsumer);
     const redirectRender = () => <Redirect to={HOME} />;
+
     return (
         <React.Fragment>
             <Router>
@@ -41,7 +45,7 @@ export const PrivateRoutes = () => {
                         redirectPath={HOME}
                         access={true}
                         userLoggedIn={!loggedIn}
-                        component={SignUp}
+                        component={signUpPage ? SignUp : NoSignUp}
                     />
                     <ProtectedRoute
                         path={ADMIN}

@@ -2,20 +2,21 @@ import { onAuthStateChange } from 'backend/FirebaseAuth';
 import { UserProvider } from 'components/auth/authContext';
 import { ScreenSizeProvider } from 'context/screenSizeContext';
 import { StorageReferenceProvider } from 'context/storageReferenceContext';
+import { FeatureFlagProvider } from 'context/featureFlagsContext';
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { SREEN_SIZE } from 'shared/constants/screenSize';
 import { PrivateRoutes } from './routes/privateRoutes';
 import { PublicRoutes } from './routes/publicRoutes';
 import { formatFormData } from 'components/common/form/formatFormData';
-import { HelperDataApi, StorageReferencesApi } from 'shared/api/orchestrator';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { HelperDataApi, StorageReferencesApi, FeatureFlagApi } from 'shared/api/orchestrator';
 import { connect } from 'react-redux';
 import { setHelperData } from 'store/helperData/helperDataSetActions';
 
 export const App = ({ setHelperData }) => {
     const [user, setUser] = useState({ loggedIn: false });
     const [storageReferences, setStorageReferences] = useState({});
+    const [featureFlags, setFeatureFlags] = useState({});
     const [screenSize] = useState({
         isLargeDesktopOrLaptop: useMediaQuery({ minDeviceWidth: SREEN_SIZE.XL }),
         isMediumDesktopOrLaptop: useMediaQuery({ minDeviceWidth: SREEN_SIZE.LG }),
@@ -27,29 +28,37 @@ export const App = ({ setHelperData }) => {
     useEffect(() => {
         onAuthStateChange(setUser);
 
-        const helperDataRef = HelperDataApi.read(FB_DB_CONSTANTS.HELPER_DATA);
+        const helperDataRef = HelperDataApi.read();
         helperDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
             if (snapshotRef) setHelperData(formatFormData(snapshotRef));
         });
 
-        const storageReferencesDataRef = StorageReferencesApi.read(FB_DB_CONSTANTS.STORAGE_REFERENCES);
+        const storageReferencesDataRef = StorageReferencesApi.read();
         storageReferencesDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
             if (snapshotRef) setStorageReferences({ commingSoonPhotoUrl: snapshotRef.photoComingSoon['-MFRMcLIEPfRlDK8O3Ye'] })
         });
 
-    }, [setHelperData]);
+        const featureFlagDataRef = FeatureFlagApi.read();
+        featureFlagDataRef.on('value', snapshot => {
+            const snapshotRef = snapshot.val();
+            if (snapshotRef) setFeatureFlags(snapshotRef)
+        });
+
+    }, [setHelperData, setFeatureFlags]);
 
     return (
-        <ScreenSizeProvider value={screenSize}>
-            <StorageReferenceProvider value={storageReferences}>
-                <UserProvider value={user}>
-                    <PrivateRoutes />
-                    <PublicRoutes />
-                </UserProvider>
-            </StorageReferenceProvider>
-        </ScreenSizeProvider>
+        <FeatureFlagProvider value={featureFlags}>
+            <ScreenSizeProvider value={screenSize}>
+                <StorageReferenceProvider value={storageReferences}>
+                    <UserProvider value={user}>
+                        <PrivateRoutes />
+                        <PublicRoutes />
+                    </UserProvider>
+                </StorageReferenceProvider>
+            </ScreenSizeProvider>
+        </FeatureFlagProvider>
     );
 };
 
