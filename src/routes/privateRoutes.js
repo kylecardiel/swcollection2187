@@ -30,10 +30,10 @@ export const PrivateRoutes = () => {
                 <Route exact path='/' render={redirectRender} />
                 <Switch>
                     <ProtectedRoute
-                        path={HOME} 
+                        path={HOME}
                         redirectPath={LOGIN}
                         access={true}
-                        userLoggedIn={loggedIn} 
+                        userLoggedIn={loggedIn}
                         component={Homepage}
                     />
                     <ProtectedRoute
@@ -64,20 +64,20 @@ export const PrivateRoutes = () => {
                         userLoggedIn={loggedIn}
                         component={Admin}
                     />
-                    <ProtectedRoute 
-                        path={BLACK_SERIES}
-                        redirectPath={HOME}
-                        access={true}
-                        userLoggedIn={loggedIn}
-                        component={BlackSeries}
-                    />
-                    <ProtectedRoute
-                        path={`${BLACK_SERIES}/:id`} 
-                        redirectPath={HOME}
-                        access={true}
-                        userLoggedIn={loggedIn}
-                        component={ActionFigureDetailsConnect}
-                    />
+                    {loggedIn &&
+                        <>
+                            <Route
+                                exact
+                                path={BLACK_SERIES}
+                                component={BlackSeries}
+                            />
+                            <Route
+                                exact
+                                path={`${BLACK_SERIES}/:id`}
+                                component={ActionFigureDetailsConnect}
+                            />
+                        </>
+                    }
                 </Switch>
             </Router>
         </React.Fragment>

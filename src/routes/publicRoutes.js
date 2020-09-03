@@ -22,7 +22,7 @@ export const PublicRoutes = () => {
                         exact  
                         path={BLACK_SERIES}
                         component={BlackSeries}
-                    />
+                    /> 
                     <Route
                         exact
                         path={`${BLACK_SERIES}/:id`} 
