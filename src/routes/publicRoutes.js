@@ -1,11 +1,11 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { Homepage } from 'components/homePage/homePage';
+// import { Homepage } from 'components/homePage/homePage';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { BlackSeries } from 'components/blackSeries/blackSeries';
-import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
+// import { BlackSeries } from 'components/blackSeries/blackSeries';
+// import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
 
-const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
+const { HOME } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
     return (
@@ -13,7 +13,7 @@ export const PublicRoutes = () => {
             <Router>
                 <Route exact path='/' render={() => <Redirect to={HOME} />} />
                 <Switch>
-                    <Route
+                    {/* <Route
                         exact
                         path={HOME}
                         component={Homepage}
@@ -27,7 +27,7 @@ export const PublicRoutes = () => {
                         exact
                         path={`${BLACK_SERIES}/:id`} 
                         component={ActionFigureDetailsConnect}
-                    />
+                    /> */}
                 </Switch>
             </Router>
         </React.Fragment>
