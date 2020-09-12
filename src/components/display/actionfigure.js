@@ -10,22 +10,12 @@ import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { SREEN_SIZE } from 'shared/constants/screenSize';
 import { LoadingSpinner } from 'components/display/loading';
 
 export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments, screenSize }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
-
-    const windowWidth = () => {
-        if (screenSize.isMobileDevice && screenSize.isPortrait) return SREEN_SIZE.SM - 200;
-        if (screenSize.isMobileDevice && !screenSize.isPortrait) return SREEN_SIZE.SM;
-        if (screenSize.isTablet && !screenSize.isPortrait) return SREEN_SIZE.SM;
-        if (screenSize.isTablet && screenSize.isPortrait) return SREEN_SIZE.MD;
-        if (screenSize.isMediumDesktopOrLaptop && !screenSize.isLargeDesktopOrLaptop) return SREEN_SIZE.LG;
-        if (screenSize.isLargeDesktopOrLaptop) return SREEN_SIZE.XL;
-    }
 
     const addFigureToCollection = figure => {
         let newCollectile = {
@@ -163,11 +153,11 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
         <>
             {sourceMaterials && assortments ?
                 <AutoSizer>
-                    {() => (
+                    {({ width }) => (
                         <ListWrapper
                             height={1000}
                             itemCount={records.length}
-                            width={windowWidth()}
+                            width={width}
                         />
                     )}
                 </AutoSizer>

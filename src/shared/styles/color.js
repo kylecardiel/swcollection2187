@@ -35,6 +35,7 @@ export const Styles = {
         blue: '#036bfc',
         // blue: '#027ac0',
         esbBlue: '#0175d6',
+        brown: '#807760',
         green: 'green',
         darkGreen: '#388e3c',
         rotjGreen: '#6b9e3f',
