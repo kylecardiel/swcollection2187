@@ -24,19 +24,21 @@ export const Quantity = ({ title, qty, qtyType, changeQty, isMobileDevice }) => 
         <Grid container spacing={2} className={classes.detailsContainer}>
             <Grid container spacing={2} className={classes.detailsContainer}>
                 <div className={classes.quantityDetailHeader}>{title}</div>
-                <div className={classes.quantityDetailIcons} onClick={onClickMinus}>
+                {/* <div className={classes.quantityDetailIcons} onClick={onClickMinus}> */}
                     <RemoveCircleIcon 
                         fontSize='large' 
-                        style={{ color: minusColor }} 
+                        style={{ color: minusColor, marginTop: '2%', cursor: 'pointer',  }} 
+                        onClick={onClickMinus}
                     />
-                </div>
+                {/* </div> */}
                 <div className={classes.quantityDetail}>{qty}</div>
-                <div className={classes.quantityDetailIcons} onClick={onClickAdd} >
+                {/* <div className={classes.quantityDetailIcons}  > */}
                     <AddCircleIcon 
                         fontSize='large' 
-                        style={{ color: Color.green() }} 
+                        style={{ color: Color.green(), marginTop: '2%', cursor: 'pointer', }} 
+                        onClick={onClickAdd}
                     />
-                </div>
+                {/* </div> */}
             </Grid>
         </Grid>
     )
@@ -62,11 +64,16 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
         // border: '1px solid purple',
         minWidth: 50,
+        minHeigth: 500,
         textAlign: 'center',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         cursor: 'pointer',
+        border: 'solid black 5px',
+        '&:hover': {
+            border: '1px solid purple',
+        }
     },
     quantityDetail: {
         marginLeft: theme.spacing(2),
