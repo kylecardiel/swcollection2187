@@ -5,12 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import ClearIcon from '@material-ui/icons/Clear';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { UserConsumer } from 'components/auth/authContext';
-// import { TableStats } from 'components/blackSeries/tableStats';
+import { TableStats } from 'components/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { FormFilter } from 'components/common/form/formFilter';
-// import { generateStatsBasedOnSource } from 'components/common/stats/stats';
+import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { ActionFigure } from 'components/display/actionfigure';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CatalogApi, UserApi } from 'shared/api/orchestrator';
@@ -21,7 +21,9 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { camelCase } from 'lodash'
+import { camelCase } from 'lodash';
+import Modal from 'react-modal';
+import { modalStyles } from 'shared/styles/modalStyles';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -76,7 +78,7 @@ export const BlackSeriesCatalog = props => {
     const [viewOnlyUnownedFigures, setViewOnlyUnownedFigures] = useState(false);
 
     const handleViewAllFiguresCheckBoxChange = () => {
-        if(!viewAllFigures) {
+        if (!viewAllFigures) {
             setViewOnlyOwnedFigures(false);
             setViewOnlyUnownedFigures(false);
         }
@@ -84,7 +86,7 @@ export const BlackSeriesCatalog = props => {
     };
 
     const handleOwnedFiguresCheckBoxChange = () => {
-        if(!viewOnlyOwnedFigures) {
+        if (!viewOnlyOwnedFigures) {
             setViewAllFigures(false);
             setViewOnlyUnownedFigures(false);
         }
@@ -92,7 +94,7 @@ export const BlackSeriesCatalog = props => {
     };
 
     const handleUnownedFiguresCheckBoxChange = () => {
-        if(!viewOnlyUnownedFigures) {
+        if (!viewOnlyUnownedFigures) {
             setViewAllFigures(false);
             setViewOnlyOwnedFigures(false);
         }
@@ -111,6 +113,12 @@ export const BlackSeriesCatalog = props => {
         setNewBoxImage(false);
         setSortingAttribute();
     };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(!isModalOpen);
+    const closeModal = () => setIsModalOpen(!isModalOpen);
+    const modalSize = { height: '75%', width: '50%' };
 
     const [initialState] = useState(props);
     useEffect(() => {
@@ -234,7 +242,7 @@ export const BlackSeriesCatalog = props => {
                 labelWidth={labelWidth}
                 value={filterByAssortment}
             />
-            sortingAttibuteFilter = <FormFilter
+            sortingAttibuteFilter = !isModalOpen && <FormFilter
                 key={'Sorting'}
                 menuList={['Name', 'Series Number', 'Source Material', 'Year']}
                 onChange={handleSortingChange}
@@ -244,14 +252,14 @@ export const BlackSeriesCatalog = props => {
                 value={sortingAttribute}
             />
             yearFilter = <FormFilter
-            key={'Year'}
-            menuList={filteribleYears}
-            onChange={handleYearChange}
-            label={'Year'}
-            inputLabel={inputLabel}
-            labelWidth={labelWidth}
-            value={filterByYear}
-        />
+                key={'Year'}
+                menuList={filteribleYears}
+                onChange={handleYearChange}
+                label={'Year'}
+                inputLabel={inputLabel}
+                labelWidth={labelWidth}
+                value={filterByYear}
+            />
         };
     };
     buildFilters();
@@ -271,7 +279,7 @@ export const BlackSeriesCatalog = props => {
     const ownedCheckBox = generateCheckBoxForm(viewOnlyOwnedFigures, handleOwnedFiguresCheckBoxChange, 'Owned Figures');
     const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, 'Not Owned Figures');
 
-    // const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
+    const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
     const styleViewFilters = viewFilters ? {} : { display: 'none' };
 
     return (
@@ -279,6 +287,17 @@ export const BlackSeriesCatalog = props => {
             <Container component='main' maxWidth='xl'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
+                        <Modal
+                            isOpen={isModalOpen}
+                            onRequestClose={closeModal}
+                            style={modalStyles(modalSize)}
+                        >
+                            <div className={classes.root}>
+                                <Grid item xs={12} className={classes.tableStats}>
+                                    <TableStats stats={stats} />
+                                </Grid>
+                            </div>
+                        </Modal>
                         <Grid item xs={12} md={6} className={classes.alwaysDisplayed}>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
@@ -295,9 +314,14 @@ export const BlackSeriesCatalog = props => {
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={12} md={1}></Grid>
-                        <Grid item xs={6} md={2}>{sortingAttibuteFilter}</Grid>
-                        <Grid item xs={3} md={1}></Grid>
+                        <Grid item xs={3} md={1} className={classes.viewFilters}>
+                            <ActionButton
+                                buttonLabel={'Stats'}
+                                onClick={openModal}
+                                color={Color.green()}
+                            />
+                        </Grid>
+                        <Grid item xs={6} md={3}>{sortingAttibuteFilter}</Grid>
                         <Grid item xs={3} md={1} className={classes.viewFilters}>
                             <ActionButton
                                 icon={<FilterListIcon />}
@@ -340,21 +364,6 @@ export const BlackSeriesCatalog = props => {
                 </div>
             </Container>
             {viewableCatalog}
-            {/* <Container component='main' maxWidth='xl'>
-                <div className={classes.root}>
-                    <Grid container spacing={1}>
-                        {displayList.length > 0 &&
-                            <>
-                                <Grid item xs={12} md={3} className={classes.tableStats}></Grid>
-                                <Grid item xs={12} md={6} className={classes.tableStats}>
-                                    <AssortmentHeader text={'Stats'} backgroundColor={'darkYellow'} />
-                                    <TableStats stats={stats} />
-                                </Grid>
-                            </>
-                        }
-                    </Grid>
-                </div>
-            </Container> */}
         </React.Fragment >
     );
 };
@@ -386,9 +395,6 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 225,
-    },
-    tableStats: {
-        marginTop: theme.spacing(4),
     },
     inputBoxInColumn: {
         marginBottom: theme.spacing(1),
@@ -441,5 +447,8 @@ const useStyles = makeStyles(theme => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         height: 53,
+    },
+    statsButton: {
+        margin: theme.spacing(5),
     },
 }));
