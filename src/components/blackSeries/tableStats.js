@@ -14,11 +14,11 @@ export const TableStats = ({ stats }) => {
         <TableContainer component={Paper} className={classes.table}>
             <Table size='small' aria-label='a dense table'>
                 <TableHead>
-                    <TableRow>
-                        <TableCell>Source</TableCell>
-                        <TableCell align='right'>Count</TableCell>
-                        <TableCell align='right'>Percentage</TableCell>
-                        <TableCell align='right'>Retail Cost</TableCell>
+                    <TableRow className={classes.headerRow}>
+                        <TableCell className={classes.totalRowCell}>Source</TableCell>
+                        <TableCell align='right' className={classes.totalRowCell}>Count</TableCell>
+                        <TableCell align='right' className={classes.totalRowCell}>Percentage</TableCell>
+                        <TableCell align='right' className={classes.totalRowCell}>Retail Cost</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -30,7 +30,7 @@ export const TableStats = ({ stats }) => {
                             <TableCell align='right'>{`$${k.cost.toFixed(2)}`}</TableCell>
                         </TableRow>
                     )}
-                    <TableRow key={'total'} className={classes.totalRow}>
+                    <TableRow key={'total'} className={classes.headerRow}>
                             <TableCell component='th' scope='row' className={classes.totalRowCell}>{'Total'}</TableCell>
                             <TableCell align='right' className={classes.totalRowCell}>{stats.count}</TableCell>
                             <TableCell align='right' className={classes.totalRowCell}>{'100%'}</TableCell>
@@ -43,15 +43,14 @@ export const TableStats = ({ stats }) => {
 
 }
 
-const useStyles = makeStyles((theme) => ({
-    table: {
-        marginTop: theme.spacing(1),
-        marginLeft: theme.spacing(-.5),
-    },
-    totalRow: {
-        backgroundColor: 'grey',
+const useStyles = makeStyles(() => ({
+    headerRow: {
+        backgroundColor: 'black',
     },
     totalRowCell: {
         color: 'white',
-    }
+    },
+    table: {
+        borderRadius: 0,
+    },
 }));
