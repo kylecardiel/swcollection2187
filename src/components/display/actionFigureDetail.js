@@ -7,7 +7,6 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import { UserConsumer } from 'components/auth/authContext';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import { Quantity } from 'components/display/quantity';
 import React, { useContext, useState } from 'react';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
@@ -19,7 +18,8 @@ import { getSourceColor, getAssortmentColor } from 'components/display/figureCol
 import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import { RecordUtils } from 'shared/util/recordUtils';
 
-const ADD = 'ADD';
+import { FormFilter } from 'components/common/form/formFilter';
+
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = props => {
@@ -61,19 +61,16 @@ export const ActionFigureDetails = props => {
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
     // const purchasePrice = figure.purchasePrice ? ` $${figure.purchasePrice}` : '';
 
-    const changeQty = (specificQty, direction) => {
-        let updateQty;
+    const changeQty = (e, specificQty) => {
+        const updateQty = e.target.value;
         switch (specificQty) {
             case 'newInBoxQty':
-                updateQty = direction === ADD ? newInBoxQty + 1 : newInBoxQty - 1;
                 setNewInBoxQty(updateQty);
                 break;
             case 'looseCompleteQty':
-                updateQty = direction === ADD ? looseCompleteQty + 1 : looseCompleteQty - 1;
                 setLooseCompleteQty(updateQty);
                 break;
             case 'looseIncompleteQty':
-                updateQty = direction === ADD ? looseIncompleteQty + 1 : looseIncompleteQty - 1;
                 setLooseIncompleteQty(updateQty);
                 break;
             default:
@@ -82,7 +79,7 @@ export const ActionFigureDetails = props => {
 
         UserApi.update(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId, {[specificQty]: updateQty});
     };
-
+        
     const links = [
         {
             route: HOME,
@@ -93,7 +90,7 @@ export const ActionFigureDetails = props => {
             title: PAGES.BLACK_SERIES_CATALOG.TITLE,
         },
     ];
-    
+
     const currentTitleBreadCrumbs = figure.additionalNameDetails
         ? `${figure.name} (${figure.additionalNameDetails})`
         : `${figure.name}`;
@@ -159,11 +156,13 @@ export const ActionFigureDetails = props => {
         </Typography>
     </Grid>;
 
+    const quantitySelect = Array.from(Array(16).keys());
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
             <div className={classes.root}>
-                <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'}/>
+                <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'} />
                 <Container maxWidth='sm' className={classes.container}>
                     <Grid container spacing={2} className={classes.gridContainer}>
                         <Grid xs={12} md={5} item className={classes.verticalContainer}>
@@ -219,43 +218,40 @@ export const ActionFigureDetails = props => {
                                 {figure.owned &&
                                     <>
                                         <Grid xs={12} md={10} item className={classes.detailComponent}>
-                                            <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
-                                                <span className={classes.textStyle}>Collector Details:</span>
-                                            </Typography>
-                                            {/* <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                            <span className={classes.textStyle}>Buy Price:</span>
-                                            {purchasePrice}
-                                        </Typography> */}
-                                            <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                                <span className={classes.textStyle}>Quantity Owned:</span>
-                                            </Typography>
-                                            <Typography variant='body2' gutterBottom className={classes.quantity}>
-                                                <Quantity
-                                                    title={'New in Box:'}
-                                                    qty={newInBoxQty}
-                                                    qtyType={'newInBoxQty'}
-                                                    changeQty={changeQty}
-                                                    isMobileDevice={screenSize.isMobileDevice}
-                                                />
-                                            </Typography>
-                                            <Typography variant='body2' gutterBottom className={classes.quantity}>
-                                                <Quantity
-                                                    title={'Open (complete):'}
-                                                    qty={looseCompleteQty}
-                                                    qtyType={'looseCompleteQty'}
-                                                    changeQty={changeQty}
-                                                    isMobileDevice={screenSize.isMobileDevice}
-                                                />
-                                            </Typography>
-                                            <Typography variant='body2' gutterBottom className={classes.quantity}>
-                                                <Quantity
-                                                    title={'Open (incomplete):'}
-                                                    qty={looseIncompleteQty}
-                                                    qtyType={'looseIncompleteQty'}
-                                                    changeQty={changeQty}
-                                                    isMobileDevice={screenSize.isMobileDevice}
-                                                />
-                                            </Typography>
+                                            <Grid container spacing={1} className={classes.quantityGridContainer}>
+                                                <Grid xs={12} item>
+                                                    <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
+                                                        <span className={classes.textStyle}>Collector Details:</span>
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid xs={12} item>
+                                                    <FormFilter
+                                                        key={'New in Box Qty'}
+                                                        menuList={quantitySelect}
+                                                        onChange={e => changeQty(e, 'newInBoxQty')}
+                                                        label={'New in Box Qty'}
+                                                        value={newInBoxQty}
+                                                    />
+                                                </Grid>
+                                                <Grid xs={12} item>
+                                                    <FormFilter
+                                                        key={'Open (complete) Qty'}
+                                                        menuList={quantitySelect}
+                                                        onChange={e => changeQty(e, 'looseCompleteQty')}
+                                                        label={'Open (complete) Qty'}
+                                                        value={looseCompleteQty}
+                                                    />
+                                                </Grid>
+                                                <Grid xs={12} item>
+                                                    <FormFilter
+                                                        key={'Open (incomplete) Qty'}
+                                                        menuList={quantitySelect}
+                                                        onChange={e => changeQty(e, 'looseIncompleteQty')}
+                                                        label={'Open (incomplete) Qty'}
+                                                        value={looseIncompleteQty}
+                                                    />
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
                                         <Grid xs={12} md={2} item className={classes.totalQuanity}>
                                             <Typography variant='subtitle2' className={classes.seriesNumberText} >
@@ -276,13 +272,10 @@ export const ActionFigureDetails = props => {
     );
 }
 
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         margin: theme.spacing(2),
-
     },
     container: {
         padding: theme.spacing(3),
@@ -297,6 +290,11 @@ const useStyles = makeStyles((theme) => ({
         flexFlow: props => props.flexFlowDirection,
         height: '70vh',
         // border: '5px solid green',
+        // backgroundColor: Color.white(),
+    },
+    quantityGridContainer: {
+        display: 'flex',
+        flexFlow: 'column',
         backgroundColor: Color.white(),
     },
     verticalContainer: {
@@ -316,7 +314,8 @@ const useStyles = makeStyles((theme) => ({
     },
     detailsContainer: {
         // border: '5px solid yellow',
-        flexGrow: 1
+        flexGrow: 1,
+        backgroundColor: Color.white(),
     },
     detailComponent: {
         border: '2px solid black',
@@ -361,6 +360,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
+        cursor: 'pointer',
         '&:hover': {
             backgroundColor: Color.grey(),
         },
@@ -388,5 +388,8 @@ const useStyles = makeStyles((theme) => ({
     smallImage: {
         flexShrink: 0,
         maxHeight: 125,
+    },
+    totalRowCell: {
+        height: '50px',
     },
 }));
