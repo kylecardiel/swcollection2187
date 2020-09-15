@@ -3,7 +3,7 @@ import { UserConsumer } from 'components/auth/authContext';
 import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
 import { DisplayNameSection } from 'components/display/displayName';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useRef, useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
@@ -12,10 +12,23 @@ import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { LoadingSpinner } from 'components/display/loading';
 
+window.scrollPosition = 0;
+
 export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments, screenSize }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
+
+    const listRef = useRef(null);
+    const hasMountedRef = useRef(false);
+
+    useEffect(() => {
+        console.log(listRef)
+        if (listRef.current) {
+            // listRef.current.scrollTo(window.scrollPosition);
+        }
+    }, []);
+
 
     const addFigureToCollection = figure => {
         let newCollectile = {
@@ -143,6 +156,18 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                 itemSize={CARD_HEIGHT + GAP_SIZE}
                 width={width}
                 itemData={itemData}
+                ref={listRef}
+                onScroll={scroll => {
+                    if (!hasMountedRef.current) {
+                        hasMountedRef.current = true;
+                        return;
+                    }
+                    console.log("onScroll", scroll.scrollOffset);
+                    window.scrollPosition = scroll.scrollOffset;
+                    setTimeout(() => {
+                        window.scrollPosition = scroll.scrollOffset;
+                    });
+                }}
             >
                 {Item}
             </List>
