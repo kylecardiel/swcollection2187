@@ -329,22 +329,22 @@ export const BlackSeriesCatalog = props => {
                                 color={Color.black()}
                             />
                         </Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{sourceMaterialFilterComp}</Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{characterFilterComp}</Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{groupFilterComp}</Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{assortmentFilterComp}</Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
-                        <Grid item xs={12} md={2} style={styleViewFilters}>{yearFilter}</Grid>
-                        <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{sourceMaterialFilterComp}</Grid>
+                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{characterFilterComp}</Grid>
+                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{groupFilterComp}</Grid>
+                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{assortmentFilterComp}</Grid>
+                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
+                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{yearFilter}</Grid>
+                        <Grid item xs={12} sm={3} md={1} className={classes.formControl} style={styleViewFilters}>
                             {allViewCheckBox}
                         </Grid>
-                        <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} sm={3} md={1} className={classes.formControl} style={styleViewFilters}>
                             {ownedCheckBox}
                         </Grid>
-                        <Grid item xs={12} md={1} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} sm={3} md={1} className={classes.formControl} style={styleViewFilters}>
                             {unownedCheckBox}
                         </Grid>
-                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} sm={4} md={2} className={classes.formControl} style={styleViewFilters}>
                             <ActionButton
                                 buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
                                 icon={<SwapHorizIcon />}
@@ -352,7 +352,7 @@ export const BlackSeriesCatalog = props => {
                                 color={Color.green()}
                             />
                         </Grid>
-                        <Grid item xs={12} md={2} className={classes.formControl} style={styleViewFilters}>
+                        <Grid item xs={12} sm={4} md={2} className={classes.formControl} style={styleViewFilters}>
                             <ActionButton
                                 buttonLabel={'Clear Filters'}
                                 icon={<ClearIcon />}
