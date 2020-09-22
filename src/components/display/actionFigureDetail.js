@@ -77,9 +77,9 @@ export const ActionFigureDetails = props => {
                 break;
         };
 
-        UserApi.update(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId, {[specificQty]: updateQty});
+        UserApi.update(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId, { [specificQty]: updateQty });
     };
-        
+
     const links = [
         {
             route: HOME,
@@ -189,20 +189,22 @@ export const ActionFigureDetails = props => {
                                     </Typography>
                                     <Typography variant='body2' gutterBottom className={classes.detailName}>
                                         <span className={classes.textStyle}>{`More ${figure.name} Figures: (${similarFigures.length})`}</span>
-                                        <div className={classes.similarFiguresContainer}>
-                                            {similarFigures.length > 0 && similarFigures.map(f => (
-                                                <Typography variant='body2' gutterBottom className={classes.similarFigures}>
-                                                    {`${f.name} `}
-                                                    {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
-                                                    {`from [${f.assortment} assortment] `}
-                                                    {f.version && `[${f.version}]`}
-                                                </Typography>
-                                            ))}
-                                        </div>
                                     </Typography>
+                                    <div className={classes.similarFiguresContainer}>
+                                        {similarFigures.length > 0 && similarFigures.map(f => (
+                                            <Typography variant='body2' gutterBottom className={classes.similarFigures} key={`${f.additionalNameDetails}-${f.assortment}`}>
+                                                {`${f.name} `}
+                                                {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
+                                                {`from [${f.assortment} assortment] `}
+                                                {f.version && `[${f.version}]`}
+                                            </Typography>
+                                        ))}
+                                    </div>
                                     {figure.multipack &&
-                                        <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                            <span className={classes.textStyle}>{`Multipack Figures: (${multipackFigures.length})`}</span>
+                                        <>
+                                            <Typography variant='body2' gutterBottom className={classes.detailName}>
+                                                <span className={classes.textStyle}>{`Multipack Figures: (${multipackFigures.length})`}</span>
+                                            </Typography>
                                             <div className={classes.similarFiguresContainer}>
                                                 {multipackFigures.map(f => (
                                                     <Typography variant='body2' gutterBottom className={classes.similarFigures}>
@@ -212,7 +214,7 @@ export const ActionFigureDetails = props => {
                                                     </Typography>
                                                 ))}
                                             </div>
-                                        </Typography>
+                                        </>
                                     }
                                 </Grid>
                                 {figure.owned &&
