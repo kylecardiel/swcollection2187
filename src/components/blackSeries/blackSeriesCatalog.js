@@ -169,7 +169,7 @@ export const BlackSeriesCatalog = props => {
                 return SortingUtils.sortDataByAttributeAsc(mergedList, sortingAttribute);
             }
         } else {
-            return SortingUtils.sortDataByAttributeAsc(mergedList, 'name');
+            return SortingUtils.sortDataByAttributeAsc(SortingUtils.sortDataByAttributeDesc(mergedList, 'year'), 'name');
         }
     };
 
