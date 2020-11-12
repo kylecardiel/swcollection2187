@@ -12,18 +12,21 @@ import Grid from '@material-ui/core/Grid';
 import { storage } from 'backend/Firebase';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { ProgressBar } from 'components/common/progressBar';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { CatalogApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
 import { Color } from 'shared/styles/color';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
+import { UserConsumer } from 'components/auth/authContext';
+import { RecordUtils } from 'shared/util/recordUtils';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
 export const NewCollectibleForm = ({ closeModal, formData }) => {
     const classes = useStyles();
+    const { email } = useContext(UserConsumer);
 
     const { register, handleSubmit, control } = useForm();
 
@@ -62,7 +65,6 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
             uploadTask.on('state_changed',
                 snapshot => {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    // console.log('Upload is ' + progress + '% done');
                     setPercentage(progress);
                 },
                 function error(err) {
@@ -90,6 +92,8 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
         Object.keys(collectible).forEach(
             key => collectible[key] === undefined && delete collectible[key]
         );
+
+        RecordUtils.addAuditFields(collectible, email);
 
         CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible);
         setSubmitDisabled(false);

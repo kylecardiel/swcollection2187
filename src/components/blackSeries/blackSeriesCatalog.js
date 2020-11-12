@@ -24,6 +24,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { camelCase } from 'lodash';
 import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -118,7 +119,22 @@ export const BlackSeriesCatalog = props => {
 
     const openModal = () => setIsModalOpen(!isModalOpen);
     const closeModal = () => setIsModalOpen(!isModalOpen);
-    const modalSize = { height: '75%', width: '50%' };
+    
+    const modalSize = () => {
+        if(screenSize.isLargeDesktopOrLaptop){
+            return { height: '70%', width: '50%' }
+        } else if (screenSize.isMediumDesktopOrLaptop) {
+            return { height: '85%', width: '75%' }
+        } else {
+            return { height: '95%', width: '95%' }
+        }
+    }
+
+    const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
+
+    const openStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
+    const closeStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
+    const statsModalSize = { height: '50%', width: '50%' };
 
     const [initialState] = useState(props);
     useEffect(() => {
@@ -242,7 +258,7 @@ export const BlackSeriesCatalog = props => {
                 labelWidth={labelWidth}
                 value={filterByAssortment}
             />
-            sortingAttibuteFilter = !isModalOpen && <FormFilter
+            sortingAttibuteFilter = <FormFilter
                 key={'Sorting'}
                 menuList={['Name', 'Series Number', 'Source Material', 'Year']}
                 onChange={handleSortingChange}
@@ -265,22 +281,22 @@ export const BlackSeriesCatalog = props => {
     buildFilters();
 
     const generateCheckBoxForm = (state, handleChange, labelText) => {
-        return <FormControlLabel
-            control={<CustomCheckbox
-                checked={state}
-                onChange={handleChange}
-            />}
-            label={labelText}
-            labelPlacement='start'
-        />;
+        return <div className={classes.checkBoxContainer}>
+            <FormControlLabel
+                control={<CustomCheckbox
+                    checked={state}
+                    onChange={handleChange}
+                />}
+                label={labelText}
+                labelPlacement='start'
+            />
+        </div>;
     };
 
     const allViewCheckBox = generateCheckBoxForm(viewAllFigures, handleViewAllFiguresCheckBoxChange, 'View All');
     const ownedCheckBox = generateCheckBoxForm(viewOnlyOwnedFigures, handleOwnedFiguresCheckBoxChange, 'Owned Figures');
     const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, 'Not Owned Figures');
-
     const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
-    const styleViewFilters = viewFilters ? {} : { display: 'none' };
 
     return (
         <React.Fragment>
@@ -288,13 +304,63 @@ export const BlackSeriesCatalog = props => {
                 <div className={classes.root}>
                     <Grid container spacing={1}>
                         <Modal
-                            isOpen={isModalOpen}
-                            onRequestClose={closeModal}
-                            style={modalStyles(modalSize)}
+                            isOpen={isStatsModalOpen}
+                            onRequestClose={closeStatsModal}
+                            style={modalStyles(statsModalSize)}
                         >
                             <div className={classes.root}>
                                 <Grid item xs={12} className={classes.tableStats}>
                                     <TableStats stats={stats} />
+                                </Grid>
+                            </div>
+                        </Modal>
+                        <Modal
+                            isOpen={isModalOpen}
+                            onRequestClose={closeModal}
+                            style={modalStyles(modalSize())}
+                        >
+                            <div className={classes.root}>
+                                <FormHeaderSection text={'Filter / Sort / Display'} textColor={'white'} />
+                                <Grid container spacing={1}>
+                                    <Grid item xs={12}>
+                                        <div className={classes.modelHeaderContainer}>
+                                            <h3>{'FILTER:'}</h3>
+                                        </div>
+                                    </Grid>
+                                    <Grid item md={4} xs={12}>{sourceMaterialFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{characterFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{groupFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{assortmentFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{versionFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{yearFilter}</Grid>
+                                    <Grid item md={4} xs={12}>{allViewCheckBox}</Grid>
+                                    <Grid item md={4} xs={12}>{ownedCheckBox}</Grid>
+                                    <Grid item md={4} xs={12}>{unownedCheckBox}</Grid>
+                                    <Grid item md={4} xs={12}>
+                                        <div className={classes.modelHeaderContainer}>
+                                            <h3>{'SORT:'}</h3>
+                                        </div>
+                                        {sortingAttibuteFilter}
+                                    </Grid>
+                                    <Grid item md={6} xs={12}>
+                                        <div className={classes.modelHeaderContainer}>
+                                            <h3>{'DISPLAY:'}</h3>
+                                        </div>
+                                        <div className={classes.container}>
+                                            <ActionButton
+                                                buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
+                                                icon={<SwapHorizIcon />}
+                                                onClick={handleImageChange}
+                                                color={Color.green()}
+                                            />
+                                            <ActionButton
+                                                buttonLabel={'Clear Filters'}
+                                                icon={<ClearIcon />}
+                                                onClick={handleClearFilters}
+                                                color={Color.red()}
+                                            />
+                                        </div>
+                                    </Grid>
                                 </Grid>
                             </div>
                         </Modal>
@@ -305,59 +371,25 @@ export const BlackSeriesCatalog = props => {
                                 </div>
                                 <InputBase
                                     placeholder="Search…"
-                                    classes={{
-                                        root: classes.inputRoot,
-                                        input: classes.inputInput,
-                                    }}
+                                    classes={{ root: classes.inputRoot }}
                                     onChange={handleInputNameChange}
                                     inputProps={{ 'aria-label': 'search' }}
                                 />
                             </div>
                         </Grid>
+                        <Grid item xs={6} md={4}>{''}</Grid>
                         <Grid item xs={3} md={1} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={'Stats'}
-                                onClick={openModal}
+                                onClick={openStatsModal}
                                 color={Color.green()}
                             />
                         </Grid>
-                        <Grid item xs={6} md={3}>{sortingAttibuteFilter}</Grid>
                         <Grid item xs={3} md={1} className={classes.viewFilters}>
                             <ActionButton
                                 icon={<FilterListIcon />}
-                                onClick={handleChange}
+                                onClick={openModal}
                                 color={Color.black()}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{sourceMaterialFilterComp}</Grid>
-                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{characterFilterComp}</Grid>
-                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{groupFilterComp}</Grid>
-                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{assortmentFilterComp}</Grid>
-                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{versionFilterComp}</Grid>
-                        <Grid item xs={12} sm={4} md={2} style={styleViewFilters}>{yearFilter}</Grid>
-                        <Grid item xs={12} sm={3} md={1} className={classes.formControl} style={styleViewFilters}>
-                            {allViewCheckBox}
-                        </Grid>
-                        <Grid item xs={12} sm={3} md={1} className={classes.formControl} style={styleViewFilters}>
-                            {ownedCheckBox}
-                        </Grid>
-                        <Grid item xs={12} sm={3} md={1} className={classes.formControl} style={styleViewFilters}>
-                            {unownedCheckBox}
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={2} className={classes.formControl} style={styleViewFilters}>
-                            <ActionButton
-                                buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
-                                icon={<SwapHorizIcon />}
-                                onClick={handleImageChange}
-                                color={Color.green()}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={2} className={classes.formControl} style={styleViewFilters}>
-                            <ActionButton
-                                buttonLabel={'Clear Filters'}
-                                icon={<ClearIcon />}
-                                onClick={handleClearFilters}
-                                color={Color.red()}
                             />
                         </Grid>
                     </Grid>
@@ -440,15 +472,23 @@ const useStyles = makeStyles(theme => ({
     },
     inputRoot: {
         color: 'inherit',
-        height: 53,
-    },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        height: 53,
+        height: 30,
+        width: '75%',
+        paddingLeft: '8%'
     },
     statsButton: {
         margin: theme.spacing(5),
+    },
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: theme.spacing(5),
+    },
+    modelHeaderContainer: {
+        marginLeft: theme.spacing(3),
+    },
+    checkBoxContainer: {
+        display: 'flex',
+        justifyContent: 'center',
     },
 }));
