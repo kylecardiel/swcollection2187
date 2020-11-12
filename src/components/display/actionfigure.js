@@ -17,6 +17,16 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
+    const viewportHieghtModifier = () => {
+        if(screenSize.isLargeDesktopOrLaptop){
+            return 5.25
+        } else if (screenSize.isMediumDesktopOrLaptop) {
+            return 4.1
+        } else {
+            return 3
+        }
+    }
+
     const addFigureToCollection = figure => {
         let newCollectile = {
             catalogId: figure.id,
@@ -153,9 +163,9 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
         <>
             {sourceMaterials && assortments ?
                 <AutoSizer>
-                    {({ width }) => (
+                    {({ height, width }) => (
                         <ListWrapper
-                            height={1000}
+                            height={height*viewportHieghtModifier()}
                             itemCount={records.length}
                             width={width}
                         />
