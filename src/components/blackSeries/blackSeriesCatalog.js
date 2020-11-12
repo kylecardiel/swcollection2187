@@ -35,9 +35,6 @@ export const BlackSeriesCatalog = props => {
 
     const helperData = props.helperData;
 
-    const [viewFilters, setVewFilters] = useState(false);
-    const handleChange = () => setVewFilters(!viewFilters);
-
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState('');
     const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
 
@@ -103,7 +100,7 @@ export const BlackSeriesCatalog = props => {
     };
 
     const inputLabel = useRef(null);
-    const [labelWidth, setLabelWidth] = useState(0);
+    const [labelWidth] = useState(0);
 
     const handleClearFilters = () => {
         setFilterBySourceMaterial(null);
@@ -156,9 +153,7 @@ export const BlackSeriesCatalog = props => {
             });
         };
 
-        if (viewFilters) setLabelWidth(inputLabel.current.offsetWidth);
-
-    }, [initialState, setCatalogData, setUserData, id, loggedIn, viewFilters, helperData]);
+    }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData]);
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
