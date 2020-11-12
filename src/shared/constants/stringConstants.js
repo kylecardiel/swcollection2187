@@ -65,6 +65,20 @@ export const STRING_CONSTANTS = Object.freeze({
         },
         ADMIN: {
             TITLE: 'Administration',
+            IMAGE_FILE_LOCATION: 'File available at:',
+            TABLE_DETAILS: 'These tables populate the form inputs:',
+            INPUT_VALUE: 'Value',
+            BUTTON: {
+                ADD: 'Add',
+                UPLOAD: 'Upload',
+                NEW_ENTRY: 'New Entry',
+                HIDE_TABLES: 'Hide Tables',
+                DISPLAY_TABLES: 'Display Tables',
+            },
+            LABELS: {
+                DATA_TYPE: 'dataType',
+                ASSORTMENT: 'assortment',
+            }
         },
     },
 });

@@ -1,34 +1,34 @@
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import { FormDataTable } from 'components/admin/formDataTable';
-import { UploadImage } from 'components/admin/uploadImage';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
-import { isEmpty } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import Modal from 'react-modal';
-import { HelperDataApi } from 'shared/api/orchestrator';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { PAGES } from 'shared/constants/stringConstantsSelectors';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import { ADMIN } from 'shared/constants/stringConstantsSelectors';
+import Button from '@material-ui/core/Button';
 import { Color } from 'shared/styles/color';
-import { modalStyles } from 'shared/styles/modalStyles';
-import { SortingUtils } from 'shared/util/sortingUtil';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { connect } from 'react-redux';
+import Container from '@material-ui/core/Container';
+import { FormDataTable } from 'components/admin/formDataTable';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
+import Grid from '@material-ui/core/Grid';
+import { HelperDataApi } from 'shared/api/orchestrator';
+import { isEmpty } from 'lodash';
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from 'react-modal';
+import { modalStyles } from 'shared/styles/modalStyles';
+import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
+import { PAGES } from 'shared/constants/stringConstantsSelectors';
+import PropTypes from 'prop-types';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { SortingUtils } from 'shared/util/sortingUtil';
+import TextField from '@material-ui/core/TextField';
+import { UploadImage } from 'components/admin/uploadImage';
+import { useForm } from 'react-hook-form';
+
+import { FormSelectorInput } from 'components/admin/formSelectorInputs';
 
 const { HOME } = ROUTE_CONSTANTS;
 
-export const Admin = props => {
+export const Admin = ({ helperData }) => {
     const classes = useStyles();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,13 +48,10 @@ export const Admin = props => {
     const [dataType, setDatatype] = useState();
     const handleChangeDataType = e => setDatatype(e.target.value);
 
-
-    const [newAssortment, setNewAssortment] = useState({ values: []});
-    const [newSourceMaterial, setNewSourceMaterial] = useState({ values: []});
+    const [newAssortment, setNewAssortment] = useState({ values: [] });
+    const [newSourceMaterial, setNewSourceMaterial] = useState({ values: [] });
     const [uploadAssortment, setUploadAssortment] = useState();
     const handleChangeUploadAssortment = e => setUploadAssortment(e.target.value);
-
-    const helperData = props.helperData;
 
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
@@ -64,15 +61,14 @@ export const Admin = props => {
 
     useEffect(() => {
         setNewAssortment({
-            values: helperData.assortment.values.map(({ name }) => name ),
+            values: helperData.assortment.values.map(({ name }) => name),
         });
         setNewSourceMaterial({
-            values: helperData.sourceMaterial.values.map(({ name }) => name ),
+            values: helperData.sourceMaterial.values.map(({ name }) => name),
         });
     }, [helperData]);
 
     const { register, handleSubmit, reset } = useForm();
-
     const modalSize = { height: '85%', width: '85%' };
 
     const onSubmit = attribute => {
@@ -81,10 +77,13 @@ export const Admin = props => {
             existingData.values.push(attribute.attributevalue);
             let newObject = {};
 
-            newObject[existingData.id] = dataType !== 'assortment' ? existingData.values.sort(SortingUtils.alphaNumericSorting) : existingData.values;
+            newObject[existingData.id] = dataType !== ADMIN.LABELS.ASSORTMENT 
+                ? existingData.values.sort(SortingUtils.alphaNumericSorting) 
+                : existingData.values;
+
             HelperDataApi.create(newObject, dataType);
         } else {
-            HelperDataApi.createNewCategory([attribute.attributevalue], dataType)
+            HelperDataApi.createNewCategory([attribute.attributevalue], dataType);
         }
         reset();
     };
@@ -98,80 +97,29 @@ export const Admin = props => {
 
     const dataTypes = [
         { key: 'none', value: null },
-        // { key: 'Assortment', value: 'assortment' },
         { key: 'Characters', value: 'characters' },
         { key: 'Collection Type', value: 'collectionType' },
         { key: 'Exclusive Retailer', value: 'exclusiveRetailer' },
         { key: 'Groups', value: 'groups' },
         { key: 'Series', value: 'series' },
-        // { key: 'Source Material', value: 'sourceMaterial' },
         { key: 'Source Type', value: 'sourceType' },
         { key: 'Version', value: 'version' },
     ];
 
-    const typeSelector =
-        <FormControl variant='outlined' className={classes.form}>
-            <InputLabel ref={inputLabel} id={`${'dataType'}-label`}>{'dataType'}</InputLabel>
-            <Select
-                labelId={'dataType-id'}
-                id={'dataType'}
-                onChange={handleChangeDataType}
-                labelWidth={labelWidth}
-                defaultValue={''}
-                label={'dataType'}
-            >
-                {dataTypes.map(element => <MenuItem key={element.key} value={element.value}>{element.key}</MenuItem>)}
-            </Select>
-        </FormControl>;
-
-    const valueTextInput =
-        <TextField className={classes.formTextInput}
-            variant='outlined'
-            fullWidth
-            id={'AttributeValue'}
-            name={'AttributeValue'.toLowerCase()}
-            label={'Value'}
-            inputRef={register({ required: true })}
-        />;
-
-    const addButton =
-        <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.submitButton}
-        >
-            <AddBoxIcon />
-            {'Add'}
-        </Button>;
-
-    const displayButton =
-        <Button
-            onClick={() => setDisplayFormDataTable(!displayFormDataTable)}
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.displayButton}
-        >
-            {displayFormDataTable ? 'Hide Tables' : 'Display Tables'}
-        </Button>;
-
     let assortmentTable, charactersTable, collectionTypeTable, exclusiveTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
-            assortmentTable = <FormDataTable header={'Assortment'} data={newAssortment} dataType={'assortment'} disable/>;
+            assortmentTable = <FormDataTable header={'Assortment'} data={newAssortment} dataType={'assortment'} disable />;
             collectionTypeTable = <FormDataTable header={'Collection Type'} data={helperData.collectionType} dataType={'collectionType'} />;
             charactersTable = <FormDataTable header={'Characters'} data={helperData.characters} dataType={'characters'} />;
             exclusiveTable = <FormDataTable header={'Exclusive Retailer'} data={helperData.exclusiveRetailer} dataType={'exclusiveRetailer'} />;
             groupsTable = <FormDataTable header={'Groups'} data={helperData.groups} dataType={'groups'} />;
             seriesTable = <FormDataTable header={'Series'} data={helperData.series} dataType={'series'} />;
-            sourceMaterialTable = <FormDataTable header={'Source Material'} data={newSourceMaterial} dataType={'sourceMaterial'} disable/>;
+            sourceMaterialTable = <FormDataTable header={'Source Material'} data={newSourceMaterial} dataType={'sourceMaterial'} disable />;
             sourceTypeTable = <FormDataTable header={'Source Type'} data={helperData.sourceType} dataType={'sourceType'} />;
             versionTable = <FormDataTable header={'Version'} data={helperData.version} dataType={'version'} />;
         }
     };
-
     buildTables();
 
     return (
@@ -193,7 +141,7 @@ export const Admin = props => {
                     <Grid container spacing={1}>
                         <Grid item xs={12} className={classes.formDataContainer}>
                             <ActionButton
-                                buttonLabel={'New Entry'}
+                                buttonLabel={ADMIN.BUTTON.NEW_ENTRY}
                                 icon={<AddBoxIcon />}
                                 onClick={openModal}
                                 color={Color.green()}
@@ -203,24 +151,18 @@ export const Admin = props => {
                             <UploadImage assortment={uploadAssortment} />
                         </Grid>
                         <Grid item xs={6} className={classes.formDataContainer}>
-                            {helperData.assortment && displayFormDataInput && 
-                                <FormControl variant='outlined' className={classes.form}>
-                                    <InputLabel ref={inputLabel} id={`${'assortment'}-label`}>{'assortment'}</InputLabel>
-                                    <Select
-                                        labelId={'assortment-id'}
-                                        id={'assortment'}
-                                        onChange={handleChangeUploadAssortment}
-                                        labelWidth={labelWidth}
-                                        defaultValue={''}
-                                        label={'assortment'}
-                                    >
-                                        {newAssortment.values.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)}
-                                    </Select>
-                                </FormControl>
+                            {helperData.assortment && displayFormDataInput &&
+                                <FormSelectorInput
+                                    label={ADMIN.LABELS.ASSORTMENT}
+                                    labelWidth={labelWidth}
+                                    handleOnChange={handleChangeUploadAssortment}
+                                    menuItems={newAssortment.values}
+                                    inputLabel={inputLabel}
+                                />
                             }
                         </Grid>
                         <Grid item xs={12} className={classes.formDataContainer}>
-                            <Grid item xs={12}>{'These tables populate the form inputs:'}</Grid>
+                            <Grid item xs={12}>{ADMIN.TABLE_DETAILS}</Grid>
                             <Container component='main' maxWidth='lg'>
                                 <Grid container spacing={2} className={classes.gridContainer}>
                                     {displayFormDataInput &&
@@ -230,10 +172,51 @@ export const Admin = props => {
                                             onSubmit={handleSubmit(onSubmit)}
                                         >
                                             <Grid container spacing={1}>
-                                                <Grid item xs={12} md={4} >{typeSelector}</Grid>
-                                                <Grid item xs={12} md={4} >{valueTextInput}</Grid>
-                                                <Grid item xs={12} md={2} className={classes.gridAddButton}>{addButton}</Grid>
-                                                <Grid item xs={12} md={2} className={classes.gridAddButton}>{displayButton}</Grid>
+                                                <Grid item xs={12} md={4} >
+                                                    <FormSelectorInput
+                                                        label={ADMIN.LABELS.DATA_TYPE}
+                                                        labelWidth={labelWidth}
+                                                        handleOnChange={handleChangeDataType}
+                                                        menuItems={dataTypes}
+                                                        inputLabel={inputLabel}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} md={4} >
+                                                    <TextField className={classes.formTextInput}
+                                                        variant='outlined'
+                                                        fullWidth
+                                                        id={'AttributeValue'}
+                                                        name={'AttributeValue'.toLowerCase()}
+                                                        label={ADMIN.INPUT_VALUE}
+                                                        inputRef={register({ required: true })}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} md={2} className={classes.gridAddButton}>
+                                                    <Button
+                                                        type='submit'
+                                                        fullWidth
+                                                        variant='contained'
+                                                        color='primary'
+                                                        className={classes.submitButton}
+                                                    >
+                                                        <AddBoxIcon />
+                                                        {ADMIN.BUTTON.ADD}
+                                                    </Button>
+                                                </Grid>
+                                                <Grid item xs={12} md={2} className={classes.gridAddButton}>
+                                                    <Button
+                                                        onClick={() => setDisplayFormDataTable(!displayFormDataTable)}
+                                                        fullWidth
+                                                        variant='contained'
+                                                        color='primary'
+                                                        className={classes.displayButton}
+                                                    >
+                                                        {displayFormDataTable 
+                                                            ? ADMIN.BUTTON.HIDE_TABLES 
+                                                            : ADMIN.BUTTON.DISPLAY_TABLES
+                                                        }
+                                                    </Button>
+                                                </Grid>
                                             </Grid>
                                         </form>
                                     }
@@ -271,7 +254,6 @@ export const Admin = props => {
 export const mapStateToProps = state => ({
     helperData: getHelperDataSet(state),
 });
-
 
 export default connect(mapStateToProps)(Admin);
 
@@ -326,3 +308,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2),
     },
 }));
+
+Admin.propTypes = {
+    helperData: PropTypes.object,
+};

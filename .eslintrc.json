@@ -1,34 +1,60 @@
 {
-    "extends": [
-        "react-app",
-        "eslint:recommended",
-    ],
-    "parser": "babel-eslint",
-    "rules": {
-        "semi": ["error", "always"],
-        // "no-duplciate-imports": ["error", {"includeExports": true}],
-        "object-curly-spacing": ["error", "always"],
-        "quote": ["single", {"avoidEscape": true}],
-        "comma-dangle": [1, "always-multiline"],
-        "indent": ["error", 4]
-    },
-    "import/order": [
-        "error",
-        {
-          "groups": ["builtin", "external", "internal"],
-          "pathGroups": [
-            {
-              "pattern": "react",
-              "group": "external",
-              "position": "before"
-            }
-          ],
-          "pathGroupsExcludedImportTypes": ["react"],
-          "newlines-between": "always",
-          "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": true
-          }
+  "settings": {
+        "react": {
+        "pragma": "React",
+        "version": "16.12.0"
         }
-      ]
+    },
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "react-app",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "comma-dangle": [
+            1, 
+            "always-multiline"
+        ],
+        "object-curly-spacing": [
+          "error", 
+          "always"
+        ],
+        "sort-imports": ["error", {
+          "ignoreCase": true,
+          "ignoreDeclarationSort": false,
+          "ignoreMemberSort": false,
+          "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+          "allowSeparatedGroups": true
+      }]
+    }
 }
