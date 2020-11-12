@@ -1,9 +1,10 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
 import { Button } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { red } from '@material-ui/core/colors';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const HeaderButton = ({ buttonLabel, onClick, route }) => {
     const classes = useStyles();
@@ -36,5 +37,11 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: 'white',
             color: red[900],
         },
-    }
+    },
 }));
+
+HeaderButton.propTypes = {
+    buttonLabel: PropTypes.string,
+    onClick: PropTypes.func.isRequired,
+    route: PropTypes.string,
+};
