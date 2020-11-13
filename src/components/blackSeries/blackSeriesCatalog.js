@@ -1,39 +1,39 @@
-import Container from '@material-ui/core/Container';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import ClearIcon from '@material-ui/icons/Clear';
-import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
-import { UserConsumer } from 'components/auth/authContext';
-import { TableStats } from 'components/blackSeries/tableStats';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
-import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
-import { FormFilter } from 'components/common/form/formFilter';
-import { generateStatsBasedOnSource } from 'components/common/stats/stats';
-import { ActionFigure } from 'components/display/actionfigure';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared/constants/stringConstantsSelectors';
 import { CatalogApi, UserApi } from 'shared/api/orchestrator';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { Color } from 'shared/styles/color';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { SortingUtils } from 'shared/util/sortingUtil';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import { ActionFigure } from 'components/display/actionfigure';
 import { camelCase } from 'lodash';
+import ClearIcon from '@material-ui/icons/Clear';
+import { Color } from 'shared/styles/color';
+import Container from '@material-ui/core/Container';
+import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
+import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { FormFilter } from 'components/common/form/formFilter';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { generateStatsBasedOnSource } from 'components/common/stats/stats';
+import Grid from '@material-ui/core/Grid';
+import InputBase from '@material-ui/core/InputBase';
+import { makeStyles } from '@material-ui/core/styles';
 import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import PropTypes from 'prop-types';
+import { RecordUtils } from 'shared/util/recordUtils';
+import SearchIcon from '@material-ui/icons/Search';
+import { SortingUtils } from 'shared/util/sortingUtil';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+import { TableStats } from 'components/blackSeries/tableStats';
+import { UserConsumer } from 'components/auth/authContext';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
 export const BlackSeriesCatalog = props => {
     const { id, loggedIn } = useContext(UserConsumer);
     const classes = useStyles();
-    const { catalogList, setCatalogData, userList, setUserData, screenSize } = props;
-
-    const helperData = props.helperData;
+    const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize } = props;
 
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState('');
     const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
@@ -186,87 +186,77 @@ export const BlackSeriesCatalog = props => {
 
     const displayList = massageList();
 
-    const allFigures = () => {
-        return <ActionFigure
-            records={displayList}
-            newBoxImage={newBoxImage}
-            catalogList={catalogList}
-            view={true}
-            sourceMaterials={helperData.sourceMaterial}
-            assortments={helperData.assortment}
-            screenSize={screenSize}
-        />;
-    };
-
-    const viewableCatalog = allFigures();
-
     const filteribleYears = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021];
-
     let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp, sortingAttibuteFilter, yearFilter;
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, sourceMaterial, groups, version } = helperData;
-            const formattedSourceMaterial = convertArrayObjectToArrayOfObjectProperty(sourceMaterial, 'name');
-            const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, 'name');
+            const formattedSourceMaterial = convertArrayObjectToArrayOfObjectProperty(sourceMaterial, NEW_COLLECTION_FORM_LABELS.NAME.VALUE);
+            const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, NEW_COLLECTION_FORM_LABELS.NAME.VALUE);
             sourceMaterialFilterComp = <FormFilter
-                key={'Source Material'}
+                key={NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY}
                 menuList={formattedSourceMaterial}
                 onChange={handleSourceMaterialChange}
-                label={'Source Material'}
+                label={NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterBySourceMaterial}
             />;
             characterFilterComp = <FormFilter
-                key={'Characters'}
+                key={BS_DISPLAY_MODAL.LABELS.CHARACTERS}
                 menuList={characters.values}
                 onChange={handleCharacterChange}
-                label={'Characters'}
+                label={BS_DISPLAY_MODAL.LABELS.CHARACTERS}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByCharacter}
             />;
             groupFilterComp = <FormFilter
-                key={'Groups'}
+                key={BS_DISPLAY_MODAL.LABELS.GROUPS}
                 menuList={groups.values}
                 onChange={handleGroupChange}
-                label={'Groups'}
+                label={BS_DISPLAY_MODAL.LABELS.GROUPS}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByGroup}
             />;
             versionFilterComp = <FormFilter
-                key={'Versions'}
+                key={NEW_COLLECTION_FORM_LABELS.VERSIONS.KEY}
                 menuList={version.values}
                 onChange={handleVersionChange}
-                label={'Versions'}
+                label={NEW_COLLECTION_FORM_LABELS.VERSIONS.KEY}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByVersion}
             />;
             assortmentFilterComp = <FormFilter
-                key={'Assortment'}
+                key={NEW_COLLECTION_FORM_LABELS.ASSORTMENT.KEY}
                 menuList={formattedAssortment}
                 onChange={handleAssortmentChange}
-                label={'Assortment'}
+                label={NEW_COLLECTION_FORM_LABELS.ASSORTMENT.KEY}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByAssortment}
             />;
             sortingAttibuteFilter = <FormFilter
-                key={'Sorting'}
-                menuList={['Name', 'Series Number', 'Source Material', 'Year']}
+                key={BS_DISPLAY_MODAL.LABELS.SORTING}
+                menuList={[
+                    NEW_COLLECTION_FORM_LABELS.NAME.KEY, 
+                    NEW_COLLECTION_FORM_LABELS.SERIES_NUMBER.KEY, 
+                    NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY, 
+                    NEW_COLLECTION_FORM_LABELS.YEAR.KEY,
+                ]}
                 onChange={handleSortingChange}
-                label={'Sorting'}
+                label={BS_DISPLAY_MODAL.LABELS.SORTING}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={sortingAttribute}
             />;
             yearFilter = <FormFilter
-                key={'Year'}
+                key={NEW_COLLECTION_FORM_LABELS.YEAR.KEY}
                 menuList={filteribleYears}
                 onChange={handleYearChange}
-                label={'Year'}
+                label={NEW_COLLECTION_FORM_LABELS.YEAR.KEY}
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByYear}
@@ -288,10 +278,10 @@ export const BlackSeriesCatalog = props => {
         </div>;
     };
 
-    const allViewCheckBox = generateCheckBoxForm(viewAllFigures, handleViewAllFiguresCheckBoxChange, 'View All');
-    const ownedCheckBox = generateCheckBoxForm(viewOnlyOwnedFigures, handleOwnedFiguresCheckBoxChange, 'Owned Figures');
-    const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, 'Not Owned Figures');
-    const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, 'sourceMaterial');
+    const allViewCheckBox = generateCheckBoxForm(viewAllFigures, handleViewAllFiguresCheckBoxChange, BS_DISPLAY_MODAL.LABELS.VIEW_ALL);
+    const ownedCheckBox = generateCheckBoxForm(viewOnlyOwnedFigures, handleOwnedFiguresCheckBoxChange, BS_DISPLAY_MODAL.LABELS.OWNED);
+    const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, BS_DISPLAY_MODAL.LABELS.NOT_OWNED);
+    const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.VALUE);
 
     return (
         <React.Fragment>
@@ -315,11 +305,11 @@ export const BlackSeriesCatalog = props => {
                             style={modalStyles(modalSize())}
                         >
                             <div className={classes.root}>
-                                <FormHeaderSection text={'Filter / Sort / Display'} textColor={'white'} />
+                                <FormHeaderSection text={BS_DISPLAY_MODAL.HEADER} textColor={'white'} />
                                 <Grid container spacing={1}>
                                     <Grid item xs={12}>
                                         <div className={classes.modelHeaderContainer}>
-                                            <h3>{'FILTER:'}</h3>
+                                            <h3>{BS_DISPLAY_MODAL.LABELS.FILTER}</h3>
                                         </div>
                                     </Grid>
                                     <Grid item md={4} xs={12}>{sourceMaterialFilterComp}</Grid>
@@ -333,23 +323,26 @@ export const BlackSeriesCatalog = props => {
                                     <Grid item md={4} xs={12}>{unownedCheckBox}</Grid>
                                     <Grid item md={4} xs={12}>
                                         <div className={classes.modelHeaderContainer}>
-                                            <h3>{'SORT:'}</h3>
+                                            <h3>{BS_DISPLAY_MODAL.LABELS.SORT}</h3>
                                         </div>
                                         {sortingAttibuteFilter}
                                     </Grid>
                                     <Grid item md={6} xs={12}>
                                         <div className={classes.modelHeaderContainer}>
-                                            <h3>{'DISPLAY:'}</h3>
+                                            <h3>{BS_DISPLAY_MODAL.LABELS.DISPLAY}</h3>
                                         </div>
                                         <div className={classes.container}>
                                             <ActionButton
-                                                buttonLabel={newBoxImage ? 'Out of Box Image' : 'In Box Image'}
+                                                buttonLabel={newBoxImage 
+                                                    ? BS_DISPLAY_MODAL.BUTTONS.OUT_OF_BOX 
+                                                    : BS_DISPLAY_MODAL.BUTTONS.IN_BOX
+                                                }
                                                 icon={<SwapHorizIcon />}
                                                 onClick={handleImageChange}
                                                 color={Color.green()}
                                             />
                                             <ActionButton
-                                                buttonLabel={'Clear Filters'}
+                                                buttonLabel={BS_DISPLAY_MODAL.BUTTONS.CLEAR}
                                                 icon={<ClearIcon />}
                                                 onClick={handleClearFilters}
                                                 color={Color.red()}
@@ -365,7 +358,7 @@ export const BlackSeriesCatalog = props => {
                                     <SearchIcon />
                                 </div>
                                 <InputBase
-                                    placeholder="Search…"
+                                    placeholder={BS_CATALOG.SEARCH}
                                     classes={{ root: classes.inputRoot }}
                                     onChange={handleInputNameChange}
                                     inputProps={{ 'aria-label': 'search' }}
@@ -375,7 +368,7 @@ export const BlackSeriesCatalog = props => {
                         <Grid item xs={6} md={4}>{''}</Grid>
                         <Grid item xs={3} md={1} className={classes.viewFilters}>
                             <ActionButton
-                                buttonLabel={'Stats'}
+                                buttonLabel={BS_CATALOG.BUTTON.STATS}
                                 onClick={openStatsModal}
                                 color={Color.green()}
                             />
@@ -390,7 +383,15 @@ export const BlackSeriesCatalog = props => {
                     </Grid>
                 </div>
             </Container>
-            {viewableCatalog}
+            <ActionFigure
+                records={displayList}
+                newBoxImage={newBoxImage}
+                catalogList={catalogList}
+                view={true}
+                sourceMaterials={helperData.sourceMaterial}
+                assortments={helperData.assortment}
+                screenSize={screenSize}
+            />
         </React.Fragment >
     );
 };
@@ -487,3 +488,12 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
     },
 }));
+
+BlackSeriesCatalog.propTypes = {
+    catalogList: PropTypes.array.isRequired,
+    helperData: PropTypes.object.isRequired,
+    setCatalogData: PropTypes.func.isRequired,
+    screenSize: PropTypes.object.isRequired,
+    setUserData: PropTypes.func.isRequired,
+    userList: PropTypes.array.isRequired,
+};

@@ -12,7 +12,7 @@ export const STRING_CONSTANTS = Object.freeze({
             SIGN_UP: 'Sign Up',
             LOG_IN: 'LogIn',
             FORGOT_PW: 'Forgot password?',
-            NO_ACCOUNT: "Don't have an account? Sign Up",
+            NO_ACCOUNT: 'Don\'t have an account? Sign Up',
             HAVE_ACCOUNT: 'Already have an account? Sign in',
             PASSWORD_DONT_MATCH: 'Passwords do not match',
             INVALID_EMAIL: 'Invalid Email Address',
@@ -20,7 +20,7 @@ export const STRING_CONSTANTS = Object.freeze({
             RESET_PASSWORD_LINK: 'Request Reset Link',
             BACK_TO_LOGIN: 'Back to Login?',
             DIVIDER: '───────────── OR ────────────',
-            DONT_HAVE_AN_ACCOUNT: "Don't have an account? Sign Up",
+            DONT_HAVE_AN_ACCOUNT: 'Don\'t have an account? Sign Up',
             FIELD_LABELS: {
                 EMAIL: 'Email',
                 PASSWORD: 'Password',
@@ -37,8 +37,8 @@ export const STRING_CONSTANTS = Object.freeze({
             INTRO_PARAGRAPH: [
                 'Do you love the Black Series? Do you collect Black Series Figures?',
                 'Do you keep track of your collection? Do you want to keep track of your collection?...',
-                "Then you're in the right spot!"
-            ].join("\n"),
+                'Then you\'re in the right spot!',
+            ].join('\n'),
             CARDS: {
                 BLACK_SERIES: {
                     TITLE: 'Black Series Catalog',
@@ -46,19 +46,43 @@ export const STRING_CONSTANTS = Object.freeze({
                 },
                 USER_PROFILE: {
                     TITLE: 'User profile',
-                    BODY: 'View ...'
+                    BODY: 'View ...',
                 },
                 ADMIN: {
                     TITLE: 'Administartion',
-                    BODY: 'View, Edit, Create ...'
+                    BODY: 'View, Edit, Create ...',
                 },
             },
         },
         BLACK_SERIES_CATALOG: {
             TITLE: 'Black Series Catalog',
+            SEARCH: 'Search…',
             STAT_TABLE: {
                 COLUMNS: ['Source', 'Count', 'Percentage', 'Retail Cost'],
                 TOTAL: 'Total',
+            },
+            BUTTON: {
+                STATS: 'Stats',
+            },
+            DISPLAY_MODAL: {
+                HEADER: 'Filter / Sort / Display',
+                BUTTONS: {
+                    OUT_OF_BOX: 'Out of Box Image',
+                    IN_BOX: 'In Box Image',
+                    CLEAR: 'Clear Filters',
+                },
+                LABELS: {
+                    FILTER: 'FILTER:',
+                    SORT: 'SORT:',
+                    DISPLAY: 'DISPLAY:',
+                    CHARACTERS: 'Characters',
+                    GROUPS: 'Groups',
+                    SORTING: 'Sorting',
+                    VIEW_ALL: 'View All',
+                    OWNED: 'Owned Figures',
+                    NOT_OWNED: 'Not Owned Figures',
+
+                },
             },
         },
         UPLOAD_IMAGE: {
@@ -103,10 +127,8 @@ export const STRING_CONSTANTS = Object.freeze({
                     LOOSE_IMAGE: { KEY: 'Loose Image', VALUE: 'name' },
                     LOOSE_BLACK_IMAGE: { KEY: 'Loose Black Image', VALUE: 'name' },
                     NIB_IMAGE: { KEY: 'NIB Image', VALUE: 'name' },
-                }
-
-
-            }
+                },
+            },
         },
     },
     GENERAL: {
