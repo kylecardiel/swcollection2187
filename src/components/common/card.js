@@ -1,14 +1,15 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { Link as RouterLink } from 'react-router-dom'
-import Link from '@material-ui/core/Link'
 
-export const MediaCard = ({ route, imagePath, cardText}) => {
+export const MediaCard = ({ route, imagePath, cardText }) => {
     const classes = useStyles();
 
     return (
@@ -44,3 +45,9 @@ const useStyles = makeStyles({
         height: 250,
     },
 });
+
+MediaCard.propTypes = {
+    route: PropTypes.string,
+    imagePath: PropTypes.string,
+    cardText: PropTypes.string,
+};

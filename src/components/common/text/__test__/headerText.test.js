@@ -35,7 +35,7 @@ describe('HeaderText', () => {
 
     it('styles text with correct color', () => {
         const { getByTestId } = render(<HeaderText text={text} textColor='red'/>);
-        expect(getByTestId('headerTextId')).toHaveStyle('color: red')
+        expect(getByTestId('headerTextId')).toHaveStyle('color: red');
     });
 
     it('styles accurately', () => {

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
+import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { makeStyles } from '@material-ui/core/styles';
 import { MediaCard } from 'components/common/card';
-import { IMAGE_PATHS } from 'shared/constants/imagePaths';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
-import { UserConsumer } from 'components/auth/authContext';
 import { ROLES } from 'shared/constants/roleConstants';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { UserConsumer } from 'components/auth/authContext';
 
 export const Homepage = () => {
     const classes = useStyles();
@@ -47,7 +47,7 @@ export const Homepage = () => {
     );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
         overflow: 'hidden',

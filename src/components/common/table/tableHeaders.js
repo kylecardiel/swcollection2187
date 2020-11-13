@@ -1,9 +1,10 @@
+import { grey } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { makeStyles } from '@material-ui/core/styles';
-import { grey } from '@material-ui/core/colors';
 
 export const TableHeaders = ({ columnDefinitions }) => {
     const classes = useStyles(); 
@@ -21,7 +22,7 @@ export const TableHeaders = ({ columnDefinitions }) => {
     );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     row: {
         backgroundColor: grey[900],
     },
@@ -30,3 +31,7 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
     },
 }));
+
+TableHeaders.propTypes = {
+    columnDefinitions: PropTypes.object.isRequired,
+};

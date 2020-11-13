@@ -1,5 +1,4 @@
 export const generateStatsBasedOnSource = (data, groupValues, attribute) => {
-    
     let stats = {
         count: data.length,
         totalCost: sumCost(data),
@@ -15,12 +14,11 @@ export const generateStatsBasedOnSource = (data, groupValues, attribute) => {
             });
         });
     }
-
-    return stats
+    return stats;
 };
 
 const sumCost = data => {
     return data.reduce((accumulator, e) =>  {
         return parseFloat(e.retailPrice) ? accumulator + parseFloat(e.retailPrice) : accumulator;
-      }, 0);
+    }, 0);
 };

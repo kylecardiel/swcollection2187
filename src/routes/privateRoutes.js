@@ -1,21 +1,22 @@
-import React, { useContext } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { ProtectedRoute } from 'routes/protectedRoute';
-import { SignUp } from 'components/auth/signUp';
-import { LogIn } from 'components/auth/logIn';
-import { ForgotPassword } from 'components/auth/forgotPassword';
-import { UserConsumer } from 'components/auth/authContext';
+import React, { useContext } from 'react';
+import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
 import Admin from 'components/admin/admin';
-import { ROLES } from 'shared/constants/roleConstants';
+import { BlackSeries } from 'components/blackSeries/blackSeries';
+import { FeatureFlagConsumer } from '../context/featureFlagsContext';
+import { ForgotPassword } from 'components/auth/forgotPassword';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
-import { FeatureFlagConsumer } from '../context/featureFlagsContext';
-import { NoSignUp } from 'components/auth/noSignUp';
 import { Homepage } from 'components/homePage/homePage';
-import { BlackSeries } from 'components/blackSeries/blackSeries';
-import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
+import { LogIn } from 'components/auth/logIn';
+import { NoSignUp } from 'components/auth/noSignUp';
+import PropTypes from 'prop-types';
+import { ProtectedRoute } from 'routes/protectedRoute';
+import { ROLES } from 'shared/constants/roleConstants';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { ScreenSize } from 'components/common/screenSize';
+import { SignUp } from 'components/auth/signUp';
+import { UserConsumer } from 'components/auth/authContext';
 
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES } = ROUTE_CONSTANTS;
 
@@ -86,3 +87,6 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
     );
 };
 
+PrivateRoutes.propTypes = {
+    setScreenSizes: PropTypes.func.isRequired,
+};

@@ -1,9 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
 import { Color } from 'shared/styles/color';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export const HeaderText = ({ textColor, staticTextSize, text }) => {
-    const classes = useStyles({ textColor: textColor ? textColor : 'black'});
+    const classes = useStyles({ textColor: textColor ? textColor : 'black' });
     const className = staticTextSize ? classes.textStatic : classes.textSizeChange;
     return (
         <div data-testid='headerTextId' className={className}>
@@ -39,3 +40,9 @@ const useStyles = makeStyles(theme => ({
         color: props => Color.primary(props.textColor),
     },
 }));
+
+HeaderText.propTypes = {
+    textColor: PropTypes.string.isRequired,
+    staticTextSize: PropTypes.number,
+    text: PropTypes.string.isRequired,
+};

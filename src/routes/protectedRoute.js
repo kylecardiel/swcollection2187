@@ -1,6 +1,8 @@
-import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import React from 'react';
 
+// eslint-disable-next-line react/prop-types
 export const ProtectedRoute = ({ component: Comp, userLoggedIn, access, path, redirectPath, ...rest }) => {
 
     return (
@@ -12,4 +14,11 @@ export const ProtectedRoute = ({ component: Comp, userLoggedIn, access, path, re
             }}
         />
     );
+};
+
+ProtectedRoute.propTypes = {
+    userLoggedIn: PropTypes.bool.isRequired,
+    access: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
+    redirectPath: PropTypes.string.isRequired,
 };

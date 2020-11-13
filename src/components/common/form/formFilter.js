@@ -56,5 +56,5 @@ FormFilter.propTypes = {
     label: PropTypes.string.isRequired, 
     inputLabel: PropTypes.object.isRequired, 
     labelWidth: PropTypes.number.isRequired, 
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
 };
