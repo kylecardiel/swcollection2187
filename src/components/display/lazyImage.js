@@ -1,6 +1,7 @@
-import React from "react";
-import LazyLoad from "react-lazyload";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
+import LazyLoad from 'react-lazyload';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export const LazyImage = ({ name, src, alt }) => {
     const refPlaceholder = React.useRef();
@@ -58,3 +59,9 @@ const StyledImage = styled.img`
   top: 25%;
   -webkit-transform: translateY(-50%) translateX(-50%);
 `;
+
+LazyImage.propTypes = {
+    name: PropTypes.string,
+    src: PropTypes.string,
+    alt: PropTypes.string,
+};

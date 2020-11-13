@@ -1,6 +1,6 @@
-import React from "react";
-import { css } from "@emotion/core";
-import RingLoader from "react-spinners/RingLoader";
+import { css } from '@emotion/core';
+import React from 'react';
+import RingLoader from 'react-spinners/RingLoader';
 
 export const LoadingSpinner = () => {
     return (
@@ -8,12 +8,12 @@ export const LoadingSpinner = () => {
             <RingLoader
                 css={override}
                 size={150}
-                color={"#123abc"}
+                color={'#123abc'}
                 loading={true}
             />
         </div>
     );
-}
+};
 
 const override = css`
     display: block;

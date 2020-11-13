@@ -19,7 +19,7 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
                 <span className={classes.textStyle} >{`${label} `}</span>
                 {value}
             </Typography>
-        </Grid>
+        </Grid>;
     };
 
     const generateAdditionalNameText = value => {
@@ -37,7 +37,7 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
             <Typography variant='body2' component='p' className={classes.bottomtext} >
                 <span className={className}>{text}</span>
             </Typography>
-        </Grid>
+        </Grid>;
     };
 
     const generateSourceMaterialText = () => {
@@ -48,7 +48,7 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
             const sourceMaterialColor = getSourceColor(sourceMaterials.values, record.sourceMaterial);
             sourceMaterialBackgroundColor = sourceMaterialColor.backgroundColor;
             sourceMaterialTextColor = sourceMaterialColor.textColor;
-        };
+        }
 
         return <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext} style={{ backgroundColor: Color.primary(sourceMaterialBackgroundColor) }}>
             <span
@@ -57,8 +57,8 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
             >
                 {`${record.sourceMaterial} `}
             </span>
-        </Typography>
-    }
+        </Typography>;
+    };
 
     return (
         <Card className={classes.bottomCard}>

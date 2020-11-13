@@ -29,7 +29,7 @@ export const ActionFigureDetails = props => {
 
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const figure = singleList.filter(f => f.id === figureId)[0];
-    const similarFigures = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.name === figure.name && el.id !== figure.id), 'year')
+    const similarFigures = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.name === figure.name && el.id !== figure.id), 'year');
     const multipackFigures = singleList.filter(el => el.multipack !== '' && el.multipack === figure.multipack && el.id !== figure.id);
 
     const [newInBoxQty, setNewInBoxQty] = useState(figure.newInBoxQty);
@@ -64,18 +64,18 @@ export const ActionFigureDetails = props => {
     const changeQty = (e, specificQty) => {
         const updateQty = e.target.value;
         switch (specificQty) {
-            case 'newInBoxQty':
-                setNewInBoxQty(updateQty);
-                break;
-            case 'looseCompleteQty':
-                setLooseCompleteQty(updateQty);
-                break;
-            case 'looseIncompleteQty':
-                setLooseIncompleteQty(updateQty);
-                break;
-            default:
-                break;
-        };
+        case 'newInBoxQty':
+            setNewInBoxQty(updateQty);
+            break;
+        case 'looseCompleteQty':
+            setLooseCompleteQty(updateQty);
+            break;
+        case 'looseIncompleteQty':
+            setLooseIncompleteQty(updateQty);
+            break;
+        default:
+            break;
+        }
 
         UserApi.update(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId, { [specificQty]: updateQty });
     };
@@ -272,7 +272,7 @@ export const ActionFigureDetails = props => {
             </div>
         </React.Fragment>
     );
-}
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -337,7 +337,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(0),
         padding: 0,
         // border: '1px solid yellow',
-        flexGrow: 1
+        flexGrow: 1,
     },
     totalQuanity: {
         border: '2px solid black',

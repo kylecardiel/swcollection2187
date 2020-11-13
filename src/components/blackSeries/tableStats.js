@@ -1,12 +1,14 @@
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
 import React from 'react';
+import { STAT_TABLE } from 'shared/constants/stringConstantsSelectors';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
 
 export const TableStats = ({ stats }) => {
     const classes = useStyles();
@@ -15,10 +17,9 @@ export const TableStats = ({ stats }) => {
             <Table size='small' aria-label='a dense table'>
                 <TableHead>
                     <TableRow className={classes.headerRow}>
-                        <TableCell className={classes.totalRowCell}>Source</TableCell>
-                        <TableCell align='right' className={classes.totalRowCell}>Count</TableCell>
-                        <TableCell align='right' className={classes.totalRowCell}>Percentage</TableCell>
-                        <TableCell align='right' className={classes.totalRowCell}>Retail Cost</TableCell>
+                        {STAT_TABLE.COLUMNS.map(element => 
+                            <TableCell key={element} className={classes.totalRowCell}>{element}</TableCell>,
+                        )}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -28,20 +29,19 @@ export const TableStats = ({ stats }) => {
                             <TableCell align='right'>{k.count}</TableCell>
                             <TableCell align='right'>{`${Math.floor(k.count / stats.count * 100)}%`}</TableCell>
                             <TableCell align='right'>{`$${k.cost.toFixed(2)}`}</TableCell>
-                        </TableRow>
+                        </TableRow>,
                     )}
                     <TableRow key={'total'} className={classes.headerRow}>
-                            <TableCell component='th' scope='row' className={classes.totalRowCell}>{'Total'}</TableCell>
-                            <TableCell align='right' className={classes.totalRowCell}>{stats.count}</TableCell>
-                            <TableCell align='right' className={classes.totalRowCell}>{'100%'}</TableCell>
-                            <TableCell align='right' className={classes.totalRowCell}>{`$${stats.totalCost.toFixed(2)}`}</TableCell>
-                        </TableRow>
+                        <TableCell component='th' scope='row' className={classes.totalRowCell}>{STAT_TABLE.TOTAL}</TableCell>
+                        <TableCell align='right' className={classes.totalRowCell}>{stats.count}</TableCell>
+                        <TableCell align='right' className={classes.totalRowCell}>{'100%'}</TableCell>
+                        <TableCell align='right' className={classes.totalRowCell}>{`$${stats.totalCost.toFixed(2)}`}</TableCell>
+                    </TableRow>
                 </TableBody>
             </Table>
         </TableContainer>
-    )
-
-}
+    );
+};
 
 const useStyles = makeStyles(() => ({
     headerRow: {
@@ -54,3 +54,7 @@ const useStyles = makeStyles(() => ({
         borderRadius: 0,
     },
 }));
+
+TableStats.propTypes = {
+    stats: PropTypes.object.isRequired,
+};

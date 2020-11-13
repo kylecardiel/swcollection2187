@@ -39,7 +39,7 @@ export const BlackSeriesCatalog = props => {
     const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
 
     const [filterByCharacter, setFilterByCharacter] = useState('');
-    const handleCharacterChange = e => setFilterByCharacter(e.target.value);;
+    const handleCharacterChange = e => setFilterByCharacter(e.target.value);
 
     const [filterByInputName, setFilterByInputName] = useState('');
     const handleInputNameChange = e => {
@@ -69,7 +69,7 @@ export const BlackSeriesCatalog = props => {
         let value = null;
         if (e.target.value) value = camelCase(e.target.value);
         setSortingAttribute(value);
-    }
+    };
 
     const [viewAllFigures, setViewAllFigures] = useState(true);
     const [viewOnlyOwnedFigures, setViewOnlyOwnedFigures] = useState(false);
@@ -119,13 +119,13 @@ export const BlackSeriesCatalog = props => {
     
     const modalSize = () => {
         if(screenSize.isLargeDesktopOrLaptop){
-            return { height: '70%', width: '50%' }
+            return { height: '70%', width: '50%' };
         } else if (screenSize.isMediumDesktopOrLaptop) {
-            return { height: '85%', width: '75%' }
+            return { height: '85%', width: '75%' };
         } else {
-            return { height: '95%', width: '95%' }
+            return { height: '95%', width: '95%' };
         }
-    }
+    };
 
     const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
 
@@ -151,7 +151,7 @@ export const BlackSeriesCatalog = props => {
                     setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
                 }
             });
-        };
+        }
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData]);
 
@@ -160,7 +160,7 @@ export const BlackSeriesCatalog = props => {
         if (!viewAllFigures) {
             if (viewOnlyOwnedFigures) mergedList = mergedList.filter(el => el.owned === true);
             if (viewOnlyUnownedFigures) mergedList = mergedList.filter(el => el.owned !== true);
-        };
+        }
 
         if (filterBySourceMaterial) mergedList = mergedList.filter(el => el.sourceMaterial === filterBySourceMaterial);
         if (filterByCharacter) mergedList = mergedList.filter(el => el.name === filterByCharacter);
@@ -196,7 +196,7 @@ export const BlackSeriesCatalog = props => {
             assortments={helperData.assortment}
             screenSize={screenSize}
         />;
-    }
+    };
 
     const viewableCatalog = allFigures();
 
@@ -216,7 +216,7 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterBySourceMaterial}
-            />
+            />;
             characterFilterComp = <FormFilter
                 key={'Characters'}
                 menuList={characters.values}
@@ -225,7 +225,7 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByCharacter}
-            />
+            />;
             groupFilterComp = <FormFilter
                 key={'Groups'}
                 menuList={groups.values}
@@ -234,7 +234,7 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByGroup}
-            />
+            />;
             versionFilterComp = <FormFilter
                 key={'Versions'}
                 menuList={version.values}
@@ -243,7 +243,7 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByVersion}
-            />
+            />;
             assortmentFilterComp = <FormFilter
                 key={'Assortment'}
                 menuList={formattedAssortment}
@@ -252,7 +252,7 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByAssortment}
-            />
+            />;
             sortingAttibuteFilter = <FormFilter
                 key={'Sorting'}
                 menuList={['Name', 'Series Number', 'Source Material', 'Year']}
@@ -261,7 +261,7 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={sortingAttribute}
-            />
+            />;
             yearFilter = <FormFilter
                 key={'Year'}
                 menuList={filteribleYears}
@@ -270,8 +270,8 @@ export const BlackSeriesCatalog = props => {
                 inputLabel={inputLabel}
                 labelWidth={labelWidth}
                 value={filterByYear}
-            />
-        };
+            />;
+        }
     };
     buildFilters();
 
@@ -469,7 +469,7 @@ const useStyles = makeStyles(theme => ({
         color: 'inherit',
         height: 30,
         width: '75%',
-        paddingLeft: '8%'
+        paddingLeft: '8%',
     },
     statsButton: {
         margin: theme.spacing(5),

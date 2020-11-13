@@ -54,7 +54,7 @@ FormFilter.propTypes = {
     menuList: PropTypes.array.isRequired, 
     onChange: PropTypes.func.isRequired, 
     label: PropTypes.string.isRequired, 
-    inputLabel: PropTypes.object.isRequired, 
+    inputLabel: PropTypes.object, 
     labelWidth: PropTypes.number.isRequired, 
     value: PropTypes.string,
 };

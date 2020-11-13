@@ -56,6 +56,10 @@ export const STRING_CONSTANTS = Object.freeze({
         },
         BLACK_SERIES_CATALOG: {
             TITLE: 'Black Series Catalog',
+            STAT_TABLE: {
+                COLUMNS: ['Source', 'Count', 'Percentage', 'Retail Cost'],
+                TOTAL: 'Total',
+            },
         },
         UPLOAD_IMAGE: {
             TITLE: 'Upload Image',

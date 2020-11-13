@@ -8,8 +8,8 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { UserApi } from 'shared/api/orchestrator';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { Color } from 'shared/styles/color';
-import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 import { LoadingSpinner } from 'components/display/loading';
 
 export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments, screenSize }) => {
@@ -19,13 +19,13 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
 
     const viewportHieghtModifier = () => {
         if(screenSize.isLargeDesktopOrLaptop){
-            return 5.25
+            return 5.25;
         } else if (screenSize.isMediumDesktopOrLaptop) {
-            return 4.1
+            return 4.1;
         } else {
-            return 3
+            return 3;
         }
-    }
+    };
 
     const addFigureToCollection = figure => {
         let newCollectile = {
@@ -36,18 +36,18 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
             newInBoxQty: 0,
             purchasePrice: 0,
         };
-        UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile)
+        UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile);
     };
 
     const removeFigureToCollection = figure => {
-        UserApi.delete(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId)
+        UserApi.delete(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId);
     };
 
     const onclickCard = record => {
         return record.owned
             ? () => removeFigureToCollection(record)
             : () => addFigureToCollection(record);
-    }
+    };
 
     const collectionButton = record => {
         let text, className;
@@ -84,13 +84,13 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                     style={{
                         flex: `0 0 ${cardWidth}px`,
                         height: cardHeight,
-                        margin: `0 ${gapSize / 2}px`
+                        margin: `0 ${gapSize / 2}px`,
                     }}
                 >
                     <Grid item xs={12} key={records[i].id} >
                         <Link
                             to={{
-                                pathname: `${url}/${records[i].id}`
+                                pathname: `${url}/${records[i].id}`,
                             }}
                             style={{ textDecoration: 'none' }}
                         >
@@ -119,7 +119,7 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                         </Link>
                         {loggedIn && collectionButton(records[i])}
                     </Grid>
-                </div >
+                </div >,
             );
         }
 
@@ -140,9 +140,9 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                 itemCount,
                 cardWidth: CARD_WIDTH,
                 cardHeight: CARD_HEIGHT,
-                gapSize: GAP_SIZE
+                gapSize: GAP_SIZE,
             }),
-            [columnCount, itemCount]
+            [columnCount, itemCount],
         );
 
         return (
@@ -176,7 +176,7 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                 </div>
             }
         </>
-    )
+    );
 };
 
 const useStyles = makeStyles(theme => ({
@@ -302,5 +302,5 @@ const useStyles = makeStyles(theme => ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-    }
+    },
 }));
