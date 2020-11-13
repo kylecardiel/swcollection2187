@@ -1,18 +1,19 @@
-import React from 'react';
+import { Color } from 'shared/styles/color';
 import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import { Color } from 'shared/styles/color';
+import MenuItem from '@material-ui/core/MenuItem';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Select from '@material-ui/core/Select';
 
 export const FormFilter = ({ menuList, onChange, label, inputLabel, labelWidth, value }) => {
 
     const classes = useStyles();
     const menuItemsList = list => {
         return list.map(item =>
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-        )
+            <MenuItem key={item} value={item}>{item}</MenuItem>,
+        );
     };
 
     return (
@@ -33,8 +34,8 @@ export const FormFilter = ({ menuList, onChange, label, inputLabel, labelWidth, 
                 </Select>
             </FormControl>
         </div>
-    )
-}
+    );
+};
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -48,3 +49,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: Color.white(),
     },
 }));
+
+FormFilter.propTypes = {
+    menuList: PropTypes.array.isRequired, 
+    onChange: PropTypes.func.isRequired, 
+    label: PropTypes.string.isRequired, 
+    inputLabel: PropTypes.object.isRequired, 
+    labelWidth: PropTypes.number.isRequired, 
+    value: PropTypes.string.isRequired,
+};

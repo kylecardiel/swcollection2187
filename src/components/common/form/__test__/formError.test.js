@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { cleanup, render } from '@testing-library/react';
 import { FormError } from 'components/common/form/formError';
+import React from 'react';
 
 describe('FormError', () => {
 

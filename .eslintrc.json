@@ -6,8 +6,7 @@
         }
     },
     "env": {
-        "browser": true,
-        "es2021": true
+        "browser": true
     },
     "extends": [
         "eslint:recommended",
@@ -48,13 +47,6 @@
         "object-curly-spacing": [
           "error", 
           "always"
-        ],
-        "sort-imports": ["error", {
-          "ignoreCase": true,
-          "ignoreDeclarationSort": false,
-          "ignoreMemberSort": false,
-          "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
-          "allowSeparatedGroups": true
-      }]
+        ]
     }
 }

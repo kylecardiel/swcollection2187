@@ -1,8 +1,9 @@
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import { HeaderText } from 'components/common/text/headerText';
-import React from 'react';
 import { Color } from 'shared/styles/color';
+import Grid from '@material-ui/core/Grid';
+import { HeaderText } from 'components/common/text/headerText';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export const FormHeaderSection = ({ text, textColor, backgroundColor }) => {
     const classes = useStyles({ backgroundColor: backgroundColor });
@@ -31,3 +32,9 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
     },
 }));
+
+FormHeaderSection.propTypes = {
+    text: PropTypes.string.isRequired, 
+    textColor: PropTypes.string.isRequired, 
+    backgroundColor: PropTypes.string, 
+};

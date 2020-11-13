@@ -42,6 +42,6 @@ const useStyles = makeStyles(theme => ({
 
 HeaderButton.propTypes = {
     buttonLabel: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     route: PropTypes.string,
 };

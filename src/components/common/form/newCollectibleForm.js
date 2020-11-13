@@ -5,29 +5,30 @@ import {
     makeStyles,
     MenuItem,
     Select, TextField,
-    Typography
+    Typography,
 } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { storage } from 'backend/Firebase';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import { ProgressBar } from 'components/common/progressBar';
-import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { GENERAL, NEW_COLLECTION_FORM } from 'shared/constants/stringConstantsSelectors';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CatalogApi } from 'shared/api/orchestrator';
+import { Color } from 'shared/styles/color';
+import Container from '@material-ui/core/Container';
+import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
-import { Color } from 'shared/styles/color';
-import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
-import { UserConsumer } from 'components/auth/authContext';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import Grid from '@material-ui/core/Grid';
+import { ProgressBar } from 'components/common/progressBar';
+import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
+import { storage } from 'backend/Firebase';
+import { UserConsumer } from 'components/auth/authContext';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
 export const NewCollectibleForm = ({ closeModal, formData }) => {
     const classes = useStyles();
     const { email } = useContext(UserConsumer);
-
     const { register, handleSubmit, control } = useForm();
 
     const [groupsSelected, setGroupsSelected] = useState([]);
@@ -37,9 +38,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
     const [submitDisabled, setSubmitDisabled] = useState(false);
     const [percentage, setPercentage] = useState(0);
 
-    const handleChange = (event) => {
-        setGroupsSelected(event.target.value);
-    };
+    const handleChange = e => setGroupsSelected(e.target.value);
 
     const handleLooseImageChange = e => {
         if (e.target.files[0]) setLooseFigureImageFile(e.target.files[0]);
@@ -64,7 +63,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
             const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${image.name}`).put(image);
             uploadTask.on('state_changed',
                 snapshot => {
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     setPercentage(progress);
                 },
                 function error(err) {
@@ -72,12 +71,12 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
                     reject();
                 },
                 function complete() {
-                    uploadTask.snapshot.ref.getDownloadURL().then( downloadURL => {
+                    uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
                         resolve(downloadURL);
-                    })
-                }
-            )
-        })
+                    });
+                },
+            );
+        });
     };
 
     const onSubmit = async collectible => {
@@ -88,19 +87,14 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
         if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile, collectible.assortment);
 
         collectible.groups = groupsSelected;
-
-        Object.keys(collectible).forEach(
-            key => collectible[key] === undefined && delete collectible[key]
-        );
-
+        Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
         RecordUtils.addAuditFields(collectible, email);
-
         CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible);
         setSubmitDisabled(false);
         closeModal();
     };
 
-    const menuItemNone = <MenuItem key={'none'} value={null}><em>{'none'}</em></MenuItem>;
+    const menuItemNone = <MenuItem key={GENERAL.MENU_ITEMS.NONE} value={null}><em>{GENERAL.MENU_ITEMS.NONE}</em></MenuItem>;
 
     const { 
         assortment, 
@@ -121,7 +115,9 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
         </Grid>;
     };
 
-    const generateSelector = (text, selectorName, selectorValues) => {
+    const generateSelector = (label, selectorValues) => {
+        const text = label.KEY;
+        const selectorName = label.VALUE;
         return <>
             {generatorInputText(text)}
             <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
@@ -169,7 +165,9 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
         </>;
     };
 
-    const generatorInput = (text, inputName, number) => {
+    const generatorInput = (label, number) => {
+        const text = label.KEY;
+        const inputName = label.VALUE;
         return <>
             {generatorInputText(text)}
             <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
@@ -199,28 +197,29 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
     const formattedSourceMaterial = convertArrayObjectToArrayOfObjectProperty(sourceMaterial, 'name');
     const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, 'name');
 
-    const collectionTypeInput = generateSelector('Collection Type', 'collectionType', collectionType.values);
-    const seriesTypeInput = generateSelector('Series', 'series', series.values);
-    const assortmentInput = generateSelector('Assortment', 'assortment', formattedAssortment);
-    const versionTypeInput = generateSelector('Versions', 'version', version.values);
-    const sourceMaterialInput = generateSelector('Source Material', 'sourceMaterial', formattedSourceMaterial);
-    const exclusiveRetailerInput = generateSelector('Exclusive Retailer', 'exclusiveRetailer', exclusiveRetailer.values);
-    const sourceTypeInput = generateSelector('Source Type', 'sourceType', sourceType.values);
-    const nameInput = generatorInput('Name', 'name');
-    const additionalNameDetailsInput = generatorInput('Additional Name Details', 'additionalNameDetails');
-    const seriesNumberInput = generatorInput('Wave', 'wave', true);
-    const waveInput = generatorInput('Series Number', 'seriesNumber');
-    const yearInput = generatorInput('Year', 'year', true);
+    const { LABELS } = NEW_COLLECTION_FORM;
+    const collectionTypeInput = generateSelector(LABELS.COLLECTION_TYPE, collectionType.values);
+    const seriesTypeInput = generateSelector(LABELS.SERIES, series.values);
+    const assortmentInput = generateSelector(LABELS.ASSORTMENT, formattedAssortment);
+    const versionTypeInput = generateSelector(LABELS.VERSIONS, version.values);
+    const sourceMaterialInput = generateSelector(LABELS.SOURCE_MATERIAL, formattedSourceMaterial);
+    const exclusiveRetailerInput = generateSelector(LABELS.EXCLUSIVE_RETAILER, exclusiveRetailer.values);
+    const sourceTypeInput = generateSelector(LABELS.SOURCE_TYPE, sourceType.values);
+    const nameInput = generatorInput(LABELS.NAME);
+    const additionalNameDetailsInput = generatorInput(LABELS.ADD_NAME_DETAILS);
+    const seriesNumberInput = generatorInput(LABELS.WAVE, true);
+    const waveInput = generatorInput(LABELS.SERIES_NUMBER);
+    const yearInput = generatorInput(LABELS.YEAR, true);
     const groupSelectInput = groupSelect();
-    const retailPrice = generatorInput('Retail Price', 'retailPrice');
-    const mulitipackInput = generatorInput('Multipack', 'multipack');
-    const looseImageInput = generatorImageInput('Loose Image', handleLooseImageChange);
-    const looseBlackImageInput = generatorImageInput('Loose Black Image', handleBlacLoosekImageChange);
-    const newImageInput = generatorImageInput('NIB Image', handleNewImageChange);
+    const retailPrice = generatorInput(LABELS.RETAIL_PRICE);
+    const mulitipackInput = generatorInput(LABELS.MULTIPACK);
+    const looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
+    const looseBlackImageInput = generatorImageInput(LABELS.LOOSE_BLACK_IMAGE.KEY, handleBlacLoosekImageChange);
+    const newImageInput = generatorImageInput(LABELS.NIB_IMAGE.KEY, handleNewImageChange);
 
     return (
         <React.Fragment>
-            <FormHeaderSection text={'Feed the Database!'} textColor={'white'} />
+            <FormHeaderSection text={NEW_COLLECTION_FORM.HEADER} textColor={'white'} />
             <Container component='main' maxWidth='xl' className={classes.conatiner}>
                 { submitDisabled && 
                     <div className={classes.progressBar}>
@@ -260,7 +259,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
                                 className={classes.submit}
                                 disabled={submitDisabled}
                             >
-                                {'Submit'}
+                                {GENERAL.BUTTON.SUBMIT}
                             </Button>
                         </Grid>
                     </Grid>
@@ -273,18 +272,11 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
 const useStyles = makeStyles(theme => ({
     '@global': {
         body: {
-            backgroundColor: theme.palette.common.white
+            backgroundColor: theme.palette.common.white,
         },
     },
     conatiner: {
         paddingTop: theme.spacing(2),
-    },
-    check: {
-        width: '100%',
-        minWidth: 120,
-        marginTop: theme.spacing(1.5),
-        marginBottom: theme.spacing(1),
-
     },
     form: {
         width: '100%',
@@ -301,29 +293,11 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: Color.white(),
         },
     },
-    deleteButton: {
-        margin: theme.spacing(3, 0, 2),
-        maxWidth: 200,
-        color: Color.red(),
-        backgroundColor: Color.white(),
-        '&:hover': {
-            backgroundColor: Color.red(),
-            color: Color.white(),
-        },
-    },
-    dateTimeSelector: {
-        marginTop: theme.spacing(0),
-        width: '100%',
-        minWidth: 150,
-    },
     inputBoxInColumn: {
         marginBottom: theme.spacing(1),
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-    },
-    dateInput: {
-        margin: theme.spacing(0),
     },
     text: {
         textAlign: 'center',
@@ -333,14 +307,12 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
-    textStyle: {
-        fontWeight: 'bold',
-    },
-    warningMessage: {
-        padding: theme.spacing(0),
-        color: Color.red(),
-    },
     progressBar: {
         margin: theme.spacing(2),
     },
 }));
+
+NewCollectibleForm.propTypes = {
+    closeModal: PropTypes.func.isRequired, 
+    formData: PropTypes.object.isRequired, 
+};

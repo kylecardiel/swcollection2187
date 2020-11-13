@@ -17,10 +17,10 @@ const createFormDataObj = retreivedData => {
     for (let id in retreivedData) {
         data.id = id;
         data.values = retreivedData[id];
-    };
+    }
     return data;
 };
 
 export const convertArrayObjectToArrayOfObjectProperty = (data, attribute) => {
     return data.values.map(obj => obj[attribute]);
-}
+};

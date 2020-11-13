@@ -78,7 +78,39 @@ export const STRING_CONSTANTS = Object.freeze({
             LABELS: {
                 DATA_TYPE: 'dataType',
                 ASSORTMENT: 'assortment',
+            },
+            NEW_COLLECTION_FORM: {
+                HEADER: 'Feed the Database!',
+                LABELS: {
+                    COLLECTION_TYPE: { KEY: 'Collection Type', VALUE: 'collectionType' },
+                    SERIES: { KEY: 'Series', VALUE: 'series' },
+                    ASSORTMENT: { KEY: 'Assortment', VALUE: 'assortment' },
+                    VERSIONS: { KEY: 'Versions', VALUE: 'version' },
+                    SOURCE_MATERIAL: { KEY: 'Source Material', VALUE: 'sourceMaterial' },
+                    EXCLUSIVE_RETAILER: { KEY: 'Exclusive Retailer', VALUE: 'exclusiveRetailer' },
+                    SOURCE_TYPE: { KEY: 'Source Type', VALUE: 'sourceType' },
+                    NAME: { KEY: 'Name', VALUE: 'name' },
+                    ADD_NAME_DETAILS: { KEY: 'Additional Name Details', VALUE: 'additionalNameDetails' },
+                    WAVE: { KEY: 'Wave', VALUE: 'wave' },
+                    SERIES_NUMBER: { KEY: 'Series Number', VALUE: 'seriesNumber' },
+                    YEAR: { KEY: 'Year', VALUE: 'year' },
+                    RETAIL_PRICE: { KEY: 'Retail Price', VALUE: 'retailPrice' },
+                    MULTIPACK: { KEY: 'Multipack', VALUE: 'multipack' },
+                    LOOSE_IMAGE: { KEY: 'Loose Image', VALUE: 'name' },
+                    LOOSE_BLACK_IMAGE: { KEY: 'Loose Black Image', VALUE: 'name' },
+                    NIB_IMAGE: { KEY: 'NIB Image', VALUE: 'name' },
+                }
+
+
             }
+        },
+    },
+    GENERAL: {
+        BUTTON: {
+            SUBMIT: 'Submit',
+        },
+        MENU_ITEMS: {
+            NONE: 'none',
         },
     },
 });

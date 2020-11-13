@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { cleanup, render } from '@testing-library/react';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import React from 'react';
 
 describe('FormHeaderSection', () => {
 
