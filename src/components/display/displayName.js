@@ -1,8 +1,9 @@
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
 import { Color } from 'shared/styles/color';
 import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => {
     const nameSize = record.seriesNumber ? 10 : 12;
@@ -18,17 +19,17 @@ export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => 
             color = assortmentColors.backgroundColor;
         }
         return color;
-    }
+    };
 
     const classes = useStyles({ color: numberBackgroundColor() });
     
     const formattedSeriesNumber = () => {
         switch (record.seriesNumber) {
-            case '40th':
-                return '40';
-            default:
-                return record.seriesNumber;
-        };
+        case '40th':
+            return '40';
+        default:
+            return record.seriesNumber;
+        }
     };
 
     return (
@@ -70,3 +71,10 @@ const useStyles = makeStyles(theme => ({
         paddingBottom: theme.spacing(.5),
     },
 }));
+
+DisplayNameSection.propTypes = {
+    record: PropTypes.object.isRequired,
+    sourceMaterials: PropTypes.object.isRequired,
+    assortments: PropTypes.object.isRequired,
+};
+

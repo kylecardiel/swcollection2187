@@ -1,11 +1,12 @@
+import { ActionButton } from 'components/common/buttons/actionButton';
+import { Color } from 'shared/styles/color';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { HelperDataApi } from 'shared/api/orchestrator';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import React from 'react';
-import { HelperDataApi } from 'shared/api/orchestrator';
-import { Color } from 'shared/styles/color';
 
 export const FormDataTableRow = ({ data, dataType, disable }) => {
     const { id, values } = data;
@@ -24,7 +25,7 @@ export const FormDataTableRow = ({ data, dataType, disable }) => {
             <TableCell className={classes.buttonColumn}>
                 {!disable && <ActionButton icon={<DeleteForeverIcon />} color={Color.red()} onClick={() => onDelete(val)} /> }
             </TableCell>
-        </TableRow>
+        </TableRow>;
     });
 
     return (
@@ -32,9 +33,15 @@ export const FormDataTableRow = ({ data, dataType, disable }) => {
     );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     buttonColumn: {
         width: 40,
         alignItems: 'center',
     },
 }));
+
+FormDataTableRow.propTypes = {
+    data: PropTypes.object.isRequired,
+    dataType: PropTypes.string.isRequired,
+    disable: PropTypes.bool,
+};

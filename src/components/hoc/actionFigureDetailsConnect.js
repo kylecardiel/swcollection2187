@@ -1,9 +1,9 @@
-import React from 'react';
 import { ActionFigureDetails } from 'components/display/actionFigureDetail';
-import { getCatalogList, getUserList } from 'store/dataSet/dataSetSelector';
 import { connect } from 'react-redux';
 import { getAssortments, getSourceMaterial } from 'store/helperData/helperDataSetSelector';
+import { getCatalogList, getUserList } from 'store/dataSet/dataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
+import React from 'react';
 
 export const ActionFigureDetailsConnect = () => {
     return ( 

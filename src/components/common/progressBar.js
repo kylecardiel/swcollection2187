@@ -1,8 +1,9 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 export const ProgressBar = ({ percentage }) => {
     const classes = useStyles();
@@ -21,10 +22,14 @@ export const ProgressBar = ({ percentage }) => {
             </Box>
         </div>
     );
-}
+};
 
 const useStyles = makeStyles({
     root: {
         width: '100%',
     },
 });
+
+ProgressBar.propTypes = {
+    percentage: PropTypes.number.isRequired,
+};

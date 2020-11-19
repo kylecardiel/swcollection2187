@@ -1,20 +1,20 @@
-import React from 'react';
+import { AUTH } from 'shared/constants/stringConstantsSelectors';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { useStyles } from 'components/auth/authMakeStyles';
-import { AUTH } from 'shared/constants/stringConstantsSelectors';
-import { useForm } from 'react-hook-form';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { FormError } from 'components/common/form/formError';
-import { Validator } from 'shared/util/validator';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import React from 'react';
 import { registerUser } from 'backend/FirebaseAuth';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { useForm } from 'react-hook-form';
+import { useStyles } from 'components/auth/authMakeStyles';
+import { Validator } from 'shared/util/validator';
 
 export const SignUp = () => {
 
@@ -123,4 +123,4 @@ export const SignUp = () => {
             </div>
         </Container>
     );
-}
+};

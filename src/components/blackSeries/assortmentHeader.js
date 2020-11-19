@@ -1,10 +1,11 @@
-import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import { Color } from 'shared/styles/color';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import { HeaderText } from 'components/common/text/headerText';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { Color } from 'shared/styles/color';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export const AssortmentHeader = ({ text, textColor = Color.black(), backgroundColor, collapseonChangeButton, view }) => {
     const classes = useStyles({ backgroundColor });
@@ -45,3 +46,11 @@ const useStyles = makeStyles(theme => ({
         cursor: 'pointer',
     },
 }));
+
+AssortmentHeader.propTypes = {
+    text: PropTypes.string.isRequired,
+    textColor: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string.isRequired,
+    collapseonChangeButton: PropTypes.bool.isRequired,
+    view: PropTypes.bool.isRequired,
+};

@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { SREEN_SIZE } from 'shared/constants/screenSize';
+import { useMediaQuery } from 'react-responsive';
 
 export const ScreenSize = ({ setScreenSizes }) => {
     
@@ -20,4 +21,8 @@ export const ScreenSize = ({ setScreenSizes }) => {
     return ( 
         <>{null}</> 
     );
+};
+
+ScreenSize.propTypes = {
+    setScreenSizes: PropTypes.func.isRequired,
 };

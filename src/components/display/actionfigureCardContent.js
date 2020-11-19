@@ -1,9 +1,11 @@
 import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
-import { UserConsumer } from 'components/auth/authContext';
 import React, { useContext } from 'react';
-import { ROLES } from 'shared/constants/roleConstants';
+import { BS_CARD_LABELS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { getSourceColor } from 'components/display/figureColors';
+import PropTypes from 'prop-types';
+import { ROLES } from 'shared/constants/roleConstants';
+import { UserConsumer } from 'components/auth/authContext';
 
 export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
     const { email } = useContext(UserConsumer);
@@ -19,11 +21,10 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
                 <span className={classes.textStyle} >{`${label} `}</span>
                 {value}
             </Typography>
-        </Grid>
+        </Grid>;
     };
 
     const generateAdditionalNameText = value => {
-
         let text, className;
         if(value){
             text = value;
@@ -37,7 +38,7 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
             <Typography variant='body2' component='p' className={classes.bottomtext} >
                 <span className={className}>{text}</span>
             </Typography>
-        </Grid>
+        </Grid>;
     };
 
     const generateSourceMaterialText = () => {
@@ -48,7 +49,7 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
             const sourceMaterialColor = getSourceColor(sourceMaterials.values, record.sourceMaterial);
             sourceMaterialBackgroundColor = sourceMaterialColor.backgroundColor;
             sourceMaterialTextColor = sourceMaterialColor.textColor;
-        };
+        }
 
         return <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext} style={{ backgroundColor: Color.primary(sourceMaterialBackgroundColor) }}>
             <span
@@ -57,8 +58,8 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
             >
                 {`${record.sourceMaterial} `}
             </span>
-        </Typography>
-    }
+        </Typography>;
+    };
 
     return (
         <Card className={classes.bottomCard}>
@@ -66,13 +67,11 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
                 <Grid container spacing={0} className={classes.top}>
                     {generateAdditionalNameText(record.additionalNameDetails)}
                     {record.sourceMaterial && generateSourceMaterialText()}
-                    {record.version && generateBottomText('Version: ', ` ${record.version}`)}
+                    {record.version && generateBottomText(`${BS_CARD_LABELS.VERSION}: `, ` ${record.version}`)}
                     {record.multipack && generateBottomText('', ` [${record.multipack}]`)}
                     {record.exclusiveRetailer && generateBottomText('', ` ${record.exclusiveRetailer}`)}
                     {record.owned
-                        && record.purchasePrice && generateBottomText('Buy', ` $${record.purchasePrice}`)}
-                    {record.owned
-                        && generateBottomText('Total Owned: ', ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
+                        && generateBottomText(`${BS_CARD_LABELS.TOTAL_OWNED}: `, ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
                     {authEmail && generateBottomText(record.id)}
                 </Grid>
             </CardContent>
@@ -80,16 +79,13 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
     );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     bottomCard: {
         maxWidth: 325,
         height: props => props.bottomCardHieght,
         backgroundColor: Color.black(),
         borderRadius: 0,
         boxShadow: '0 0 5px',
-    },
-    br: {
-        fontSize: '11px',
     },
     bottomtext: {
         fontSize: '11px',
@@ -134,3 +130,8 @@ const useStyles = makeStyles(theme => ({
         height: 30,
     },
 }));
+
+ActionFigureCardContent.propTypes = {
+    record: PropTypes.object.isRequired,
+    sourceMaterials: PropTypes.object.isRequired,
+};

@@ -1,12 +1,13 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { TableHeaders } from 'components/common/table/tableHeaders';
 import { Paper, Table, TableBody } from '@material-ui/core';
 import { FormDataTableRow } from 'components/admin/formDataRow';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { TableHeaders } from 'components/common/table/tableHeaders';
 
-export const FormDataTable = ({ header, data, dataType, disable}) => {
+export const FormDataTable = ({ header, data, dataType, disable }) => {
     const classes = useStyles();
-    const columnDef = headerValue => [{ headerName: headerValue, span: 2, }];
+    const columnDef = headerValue => [{ headerName: headerValue, span: 2 }];
     return (
         <Paper className={classes.paperTable}>
             <Table>
@@ -24,3 +25,10 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2),
     },
 }));
+
+FormDataTable.propTypes = {
+    header: PropTypes.string.isRequired,
+    data: PropTypes.object.isRequired,
+    dataType: PropTypes.string.isRequired,
+    disable: PropTypes.bool,
+};

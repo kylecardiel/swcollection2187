@@ -1,11 +1,12 @@
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { Color } from 'shared/styles/color';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Color } from 'shared/styles/color';
+import Typography from '@material-ui/core/Typography';
 
 export const CommonBreadCrumbs = ({ links, currentTitle }) => {
     const classes = useStyles();
@@ -13,7 +14,7 @@ export const CommonBreadCrumbs = ({ links, currentTitle }) => {
     const linkBreadcrums = links.map(link => {
         return <Link key={link.route} href={`#${link.route}`} className={classes.text}>
             {link.title}
-        </Link>
+        </Link>;
     });
 
     return (
@@ -43,6 +44,11 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: theme.spacing(4),
     },
     text: {
-        color: Color.yellow()
-    }
+        color: Color.yellow(),
+    },
 }));
+
+CommonBreadCrumbs.propTypes = {
+    links: PropTypes.array.isRequired,
+    currentTitle: PropTypes.string.isRequired,
+};

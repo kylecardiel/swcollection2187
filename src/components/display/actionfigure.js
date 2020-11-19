@@ -1,16 +1,19 @@
+/* eslint-disable react/prop-types */
 import { Card, CardMedia, Grid, makeStyles } from '@material-ui/core';
-import { UserConsumer } from 'components/auth/authContext';
-import { StorageReferenceConsumer } from 'context/storageReferenceContext';
-import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
-import { DisplayNameSection } from 'components/display/displayName';
-import React, { useContext, useMemo } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { UserApi } from 'shared/api/orchestrator';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import React, { useContext, useMemo } from 'react';
+import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { BS_CARD_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
-import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { DisplayNameSection } from 'components/display/displayName';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { FixedSizeList as List } from 'react-window';
 import { LoadingSpinner } from 'components/display/loading';
+import PropTypes from 'prop-types';
+import { StorageReferenceConsumer } from 'context/storageReferenceContext';
+import { UserApi } from 'shared/api/orchestrator';
+import { UserConsumer } from 'components/auth/authContext';
 
 export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments, screenSize }) => {
     const classes = useStyles();
@@ -19,13 +22,13 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
 
     const viewportHieghtModifier = () => {
         if(screenSize.isLargeDesktopOrLaptop){
-            return 5.25
+            return 5.25;
         } else if (screenSize.isMediumDesktopOrLaptop) {
-            return 4.1
+            return 4.1;
         } else {
-            return 3
+            return 3;
         }
-    }
+    };
 
     const addFigureToCollection = figure => {
         let newCollectile = {
@@ -36,26 +39,26 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
             newInBoxQty: 0,
             purchasePrice: 0,
         };
-        UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile)
+        UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile);
     };
 
     const removeFigureToCollection = figure => {
-        UserApi.delete(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId)
+        UserApi.delete(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, figure.ownedId);
     };
 
     const onclickCard = record => {
         return record.owned
             ? () => removeFigureToCollection(record)
             : () => addFigureToCollection(record);
-    }
+    };
 
     const collectionButton = record => {
         let text, className;
         if (record.owned) {
-            text = 'Remove from Collection';
+            text = BS_CARD_BUTTONS.REMOVE;
             className = classes.owned;
         } else {
-            text = 'Add to Collection';
+            text = BS_CARD_BUTTONS.ADD;
             className = classes.nameText;
         }
 
@@ -84,13 +87,13 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                     style={{
                         flex: `0 0 ${cardWidth}px`,
                         height: cardHeight,
-                        margin: `0 ${gapSize / 2}px`
+                        margin: `0 ${gapSize / 2}px`,
                     }}
                 >
                     <Grid item xs={12} key={records[i].id} >
                         <Link
                             to={{
-                                pathname: `${url}/${records[i].id}`
+                                pathname: `${url}/${records[i].id}`,
                             }}
                             style={{ textDecoration: 'none' }}
                         >
@@ -119,7 +122,7 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                         </Link>
                         {loggedIn && collectionButton(records[i])}
                     </Grid>
-                </div >
+                </div >,
             );
         }
 
@@ -140,9 +143,9 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                 itemCount,
                 cardWidth: CARD_WIDTH,
                 cardHeight: CARD_HEIGHT,
-                gapSize: GAP_SIZE
+                gapSize: GAP_SIZE,
             }),
-            [columnCount, itemCount]
+            [columnCount, itemCount],
         );
 
         return (
@@ -176,7 +179,7 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                 </div>
             }
         </>
-    )
+    );
 };
 
 const useStyles = makeStyles(theme => ({
@@ -302,5 +305,14 @@ const useStyles = makeStyles(theme => ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-    }
+    },
 }));
+
+ActionFigure.propTypes = {
+    records: PropTypes.array.isRequired,
+    newBoxImage: PropTypes.bool.isRequired,
+    showAssortmentHeaders: PropTypes.string,
+    sourceMaterials: PropTypes.object,
+    assortments: PropTypes.object,
+    screenSize: PropTypes.object.isRequired,
+};

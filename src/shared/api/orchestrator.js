@@ -41,7 +41,6 @@ export class FeatureFlagApi {
     static read = () => CommonApi.read(FEATURE_FLAG);
 };
 
-
 export class CommonApi {
     static create = (location, record) => {
         const ref = database.ref(location)

@@ -1,13 +1,14 @@
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { red } from '@material-ui/core/colors';
+import Typography from '@material-ui/core/Typography';
 
-export const FormError = props => {
+export const FormError = ({ errorMessage }) => {
     const classes = useStyles();
     return (
         <Typography data-testid='FormErrorId' component='p' className={classes.formError}>
-            {props.errorMessage}
+            {errorMessage}
         </Typography>
     );
 };
@@ -24,3 +25,7 @@ const useStyles = makeStyles(theme => ({
         fontStyle: 'italic',
     },
 }));
+
+FormError.propTypes = {
+    errorMessage: PropTypes.string.isRequired,
+};
