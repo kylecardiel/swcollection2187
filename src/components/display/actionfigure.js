@@ -1,16 +1,19 @@
+/* eslint-disable react/prop-types */
 import { Card, CardMedia, Grid, makeStyles } from '@material-ui/core';
-import { UserConsumer } from 'components/auth/authContext';
-import { StorageReferenceConsumer } from 'context/storageReferenceContext';
-import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
-import { DisplayNameSection } from 'components/display/displayName';
-import React, { useContext, useMemo } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { UserApi } from 'shared/api/orchestrator';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { Color } from 'shared/styles/color';
-import { FixedSizeList as List } from 'react-window';
+import React, { useContext, useMemo } from 'react';
+import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { BS_CARD_BUTTONS } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
+import { DisplayNameSection } from 'components/display/displayName';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { FixedSizeList as List } from 'react-window';
 import { LoadingSpinner } from 'components/display/loading';
+import PropTypes from 'prop-types';
+import { StorageReferenceConsumer } from 'context/storageReferenceContext';
+import { UserApi } from 'shared/api/orchestrator';
+import { UserConsumer } from 'components/auth/authContext';
 
 export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments, screenSize }) => {
     const classes = useStyles();
@@ -52,10 +55,10 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
     const collectionButton = record => {
         let text, className;
         if (record.owned) {
-            text = 'Remove from Collection';
+            text = BS_CARD_BUTTONS.REMOVE;
             className = classes.owned;
         } else {
-            text = 'Add to Collection';
+            text = BS_CARD_BUTTONS.ADD;
             className = classes.nameText;
         }
 
@@ -304,3 +307,12 @@ const useStyles = makeStyles(theme => ({
         transform: 'translate(-50%, -50%)',
     },
 }));
+
+ActionFigure.propTypes = {
+    records: PropTypes.array.isRequired,
+    newBoxImage: PropTypes.bool.isRequired,
+    showAssortmentHeaders: PropTypes.string,
+    sourceMaterials: PropTypes.object,
+    assortments: PropTypes.object,
+    screenSize: PropTypes.object.isRequired,
+};

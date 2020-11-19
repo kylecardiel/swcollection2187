@@ -84,6 +84,37 @@ export const STRING_CONSTANTS = Object.freeze({
 
                 },
             },
+            CARDS: {
+                BUTTONS: {
+                    ADD: 'Add to Collection',
+                    REMOVE: 'Remove from Collection',
+                },
+                LABELS: {
+                    VERSION: 'Version',
+                    TOTAL_OWNED: 'Total Owned',
+                },
+            },
+            ACTION_FIGURE_DETAILS: {
+                LABELS: {
+                    RELEASE_DETAILS_HEADER: 'Release Details',
+                    ASSORTMENT: 'Assortment',
+                    WAVE: 'Wave',
+                    YEAR: 'Year',
+                    MULTIPACK: 'Part of Multipack',
+                    EXCLUSIVE_RETAILER: 'Exclusive Retailer',
+                    RETAIL_PRICE: 'Retail Price',
+                    CHARACTER_DETAILS_HEADER: 'Character Details',
+                    SOURCE: 'Source/First Apperance',
+                    MORE: (name, count) => `More ${name} Figures: (${count})`,
+                    MORE_ASSORTMENT: assortment => `from [${assortment} assortment] `,
+                    MULTIPACK_FIGURES: count => `Multipack Figures: (${count})`,
+                    COLLECTORS_DETAILS_HEADER: 'Collector Details',
+                    NEW_IN_BOX_QUANTITY: 'New in Box Qty',
+                    OPEN_COMPLETE_QUANTITY: 'Open (complete) Qty',
+                    OPEN_INCOMPLETE_QUANTITY: 'Open (incomplete) Qty',
+                    TOTAL_OWNED: 'Total Owned',
+                },
+            },
         },
         UPLOAD_IMAGE: {
             TITLE: 'Upload Image',

@@ -1,29 +1,28 @@
+import React, { useContext, useState } from 'react';
+import { Color } from 'shared/styles/color';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import Container from '@material-ui/core/Container';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { FormFilter } from 'components/common/form/formFilter';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import { UserConsumer } from 'components/auth/authContext';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import React, { useContext, useState } from 'react';
-import { UserApi } from 'shared/api/orchestrator';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { PAGES } from 'shared/constants/stringConstantsSelectors';
-import { Color } from 'shared/styles/color';
-import { SortingUtils } from 'shared/util/sortingUtil';
-import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
-import { StorageReferenceConsumer } from 'context/storageReferenceContext';
+import { makeStyles } from '@material-ui/core/styles';
+import { BS_DETAILS_LABEL, PAGES } from 'shared/constants/stringConstantsSelectors';
+import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
-
-import { FormFilter } from 'components/common/form/formFilter';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { SortingUtils } from 'shared/util/sortingUtil';
+import { StorageReferenceConsumer } from 'context/storageReferenceContext';
+import Typography from '@material-ui/core/Typography';
+import { UserApi } from 'shared/api/orchestrator';
+import { UserConsumer } from 'components/auth/authContext';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const ActionFigureDetails = props => {
-    const { figureId, catalogList, userList, sourceMaterials, assortments, screenSize } = props;
+export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMaterials, assortments, screenSize }) => {
     const { id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
@@ -37,9 +36,7 @@ export const ActionFigureDetails = props => {
     const [looseIncompleteQty, setLooseIncompleteQty] = useState(figure.looseIncompleteQty);
 
     const [newImage, setNewImage] = useState(false);
-    const changeImage = () => {
-        setNewImage(!newImage);
-    };
+    const changeImage = () => setNewImage(!newImage);
 
     const numberBackgroundColor = () => {
         const isSeries4 = figure.assortment === 'Series 4.0';
@@ -59,7 +56,6 @@ export const ActionFigureDetails = props => {
     const classes = useStyles({ seriesColor: Color.primary(numberBackgroundColor()), flexFlowDirection });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
-    // const purchasePrice = figure.purchasePrice ? ` $${figure.purchasePrice}` : '';
 
     const changeQty = (e, specificQty) => {
         const updateQty = e.target.value;
@@ -112,11 +108,6 @@ export const ActionFigureDetails = props => {
         <Grid xs={6} item className={classes.smallImageContainer}>
             <img className={classes.smallImage} alt='complex' src={guardedLooseImageUrl} />
         </Grid>
-        {/* {figure.looseBlackImageUrl &&
-            <Grid xs={4} item className={classes.smallImageContainer}>
-                <img className={classes.smallImage} alt='complex' src={figure.looseBlackImageUrl} />
-            </Grid>
-        } */}
         <Grid xs={6} item className={classes.smallImageContainer}>
             <img className={classes.smallImage} alt='complex' src={guardedNewImageUrl} />
         </Grid>
@@ -124,34 +115,34 @@ export const ActionFigureDetails = props => {
 
     const releaseDetailsContainer = <Grid xs={12} md={10} item className={classes.detailComponent}>
         <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
-            <span className={classes.textStyle}>Release Details:</span>
+            <span className={classes.textStyle}>{BS_DETAILS_LABEL.RELEASE_DETAILS_HEADER}:</span>
         </Typography>
         <Typography variant='body2' gutterBottom className={classes.detailName}>
-            <span className={classes.textStyle}>Assortment:</span>
+            <span className={classes.textStyle}>{BS_DETAILS_LABEL.ASSORTMENT}:</span>
             {` ${figure.assortment}`}
         </Typography>
         <Typography variant='body2' gutterBottom className={classes.detailName}>
-            <span className={classes.textStyle}>Wave:</span>
+            <span className={classes.textStyle}>{BS_DETAILS_LABEL.WAVE}:</span>
             {` ${figure.wave}`}
         </Typography>
         <Typography variant='body2' gutterBottom className={classes.detailName}>
-            <span className={classes.textStyle}>Year:</span>
+            <span className={classes.textStyle}>{BS_DETAILS_LABEL.YEAR}:</span>
             {` ${figure.year}`}
         </Typography>
         {figure.multipack &&
             <Typography variant='body2' gutterBottom className={classes.detailName}>
-                <span className={classes.textStyle}>Part of Multipack:</span>
+                <span className={classes.textStyle}>{BS_DETAILS_LABEL.MULTIPACK}:</span>
                 {` ${figure.multipack}`}
             </Typography>
         }
         {figure.exclusiveRetailer &&
             <Typography variant='body2' gutterBottom className={classes.detailName}>
-                <span className={classes.textStyle}>Exclusive Retailer:</span>
+                <span className={classes.textStyle}>{BS_DETAILS_LABEL.EXCLUSIVE_RETAILER}:</span>
                 {` ${figure.exclusiveRetailer}`}
             </Typography>
         }
         <Typography variant='body2' gutterBottom className={classes.detailName}>
-            <span className={classes.textStyle}>Retail Price:</span>
+            <span className={classes.textStyle}>{BS_DETAILS_LABEL.RETAIL_PRICE}:</span>
             {` $${figure.retailPrice}`}
         </Typography>
     </Grid>;
@@ -171,9 +162,6 @@ export const ActionFigureDetails = props => {
                         <Grid xs={12} md={7} item className={classes.verticalContainer}>
                             <Grid container spacing={2} className={classes.detailsContainer}>
                                 {releaseDetailsContainer}
-                                {/* <Grid xs={12} md={6} item className={classes.detailComponent}>
-                                Temp holding spot
-                            </Grid> */}
                                 <Grid xs={12} md={2} item className={classes.seriesNumberComp}>
                                     <Typography variant='h3' className={classes.seriesNumberText} >
                                         {figure.seriesNumber}
@@ -181,21 +169,21 @@ export const ActionFigureDetails = props => {
                                 </Grid>
                                 <Grid xs={12} md={12} item className={classes.detailComponent}>
                                     <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
-                                        <span className={classes.textStyle}>Character Details:</span>
+                                        <span className={classes.textStyle}>{BS_DETAILS_LABEL.CHARACTER_DETAILS_HEADER}:</span>
                                     </Typography>
                                     <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                        <span className={classes.textStyle}>Source/First Apperance:</span>
+                                        <span className={classes.textStyle}>{BS_DETAILS_LABEL.SOURCE}:</span>
                                         {` ${figure.sourceMaterial}`}
                                     </Typography>
                                     <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                        <span className={classes.textStyle}>{`More ${figure.name} Figures: (${similarFigures.length})`}</span>
+                                        <span className={classes.textStyle}>{BS_DETAILS_LABEL.MORE(figure.name, similarFigures.length)}</span>
                                     </Typography>
                                     <div className={classes.similarFiguresContainer}>
                                         {similarFigures.length > 0 && similarFigures.map(f => (
                                             <Typography variant='body2' gutterBottom className={classes.similarFigures} key={`${f.additionalNameDetails}-${f.assortment}`}>
                                                 {`${f.name} `}
                                                 {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
-                                                {`from [${f.assortment} assortment] `}
+                                                {BS_DETAILS_LABEL.MORE_ASSORTMENT(f.assortment)}
                                                 {f.version && `[${f.version}]`}
                                             </Typography>
                                         ))}
@@ -203,11 +191,11 @@ export const ActionFigureDetails = props => {
                                     {figure.multipack &&
                                         <>
                                             <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                                <span className={classes.textStyle}>{`Multipack Figures: (${multipackFigures.length})`}</span>
+                                                <span className={classes.textStyle}>{BS_DETAILS_LABEL.MULTIPACK_FIGURES(multipackFigures.length)}</span>
                                             </Typography>
                                             <div className={classes.similarFiguresContainer}>
                                                 {multipackFigures.map(f => (
-                                                    <Typography variant='body2' gutterBottom className={classes.similarFigures}>
+                                                    <Typography key={f.name} variant='body2' gutterBottom className={classes.similarFigures}>
                                                         {`${f.name} `}
                                                         {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
                                                         {`[${f.multipack}]`}
@@ -223,41 +211,41 @@ export const ActionFigureDetails = props => {
                                             <Grid container spacing={1} className={classes.quantityGridContainer}>
                                                 <Grid xs={12} item>
                                                     <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
-                                                        <span className={classes.textStyle}>Collector Details:</span>
+                                                        <span className={classes.textStyle}>{BS_DETAILS_LABEL.COLLECTORS_DETAILS_HEADER}:</span>
                                                     </Typography>
                                                 </Grid>
                                                 <Grid xs={12} item>
                                                     <FormFilter
-                                                        key={'New in Box Qty'}
+                                                        key={BS_DETAILS_LABEL.NEW_IN_BOX_QUANTITY}
                                                         menuList={quantitySelect}
                                                         onChange={e => changeQty(e, 'newInBoxQty')}
-                                                        label={'New in Box Qty'}
-                                                        value={newInBoxQty}
+                                                        label={BS_DETAILS_LABEL.NEW_IN_BOX_QUANTITY}
+                                                        value={newInBoxQty.toString()}
                                                     />
                                                 </Grid>
                                                 <Grid xs={12} item>
                                                     <FormFilter
-                                                        key={'Open (complete) Qty'}
+                                                        key={BS_DETAILS_LABEL.OPEN_COMPLETE_QUANTITY}
                                                         menuList={quantitySelect}
                                                         onChange={e => changeQty(e, 'looseCompleteQty')}
-                                                        label={'Open (complete) Qty'}
-                                                        value={looseCompleteQty}
+                                                        label={BS_DETAILS_LABEL.OPEN_COMPLETE_QUANTITY}
+                                                        value={looseCompleteQty.toString()}
                                                     />
                                                 </Grid>
                                                 <Grid xs={12} item>
                                                     <FormFilter
-                                                        key={'Open (incomplete) Qty'}
+                                                        key={BS_DETAILS_LABEL.OPEN_INCOMPLETE_QUANTITY}
                                                         menuList={quantitySelect}
                                                         onChange={e => changeQty(e, 'looseIncompleteQty')}
-                                                        label={'Open (incomplete) Qty'}
-                                                        value={looseIncompleteQty}
+                                                        label={BS_DETAILS_LABEL.OPEN_INCOMPLETE_QUANTITY}
+                                                        value={looseIncompleteQty.toString()}
                                                     />
                                                 </Grid>
                                             </Grid>
                                         </Grid>
                                         <Grid xs={12} md={2} item className={classes.totalQuanity}>
                                             <Typography variant='subtitle2' className={classes.seriesNumberText} >
-                                                Total Owned
+                                                {BS_DETAILS_LABEL.TOTAL_OWNED}
                                             </Typography>
                                             <Typography variant='h3' className={classes.seriesNumberText} >
                                                 {totalOwned}
@@ -283,16 +271,12 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         margin: theme.spacing(1),
         maxWidth: '99%',
-        // border: '5px solid red',
         height: '75vh',
-
     },
     gridContainer: {
         display: 'flex',
         flexFlow: props => props.flexFlowDirection,
         height: '70vh',
-        // border: '5px solid green',
-        // backgroundColor: Color.white(),
     },
     quantityGridContainer: {
         display: 'flex',
@@ -304,18 +288,11 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexFlow: 'column',
         height: '69vh',
-        // border: '5px solid blue',
     },
     detailName: {
         marginLeft: theme.spacing(2),
     },
-    topDetailsContainer: {
-        // border: '5px solid yellow',
-        flexGrow: 1,
-        marginLeft: theme.spacing(-1.5),
-    },
     detailsContainer: {
-        // border: '5px solid yellow',
         flexGrow: 1,
         backgroundColor: Color.white(),
     },
@@ -332,12 +309,6 @@ const useStyles = makeStyles((theme) => ({
     },
     quantity: {
         marginLeft: theme.spacing(2),
-    },
-    quantityContainer: {
-        margin: theme.spacing(0),
-        padding: 0,
-        // border: '1px solid yellow',
-        flexGrow: 1,
     },
     totalQuanity: {
         border: '2px solid black',
@@ -391,7 +362,13 @@ const useStyles = makeStyles((theme) => ({
         flexShrink: 0,
         maxHeight: 125,
     },
-    totalRowCell: {
-        height: '50px',
-    },
 }));
+
+ActionFigureDetails.propTypes = {
+    figureId: PropTypes.string.isRequired,
+    catalogList: PropTypes.array.isRequired,
+    userList: PropTypes.array.isRequired,
+    sourceMaterials: PropTypes.array.isRequired,
+    assortments: PropTypes.array.isRequired,
+    screenSize: PropTypes.object.isRequired,
+};
