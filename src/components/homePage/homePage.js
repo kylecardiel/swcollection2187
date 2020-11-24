@@ -33,6 +33,12 @@ export const Homepage = () => {
                             imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
                         />
                     </Grid>
+                    <Grid item xs={12} md={3}>
+                        <MediaCard
+                            cardText={HOME_PAGE.CARDS.ABOUT_ME}
+                            route={ROUTE_CONSTANTS.ABOUT_ME}
+                        />
+                    </Grid>
                     {ROLES.EMAIL === email &&
                         <Grid item xs={12} md={3}>
                             <MediaCard

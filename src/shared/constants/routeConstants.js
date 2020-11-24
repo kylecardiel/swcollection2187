@@ -5,4 +5,5 @@ export const ROUTE_CONSTANTS = Object.freeze({
     FORGOT_PASSWORD: '/forgotPassword',
     BLACK_SERIES: '/black-series',
     ADMIN: '/admin',
+    ABOUT_ME: '/aboutMe',
 });
