@@ -62,11 +62,11 @@ export const STRING_CONSTANTS = Object.freeze({
             HEADER: 'About Me',
             HEADER_INTRO: 'Where it all started...',
             INTRO: [
-                'I have been a Star Wars fan ever since my I was about 5.' ,
-                'My dad "needed" to buy us a SNES and the first game he bought was Super Star Wars: The Empire Strikes back.',
+                'I have been a Star Wars fan ever since my I was about 5 years old.' ,
+                'My dad "needed" to buy us a SNES and the first game he bought with it was Super Star Wars: The Empire Strikes back.',
                 'I had a blast playing the game.',
-                'However, I was still reluctant to watch the movies, but as a father knows best (occasionally) he finally sat me down to watch A New Hope.',
-                'The rest they say "is history", as I feel in love with it all',
+                'However, I was still reluctant to watch the movies, but a father [occasionally] knows best and he finally sat me down to watch A New Hope.',
+                'The rest they say "is history", as I feel in love with it all.',
                 'Thus started my collecting of all things Star Wars!',
             ].join('\n'),
             HEADER_WHY: 'Why create this space?',
@@ -75,8 +75,8 @@ export const STRING_CONSTANTS = Object.freeze({
                 'And although I know about 99% of everything I have, there are times I could use some sort of reference so I don\'t buy duplicates.',
                 '(Unless I\'m trying to army build, then buy all the duplicate troopers!)',
                 'There are a ton of sites that offer an archive/current database list of available collectibles.',
-                'However, none of them let me keep track of which of those I own',
-                'Combined that with my career as a software engineer. It only seemed reasonable to fix my own problem and then share it with other fans',
+                'However, none of them let me keep track of which of those I own.',
+                'Combined that with my career as a software engineer, it only seemed reasonable to fix my own problem and then share with other fans',
             ].join('\n'),
             HEADER_START: 'Starting with The Black Series',
             STARTING: [
@@ -86,6 +86,9 @@ export const STRING_CONSTANTS = Object.freeze({
             ].join('\n'),
             HEADER_SNES: 'First item in my collection',
             HEADER_TBS_COLLECTION: 'My Black Series Collection',
+            TBS_COLLECTION: [
+                '*Like most collectors (I\'ll assume) I struggle with the choice of opening each figure or not...',
+            ].join('\n'),
         },
         BLACK_SERIES_CATALOG: {
             TITLE: 'Black Series Catalog',

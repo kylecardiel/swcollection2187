@@ -10,6 +10,7 @@ import { HelperDataApi, StorageReferencesApi, FeatureFlagApi } from 'shared/api/
 import { connect } from 'react-redux';
 import { setHelperData } from 'store/helperData/helperDataSetActions';
 import { setScreenSizes } from 'store/screenSize/screenSizeActions';
+import PropTypes from 'prop-types';
 
 export const App = ({ setHelperData, setScreenSizes }) => {
     const [user, setUser] = useState({ loggedIn: false });
@@ -28,25 +29,25 @@ export const App = ({ setHelperData, setScreenSizes }) => {
         const storageReferencesDataRef = StorageReferencesApi.read();
         storageReferencesDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
-            if (snapshotRef) setStorageReferences({ commingSoonPhotoUrl: snapshotRef.photoComingSoon['-MFRMcLIEPfRlDK8O3Ye'] })
+            if (snapshotRef) setStorageReferences({ commingSoonPhotoUrl: snapshotRef.photoComingSoon['-MFRMcLIEPfRlDK8O3Ye'] });
         });
 
         const featureFlagDataRef = FeatureFlagApi.read();
         featureFlagDataRef.on('value', snapshot => {
             const snapshotRef = snapshot.val();
-            if (snapshotRef) setFeatureFlags(snapshotRef)
+            if (snapshotRef) setFeatureFlags(snapshotRef);
         });
 
     }, [setHelperData, setFeatureFlags]);
 
     return (
         <FeatureFlagProvider value={featureFlags}>
-                <StorageReferenceProvider value={storageReferences}>
-                    <UserProvider value={user}>
-                        <PrivateRoutes setScreenSizes={setScreenSizes} />
-                        <PublicRoutes />
-                    </UserProvider>
-                </StorageReferenceProvider>
+            <StorageReferenceProvider value={storageReferences}>
+                <UserProvider value={user}>
+                    <PrivateRoutes setScreenSizes={setScreenSizes} />
+                    <PublicRoutes />
+                </UserProvider>
+            </StorageReferenceProvider>
         </FeatureFlagProvider>
     );
 };
@@ -57,3 +58,8 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(null, mapDispatchToProps)(App);
+
+App.propTypes = {
+    setHelperData: PropTypes.func.isRequired,
+    setScreenSizes: PropTypes.func.isRequired,
+};

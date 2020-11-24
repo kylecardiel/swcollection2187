@@ -53,10 +53,15 @@ export const AboutMe = () => {
                                 <img src={IMAGE_PATHS.SNES} alt='SNES'></img>
                             </section>
                         </div>
-                        {headerSection(ABOUT_ME_PAGE.HEADER_TBS_COLLECTION)}
-                        <div className={classes.container}>
-                            <img src={IMAGE_PATHS.TBS_COLLECTION} alt='SNES' width='100%' height='450'></img>
-                        </div>
+                        {false && 
+                            <>
+                                {headerSection(ABOUT_ME_PAGE.HEADER_TBS_COLLECTION)}
+                                <div className={classes.container}>
+                                    <img src={IMAGE_PATHS.TBS_COLLECTION} alt='SNES' className={classes.image}></img>
+                                </div>
+                                {bodySection(ABOUT_ME_PAGE.TBS_COLLECTION)}
+                            </>
+                        }
                     </div>
                 </div>
             </Container>
@@ -64,7 +69,7 @@ export const AboutMe = () => {
     );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
         overflow: 'hidden',
@@ -77,6 +82,12 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         justifyContent: 'center',
         width: '40%',
+        [theme.breakpoints.down('sm')]: {
+            width: '95%',
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '50%',
+        },
     },
     body: {
         width: '100%',
@@ -85,5 +96,15 @@ const useStyles = makeStyles(() => ({
         overflow: 'hidden',
         color: Color.yellow(),
         fontFamily: 'Pathway Gothic One, sans-serif',
+    },
+    image: {
+        width: '100%',
+        height: '450',
+        [theme.breakpoints.down('sm')]: {
+            height: '250',
+        },
+        [theme.breakpoints.up('md')]: {
+            height: '450',
+        },
     },
 }));
