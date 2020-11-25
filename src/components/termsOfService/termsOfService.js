@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-export const NoSignUp = () => {
+export const TermsOfService = () => {
     const classes = useStyles();
 
     return (
@@ -13,7 +13,7 @@ export const NoSignUp = () => {
                     <Grid item xs={12}>
                         <section>
                             <h3>{'Sorry!'}</h3>
-                            <p>{'We need a little more time to get ready for you to join. Check back Soon!'}</p>
+                            <p>{'We need a little more time to get ready. Check back Soon!'}</p>
                         </section>
                     </Grid>
                 </Grid>
@@ -25,6 +25,5 @@ export const NoSignUp = () => {
 const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
-        overflow: 'hidden',
     },
 }));

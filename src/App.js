@@ -1,16 +1,16 @@
-import { onAuthStateChange } from 'backend/FirebaseAuth';
-import { UserProvider } from 'components/auth/authContext';
-import { StorageReferenceProvider } from 'context/storageReferenceContext';
-import { FeatureFlagProvider } from 'context/featureFlagsContext';
-import React, { useEffect, useState } from 'react';
-import { PrivateRoutes } from './routes/privateRoutes';
-import { PublicRoutes } from './routes/publicRoutes';
-import { formatFormData } from 'components/common/form/formatFormData';
 import { HelperDataApi, StorageReferencesApi, FeatureFlagApi } from 'shared/api/orchestrator';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { FeatureFlagProvider } from 'context/featureFlagsContext';
+import { formatFormData } from 'components/common/form/formatFormData';
+import { onAuthStateChange } from 'backend/FirebaseAuth';
+import { PublicRoutes } from './routes/publicRoutes';
+import { PrivateRoutes } from './routes/privateRoutes';
+import PropTypes from 'prop-types';
 import { setHelperData } from 'store/helperData/helperDataSetActions';
 import { setScreenSizes } from 'store/screenSize/screenSizeActions';
-import PropTypes from 'prop-types';
+import { StorageReferenceProvider } from 'context/storageReferenceContext';
+import { UserProvider } from 'components/auth/authContext';
 
 export const App = ({ setHelperData, setScreenSizes }) => {
     const [user, setUser] = useState({ loggedIn: false });

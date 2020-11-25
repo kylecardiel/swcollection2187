@@ -39,6 +39,8 @@ export const STRING_CONSTANTS = Object.freeze({
                 'Do you keep track of your collection? Do you want to keep track of your collection?...',
                 'Then you\'re in the right spot!',
             ].join('\n'),
+            HOW_IT_WORKS: 'How it works',
+            GET_STARTED: 'Let\'s get started',
             CARDS: {
                 BLACK_SERIES: {
                     TITLE: 'Black Series Catalog',
@@ -56,6 +58,23 @@ export const STRING_CONSTANTS = Object.freeze({
                     TITLE: 'About Me',
                     BODY: 'Learn...',
                 },
+                STEP_1: {
+                    TITLE: 'Step 1',
+                    BODY: 'Create an account',
+                },
+                STEP_2: {
+                    TITLE: 'Step 2',
+                    BODY: 'Search catalog for a figure',
+                },
+                STEP_3: {
+                    TITLE: 'Step 3',
+                    BODY: 'Click "Add to Collection" under figure',
+                },
+            },
+            FOOTER: {
+                ABOUT_ME: 'About Me',
+                TOS: 'Terms of Service',
+                CONTACT: 'Contact Me',
             },
         },
         ABOUT: {

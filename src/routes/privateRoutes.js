@@ -7,7 +7,6 @@ import { FeatureFlagConsumer } from '../context/featureFlagsContext';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
-import { Homepage } from 'components/homePage/homePage';
 import { LogIn } from 'components/auth/logIn';
 import { NoSignUp } from 'components/auth/noSignUp';
 import PropTypes from 'prop-types';
@@ -31,13 +30,6 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                 <Header title={HEADER_TITLE} userLoggedIn={loggedIn} />
                 <Route exact path='/' render={redirectRender} />
                 <Switch>
-                    <ProtectedRoute
-                        path={HOME}
-                        redirectPath={LOGIN}
-                        access={true}
-                        userLoggedIn={loggedIn}
-                        component={Homepage}
-                    />
                     <ProtectedRoute
                         path={LOGIN}
                         redirectPath={HOME}
@@ -66,20 +58,22 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                         userLoggedIn={loggedIn}
                         component={Admin}
                     />
-                    {loggedIn &&
-                        <>
-                            <Route
-                                exact
-                                path={BLACK_SERIES}
-                                component={BlackSeries}
-                            />
-                            <Route
-                                exact
-                                path={`${BLACK_SERIES}/:id`}
-                                component={ActionFigureDetailsConnect}
-                            />
-                        </>
-                    }
+                    <ProtectedRoute
+                        exact
+                        path={BLACK_SERIES}
+                        redirectPath={LOGIN}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={BlackSeries}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={`${BLACK_SERIES}/:id`}
+                        redirectPath={LOGIN}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={ActionFigureDetailsConnect}
+                    />
                 </Switch>
             </Router>
             <ScreenSize setScreenSizes={setScreenSizes}/>

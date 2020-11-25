@@ -49,5 +49,5 @@ const useStyles = makeStyles({
 MediaCard.propTypes = {
     route: PropTypes.string,
     imagePath: PropTypes.string,
-    cardText: PropTypes.string,
+    cardText: PropTypes.object,
 };
