@@ -15,20 +15,10 @@ import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import { UserApi } from 'shared/api/orchestrator';
 import { UserConsumer } from 'components/auth/authContext';
 
-export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments, screenSize }) => {
+export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments }) => {
     const classes = useStyles();
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
-
-    const viewportHieghtModifier = () => {
-        if(screenSize.isLargeDesktopOrLaptop){
-            return 5.25;
-        } else if (screenSize.isMediumDesktopOrLaptop) {
-            return 4.1;
-        } else {
-            return 3;
-        }
-    };
 
     const addFigureToCollection = figure => {
         let newCollectile = {
@@ -165,10 +155,10 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
     return (
         <>
             {sourceMaterials && assortments ?
-                <AutoSizer>
+                <AutoSizer disableHeight >
                     {({ height, width }) => (
                         <ListWrapper
-                            height={height*viewportHieghtModifier()}
+                            height={window.innerHeight*.8}
                             itemCount={records.length}
                             width={width}
                         />
@@ -314,5 +304,4 @@ ActionFigure.propTypes = {
     showAssortmentHeaders: PropTypes.string,
     sourceMaterials: PropTypes.object,
     assortments: PropTypes.object,
-    screenSize: PropTypes.object.isRequired,
 };

@@ -390,7 +390,6 @@ export const BlackSeriesCatalog = props => {
                 view={true}
                 sourceMaterials={helperData.sourceMaterial}
                 assortments={helperData.assortment}
-                screenSize={screenSize}
             />
         </React.Fragment >
     );
