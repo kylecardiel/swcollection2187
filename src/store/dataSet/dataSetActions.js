@@ -15,3 +15,16 @@ export const setUserData = data => ({
     type: SET_USER_DATA,
     payload: data,
 });
+
+export const SET_USER_DISPLAY_SETTINGS = '[dataSet]SET_USER_DISPLAY_SETTINGS';
+export const setUserDisplaySettings = (setting, value) => ({
+    type: SET_USER_DISPLAY_SETTINGS,
+    payload: { setting, value },
+});
+
+export const CLEAR_USER_DISPLAY_SETTINGS = '[dataSet]CLEAR_USER_DISPLAY_SETTINGS';
+export const clearUserDisplaySettings = () => ({
+    type: CLEAR_USER_DISPLAY_SETTINGS,
+    payload: undefined,
+});
+
