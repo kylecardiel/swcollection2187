@@ -33,70 +33,114 @@ const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 export const BlackSeriesCatalog = props => {
     const { id, loggedIn } = useContext(UserConsumer);
     const classes = useStyles();
-    const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize } = props;
+    const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize, setUserDisplaySettings, clearUserDisplaySettings, filterState } = props;
 
-    const [filterBySourceMaterial, setFilterBySourceMaterial] = useState('');
-    const handleSourceMaterialChange = e => setFilterBySourceMaterial(e.target.value);
+    const [filterBySourceMaterial, setFilterBySourceMaterial] = useState(filterState.filterBySourceMaterial);
+    const handleSourceMaterialChange = e => {
+        const value = e.target.value;
+        setFilterBySourceMaterial(value);
+        setUserDisplaySettings('filterBySourceMaterial', value);
+    };
 
-    const [filterByCharacter, setFilterByCharacter] = useState('');
-    const handleCharacterChange = e => setFilterByCharacter(e.target.value);
+    const [filterByCharacter, setFilterByCharacter] = useState(filterState.filterByCharacter);
+    const handleCharacterChange = e => {
+        const value = e.target.value;
+        setFilterByCharacter(value);
+        setUserDisplaySettings('filterByCharacter', value);
+    };
 
-    const [filterByInputName, setFilterByInputName] = useState('');
+    const [filterByInputName, setFilterByInputName] = useState(filterState.filterByInputName);
     const handleInputNameChange = e => {
         if (e.target) {
             const { value } = e.target;
             setTimeout(setFilterByInputName(value), 500);
+            setTimeout(setUserDisplaySettings('filterByInputName', value), 500);
         }
     };
 
-    const [filterByGroup, setFilterByGroup] = useState('');
-    const handleGroupChange = e => setFilterByGroup(e.target.value);
+    const [filterByGroup, setFilterByGroup] = useState(filterState.filterByGroup);
+    const handleGroupChange = e => {
+        const value = e.target.value;
+        setFilterByGroup(value);
+        setUserDisplaySettings('filterByGroup', value);
+    };
 
-    const [filterByVersion, setFilterByVersion] = useState('');
-    const handleVersionChange = e => setFilterByVersion(e.target.value);
+    const [filterByVersion, setFilterByVersion] = useState(filterState.filterByVersion);
+    const handleVersionChange = e => {
+        const value = e.target.value;
+        setFilterByVersion(value);
+        setUserDisplaySettings('filterByVersion', value);
+    };
 
-    const [filterByAssortment, setFilterByAssortment] = useState('');
-    const handleAssortmentChange = e => setFilterByAssortment(e.target.value);
+    const [filterByAssortment, setFilterByAssortment] = useState(filterState.filterByAssortment);
+    const handleAssortmentChange = e => {
+        const value = e.target.value;
+        setFilterByAssortment(value);
+        setUserDisplaySettings('filterByAssortment', value);
+    };
 
-    const [filterByYear, setFilterByYear] = useState();
-    const handleYearChange = e => setFilterByYear(e.target.value);
+    const [filterByYear, setFilterByYear] = useState(filterState.filterByYear);
+    const handleYearChange = e => {
+        const value = e.target.value;
+        setFilterByYear(value);
+        setUserDisplaySettings('filterByYear', value);
+    };
 
-    const [newBoxImage, setNewBoxImage] = useState(false);
-    const handleImageChange = () => setNewBoxImage(!newBoxImage);
+    const [newBoxImage, setNewBoxImage] = useState(filterState.newBoxImage);
+    const handleImageChange = () => {
+        setNewBoxImage(!newBoxImage);
+        setUserDisplaySettings('newBoxImage', !newBoxImage);
+    };
 
-    const [sortingAttribute, setSortingAttribute] = useState();
+    const [sortingAttribute, setSortingAttribute] = useState(filterState.sortingAttribute);
     const handleSortingChange = e => {
         let value = null;
         if (e.target.value) value = camelCase(e.target.value);
         setSortingAttribute(value);
+        setUserDisplaySettings('sortingAttribute', value);
     };
 
-    const [viewAllFigures, setViewAllFigures] = useState(true);
-    const [viewOnlyOwnedFigures, setViewOnlyOwnedFigures] = useState(false);
-    const [viewOnlyUnownedFigures, setViewOnlyUnownedFigures] = useState(false);
+    const [viewAllFigures, setViewAllFigures] = useState(filterState.viewAllFigures);
+    const [viewOnlyOwnedFigures, setViewOnlyOwnedFigures] = useState(filterState.viewOnlyOwnedFigures);
+    const [viewOnlyUnownedFigures, setViewOnlyUnownedFigures] = useState(filterState.viewOnlyUnownedFigures);
 
     const handleViewAllFiguresCheckBoxChange = () => {
         if (!viewAllFigures) {
-            setViewOnlyOwnedFigures(false);
-            setViewOnlyUnownedFigures(false);
+            callSetViewOnlyOwnedFigures(false);
+            callSetViewOnlyUnownedFigures(false);
         }
-        setViewAllFigures(!viewAllFigures);
+        callSetViewAllFigures(!viewAllFigures);
     };
 
     const handleOwnedFiguresCheckBoxChange = () => {
         if (!viewOnlyOwnedFigures) {
-            setViewAllFigures(false);
-            setViewOnlyUnownedFigures(false);
+            callSetViewAllFigures(false);
+            callSetViewOnlyUnownedFigures(false);
         }
-        setViewOnlyOwnedFigures(!viewOnlyOwnedFigures);
+        callSetViewOnlyOwnedFigures(!viewOnlyOwnedFigures);
     };
 
     const handleUnownedFiguresCheckBoxChange = () => {
         if (!viewOnlyUnownedFigures) {
-            setViewAllFigures(false);
-            setViewOnlyOwnedFigures(false);
+            callSetViewAllFigures(false);
+            callSetViewOnlyOwnedFigures(false);
         }
-        setViewOnlyUnownedFigures(!viewOnlyUnownedFigures);
+        callSetViewOnlyUnownedFigures(!viewOnlyUnownedFigures);
+    };
+
+    const callSetViewAllFigures = value => {
+        setViewAllFigures(value);
+        setUserDisplaySettings('viewAllFigures', value);
+    };
+
+    const callSetViewOnlyOwnedFigures = value => {
+        setViewOnlyOwnedFigures(value);
+        setUserDisplaySettings('viewOnlyOwnedFigures', value);
+    };
+
+    const callSetViewOnlyUnownedFigures = value => {
+        setViewOnlyUnownedFigures(value);
+        setUserDisplaySettings('viewOnlyUnownedFigures', value);
     };
 
     const inputLabel = useRef(null);
@@ -109,7 +153,14 @@ export const BlackSeriesCatalog = props => {
         setFilterByVersion(null);
         setFilterByAssortment(null);
         setNewBoxImage(false);
+        setFilterByYear(null);
+
+        setViewAllFigures(true);
+        setViewOnlyOwnedFigures(false);
+        setViewOnlyUnownedFigures(false);
         setSortingAttribute();
+        
+        clearUserDisplaySettings();
     };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -358,6 +409,7 @@ export const BlackSeriesCatalog = props => {
                                     <SearchIcon />
                                 </div>
                                 <InputBase
+                                    defaultValue={filterByInputName}
                                     placeholder={BS_CATALOG.SEARCH}
                                     classes={{ root: classes.inputRoot }}
                                     onChange={handleInputNameChange}
@@ -495,4 +547,7 @@ BlackSeriesCatalog.propTypes = {
     screenSize: PropTypes.object.isRequired,
     setUserData: PropTypes.func.isRequired,
     userList: PropTypes.array.isRequired,
+    setUserDisplaySettings: PropTypes.func.isRequired,
+    clearUserDisplaySettings: PropTypes.func.isRequired,
+    filterState: PropTypes.object.isRequired,
 };

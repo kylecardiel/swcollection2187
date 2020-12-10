@@ -19,6 +19,16 @@ export const dataSet = (state = initialState.dataSet, action) => {
             ? updateState(state, 'userList', action.payload)
             : state;
     }
+    case actions.SET_USER_DISPLAY_SETTINGS: {
+        const cloneState = cloneDeep(state);
+        cloneState.displaySettings[action.payload.setting] = action.payload.value;
+        return cloneState;
+    }
+    case actions.CLEAR_USER_DISPLAY_SETTINGS: {
+        const cloneState = cloneDeep(state);
+        cloneState.displaySettings = initialState.dataSet.displaySettings;
+        return cloneState;
+    }
     default:
         return state;
     }
