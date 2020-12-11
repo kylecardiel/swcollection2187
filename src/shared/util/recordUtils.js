@@ -2,12 +2,17 @@ import { DateUtils } from 'shared/util/dateUtil';
 
 export class RecordUtils {
 
-    static addAuditFields = (record, userName) => {
+    static addTimeStamps = record => {
         const nowTimeStamp = DateUtils.getCurrentTimestamp();
-        record.createdBy = userName;
-        record.createdDate = nowTimeStamp
-        record.lastModifiedBy = userName;
+        record.createdDate = nowTimeStamp;
         record.lastModifiedDate = nowTimeStamp;
+    };
+
+
+    static addAuditFields = (record, userName) => {
+        record.createdBy = userName;
+        record.lastModifiedBy = userName;
+        RecordUtils.addTimeStamps(record);
     };
 
     static updateLastModifiedAuditFields = (record, userName) => {
@@ -16,11 +21,11 @@ export class RecordUtils {
     };
 
     static convertDBNestedObjectsToArrayOfObjects = (records, idValue) => {
-        let recordList =[]
+        let recordList =[];
         for (let item in records) {
             let record = records[item];
             record[idValue] = item;
-            recordList.push(record)
+            recordList.push(record);
         };
         return recordList;
     };
@@ -32,8 +37,8 @@ export class RecordUtils {
             merged.push({
                 ...array1[i], 
                 ...(array2.find((itmInner) => itmInner[array2Attr] === array1[i][array1Attr]))
-                });
-        };
+            });
+        }
         return merged;
     };
 }

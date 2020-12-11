@@ -11,6 +11,7 @@ export class Color {
     static blue = () => Color.primary('blue');
     
     static green = () => Color.primary('green');
+    static lightGreen = () => Color.primary('lightGreen');
     static darkGreen = () => Color.primary('darkGreen');
 
     static grey = () => Color.primary('grey');
@@ -26,7 +27,7 @@ export class Color {
 
     static yellow = () => Color.primary('yellow');
     static darkYellow = () => Color.primary('darkYellow');
-};
+}
 
 export const Styles = {
     colors: {
@@ -39,6 +40,7 @@ export const Styles = {
         brown: '#807760',
         tpmBrown: '#ac8d48',
         green: 'green',
+        lightGreen: '#98FB98',
         darkGreen: '#388e3c',
         rotjGreen: '#6b9e3f',
         grey: 'grey',

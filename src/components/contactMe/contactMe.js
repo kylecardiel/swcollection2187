@@ -1,27 +1,33 @@
+import { GENERAL, PAGES } from 'shared/constants/stringConstantsSelectors';
+import React, { useState } from 'react';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
+import { Button } from '@material-ui/core';
+import { Color } from 'shared/styles/color';
+import { ContactMeApi } from 'shared/api/orchestrator';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { GENERAL, PAGES } from 'shared/constants/stringConstantsSelectors';
+import { NotReadyYet } from 'components/common/notReadyYet';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { RecordUtils } from 'shared/util/recordUtils';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
-import {
-    Button,
-} from '@material-ui/core';
-import { Color } from 'shared/styles/color';
 
 const { HOME } = ROUTE_CONSTANTS;
 
 export const ContactMe = ({ signUpPage }) => {
     const classes = useStyles();
     
-    const { register, handleSubmit, errors } = useForm();
-    const onSubmit = data => console.log(data);
-    console.log(errors);
-  
+    const [successBanner, setSuccessBanner] = useState(false);
+
+    const { register, handleSubmit, reset } = useForm();
+    const onSubmit = data => {
+        RecordUtils.addTimeStamps(data);
+        ContactMeApi.create(data);
+        setSuccessBanner(true);
+        reset();
+    };
 
     const links = [
         {
@@ -30,79 +36,89 @@ export const ContactMe = ({ signUpPage }) => {
         },
     ];
 
+    const { LABELS, SUCCESS, TITLE } = PAGES.CONTACT_ME;
+
     return (
         <React.Fragment>
-            <CommonBreadCrumbs links={links} currentTitle={PAGES.CONTACT_ME.TITLE} />
-            <Container component='main' maxWidth='md' className={classes.form}>
-                <div className={classes.root}>
-                    
-                    <form onSubmit={handleSubmit(onSubmit)}>
+            <CommonBreadCrumbs links={links} currentTitle={TITLE} />
+            {!signUpPage
+                ? <NotReadyYet />
+                : <Container component='main' maxWidth='md' className={classes.form}>
+                    <div className={classes.root}>
+                        { successBanner && 
                         <Grid container spacing={1}>
-                            <Grid item xs={12} className={classes.inputBoxInColumn}>
-                                <h3>{PAGES.CONTACT_ME.TITLE}</h3>
-                            </Grid>
-                            <Grid item xs={12} md={6} className={classes.inputBoxInColumn}>
-                                <TextField
-                                    variant='outlined'
-                                    fullWidth
-                                    id={'firstName'}
-                                    name={'firstName'}
-                                    label={'First Name'}
-                                    inputRef={register()}
-                                    type={'string'}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6} className={classes.inputBoxInColumn}>
-                                <TextField
-                                    variant='outlined'
-                                    fullWidth
-                                    id={'lastName'}
-                                    name={'lastName'}
-                                    label={'Last Name'}
-                                    inputRef={register()}
-                                    type={'string'}
-                                />
-                            </Grid>
-                            <Grid item xs={12} className={classes.inputBoxInColumn}>
-                                <TextField
-                                    variant='outlined'
-                                    fullWidth
-                                    id={'email'}
-                                    name={'email'}
-                                    label={'Email'}
-                                    inputRef={register({ required: true })}
-                                    type={'email'}
-                                />
-                            </Grid>
-                            <Grid item xs={12} className={classes.inputBoxInColumn}>
-                                <TextField
-                                    id='outlined-textarea'
-                                    placeholder='Message...'
-                                    multiline
-                                    variant='outlined'
-                                    name={'message'}
-                                    label={'Message'}
-                                    inputRef={register({ required: true })}
-                                    inputProps={{ className: classes.textarea }}
-                                    rows={10}
-                                    fullWidth={true}
-                                />
-                            </Grid>
-                            <Grid item xs={12} className={classes.submitButtonrow}>
-                                <Button
-                                    type='submit'
-                                    fullWidth
-                                    variant='contained'
-                                    className={classes.submit}
-                                >
-                                    {GENERAL.BUTTON.SUBMIT}
-                                </Button>
+                            <Grid item xs={12} className={classes.banner}>
+                                <h3>{SUCCESS}</h3>
                             </Grid>
                         </Grid>
-                    </form>
-
-                </div>
-            </Container>
+                        }
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={12} className={classes.inputBoxInColumn}>
+                                    <h3>{PAGES.CONTACT_ME.TITLE}</h3>
+                                </Grid>
+                                <Grid item xs={12} md={6} className={classes.inputBoxInColumn}>
+                                    <TextField
+                                        variant='outlined'
+                                        fullWidth
+                                        id={'firstName'}
+                                        name={'firstName'}
+                                        label={LABELS.FIRST_NAME}
+                                        inputRef={register()}
+                                        type={'string'}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} md={6} className={classes.inputBoxInColumn}>
+                                    <TextField
+                                        variant='outlined'
+                                        fullWidth
+                                        id={'lastName'}
+                                        name={'lastName'}
+                                        label={LABELS.LAST_NAME}
+                                        inputRef={register()}
+                                        type={'string'}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className={classes.inputBoxInColumn}>
+                                    <TextField
+                                        variant='outlined'
+                                        fullWidth
+                                        id={'email'}
+                                        name={'email'}
+                                        label={LABELS.Email}
+                                        inputRef={register({ required: true })}
+                                        type={'email'}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className={classes.inputBoxInColumn}>
+                                    <TextField
+                                        id='outlined-textarea'
+                                        placeholder='Message...'
+                                        multiline
+                                        variant='outlined'
+                                        name={'message'}
+                                        label={LABELS.MESSAGE}
+                                        inputRef={register({ required: true })}
+                                        inputProps={{ className: classes.textarea }}
+                                        rows={10}
+                                        fullWidth={true}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className={classes.submitButtonrow}>
+                                    <Button
+                                        type='submit'
+                                        fullWidth
+                                        variant='contained'
+                                        className={classes.submit}
+                                    >
+                                        {GENERAL.BUTTON.SUBMIT}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </div>
+                </Container>
+            }
         </React.Fragment>
     );
 };
@@ -140,6 +156,14 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
+    },
+    banner:{
+        marginTop: theme.spacing(1),
+        borderRadius: '10px',
+        border: '2px solid',
+        borderColor: Color.darkGreen(),
+        backgroundColor: Color.lightGreen(),
+        color: Color.darkGreen(),
     },
 }));
 

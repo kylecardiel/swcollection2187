@@ -218,6 +218,13 @@ export const STRING_CONSTANTS = Object.freeze({
         },
         CONTACT_ME: {
             TITLE: 'Contact Me',
+            SUCCESS: 'Thanks, message recevied!',
+            LABELS: {
+                FIRST_NAME: 'First Name',
+                LAST_NAME: 'Last Name',
+                Email: 'Email',
+                MESSAGE: 'Message',
+            },
         },
     },
     GENERAL: {
