@@ -14,7 +14,7 @@ export const Footer = () => {
                 <Grid item xs={12} className={classes.flex}>
                     <Link to={ROUTE_CONSTANTS.ABOUT_ME}>{FOOTER.ABOUT_ME}</Link>
                     <Link to={ROUTE_CONSTANTS.TOS}>{FOOTER.TOS}</Link>
-                    <Link to={ROUTE_CONSTANTS.TOS}>{FOOTER.CONTACT}</Link>
+                    <Link to={ROUTE_CONSTANTS.CONTACT_ME}>{FOOTER.CONTACT}</Link>
                 </Grid>
             </Grid>
         </Container>

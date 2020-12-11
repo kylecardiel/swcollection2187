@@ -216,6 +216,9 @@ export const STRING_CONSTANTS = Object.freeze({
                 },
             },
         },
+        CONTACT_ME: {
+            TITLE: 'Contact Me',
+        },
     },
     GENERAL: {
         BUTTON: {
