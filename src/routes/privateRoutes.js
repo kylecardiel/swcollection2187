@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
 import Admin from 'components/admin/admin';
 import { BlackSeries } from 'components/blackSeries/blackSeries';
-import { FeatureFlagConsumer } from '../context/featureFlagsContext';
+import { FeatureFlagConsumer } from 'context/featureFlagsContext';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { Header } from 'components/header/header';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';

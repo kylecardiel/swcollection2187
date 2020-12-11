@@ -1,13 +1,15 @@
 import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { AboutMe } from 'components/aboutMe/aboutMe';
+import { FeatureFlagConsumer } from 'context/featureFlagsContext';
 import { Homepage } from 'components/homePage/homePage';
-import React from 'react';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { TermsOfService } from 'components/termsOfService/termsOfService';
-
 const { ABOUT_ME, HOME, TOS } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
+    const { signUpPage } = useContext(FeatureFlagConsumer);
+    console.log(signUpPage)
     return (
         <React.Fragment>
             <Router>
@@ -25,7 +27,7 @@ export const PublicRoutes = () => {
                 <Route
                     exact
                     path={TOS}
-                    component={TermsOfService}
+                    component={() => <TermsOfService signUpPage={signUpPage}/>}
                 />
             </Router>
         </React.Fragment>
