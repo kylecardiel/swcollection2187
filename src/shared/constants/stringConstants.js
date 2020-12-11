@@ -111,7 +111,7 @@ export const STRING_CONSTANTS = Object.freeze({
         },
         BLACK_SERIES_CATALOG: {
             TITLE: 'Black Series Catalog',
-            SEARCH: 'Search…',
+            SEARCH: 'Search by name…',
             STAT_TABLE: {
                 COLUMNS: ['Source', 'Count', 'Percentage', 'Retail Cost'],
                 TOTAL: 'Total',

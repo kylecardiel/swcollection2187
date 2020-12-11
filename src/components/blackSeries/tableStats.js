@@ -28,14 +28,14 @@ export const TableStats = ({ stats }) => {
                             <TableCell component='th' scope='row'>{k.name}</TableCell>
                             <TableCell align='right'>{k.count}</TableCell>
                             <TableCell align='right'>{`${Math.floor(k.count / stats.count * 100)}%`}</TableCell>
-                            <TableCell align='right'>{`$${k.cost.toFixed(2)}`}</TableCell>
+                            <TableCell align='right'>{`$${k.cost}`}</TableCell>
                         </TableRow>,
                     )}
                     <TableRow key={'total'} className={classes.headerRow}>
                         <TableCell component='th' scope='row' className={classes.totalRowCell}>{STAT_TABLE.TOTAL}</TableCell>
                         <TableCell align='right' className={classes.totalRowCell}>{stats.count}</TableCell>
                         <TableCell align='right' className={classes.totalRowCell}>{'100%'}</TableCell>
-                        <TableCell align='right' className={classes.totalRowCell}>{`$${stats.totalCost.toFixed(2)}`}</TableCell>
+                        <TableCell align='right' className={classes.totalRowCell}>{`$${stats.totalCost}`}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

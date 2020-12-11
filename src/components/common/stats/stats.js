@@ -1,7 +1,9 @@
+import { NumberUtils } from 'shared/util/numberUtils';
+
 export const generateStatsBasedOnSource = (data, groupValues, attribute) => {
     let stats = {
         count: data.length,
-        totalCost: sumCost(data),
+        totalCost: NumberUtils.formatWithCommas(sumCost(data).toFixed(2)),
         source: [],
     };
 
@@ -10,7 +12,7 @@ export const generateStatsBasedOnSource = (data, groupValues, attribute) => {
             stats['source'].push({
                 name: name,
                 count: data.filter(figure => figure[attribute] === name).length,
-                cost: sumCost(data.filter(figure => figure[attribute] === name)),
+                cost:  NumberUtils.formatWithCommas(sumCost(data.filter(figure => figure[attribute] === name)).toFixed(2)),
             });
         });
     }

@@ -113,6 +113,8 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
         </Grid>
     </Grid>;
 
+    const multipackFigureQty = multipackFigures.length + 1;
+
     const releaseDetailsContainer = <Grid xs={12} md={10} item className={classes.detailComponent}>
         <Typography gutterBottom variant="subtitle1" className={classes.sectionHeader}>
             <span className={classes.textStyle}>{BS_DETAILS_LABEL.RELEASE_DETAILS_HEADER}:</span>
@@ -143,7 +145,7 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
         }
         <Typography variant='body2' gutterBottom className={classes.detailName}>
             <span className={classes.textStyle}>{BS_DETAILS_LABEL.RETAIL_PRICE}:</span>
-            {` $${figure.retailPrice}`}
+            {` $${(figure.retailPrice * (multipackFigureQty)).toFixed(2)}`}
         </Typography>
     </Grid>;
 
@@ -191,7 +193,7 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                                     {figure.multipack &&
                                         <>
                                             <Typography variant='body2' gutterBottom className={classes.detailName}>
-                                                <span className={classes.textStyle}>{BS_DETAILS_LABEL.MULTIPACK_FIGURES(multipackFigures.length)}</span>
+                                                <span className={classes.textStyle}>{BS_DETAILS_LABEL.MULTIPACK_FIGURES(multipackFigureQty)}</span>
                                             </Typography>
                                             <div className={classes.similarFiguresContainer}>
                                                 {multipackFigures.map(f => (
