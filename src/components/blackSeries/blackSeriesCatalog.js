@@ -182,7 +182,7 @@ export const BlackSeriesCatalog = props => {
 
     const openStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
     const closeStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
-    const statsModalSize = { height: '50%', width: '50%' };
+    const statsModalSize = { height: '75%', width: '50%' };
 
     const [initialState] = useState(props);
     useEffect(() => {
