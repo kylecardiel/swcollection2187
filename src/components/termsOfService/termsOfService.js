@@ -12,7 +12,7 @@ export const TermsOfService = ({ signUpPage }) => {
             <div className={classes.root}>
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
-                        {signUpPage
+                        {!signUpPage
                             ? <NotReadyYet />
                             : <section>
                                 <iframe 
