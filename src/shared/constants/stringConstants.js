@@ -60,11 +60,11 @@ export const STRING_CONSTANTS = Object.freeze({
                 },
                 STEP_1: {
                     TITLE: 'Step 1',
-                    BODY: 'Create an account',
+                    BODY: 'Join the Rebellion [Create an account]',
                 },
                 STEP_2: {
                     TITLE: 'Step 2',
-                    BODY: 'Search catalog for a figure',
+                    BODY: 'Search for figures by name, year, assortment, movie, etc...',
                 },
                 STEP_3: {
                     TITLE: 'Step 3',
@@ -225,6 +225,9 @@ export const STRING_CONSTANTS = Object.freeze({
                 Email: 'Email',
                 MESSAGE: 'Message',
             },
+        },
+        TERMS_OF_SERVICE: {
+            TITLE: 'Terms of Service',
         },
     },
     GENERAL: {

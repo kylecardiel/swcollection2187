@@ -3,6 +3,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Footer } from 'components/footer/footer';
 import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
+import { HowItWorks } from 'components/homePage/howItWorks';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { makeStyles } from '@material-ui/core/styles';
 import { MediaCard } from 'components/common/card';
@@ -27,40 +28,21 @@ export const Homepage = () => {
                             <p>{HOME_PAGE.INTRO_PARAGRAPH}</p>
                         </section>
                     </Grid>
-                    {!loggedIn && 
+                    { !loggedIn && <HowItWorks /> }
+                    { loggedIn && 
                         <>
                             <Grid item xs={12}>
-                                <h2>{HOME_PAGE.HOW_IT_WORKS}</h2>
+                                <h2>{HOME_PAGE.GET_STARTED}</h2>
                             </Grid>
-                            <Grid item xs={12} className={classes.howContainer}>
+                            <Grid item xs={12}>
                                 <MediaCard
-                                    cardText={HOME_PAGE.CARDS.STEP_1}
-                                    imagePath={IMAGE_PATHS.STEP_1}
-                                    route={ROUTE_CONSTANTS.SIGNUP}
-                                />
-                                <MediaCard
-                                    cardText={HOME_PAGE.CARDS.STEP_2}
-                                    imagePath={IMAGE_PATHS.STEP_2}
+                                    cardText={HOME_PAGE.CARDS.BLACK_SERIES}
                                     route={ROUTE_CONSTANTS.BLACK_SERIES}
-                                />
-                                <MediaCard
-                                    cardText={HOME_PAGE.CARDS.STEP_3}
-                                    imagePath={IMAGE_PATHS.STEP_3}
-                                    route={ROUTE_CONSTANTS.BLACK_SERIES}
+                                    imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
                                 />
                             </Grid>
                         </>
                     }
-                    <Grid item xs={12}>
-                        <h2>{HOME_PAGE.GET_STARTED}</h2>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <MediaCard
-                            cardText={HOME_PAGE.CARDS.BLACK_SERIES}
-                            route={ROUTE_CONSTANTS.BLACK_SERIES}
-                            imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
-                        />
-                    </Grid>
                     {ROLES.EMAIL === email &&
                         <Grid item xs={12} md={3}>
                             <MediaCard
@@ -76,20 +58,8 @@ export const Homepage = () => {
     );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
-        // overflow: 'hidden',
-    },
-    howContainer: {
-        display: 'flex',
-        justifyContent: 'space-around',
-        flexDirection: 'row',
-        [theme.breakpoints.down('sm')]: {
-            flexDirection: 'column',
-        },
-        [theme.breakpoints.up('md')]: {
-            flexDirection: 'row',
-        },
     },
 }));

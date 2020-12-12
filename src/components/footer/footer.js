@@ -10,11 +10,12 @@ export const Footer = () => {
     const classes = useStyles();
     return (
         <Container component='main' maxWidth='xl' className={classes.footer}>
+            <hr/>
             <Grid container spacing={1}>
                 <Grid item xs={12} className={classes.flex}>
-                    <Link to={ROUTE_CONSTANTS.ABOUT_ME}>{FOOTER.ABOUT_ME}</Link>
-                    <Link to={ROUTE_CONSTANTS.TOS}>{FOOTER.TOS}</Link>
-                    <Link to={ROUTE_CONSTANTS.CONTACT_ME}>{FOOTER.CONTACT}</Link>
+                    <Link to={ROUTE_CONSTANTS.ABOUT_ME} className={classes.links}>{FOOTER.ABOUT_ME}</Link>
+                    <Link to={ROUTE_CONSTANTS.TOS} className={classes.links}>{FOOTER.TOS}</Link>
+                    <Link to={ROUTE_CONSTANTS.CONTACT_ME} className={classes.links}>{FOOTER.CONTACT}</Link>
                 </Grid>
             </Grid>
         </Container>
@@ -23,7 +24,7 @@ export const Footer = () => {
 
 const useStyles = makeStyles(theme => ({
     footer: {
-        marginTop: theme.spacing(15),
+        marginTop: theme.spacing(10),
     },
     flex: {
         display: 'flex',
@@ -35,5 +36,8 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('md')]: {
             flexDirection: 'row',
         },
+    },
+    links: {
+        textDecoration: 'none',
     },
 }));

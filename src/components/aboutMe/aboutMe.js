@@ -37,7 +37,7 @@ export const AboutMe = () => {
 
     return (
         <React.Fragment>
-            <CommonBreadCrumbs links={links} currentTitle={PAGES.ADMIN.TITLE} />
+            <CommonBreadCrumbs links={links} currentTitle={PAGES.ABOUT.HEADER} />
             <Container component='main' maxWidth='xl'>
                 <div className={classes.root}>
                     <div className={classes.body}>
