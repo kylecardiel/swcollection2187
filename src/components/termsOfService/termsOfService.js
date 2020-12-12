@@ -49,8 +49,8 @@ export const TermsOfService = ({ signUpPage }) => {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        marginTop: theme.spacing(3)
-,    },
+        marginTop: theme.spacing(3),
+    },
 }));
 
 TermsOfService.propTypes = {
