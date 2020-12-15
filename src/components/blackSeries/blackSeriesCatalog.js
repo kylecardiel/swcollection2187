@@ -343,8 +343,27 @@ export const BlackSeriesCatalog = props => {
                             isOpen={isStatsModalOpen}
                             onRequestClose={closeStatsModal}
                             style={modalStyles(statsModalSize)}
-                        >
-                            <div className={classes.root}>
+                        >   
+                            <button onClick={closeStatsModal} style={{
+                                // position: 'absolute',
+                                // top: '-10px',
+                                // right: '-10px',
+                                margin: 0,
+                                position: 'absolute',
+                                top: '-10px',
+                                right: '-10px',
+                                width: '23px',
+                                height: '23px',
+                                borderRadius: '23px',
+                                backgroundColor: '#00aeef',
+                                color: '#ffe300',
+                                fontSize: '9px',
+                                opacity: 1,
+                                zIndex: 10,
+                            }}>
+                                x
+                            </button>
+                            <div className={classes.rootTest}>
                                 <Grid item xs={12} className={classes.tableStats}>
                                     <TableStats stats={stats} />
                                 </Grid>
@@ -450,6 +469,10 @@ export const BlackSeriesCatalog = props => {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+    },
+    rootTest: {
+        flexGrow: 1,
+        opacity: 1.0,
     },
     grid: {
         display: 'flex',

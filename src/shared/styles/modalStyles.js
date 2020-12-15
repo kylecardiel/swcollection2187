@@ -1,21 +1,30 @@
 const defaultOverlayStyles = {
     backgroundColor: 'rgb(120, 119, 119, 0.9)',
-    transition: 'opacity 2000ms ease-in-out'
+    transition: 'opacity 2000ms ease-in-out',
 };
 
 const defaultContentStyleOverride = {
-    color: 'black',
-    width: '40%',
-    height: 650,
-    position: 'absolute',
-    float: 'left',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
+    // color: 'black',
+    // width: '40%',
+    // height: 650,
+    // position: 'absolute',
+    // float: 'left',
+    // left: '50%',
+    // top: '50%',
+    // transform: 'translate(-50%, -50%)',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2) 0 6px 20px 0 rbga(0, 0, 0, 0.19)',
     padding: 0,
     border: 0,
     borderRadius: 0,
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    // backgroundColor: 'green',
+    // opacity: '.5',
+    // overflow              : 'visibile'
 };
 
 export const modalStyles = (contentStyleOverride, overlayStylesOverride) => {
