@@ -1,3 +1,4 @@
+import moment from 'moment';
 export class SortingUtils {
 
     static sortDataByAttributeDesc = (data, attribute) => {
@@ -36,4 +37,8 @@ export class SortingUtils {
         }
         return matrix;
     } 
+
+    static sortDateDescending = dates => {
+        return dates.sort((a,b) => new moment(b.createdDate) - new moment(a.createdDate));
+    }
 }

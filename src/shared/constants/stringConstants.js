@@ -118,6 +118,8 @@ export const STRING_CONSTANTS = Object.freeze({
             },
             BUTTON: {
                 STATS: 'Stats',
+                RECENT: 'Recently Added',
+                ALL: 'View All Again',
             },
             DISPLAY_MODAL: {
                 HEADER: 'Filter / Sort / Display',
