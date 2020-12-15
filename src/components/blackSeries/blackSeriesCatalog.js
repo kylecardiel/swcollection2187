@@ -143,6 +143,12 @@ export const BlackSeriesCatalog = props => {
         setUserDisplaySettings('viewOnlyUnownedFigures', value);
     };
 
+    const [viewRecent, setViewRecent] = useState(filterState.viewRecent);
+    const handleViewRecentChange = () => {
+        setViewRecent(!viewRecent);
+        setUserDisplaySettings('viewRecent', !viewRecent);
+    };
+
     const inputLabel = useRef(null);
     const [labelWidth] = useState(0);
 
@@ -159,6 +165,8 @@ export const BlackSeriesCatalog = props => {
         setViewOnlyOwnedFigures(false);
         setViewOnlyUnownedFigures(false);
         setSortingAttribute();
+
+        setViewRecent(false);
         
         clearUserDisplaySettings();
     };
@@ -208,6 +216,12 @@ export const BlackSeriesCatalog = props => {
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
+
+        if(viewRecent) {
+            mergedList = mergedList.filter(el => el.createdDate ? true : false);
+            return SortingUtils.sortDateDescending(mergedList).slice(0, 15);
+        }
+
         if (!viewAllFigures) {
             if (viewOnlyOwnedFigures) mergedList = mergedList.filter(el => el.owned === true);
             if (viewOnlyUnownedFigures) mergedList = mergedList.filter(el => el.owned !== true);
@@ -223,7 +237,6 @@ export const BlackSeriesCatalog = props => {
         if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
         if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
         if (filterByYear) mergedList = mergedList.filter(el => parseInt(el.year) === filterByYear);
-
         if (sortingAttribute) {
             if (sortingAttribute === 'seriesNumber') {
                 return SortingUtils.sortDataByStringIntAsc(mergedList, sortingAttribute);
@@ -417,12 +430,19 @@ export const BlackSeriesCatalog = props => {
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={6} md={4}>{''}</Grid>
+                        {/* <Grid item xs={3} md={1}>{''}</Grid> */}
+                        <Grid item xs={6} md={3} className={classes.viewFilters}>
+                            <ActionButton
+                                buttonLabel={!viewRecent ? BS_CATALOG.BUTTON.RECENT : BS_CATALOG.BUTTON.ALL}
+                                onClick={handleViewRecentChange}
+                                color={Color.green()}
+                            />
+                        </Grid>
                         <Grid item xs={3} md={1} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={BS_CATALOG.BUTTON.STATS}
                                 onClick={openStatsModal}
-                                color={Color.green()}
+                                color={Color.blue()}
                             />
                         </Grid>
                         <Grid item xs={3} md={1} className={classes.viewFilters}>
