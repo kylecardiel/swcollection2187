@@ -5,7 +5,6 @@ export const STRING_CONSTANTS = Object.freeze({
             LOGIN: 'Login',
             SIGN_UP: 'Sign Up',
             LOGOUT: 'Logout',
-            PROFILE: 'Profile',
         },
         AUTH: {
             LOGIN: 'Login',

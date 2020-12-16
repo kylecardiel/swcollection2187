@@ -18,11 +18,9 @@ export const Homepage = () => {
     return (
         <Container component='main' maxWidth='xl'>
             <div className={classes.root}>
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>
+                <Grid container spacing={1} className={classes.container}>
+                    <Grid item xs={12} className={classes.title}>
                         <h1>{HOME_PAGE.TAG_LINE}</h1>
-                    </Grid>
-                    <Grid item xs={12}>
                         <section>
                             <h3>{HOME_PAGE.WELCOME}</h3>
                             <p>{HOME_PAGE.INTRO_PARAGRAPH}</p>
@@ -58,8 +56,11 @@ export const Homepage = () => {
     );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+    },
+    container:{
+        marginTop: theme.spacing(.5),
     },
 }));

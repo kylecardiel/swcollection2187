@@ -3,12 +3,14 @@ import Grid from '@material-ui/core/Grid';
 import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
 import { HowToCards } from 'components/homePage/howToCards';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
+import { makeStyles } from '@material-ui/core/styles';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 
 export const HowItWorks = () => {
+    const classes = useStyles();
     return (
         <React.Fragment>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.title}>
                 <h2>{HOME_PAGE.HOW_IT_WORKS}</h2>
             </Grid>
             <Grid item xs={12} md={4}>
@@ -35,3 +37,12 @@ export const HowItWorks = () => {
         </React.Fragment>
     );
 };
+
+const useStyles = makeStyles(theme => ({
+    title: {
+        backgroundColor: 'white',
+        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+        marginBottom: theme.spacing(.5),
+        borderRadius: '5px',
+    },
+}));
