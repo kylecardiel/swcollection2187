@@ -541,7 +541,12 @@ const useStyles = makeStyles(theme => ({
         color: 'inherit',
         height: 30,
         width: '75%',
-        paddingLeft: '8%',
+        [theme.breakpoints.up('md')]: {
+            paddingLeft: '8%',
+        },
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: '15%',
+        },
     },
     statsButton: {
         margin: theme.spacing(5),

@@ -10,20 +10,23 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 
 export const Footer = () => {
     const classes = useStyles();
+    const arrowIcon = <ArrowForwardIosIcon fontSize='small' className={classes.icons}/>;
     return (
         <Container component='main' maxWidth='xl' className={classes.footer}>
             <Grid container spacing={1} >
-                <Grid item xs={12} md={4} className={classes.flex}>
-                    <Link to={ROUTE_CONSTANTS.ABOUT_ME} className={classes.links}>{FOOTER.ABOUT_ME}</Link>
-                    <ArrowForwardIosIcon fontSize='small' className={classes.icons}/>
-                </Grid>
-                <Grid item xs={12} md={4} className={classes.flex}>
-                    <Link to={ROUTE_CONSTANTS.TOS} className={classes.links}>{FOOTER.TOS}</Link>
-                    <ArrowForwardIosIcon fontSize='small' className={classes.icons}/>
-                </Grid>
-                <Grid item xs={12} md={4} className={classes.flex}>
-                    <Link to={ROUTE_CONSTANTS.CONTACT_ME} className={classes.links}>{FOOTER.CONTACT}</Link>
-                    <ArrowForwardIosIcon fontSize='small' className={classes.icons}/>
+                <Grid item xs={12} className={classes.flex}>
+                    <Link to={ROUTE_CONSTANTS.ABOUT_ME} className={classes.links}>
+                        {FOOTER.ABOUT_ME}
+                        {arrowIcon}
+                    </Link>
+                    <Link to={ROUTE_CONSTANTS.TOS} className={classes.links}>
+                        {FOOTER.TOS}
+                        {arrowIcon}
+                    </Link>
+                    <Link to={ROUTE_CONSTANTS.CONTACT_ME} className={classes.links}>
+                        {FOOTER.CONTACT}
+                        {arrowIcon}
+                    </Link>
                 </Grid>
             </Grid>
         </Container>
@@ -45,12 +48,11 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         color: Color.black(),
         [theme.breakpoints.down('sm')]: {
-            borderTop: '1px solid #696969',
+            flexDirection: 'column',
             justifyContent: 'space-between',
         },
         [theme.breakpoints.up('md')]: {
             flexDirection: 'row',
-            borderTop: '0px',
             justifyContent: 'space-around',
         },
     },
@@ -63,12 +65,21 @@ const useStyles = makeStyles(theme => ({
         },
     },
     links: {
+        display: 'flex',
+        flexDirection: 'row',
         textDecoration: 'none',
         color: Color.black(),
         fontWeight: 'bold',
         '&:hover': {
             textDecoration: 'underline',
             color: 'blue',
+        },
+        [theme.breakpoints.down('sm')]: {
+            borderTop: '1px solid #696969',
+            justifyContent: 'space-between',
+        },
+        [theme.breakpoints.up('md')]: {
+            borderTop: '0px',
         },
     },
 }));
