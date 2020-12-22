@@ -31,10 +31,10 @@ export const getModalSize = isMobileDevice => {
 
 const smallerModal = {
     height: '75%',
-    width: '70%',
+    width: '100%',
 };
 
 const largerModal = {
-    height: '90%',
-    width: '95%',
+    height: '95%',
+    width: '100%',
 };

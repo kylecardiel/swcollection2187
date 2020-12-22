@@ -126,6 +126,8 @@ export const STRING_CONSTANTS = Object.freeze({
                     OUT_OF_BOX: 'Out of Box Image',
                     IN_BOX: 'In Box Image',
                     CLEAR: 'Clear Filters',
+                    SAVE: 'Save',
+                    CLOSE: 'Close',
                 },
                 LABELS: {
                     FILTER: 'FILTER:',

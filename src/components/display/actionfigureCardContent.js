@@ -4,12 +4,12 @@ import { BS_CARD_LABELS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { getSourceColor } from 'components/display/figureColors';
 import PropTypes from 'prop-types';
-import { ROLES } from 'shared/constants/roleConstants';
+// import { ROLES } from 'shared/constants/roleConstants';
 import { UserConsumer } from 'components/auth/authContext';
 
 export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
     const { email } = useContext(UserConsumer);
-    const authEmail = email === ROLES.EMAIL;
+    // const authEmail = email === ROLES.EMAIL;
     
     let bottomCardHieght = 100;
     if(email) bottomCardHieght = 125;
@@ -72,7 +72,7 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
                     {record.exclusiveRetailer && generateBottomText('', ` ${record.exclusiveRetailer}`)}
                     {record.owned
                         && generateBottomText(`${BS_CARD_LABELS.TOTAL_OWNED}: `, ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
-                    {authEmail && generateBottomText(record.id)}
+                    {/* {authEmail && generateBottomText(record.id)} */}
                 </Grid>
             </CardContent>
         </Card>

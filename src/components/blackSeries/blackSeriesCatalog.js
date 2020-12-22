@@ -9,6 +9,7 @@ import { Color } from 'shared/styles/color';
 import Container from '@material-ui/core/Container';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -22,6 +23,7 @@ import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
 import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
+import SaveIcon from '@material-ui/icons/Save';
 import SearchIcon from '@material-ui/icons/Search';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
@@ -190,7 +192,7 @@ export const BlackSeriesCatalog = props => {
 
     const openStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
     const closeStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
-    const statsModalSize = { height: '75%', width: '50%' };
+    // const statsModalSize = { height: '80%', width: '55%' };
 
     const [initialState] = useState(props);
     useEffect(() => {
@@ -355,11 +357,21 @@ export const BlackSeriesCatalog = props => {
                         <Modal
                             isOpen={isStatsModalOpen}
                             onRequestClose={closeStatsModal}
-                            style={modalStyles(statsModalSize)}
+                            style={modalStyles(modalSize())}
                         >
                             <div className={classes.root}>
-                                <Grid item xs={12} className={classes.tableStats}>
-                                    <TableStats stats={stats} />
+                                <Grid container spacing={1}>
+                                    <Grid item xs={12} >
+                                        <TableStats stats={stats} />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.statCloseButtonContainer}>
+                                        <ActionButton
+                                            buttonLabel={BS_DISPLAY_MODAL.BUTTONS.CLOSE}
+                                            icon={<ExitToAppIcon />}
+                                            onClick={closeStatsModal}
+                                            color={Color.blue()}
+                                        />
+                                    </Grid>
                                 </Grid>
                             </div>
                         </Modal>
@@ -405,11 +417,27 @@ export const BlackSeriesCatalog = props => {
                                                 onClick={handleImageChange}
                                                 color={Color.green()}
                                             />
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <div className={classes.container}>
+                                            <ActionButton
+                                                buttonLabel={BS_DISPLAY_MODAL.BUTTONS.SAVE}
+                                                icon={<SaveIcon />}
+                                                onClick={closeModal}
+                                                color={Color.green()}
+                                            />
                                             <ActionButton
                                                 buttonLabel={BS_DISPLAY_MODAL.BUTTONS.CLEAR}
                                                 icon={<ClearIcon />}
                                                 onClick={handleClearFilters}
                                                 color={Color.red()}
+                                            />
+                                            <ActionButton
+                                                buttonLabel={BS_DISPLAY_MODAL.BUTTONS.CLOSE}
+                                                icon={<ExitToAppIcon />}
+                                                onClick={closeModal}
+                                                color={Color.blue()}
                                             />
                                         </div>
                                     </Grid>
@@ -430,7 +458,6 @@ export const BlackSeriesCatalog = props => {
                                 />
                             </div>
                         </Grid>
-                        {/* <Grid item xs={3} md={1}>{''}</Grid> */}
                         <Grid item xs={6} md={3} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={!viewRecent ? BS_CATALOG.BUTTON.RECENT : BS_CATALOG.BUTTON.ALL}
@@ -555,6 +582,11 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'center',
         marginTop: theme.spacing(5),
+    },
+    statCloseButtonContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: theme.spacing(1),
     },
     modelHeaderContainer: {
         marginLeft: theme.spacing(3),
