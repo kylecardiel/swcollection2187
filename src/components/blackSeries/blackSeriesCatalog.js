@@ -22,6 +22,7 @@ import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
 import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
+import SaveIcon from '@material-ui/icons/Save';
 import SearchIcon from '@material-ui/icons/Search';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
@@ -357,11 +358,17 @@ export const BlackSeriesCatalog = props => {
                             onRequestClose={closeStatsModal}
                             style={modalStyles(statsModalSize)}
                         >
-                            <div className={classes.root}>
-                                <Grid item xs={12} className={classes.tableStats}>
-                                    <TableStats stats={stats} />
-                                </Grid>
+                            <div className={classes.modalClose}>
+                                <div 
+                                    className={classes.modalCloseBtn}
+                                    onClick={closeStatsModal}
+                                >
+                                    <ClearIcon />
+                                </div>
                             </div>
+                            <Grid item xs={12} className={classes.tableStats}>
+                                <TableStats stats={stats} />
+                            </Grid>
                         </Modal>
                         <Modal
                             isOpen={isModalOpen}
@@ -404,6 +411,17 @@ export const BlackSeriesCatalog = props => {
                                                 icon={<SwapHorizIcon />}
                                                 onClick={handleImageChange}
                                                 color={Color.green()}
+                                            />
+                                            
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <div className={classes.container}>
+                                            <ActionButton
+                                                buttonLabel={BS_DISPLAY_MODAL.BUTTONS.CLOSE}
+                                                icon={<SaveIcon />}
+                                                onClick={closeModal}
+                                                color={Color.blue()}
                                             />
                                             <ActionButton
                                                 buttonLabel={BS_DISPLAY_MODAL.BUTTONS.CLEAR}
@@ -470,6 +488,21 @@ export const BlackSeriesCatalog = props => {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+    },
+    modalClose: {
+        backgroundColor: Color.black(),
+        color: Color.white(),
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+    modalCloseBtn:{
+        '&:hover': {
+            cursor: 'pointer',
+        },
+    },
+    tableStats: {
+        marginTop: '-3%',
     },
     grid: {
         display: 'flex',

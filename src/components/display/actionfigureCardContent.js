@@ -18,8 +18,10 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
     const generateBottomText = (label, value) => {
         return <Grid item xs={12} key={value} >
             <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext}>
-                <span className={classes.textStyle} >{`${label} `}</span>
-                {value}
+                <span>
+                    <span className={classes.textStyle} >{label}</span>
+                    {value}
+                </span>
             </Typography>
         </Grid>;
     };
@@ -27,7 +29,7 @@ export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
     const generateAdditionalNameText = value => {
         let text, className;
         if(value){
-            text = value;
+            text = `(${value})`;
             className = classes.nameText;
         } else {
             text = '-';
@@ -93,6 +95,7 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        textAlign: 'center',
         width: '100%',
     },
     source: {
