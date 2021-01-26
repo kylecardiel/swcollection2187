@@ -1,6 +1,6 @@
 const defaultOverlayStyles = {
     backgroundColor: 'rgb(120, 119, 119, 0.9)',
-    transition: 'opacity 2000ms ease-in-out'
+    transition: 'opacity 2000ms ease-in-out',
 };
 
 const defaultContentStyleOverride = {
@@ -26,7 +26,7 @@ export const modalStyles = (contentStyleOverride, overlayStylesOverride) => {
 };
 
 export const getModalSize = isMobileDevice => {
-    return isMobileDevice ? largerModal : smallerModal
+    return isMobileDevice ? largerModal : smallerModal;
 };
 
 const smallerModal = {
