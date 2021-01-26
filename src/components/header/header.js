@@ -122,5 +122,5 @@ const useStyles = makeStyles(theme => ({
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
-    logoutUser: PropTypes.func.isRequired,
+    logoutUser: PropTypes.func,
 };

@@ -11,7 +11,6 @@ const { ABOUT_ME, CONTACT_ME, HOME, TOS } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
     const { signUpPage } = useContext(FeatureFlagConsumer);
-    console.log(signUpPage);
     return (
         <React.Fragment>
             <Router>
