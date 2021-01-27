@@ -1,6 +1,6 @@
 import { ActionFigureDetails } from 'components/display/actionFigureDetail';
 import { connect } from 'react-redux';
-import { getAssortments, getSourceMaterial } from 'store/helperData/helperDataSetSelector';
+import { getAssortments, getSourceMaterial, getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getCatalogList, getUserList } from 'store/dataSet/dataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
 import React from 'react';
@@ -14,6 +14,7 @@ export const ActionFigureDetailsConnect = () => {
 export const mapStateToProps = (state, ownProps) => ({
     figureId: ownProps.match.params.id,
     catalogList: getCatalogList(state),
+    helperData: getHelperDataSet(state),
     userList: getUserList(state),
     sourceMaterials: getSourceMaterial(state).values,
     assortments: getAssortments(state).values,

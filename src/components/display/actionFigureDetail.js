@@ -1,7 +1,10 @@
 import React, { useContext, useState } from 'react';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import { BS_DETAILS_LABEL, PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import Container from '@material-ui/core/Container';
+import EditIcon from '@material-ui/icons/Edit';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { FormFilter } from 'components/common/form/formFilter';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
@@ -10,7 +13,9 @@ import Grid from '@material-ui/core/Grid';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import { makeStyles } from '@material-ui/core/styles';
-import { BS_DETAILS_LABEL, PAGES } from 'shared/constants/stringConstantsSelectors';
+import Modal from 'react-modal';
+import { modalStyles } from 'shared/styles/modalStyles';
+import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
@@ -22,7 +27,7 @@ import { UserConsumer } from 'components/auth/authContext';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMaterials, assortments, screenSize }) => {
+export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMaterials, assortments, screenSize, helperData }) => {
     const { id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
@@ -151,6 +156,11 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
 
     const quantitySelect = Array.from(Array(16).keys());
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => setIsModalOpen(!isModalOpen);
+    const closeModal = () => setIsModalOpen(!isModalOpen);
+    const modalSize = { height: '85%', width: '85%' };
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
@@ -259,6 +269,26 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                         </Grid>
                     </Grid>
                 </Container>
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    style={modalStyles(modalSize)}
+                >
+                    <NewCollectibleForm
+                        closeModal={closeModal}
+                        catalog
+                        formData={helperData}
+                        figure={figure}
+                    />
+                </Modal>
+                <div className={classes.editContainer}>
+                    <ActionButton
+                        buttonLabel={'Edit Figure Details'}
+                        icon={<EditIcon />}
+                        onClick={openModal}
+                        color={Color.blue()}
+                    />
+                </div>
             </div>
         </React.Fragment>
     );
@@ -274,6 +304,15 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         maxWidth: '99%',
         height: '75vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    editContainer: {
+        maxWidth: '99%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     gridContainer: {
         display: 'flex',
@@ -373,4 +412,5 @@ ActionFigureDetails.propTypes = {
     sourceMaterials: PropTypes.array.isRequired,
     assortments: PropTypes.array.isRequired,
     screenSize: PropTypes.object.isRequired,
+    helperData: PropTypes.object.isRequired,
 };

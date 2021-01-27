@@ -26,15 +26,29 @@ import { UserConsumer } from 'components/auth/authContext';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
-export const NewCollectibleForm = ({ closeModal, formData }) => {
+export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const classes = useStyles();
     const { email } = useContext(UserConsumer);
-    const { register, handleSubmit, control } = useForm();
+ 
+    const setDefaults = () => {
+        return figure ? { defaultValues: figure } : {};
+    };
 
-    const [groupsSelected, setGroupsSelected] = useState([]);
+    const { register, handleSubmit, control, watch } = useForm(setDefaults());
+
+    const name = watch('name');
+    const additionalNameDetails = watch('additionalNameDetails');
+    const seriesNumber = watch('seriesNumber');
+    const wave = watch('wave');
+    const year = watch('year');
+    const retailPrice = watch('retailPrice');
+    const mulitipack = watch('mulitipack');
+    const [groupsSelected, setGroupsSelected] = useState(figure.groups || []);
+
     const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
     const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
     const [newFigureImageFile, setNewFigureImageFile] = useState(null);
+
     const [submitDisabled, setSubmitDisabled] = useState(false);
     const [percentage, setPercentage] = useState(0);
 
@@ -115,7 +129,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
         </Grid>;
     };
 
-    const generateSelector = (label, selectorValues) => {
+    const generateSelector = (label, selectorValues, value) => {
         const text = label.KEY;
         const selectorName = label.VALUE;
         return <>
@@ -126,7 +140,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
                     <Controller
                         name={selectorName}
                         control={control}
-                        defaultValue={''}
+                        defaultValue={value}
                         as={
                             <Select
                                 label={selectorName}
@@ -165,7 +179,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
         </>;
     };
 
-    const generatorInput = (label, number) => {
+    const generatorInput = (label, value, number) => {
         const text = label.KEY;
         const inputName = label.VALUE;
         return <>
@@ -178,6 +192,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
                     id={inputName}
                     name={inputName}
                     label={inputName}
+                    value={value}
                     inputRef={register()}
                     type={number ? 'number' : 'string'}
                 />
@@ -198,24 +213,34 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
     const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, 'name');
 
     const { LABELS } = NEW_COLLECTION_FORM;
-    const collectionTypeInput = generateSelector(LABELS.COLLECTION_TYPE, collectionType.values);
-    const seriesTypeInput = generateSelector(LABELS.SERIES, series.values);
-    const assortmentInput = generateSelector(LABELS.ASSORTMENT, formattedAssortment);
-    const versionTypeInput = generateSelector(LABELS.VERSIONS, version.values);
-    const sourceMaterialInput = generateSelector(LABELS.SOURCE_MATERIAL, formattedSourceMaterial);
-    const exclusiveRetailerInput = generateSelector(LABELS.EXCLUSIVE_RETAILER, exclusiveRetailer.values);
-    const sourceTypeInput = generateSelector(LABELS.SOURCE_TYPE, sourceType.values);
-    const nameInput = generatorInput(LABELS.NAME);
-    const additionalNameDetailsInput = generatorInput(LABELS.ADD_NAME_DETAILS);
-    const seriesNumberInput = generatorInput(LABELS.WAVE, true);
-    const waveInput = generatorInput(LABELS.SERIES_NUMBER);
-    const yearInput = generatorInput(LABELS.YEAR, true);
-    const groupSelectInput = groupSelect();
-    const retailPrice = generatorInput(LABELS.RETAIL_PRICE);
-    const mulitipackInput = generatorInput(LABELS.MULTIPACK);
-    const looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
-    const looseBlackImageInput = generatorImageInput(LABELS.LOOSE_BLACK_IMAGE.KEY, handleBlacLoosekImageChange);
-    const newImageInput = generatorImageInput(LABELS.NIB_IMAGE.KEY, handleNewImageChange);
+    const collectionTypeInput = generateSelector(LABELS.COLLECTION_TYPE, collectionType.values, figure.collectionType);
+    const seriesTypeInput = generateSelector(LABELS.SERIES, series.values, figure.series);
+    const assortmentInput = generateSelector(LABELS.ASSORTMENT, formattedAssortment, figure.assortment);
+    const versionTypeInput = generateSelector(LABELS.VERSIONS, version.values, figure.version);
+    const sourceMaterialInput = generateSelector(LABELS.SOURCE_MATERIAL, formattedSourceMaterial, figure.sourceMaterial);
+    const exclusiveRetailerInput = generateSelector(LABELS.EXCLUSIVE_RETAILER, exclusiveRetailer.values, figure.exclusiveRetailer);
+    const sourceTypeInput = generateSelector(LABELS.SOURCE_TYPE, sourceType.values, figure.sourceType);
+    
+    const nameInput = generatorInput(LABELS.NAME, name);
+    const additionalNameDetailsInput = generatorInput(LABELS.ADD_NAME_DETAILS, additionalNameDetails);
+    const seriesNumberInput = generatorInput(LABELS.WAVE, wave);
+    const waveInput = generatorInput(LABELS.SERIES_NUMBER, seriesNumber);
+    const yearInput = generatorInput(LABELS.YEAR, year, true);
+    const retailPriceInput = generatorInput(LABELS.RETAIL_PRICE, retailPrice);
+    const mulitipackInput = generatorInput(LABELS.MULTIPACK, mulitipack);
+
+    const groupSelectInput = groupSelect(figure.groupSelect);
+
+    let looseImageInput, looseBlackImageInput, newImageInput;
+
+    if(figure) {
+        looseImageInput = generatorInput(LABELS.LOOSE_IMAGE.KEY, figure.looseImageUrl);
+        newImageInput = generatorInput(LABELS.NIB_IMAGE.KEY, figure.newImageUrl);
+    } else {
+        looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
+        looseBlackImageInput = generatorImageInput(LABELS.LOOSE_BLACK_IMAGE.KEY, handleBlacLoosekImageChange);
+        newImageInput = generatorImageInput(LABELS.NIB_IMAGE.KEY, handleNewImageChange);
+    }
 
     return (
         <React.Fragment>
@@ -242,7 +267,7 @@ export const NewCollectibleForm = ({ closeModal, formData }) => {
 
                         {sourceMaterialInput}
                         {yearInput}
-                        {retailPrice}
+                        {retailPriceInput}
                         
                         {groupSelectInput}
                         {exclusiveRetailerInput}
@@ -314,5 +339,6 @@ const useStyles = makeStyles(theme => ({
 
 NewCollectibleForm.propTypes = {
     closeModal: PropTypes.func.isRequired, 
-    formData: PropTypes.object.isRequired, 
+    formData: PropTypes.object.isRequired,
+    figure:  PropTypes.object,
 };
