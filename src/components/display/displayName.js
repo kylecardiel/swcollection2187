@@ -33,7 +33,7 @@ export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => 
     };
 
     return (
-        <Grid container spacing={0} >
+        <Grid container spacing={0} className={classes.container}>
             <Grid item xs={nameSize} className={classes.nameText}>{record.name}</Grid>
             {record.seriesNumber &&
                 <Grid item xs={2} className={classes.seriesNumber}>{formattedSeriesNumber()}</Grid>
@@ -44,6 +44,10 @@ export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => 
 };
 
 const useStyles = makeStyles(theme => ({
+    container: {
+        backgroundColor: props => Color.primary(props.color),
+        color: Color.black(),
+    },
     nameText: {
         display: 'flex',
         flexDirection: 'column',
@@ -65,8 +69,6 @@ const useStyles = makeStyles(theme => ({
         fontSize: '12px',
         fontWeight: '800',
         textTransform: 'uppercase',
-        color: Color.black(),
-        backgroundColor: props => Color.primary(props.color),
         paddingTop: theme.spacing(.5),
         paddingBottom: theme.spacing(.5),
     },

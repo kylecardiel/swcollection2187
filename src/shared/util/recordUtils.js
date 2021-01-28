@@ -26,7 +26,7 @@ export class RecordUtils {
             let record = records[item];
             record[idValue] = item;
             recordList.push(record);
-        };
+        }
         return recordList;
     };
 
