@@ -6,6 +6,7 @@ const { CATALOG, CONTACT_ME, USERS, HELPER_DATA, STORAGE_REFERENCES, FEATURE_FLA
 export class CatalogApi {
     static create = (location, record) => CommonApi.create(`${CATALOG}${location}`, record);
     static read = location => CommonApi.read(`${CATALOG}${location}`);
+    static update = (location, record, recordId) => CommonApi.update(`${CATALOG}${location}${recordId}`, record);
 }
 
 export class ContactMeApi {

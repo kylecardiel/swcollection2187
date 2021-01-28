@@ -95,15 +95,26 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     const onSubmit = async collectible => {
         setSubmitDisabled(true);
-
-        if(looseFigureImageFile) collectible.looseImageUrl = await upload(looseFigureImageFile, collectible.assortment);
-        if(looseBlackFigureImageFile) collectible.looseBlackImageUrl = await upload(looseBlackFigureImageFile, collectible.assortment);
-        if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile, collectible.assortment);
-
         collectible.groups = groupsSelected;
-        Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
-        RecordUtils.addAuditFields(collectible, email);
-        CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible);
+        
+        if(figure) {
+            collectible.looseImageUrl = figure.looseImageUrl;
+            collectible.looseBlackImageUrl = figure.looseBlackImageUrl;
+            collectible.newImageUrl = figure.newImageUrl;
+            Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
+            RecordUtils.updateLastModifiedAuditFields(collectible, email);
+            CatalogApi.update(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible, figure.id);
+
+        } else {
+            if(looseFigureImageFile) collectible.looseImageUrl = await upload(looseFigureImageFile, collectible.assortment);
+            if(looseBlackFigureImageFile) collectible.looseBlackImageUrl = await upload(looseBlackFigureImageFile, collectible.assortment);
+            if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile, collectible.assortment);
+    
+            collectible.groups = groupsSelected;
+            Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
+            RecordUtils.addAuditFields(collectible, email);
+            CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible);
+        }
         setSubmitDisabled(false);
         closeModal();
     };
@@ -233,10 +244,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     let looseImageInput, looseBlackImageInput, newImageInput;
 
-    if(figure) {
-        looseImageInput = generatorInput(LABELS.LOOSE_IMAGE.KEY, figure.looseImageUrl);
-        newImageInput = generatorInput(LABELS.NIB_IMAGE.KEY, figure.newImageUrl);
-    } else {
+    if(!figure) {
         looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
         looseBlackImageInput = generatorImageInput(LABELS.LOOSE_BLACK_IMAGE.KEY, handleBlacLoosekImageChange);
         newImageInput = generatorImageInput(LABELS.NIB_IMAGE.KEY, handleNewImageChange);

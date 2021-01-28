@@ -18,6 +18,7 @@ import { modalStyles } from 'shared/styles/modalStyles';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
+import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { StorageReferenceConsumer } from 'context/storageReferenceContext';
@@ -28,7 +29,7 @@ import { UserConsumer } from 'components/auth/authContext';
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMaterials, assortments, screenSize, helperData }) => {
-    const { id } = useContext(UserConsumer);
+    const { id, email } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
@@ -160,6 +161,7 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
     const openModal = () => setIsModalOpen(!isModalOpen);
     const closeModal = () => setIsModalOpen(!isModalOpen);
     const modalSize = { height: '85%', width: '85%' };
+    const authEditor = email === ROLES.EMAIL;
 
     return (
         <React.Fragment>
@@ -217,7 +219,7 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                                         </>
                                     }
                                 </Grid>
-                                {figure.owned &&
+                                {!isModalOpen && figure.owned &&
                                     <>
                                         <Grid xs={12} md={10} item className={classes.detailComponent}>
                                             <Grid container spacing={1} className={classes.quantityGridContainer}>
@@ -281,14 +283,16 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                         figure={figure}
                     />
                 </Modal>
-                <div className={classes.editContainer}>
-                    <ActionButton
-                        buttonLabel={'Edit Figure Details'}
-                        icon={<EditIcon />}
-                        onClick={openModal}
-                        color={Color.blue()}
-                    />
-                </div>
+                {authEditor &&
+                    <div className={classes.editContainer}>
+                        <ActionButton
+                            buttonLabel={'Edit Figure Details'}
+                            icon={<EditIcon />}
+                            onClick={openModal}
+                            color={Color.blue()}
+                        />
+                    </div>
+                }
             </div>
         </React.Fragment>
     );
@@ -311,8 +315,7 @@ const useStyles = makeStyles((theme) => ({
     editContainer: {
         maxWidth: '99%',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     gridContainer: {
         display: 'flex',
