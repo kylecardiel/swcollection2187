@@ -43,7 +43,15 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const year = watch('year');
     const retailPrice = watch('retailPrice');
     const mulitipack = watch('mulitipack');
-    const [groupsSelected, setGroupsSelected] = useState(figure.groups || []);
+    const collectionTypeWatcher = watch('collectionType');
+    const seriesWatcher = watch('series');
+    const assortmentWatcher = watch('assortment');
+    const versionWatcher = watch('version');
+    const sourceMaterialWatcher = watch('sourceMaterial');
+    const exclusiveRetailerWatcher = watch('exclusiveRetailer');
+    const sourceTypeWatcher = watch('sourceType');
+
+    const [groupsSelected, setGroupsSelected] = useState([]);
 
     const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
     const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
@@ -141,23 +149,23 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     };
 
     const generateSelector = (label, selectorValues, value) => {
-        const text = label.KEY;
-        const selectorName = label.VALUE;
+        const { KEY, VALUE } = label;
+        const defaultValue = value ? value : GENERAL.MENU_ITEMS.NONE;
         return <>
-            {generatorInputText(text)}
+            {generatorInputText(KEY)}
             <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
                 <FormControl variant='outlined' className={classes.form}>
-                    <InputLabel ref={inputLabel} id={`${selectorName}-label`}>{selectorName}</InputLabel>
+                    <InputLabel ref={inputLabel} id={`${VALUE}-label`}>{VALUE}</InputLabel>
                     <Controller
-                        name={selectorName}
+                        name={VALUE}
                         control={control}
-                        defaultValue={value}
+                        defaultValue={defaultValue}
                         as={
                             <Select
-                                label={selectorName}
-                                labelId={selectorName}
+                                label={VALUE}
+                                labelId={VALUE}
                                 labelWidth={labelWidth}
-                                inputProps={{ name: selectorName }}
+                                inputProps={{ name: VALUE }}
                             >
                                 {menuItemNone}
                                 {selectorValues.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
@@ -224,13 +232,13 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, 'name');
 
     const { LABELS } = NEW_COLLECTION_FORM;
-    const collectionTypeInput = generateSelector(LABELS.COLLECTION_TYPE, collectionType.values, figure.collectionType);
-    const seriesTypeInput = generateSelector(LABELS.SERIES, series.values, figure.series);
-    const assortmentInput = generateSelector(LABELS.ASSORTMENT, formattedAssortment, figure.assortment);
-    const versionTypeInput = generateSelector(LABELS.VERSIONS, version.values, figure.version);
-    const sourceMaterialInput = generateSelector(LABELS.SOURCE_MATERIAL, formattedSourceMaterial, figure.sourceMaterial);
-    const exclusiveRetailerInput = generateSelector(LABELS.EXCLUSIVE_RETAILER, exclusiveRetailer.values, figure.exclusiveRetailer);
-    const sourceTypeInput = generateSelector(LABELS.SOURCE_TYPE, sourceType.values, figure.sourceType);
+    const collectionTypeInput = generateSelector(LABELS.COLLECTION_TYPE, collectionType.values, collectionTypeWatcher);
+    const seriesTypeInput = generateSelector(LABELS.SERIES, series.values, seriesWatcher);
+    const assortmentInput = generateSelector(LABELS.ASSORTMENT, formattedAssortment, assortmentWatcher);
+    const versionTypeInput = generateSelector(LABELS.VERSIONS, version.values, versionWatcher);
+    const sourceMaterialInput = generateSelector(LABELS.SOURCE_MATERIAL, formattedSourceMaterial, sourceMaterialWatcher);
+    const exclusiveRetailerInput = generateSelector(LABELS.EXCLUSIVE_RETAILER, exclusiveRetailer.values, exclusiveRetailerWatcher);
+    const sourceTypeInput = generateSelector(LABELS.SOURCE_TYPE, sourceType.values, sourceTypeWatcher);
     
     const nameInput = generatorInput(LABELS.NAME, name);
     const additionalNameDetailsInput = generatorInput(LABELS.ADD_NAME_DETAILS, additionalNameDetails);
@@ -240,7 +248,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const retailPriceInput = generatorInput(LABELS.RETAIL_PRICE, retailPrice);
     const mulitipackInput = generatorInput(LABELS.MULTIPACK, mulitipack);
 
-    const groupSelectInput = groupSelect(figure.groupSelect);
+    const groupSelectInput = groupSelect();
 
     let looseImageInput, looseBlackImageInput, newImageInput;
 
