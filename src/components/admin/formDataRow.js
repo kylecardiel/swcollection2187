@@ -1,7 +1,7 @@
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { Color } from 'shared/styles/color';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { HelperDataApi } from 'shared/api/orchestrator';
+import { HelperDataApi } from 'shared/api/helperDataApi';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';

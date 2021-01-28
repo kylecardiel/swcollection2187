@@ -10,7 +10,7 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { GENERAL, NEW_COLLECTION_FORM } from 'shared/constants/stringConstantsSelectors';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { CatalogApi } from 'shared/api/orchestrator';
+import { CatalogApi } from 'shared/api/catalogApi';
 import { Color } from 'shared/styles/color';
 import Container from '@material-ui/core/Container';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
