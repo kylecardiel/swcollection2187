@@ -12,7 +12,7 @@ import { FixedSizeList as List } from 'react-window';
 import { LoadingSpinner } from 'components/display/loading';
 import PropTypes from 'prop-types';
 import { StorageReferenceConsumer } from 'context/storageReferenceContext';
-import { UserApi } from 'shared/api/orchestrator';
+import { UserApi } from 'shared/api/userApi';
 import { UserConsumer } from 'components/auth/authContext';
 
 export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments }) => {

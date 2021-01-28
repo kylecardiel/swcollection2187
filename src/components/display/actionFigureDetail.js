@@ -23,7 +23,7 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import Typography from '@material-ui/core/Typography';
-import { UserApi } from 'shared/api/orchestrator';
+import { UserApi } from 'shared/api/userApi';
 import { UserConsumer } from 'components/auth/authContext';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;

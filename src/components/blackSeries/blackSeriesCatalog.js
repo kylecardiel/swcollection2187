@@ -1,5 +1,5 @@
 import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared/constants/stringConstantsSelectors';
-import { CatalogApi, UserApi } from 'shared/api/orchestrator';
+import { CatalogApi } from 'shared/api/catalogApi';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { ActionFigure } from 'components/display/actionfigure';
@@ -27,6 +27,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { TableStats } from 'components/blackSeries/tableStats';
+import { UserApi } from 'shared/api/userApi';
 import { UserConsumer } from 'components/auth/authContext';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
