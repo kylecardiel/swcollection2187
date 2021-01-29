@@ -10,12 +10,13 @@ import { SectionHeader } from 'components/display/details/sectionHeader';
 import Typography from '@material-ui/core/Typography';
 import { UserApi } from 'shared/api/userApi';
 
-export const OwnerDetails = ({ looseCompleteQtyInput, looseIncompleteQtyInput, newInBoxQtyInput, ownedId, userId }) => {
+export const CollectorDetails = ({ isMobile, looseCompleteQtyInput, looseIncompleteQtyInput, newInBoxQtyInput, ownedId, userId }) => {
     const [newInBoxQty, setNewInBoxQty] = useState(newInBoxQtyInput);
     const [looseCompleteQty, setLooseCompleteQty] = useState(looseCompleteQtyInput);
     const [looseIncompleteQty, setLooseIncompleteQty] = useState(looseIncompleteQtyInput);
 
-    const classes = useStyles();
+    const flexFlowDirection = isMobile ? 'column' : 'row';
+    const classes = useStyles({ flexFlowDirection });
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
 
     const changeQty = (e, specificQty) => {
@@ -58,11 +59,7 @@ export const OwnerDetails = ({ looseCompleteQtyInput, looseIncompleteQtyInput, n
                     </Grid>
                     <Grid xs={12} item>
                         {formInputs(BS_DETAILS_LABEL.NEW_IN_BOX_QUANTITY, 'newInBoxQty', newInBoxQty)}
-                    </Grid>
-                    <Grid xs={12} item>
                         {formInputs(BS_DETAILS_LABEL.OPEN_COMPLETE_QUANTITY, 'looseCompleteQty', looseCompleteQty)}
-                    </Grid>
-                    <Grid xs={12} item>
                         {formInputs(BS_DETAILS_LABEL.OPEN_INCOMPLETE_QUANTITY, 'looseIncompleteQty', looseIncompleteQty)}
                     </Grid>
                 </Grid>
@@ -82,7 +79,6 @@ export const OwnerDetails = ({ looseCompleteQtyInput, looseIncompleteQtyInput, n
 const useStyles = makeStyles((theme) => ({
     quantityGridContainer: {
         display: 'flex',
-        flexFlow: 'column',
         backgroundColor: Color.white(),
     },
     detailComponent: {
@@ -104,7 +100,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-OwnerDetails.propTypes = {
+CollectorDetails.propTypes = {
+    isMobile: PropTypes.bool.isRequired,
     looseCompleteQtyInput: PropTypes.number.isRequired,
     looseIncompleteQtyInput: PropTypes.number.isRequired,
     newInBoxQtyInput: PropTypes.number.isRequired,
