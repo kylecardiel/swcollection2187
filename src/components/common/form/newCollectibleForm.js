@@ -31,7 +31,24 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const { email } = useContext(UserConsumer);
  
     const setDefaults = () => {
-        return figure ? { defaultValues: figure } : {};
+        return figure 
+            ? { defaultValues: figure } 
+            : {
+                name: '',
+                additionalNameDetails: '',
+                seriesNumber: '',
+                wave: '',
+                year: '',
+                retailPrice: '',
+                mulitipack: '',
+                collectionType: '',
+                series: '',
+                assortment: '',
+                version: '',
+                sourceMaterial: '',
+                exclusiveRetailer: '',
+                sourceType: '',
+            };
     };
 
     const { register, handleSubmit, control, watch } = useForm(setDefaults());
@@ -150,7 +167,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     const generateSelector = (label, selectorValues, value) => {
         const { KEY, VALUE } = label;
-        const defaultValue = value ? value : GENERAL.MENU_ITEMS.NONE;
+        const defaultValue = value ? value : '';
         return <>
             {generatorInputText(KEY)}
             <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>

@@ -47,7 +47,8 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
         return color;
     };
 
-    const flexFlowDirection = screenSize.isMobileDevice && screenSize.isPortrait ? 'column' : 'row';
+    const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
+    const flexFlowDirection = isMobile ? 'column' : 'row';
 
     const classes = useStyles({ seriesColor: Color.primary(numberBackgroundColor()), flexFlowDirection });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
@@ -75,11 +76,23 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
     const modalSize = { height: '85%', width: '85%' };
     const authEditor = email === ROLES.EMAIL;
 
+    const editFigureButton = () => {
+        return <div className={classes.editContainer}>
+            <ActionButton
+                buttonLabel={'Edit Figure Details'}
+                icon={<EditIcon />}
+                onClick={openModal}
+                color={Color.blue()}
+            />
+        </div>;
+    };
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
             <div className={classes.root}>
                 <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'} />
+                {authEditor && isMobile && editFigureButton()}
                 <Container maxWidth='sm' className={classes.container}>
                     <Grid container spacing={2} className={classes.gridContainer}>
                         <Grid xs={12} md={5} item className={classes.verticalContainer}>
@@ -136,16 +149,7 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                         figure={figure}
                     />
                 </Modal>
-                {authEditor &&
-                    <div className={classes.editContainer}>
-                        <ActionButton
-                            buttonLabel={'Edit Figure Details'}
-                            icon={<EditIcon />}
-                            onClick={openModal}
-                            color={Color.blue()}
-                        />
-                    </div>
-                }
+                {authEditor && !isMobile && editFigureButton()}
             </div>
         </React.Fragment>
     );
@@ -166,9 +170,10 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     editContainer: {
+        marginTop: theme.spacing(2),
         maxWidth: '99%',
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
     },
     gridContainer: {
         display: 'flex',

@@ -86,5 +86,5 @@ const useStyles = makeStyles((theme) => ({
 
 ImageDetails.propTypes = {
     looseImageUrl: PropTypes.string.isRequired,
-    newImageUrl: PropTypes.array.isRequired,
+    newImageUrl: PropTypes.string.isRequired,
 };
