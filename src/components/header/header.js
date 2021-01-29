@@ -51,46 +51,51 @@ export const Header = ({ title }) => {
     const logoutButton = <HeaderButton buttonLabel={LOGOUT} onClick={logout} route={ROUTE_CONSTANTS.HOME} />;
 
     return (
-        <AppBar position='static' className={classes.navBar} >
-            <ToolBar>
-                <Container component='main' maxWidth='xl'>
-                    <Grid
-                        container
-                        direction='row'
-                        justify='space-between'
-                        alignItems='center'
-                        spacing={1}
-                    >
-                        <Grid container item xs={10} md={8} spacing={1}>
-                            <HeaderText text={title} textColor={'white'} />
+        <div className={classes.container}>
+            <AppBar position='static' className={classes.navBar} >
+                <ToolBar>
+                    <Container component='main' maxWidth='xl'>
+                        <Grid
+                            container
+                            direction='row'
+                            justify='space-between'
+                            alignItems='center'
+                            spacing={1}
+                        >
+                            <Grid container item xs={10} md={8} spacing={1}>
+                                <HeaderText text={title} textColor={'white'} />
+                            </Grid>
+                            <Grid container item xs={3} spacing={1} className={classes.normalButton}>
+                                {loggedIn 
+                                    ? logoutButton 
+                                    : <>{loginButton}{signUpButton}</> 
+                                }
+                            </Grid>
+                            <Grid container item xs={2} spacing={1} className={classes.collapseButton}>
+                                <Button onClick={toggleDrawer('right', true)}>
+                                    <MenuIcon className={classes.collapseButtonColor} />
+                                </Button>
+                                <Drawer
+                                    anchor={'right'}
+                                    open={state['right']}
+                                    onClose={toggleDrawer('right', false)}
+                                    className={classes.drawer}
+                                >
+                                    {list('right')}
+                                </Drawer>
+                            </Grid>
                         </Grid>
-                        <Grid container item xs={3} spacing={1} className={classes.normalButton}>
-                            {loggedIn 
-                                ? logoutButton 
-                                : <>{loginButton}{signUpButton}</> 
-                            }
-                        </Grid>
-                        <Grid container item xs={2} spacing={1} className={classes.collapseButton}>
-                            <Button onClick={toggleDrawer('right', true)}>
-                                <MenuIcon className={classes.collapseButtonColor} />
-                            </Button>
-                            <Drawer
-                                anchor={'right'}
-                                open={state['right']}
-                                onClose={toggleDrawer('right', false)}
-                                className={classes.drawer}
-                            >
-                                {list('right')}
-                            </Drawer>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </ToolBar>
-        </AppBar>
+                    </Container>
+                </ToolBar>
+            </AppBar>
+        </div>
     );
 };
 
 const useStyles = makeStyles(theme => ({
+    container: {
+        width: '100vw',
+    },
     navBar: {
         background: Color.blackGradient(),
         color: Color.white(),
