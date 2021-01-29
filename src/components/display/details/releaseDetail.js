@@ -10,9 +10,10 @@ export const ReleaseDetails = ({ assortment, exclusiveRetailer, multipack, multi
     const classes = useStyles();
 
     const generateDetail = (label, value) => {
+        const adjustedValue = value ? value : 'N/A';
         return <Typography variant='body2' gutterBottom className={classes.detailName}>
             <span className={classes.textStyle}>{label}:</span>
-            {` ${value}`}
+            {` ${adjustedValue}`}
         </Typography>;
     };
 
@@ -24,8 +25,8 @@ export const ReleaseDetails = ({ assortment, exclusiveRetailer, multipack, multi
             {generateDetail(BS_DETAILS_LABEL.ASSORTMENT, assortment)}
             {generateDetail(BS_DETAILS_LABEL.WAVE, wave)}
             {generateDetail(BS_DETAILS_LABEL.YEAR, year)}
-            {multipack && generateDetail(BS_DETAILS_LABEL.MULTIPACK, multipack)}
-            {exclusiveRetailer && generateDetail(BS_DETAILS_LABEL.EXCLUSIVE_RETAILER, exclusiveRetailer)}
+            {generateDetail(BS_DETAILS_LABEL.MULTIPACK, multipack)}
+            {generateDetail(BS_DETAILS_LABEL.EXCLUSIVE_RETAILER, exclusiveRetailer)}
             {generateDetail(BS_DETAILS_LABEL.RETAIL_PRICE, retailPriceFormatted)}
         </Grid>
     );

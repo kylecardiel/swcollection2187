@@ -18,30 +18,30 @@ export const CommonBreadCrumbs = ({ links, currentTitle }) => {
     });
 
     return (
-        <Grid container spacing={1} className={classes.container}>
-            <Grid item xs={12} >
-                <Breadcrumbs 
-                    aria-label='breadcrumb' 
-                    separator={<NavigateNextIcon fontSize='small' style={{ color: Color.yellow() }} />} 
-                    className={classes.breadcrumb}
-                >
-                    {linkBreadcrums}
-                    <Typography color='textPrimary' className={classes.text}>{currentTitle}</Typography>
-                </Breadcrumbs>
+        <div className={classes.container}>
+            <Grid container spacing={1} >
+                <Grid item xs={12} >
+                    <Breadcrumbs 
+                        aria-label='breadcrumb' 
+                        separator={<NavigateNextIcon fontSize='small' style={{ color: Color.yellow() }} />} 
+                        className={classes.breadcrumb}
+                    >
+                        {linkBreadcrums}
+                        <Typography color='textPrimary' className={classes.text}>{currentTitle}</Typography>
+                    </Breadcrumbs>
+                </Grid>
             </Grid>
-        </Grid>
+        </div>
     );
 };
 
 const useStyles = makeStyles(theme => ({
     container: {
-        backgroundColor: 'black',
-        width: '100.25%',
+        backgroundColor: Color.black(),
+        width: '100vw',
     },
     breadcrumb: {
-        marginLeft: theme.spacing(3),
-        padding: theme.spacing(.5),
-        paddingLeft: theme.spacing(4),
+        paddingLeft: theme.spacing(5),
     },
     text: {
         color: Color.yellow(),

@@ -182,7 +182,7 @@ export const BlackSeriesCatalog = props => {
         if(screenSize.isLargeDesktopOrLaptop){
             return { height: '70%', width: '50%' };
         } else if (screenSize.isMediumDesktopOrLaptop) {
-            return { height: '85%', width: '75%' };
+            return { height: '80%', width: '50%' };
         } else {
             return { height: '95%', width: '95%' };
         }
@@ -376,9 +376,9 @@ export const BlackSeriesCatalog = props => {
                             onRequestClose={closeModal}
                             style={modalStyles(modalSize())}
                         >
-                            <div className={classes.root}>
+                            <div className={classes.fitlerRoot}>
                                 <FormHeaderSection text={BS_DISPLAY_MODAL.HEADER} textColor={'white'} />
-                                <Grid container spacing={1}>
+                                <Grid container spacing={1} className={classes.fitlerContainer}>
                                     <Grid item xs={12}>
                                         <div className={classes.modelHeaderContainer}>
                                             <h3>{BS_DISPLAY_MODAL.LABELS.FILTER}</h3>
@@ -449,7 +449,6 @@ export const BlackSeriesCatalog = props => {
                                 />
                             </div>
                         </Grid>
-                        {/* <Grid item xs={3} md={1}>{''}</Grid> */}
                         <Grid item xs={6} md={3} className={classes.viewFilters}>
                             <ActionButton
                                 buttonLabel={!viewRecent ? BS_CATALOG.BUTTON.RECENT : BS_CATALOG.BUTTON.ALL}
@@ -489,6 +488,9 @@ export const BlackSeriesCatalog = props => {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+    },
+    fitlerContainer: {
+        padding: theme.spacing(2),
     },
     modalClose: {
         backgroundColor: Color.black(),

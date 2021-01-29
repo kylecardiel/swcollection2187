@@ -7,6 +7,7 @@ import { SectionHeader } from 'components/display/details/sectionHeader';
 import Typography from '@material-ui/core/Typography';
 
 export const CharacterDetail = ({ name, multipack, multipackFigures, similarFigures, sourceMaterial }) => {
+    // const height = similarFigures.length > 0 ? multipack ? 341 : 341 : 341;
     const classes = useStyles();
     return (
         <Grid xs={12} md={12} item className={classes.detailComponent}>
@@ -29,22 +30,20 @@ export const CharacterDetail = ({ name, multipack, multipackFigures, similarFigu
                     </Typography>
                 ))}
             </div>
-            {multipack &&
-                <>
-                    <Typography variant='body2' gutterBottom className={classes.detailName}>
-                        <span className={classes.textStyle}>{BS_DETAILS_LABEL.MULTIPACK_FIGURES(multipackFigures.length)}</span>
+            
+    
+            <Typography variant='body2' gutterBottom className={classes.detailName}>
+                <span className={classes.textStyle}>{BS_DETAILS_LABEL.MULTIPACK_FIGURES(multipackFigures.length)}</span>
+            </Typography>
+            <div className={classes.similarFiguresContainer}>
+                {multipack && multipackFigures.map(f => (
+                    <Typography variant='body2' gutterBottom className={classes.similarFigures} key={`${f.additionalNameDetails}-${f.assortment}`}>
+                        {`${f.name} `}
+                        {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
+                        {`[${f.multipack}]`}
                     </Typography>
-                    <div className={classes.similarFiguresContainer}>
-                        {multipackFigures.map(f => (
-                            <Typography key={f.name} variant='body2' gutterBottom className={classes.similarFigures}>
-                                {`${f.name} `}
-                                {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
-                                {`[${f.multipack}]`}
-                            </Typography>
-                        ))}
-                    </div>
-                </>
-            }
+                ))}
+            </div>
         </Grid>                   
     );
 };
@@ -55,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     },
     detailComponent: {
         border: '2px solid black',
+        height: 341,
     },
     textStyle: {
         fontWeight: 'bold',
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     },
     similarFiguresContainer: {
         marginLeft: theme.spacing(2),
-        maxHeight: 100,
+        height: 100,
         overflow: 'scroll',
     },
     similarFigures: {

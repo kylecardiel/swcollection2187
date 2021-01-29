@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
-import { OwnerDetails } from 'components/display/details/ownerDetail';
+import { CollectorDetails } from 'components/display/details/collectorDetails';
 import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { ReleaseDetails } from 'components/display/details/releaseDetail';
@@ -28,7 +28,6 @@ const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
 export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMaterials, assortments, screenSize, helperData }) => {
     const { id, email } = useContext(UserConsumer);
-
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const figure = singleList.filter(f => f.id === figureId)[0];
     const similarFigures = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.name === figure.name && el.id !== figure.id), 'year');
@@ -92,7 +91,7 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
             <div className={classes.root}>
                 <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'} />
-                {authEditor && isMobile && editFigureButton()}
+                {authEditor && editFigureButton()}
                 <Container maxWidth='sm' className={classes.container}>
                     <Grid container spacing={2} className={classes.gridContainer}>
                         <Grid xs={12} md={5} item className={classes.verticalContainer}>
@@ -125,7 +124,8 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                                     multipackFigures={multipackFigures}
                                 />
                                 {!isModalOpen && figure.owned &&
-                                    <OwnerDetails 
+                                    <CollectorDetails
+                                        isMobile={isMobile}
                                         looseCompleteQtyInput={figure.looseCompleteQty}
                                         looseIncompleteQtyInput={figure.looseIncompleteQty}
                                         newInBoxQtyInput={figure.newInBoxQty}
@@ -149,7 +149,6 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                         figure={figure}
                     />
                 </Modal>
-                {authEditor && !isMobile && editFigureButton()}
             </div>
         </React.Fragment>
     );
@@ -171,6 +170,7 @@ const useStyles = makeStyles((theme) => ({
     },
     editContainer: {
         marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(-2),
         maxWidth: '99%',
         display: 'flex',
         justifyContent: 'center',

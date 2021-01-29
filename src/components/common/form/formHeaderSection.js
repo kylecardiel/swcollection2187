@@ -10,7 +10,7 @@ export const FormHeaderSection = ({ text, textColor, backgroundColor }) => {
 
     return (
         <Grid data-testid='FormHeaderId' container spacing={1} className={classes.headerContainer}>
-            <Grid item xs={12} >
+            <Grid item xs={12}>
                 <HeaderText text={text} textColor={textColor}/>
             </Grid>
         </Grid>
@@ -22,14 +22,6 @@ const useStyles = makeStyles(theme => ({
         paddingTop: theme.spacing(3),
         paddingBottom: theme.spacing(3),
         background: props => props.backgroundColor ? props.backgroundColor : Color.blackGradient(),
-    },
-    cancelGrid: {
-        display: 'flex,',
-        justifyContent: 'flex-end',
-        alignItems: 'right',
-    },
-    cancelIconColor: {
-        color: 'white',
     },
 }));
 
