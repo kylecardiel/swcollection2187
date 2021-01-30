@@ -206,7 +206,7 @@ export const BlackSeriesCatalog = props => {
         if(screenSize.isLargeDesktopOrLaptop){
             return { height: '75%', width: '50%' };
         } else if (screenSize.isMediumDesktopOrLaptop) {
-            return { height: '80%', width: '50%' };
+            return { height: '65%', width: '50%' };
         } else {
             return { height: '95%', width: '95%' };
         }
