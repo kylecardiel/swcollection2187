@@ -101,6 +101,7 @@ export const Admin = ({ helperData }) => {
         { key: 'Collection Type', value: 'collectionType' },
         { key: 'Exclusive Retailer', value: 'exclusiveRetailer' },
         { key: 'Groups', value: 'groups' },
+        { key: 'PackageType', value: 'packageType' },
         { key: 'Series', value: 'series' },
         { key: 'Source Type', value: 'sourceType' },
         { key: 'Version', value: 'version' },
@@ -122,10 +123,12 @@ export const Admin = ({ helperData }) => {
     };
     buildTables();
 
+    console.log(helperData)
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={PAGES.ADMIN.TITLE} />
-            <Container component='main' maxWidth='lg'>
+            <Container component='main' maxWidth='xl'>
                 <Modal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
@@ -163,7 +166,7 @@ export const Admin = ({ helperData }) => {
                         </Grid>
                         <Grid item xs={12} className={classes.formDataContainer}>
                             <Grid item xs={12}>{ADMIN.TABLE_DETAILS}</Grid>
-                            <Container component='main' maxWidth='lg'>
+                            <Container component='main' maxWidth='xl'>
                                 <Grid container spacing={2} className={classes.gridContainer}>
                                     {displayFormDataInput &&
                                         <form
@@ -222,22 +225,26 @@ export const Admin = ({ helperData }) => {
                                     }
                                     {displayFormDataTable &&
                                         <>
-                                            <Grid item xs={12} md={3}>
+                                            <Grid item xs={12} md={3} lg={2}>
                                                 {sourceMaterialTable}
-                                                {sourceTypeTable}
                                             </Grid>
-                                            <Grid item xs={12} md={3}>
+                                            <Grid item xs={12} md={3} lg={2}>
+                                                {assortmentTable}
+                                            </Grid>
+                                            <Grid item xs={12} md={3} lg={2}>
                                                 {collectionTypeTable}
                                                 {seriesTable}
-                                                {assortmentTable}
                                                 {versionTable}
-                                                {exclusiveTable}
+                                                {sourceTypeTable}
                                             </Grid>
-                                            <Grid item xs={12} md={3}>
+                                            <Grid item xs={12} md={3} lg={2}>
                                                 {groupsTable}
                                             </Grid>
-                                            <Grid item xs={12} md={3}>
+                                            <Grid item xs={12} md={3} lg={2}>
                                                 {charactersTable}
+                                            </Grid>
+                                            <Grid item xs={12} md={3} lg={2}>
+                                                {exclusiveTable}
                                             </Grid>
                                         </>
                                     }
