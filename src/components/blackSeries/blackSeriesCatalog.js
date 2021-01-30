@@ -204,7 +204,7 @@ export const BlackSeriesCatalog = props => {
     
     const modalSize = () => {
         if(screenSize.isLargeDesktopOrLaptop){
-            return { height: '80%', width: '50%' };
+            return { height: '75%', width: '50%' };
         } else if (screenSize.isMediumDesktopOrLaptop) {
             return { height: '80%', width: '50%' };
         } else {

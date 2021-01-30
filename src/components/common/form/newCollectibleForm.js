@@ -70,7 +70,8 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const wave = watch('wave');
     const year = watch('year');
 
-    const [groupsSelected, setGroupsSelected] = useState([]);
+    const defaultGroups = figure ? figure.groups : [];
+    const [groupsSelected, setGroupsSelected] = useState(defaultGroups);
 
     const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
     const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
