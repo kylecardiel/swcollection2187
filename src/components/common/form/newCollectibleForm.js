@@ -34,41 +34,44 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         return figure 
             ? { defaultValues: figure } 
             : {
-                name: '',
                 additionalNameDetails: '',
+                assortment: '',
+                collectionType: '',
+                exclusiveRetailer: '',
+                name: '',
+                mulitipack: '',
+                packageType: '',
+                retailPrice: '',
+                series: '',
                 seriesNumber: '',
+                sourceMaterial: '',
+                sourceType: '',
+                version: '',
                 wave: '',
                 year: '',
-                retailPrice: '',
-                mulitipack: '',
-                collectionType: '',
-                series: '',
-                assortment: '',
-                version: '',
-                sourceMaterial: '',
-                exclusiveRetailer: '',
-                sourceType: '',
             };
     };
 
     const { register, handleSubmit, control, watch } = useForm(setDefaults());
 
-    const name = watch('name');
     const additionalNameDetails = watch('additionalNameDetails');
+    const assortmentWatcher = watch('assortment');
+    const collectionTypeWatcher = watch('collectionType');
+    const exclusiveRetailerWatcher = watch('exclusiveRetailer');
+    const name = watch('name');
+    const mulitipack = watch('mulitipack');
+    const retailPrice = watch('retailPrice');
+    const packageTypeWatcher = watch('packageType');
+    const seriesWatcher = watch('series');
     const seriesNumber = watch('seriesNumber');
+    const sourceMaterialWatcher = watch('sourceMaterial');
+    const sourceTypeWatcher = watch('sourceType');
+    const versionWatcher = watch('version');
     const wave = watch('wave');
     const year = watch('year');
-    const retailPrice = watch('retailPrice');
-    const mulitipack = watch('mulitipack');
-    const collectionTypeWatcher = watch('collectionType');
-    const seriesWatcher = watch('series');
-    const assortmentWatcher = watch('assortment');
-    const versionWatcher = watch('version');
-    const sourceMaterialWatcher = watch('sourceMaterial');
-    const exclusiveRetailerWatcher = watch('exclusiveRetailer');
-    const sourceTypeWatcher = watch('sourceType');
 
-    const [groupsSelected, setGroupsSelected] = useState([]);
+    const defaultGroups = figure ? figure.groups : [];
+    const [groupsSelected, setGroupsSelected] = useState(defaultGroups);
 
     const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
     const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
@@ -151,6 +154,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         collectionType,
         exclusiveRetailer,
         groups,
+        packageType,
         series,
         sourceMaterial, 
         sourceType,
@@ -197,7 +201,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const groupSelect = () => {
         return <>
             {generatorInputText('Groups')}
-            <Grid item xs={12} md={2} className={classes.inputBoxInColumn}>
+            <Grid item xs={12} md={10} className={classes.inputBoxInColumn}>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="Groups-label">{'Groups'}</InputLabel>
                     <Select
@@ -249,21 +253,22 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, 'name');
 
     const { LABELS } = NEW_COLLECTION_FORM;
-    const collectionTypeInput = generateSelector(LABELS.COLLECTION_TYPE, collectionType.values, collectionTypeWatcher);
-    const seriesTypeInput = generateSelector(LABELS.SERIES, series.values, seriesWatcher);
     const assortmentInput = generateSelector(LABELS.ASSORTMENT, formattedAssortment, assortmentWatcher);
-    const versionTypeInput = generateSelector(LABELS.VERSIONS, version.values, versionWatcher);
-    const sourceMaterialInput = generateSelector(LABELS.SOURCE_MATERIAL, formattedSourceMaterial, sourceMaterialWatcher);
+    const collectionTypeInput = generateSelector(LABELS.COLLECTION_TYPE, collectionType.values, collectionTypeWatcher);
     const exclusiveRetailerInput = generateSelector(LABELS.EXCLUSIVE_RETAILER, exclusiveRetailer.values, exclusiveRetailerWatcher);
+    const packageTypeInput = generateSelector(LABELS.PACKAGE_TYPE, packageType.values, packageTypeWatcher);
+    const seriesTypeInput = generateSelector(LABELS.SERIES, series.values, seriesWatcher);
+    const sourceMaterialInput = generateSelector(LABELS.SOURCE_MATERIAL, formattedSourceMaterial, sourceMaterialWatcher);
     const sourceTypeInput = generateSelector(LABELS.SOURCE_TYPE, sourceType.values, sourceTypeWatcher);
+    const versionTypeInput = generateSelector(LABELS.VERSIONS, version.values, versionWatcher);
     
-    const nameInput = generatorInput(LABELS.NAME, name);
     const additionalNameDetailsInput = generatorInput(LABELS.ADD_NAME_DETAILS, additionalNameDetails);
+    const mulitipackInput = generatorInput(LABELS.MULTIPACK, mulitipack);
+    const nameInput = generatorInput(LABELS.NAME, name);
+    const retailPriceInput = generatorInput(LABELS.RETAIL_PRICE, retailPrice);
     const seriesNumberInput = generatorInput(LABELS.WAVE, wave);
     const waveInput = generatorInput(LABELS.SERIES_NUMBER, seriesNumber);
     const yearInput = generatorInput(LABELS.YEAR, year, true);
-    const retailPriceInput = generatorInput(LABELS.RETAIL_PRICE, retailPrice);
-    const mulitipackInput = generatorInput(LABELS.MULTIPACK, mulitipack);
 
     const groupSelectInput = groupSelect();
 
@@ -302,9 +307,11 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
                         {yearInput}
                         {retailPriceInput}
                         
-                        {groupSelectInput}
-                        {exclusiveRetailerInput}
                         {mulitipackInput}
+                        {exclusiveRetailerInput}
+                        {packageTypeInput}
+
+                        {groupSelectInput}
 
                         {looseImageInput}
                         {looseBlackImageInput}

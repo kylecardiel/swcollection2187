@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { SectionHeader } from 'components/display/details/sectionHeader';
 import Typography from '@material-ui/core/Typography';
 
-export const ReleaseDetails = ({ assortment, exclusiveRetailer, multipack, multipackQuantity, retailPrice, wave, year }) => {
+export const ReleaseDetails = ({ assortment, exclusiveRetailer, multipack, multipackQuantity, packageType, retailPrice, wave, year }) => {
     const classes = useStyles();
 
     const generateDetail = (label, value) => {
@@ -18,6 +18,7 @@ export const ReleaseDetails = ({ assortment, exclusiveRetailer, multipack, multi
     };
 
     const retailPriceFormatted = `$${(retailPrice * (multipackQuantity)).toFixed(2)}`;
+    const dontWantToBackfillPackageType = packageType ? packageType : 'Standard Box';
 
     return (
         <Grid xs={12} md={10} item className={classes.detailComponent}>
@@ -28,6 +29,7 @@ export const ReleaseDetails = ({ assortment, exclusiveRetailer, multipack, multi
             {generateDetail(BS_DETAILS_LABEL.MULTIPACK, multipack)}
             {generateDetail(BS_DETAILS_LABEL.EXCLUSIVE_RETAILER, exclusiveRetailer)}
             {generateDetail(BS_DETAILS_LABEL.RETAIL_PRICE, retailPriceFormatted)}
+            {generateDetail(BS_DETAILS_LABEL.PACKAGE_TYPE, dontWantToBackfillPackageType)}
         </Grid>
     );
 };
@@ -50,6 +52,7 @@ ReleaseDetails.propTypes = {
     exclusiveRetailer: PropTypes.string,
     multipack: PropTypes.string,
     multipackQuantity: PropTypes.number,
+    packageType: PropTypes.string,
     retailPrice: PropTypes.string.isRequired,
     wave: PropTypes.string.isRequired,
     year: PropTypes.string.isRequired,

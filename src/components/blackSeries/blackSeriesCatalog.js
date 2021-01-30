@@ -88,6 +88,27 @@ export const BlackSeriesCatalog = props => {
         setUserDisplaySettings('filterByYear', value);
     };
 
+    const [filterBySourceType, setFilterBySourceType] = useState(filterState.filterBySourceType);
+    const handleSourceTypeChange = e => {
+        const value = e.target.value;
+        setFilterBySourceType(value);
+        setUserDisplaySettings('filterBySourceType', value);
+    };
+
+    const [filterByPackageType, setFilterByPackageType] = useState(filterState.filterByPackageType);
+    const handlePackageTypeChange = e => {
+        const value = e.target.value;
+        setFilterByPackageType(value);
+        setUserDisplaySettings('filterByPackageType', value);
+    };
+
+    const [filterBySeries, setFilterBySeries] = useState(filterState.filterBySeries);
+    const handleSeriesChange = e => {
+        const value = e.target.value;
+        setFilterBySeries(value);
+        setUserDisplaySettings('filterBySeries', value);
+    };
+
     const [newBoxImage, setNewBoxImage] = useState(filterState.newBoxImage);
     const handleImageChange = () => {
         setNewBoxImage(!newBoxImage);
@@ -162,6 +183,9 @@ export const BlackSeriesCatalog = props => {
         setFilterByAssortment(null);
         setNewBoxImage(false);
         setFilterByYear(null);
+        setFilterByPackageType(null);
+        setFilterBySeries(null);
+        setFilterBySourceType(null);
 
         setViewAllFigures(true);
         setViewOnlyOwnedFigures(false);
@@ -180,7 +204,7 @@ export const BlackSeriesCatalog = props => {
     
     const modalSize = () => {
         if(screenSize.isLargeDesktopOrLaptop){
-            return { height: '70%', width: '50%' };
+            return { height: '75%', width: '50%' };
         } else if (screenSize.isMediumDesktopOrLaptop) {
             return { height: '80%', width: '50%' };
         } else {
@@ -238,7 +262,16 @@ export const BlackSeriesCatalog = props => {
         if (filterByGroup) mergedList = mergedList.filter(el => el.groups.includes(filterByGroup));
         if (filterByVersion) mergedList = mergedList.filter(el => el.version === filterByVersion);
         if (filterByAssortment) mergedList = mergedList.filter(el => el.assortment === filterByAssortment);
+        if (filterBySourceType) mergedList = mergedList.filter(el => el.sourceType === filterBySourceType);
+        if (filterBySeries) mergedList = mergedList.filter(el => el.series === filterBySeries);
         if (filterByYear) mergedList = mergedList.filter(el => parseInt(el.year) === filterByYear);
+        if (filterByPackageType) {
+            if (filterByPackageType === 'Blister Card') {
+                mergedList = mergedList.filter(el => el.packageType === filterByPackageType);
+            } else {
+                mergedList = mergedList.filter(el => el.packageType !== 'Blister Card');
+            }
+        }
         if (sortingAttribute) {
             if (sortingAttribute === 'seriesNumber') {
                 return SortingUtils.sortDataByStringIntAsc(mergedList, sortingAttribute);
@@ -253,80 +286,53 @@ export const BlackSeriesCatalog = props => {
     const displayList = massageList();
 
     const filteribleYears = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021];
-    let sourceMaterialFilterComp, characterFilterComp, groupFilterComp, versionFilterComp, assortmentFilterComp, sortingAttibuteFilter, yearFilter;
+    let assortmentFilterComp,
+        characterFilterComp, 
+        groupFilterComp,
+        packageTypeFilterComp,
+        seriesFilterComp,
+        sourceMaterialFilterComp,
+        sourceTypeFilterComp,
+        versionFilterComp, 
+        yearFilter;
+
+    let sortingAttibuteFilter;
+
+    const buildFilter = (key, menuList, onChange, value) => {
+        return <FormFilter
+            key={key}
+            menuList={menuList}
+            onChange={onChange}
+            label={key}
+            inputLabel={inputLabel}
+            labelWidth={labelWidth}
+            value={value}
+        />;
+    };
+
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
-            const { assortment, characters, sourceMaterial, groups, version } = helperData;
+            const { assortment, characters, groups, packageType, series, sourceMaterial, sourceType, version } = helperData;
             const formattedSourceMaterial = convertArrayObjectToArrayOfObjectProperty(sourceMaterial, NEW_COLLECTION_FORM_LABELS.NAME.VALUE);
             const formattedAssortment = convertArrayObjectToArrayOfObjectProperty(assortment, NEW_COLLECTION_FORM_LABELS.NAME.VALUE);
-            sourceMaterialFilterComp = <FormFilter
-                key={NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY}
-                menuList={formattedSourceMaterial}
-                onChange={handleSourceMaterialChange}
-                label={NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY}
-                inputLabel={inputLabel}
-                labelWidth={labelWidth}
-                value={filterBySourceMaterial}
-            />;
-            characterFilterComp = <FormFilter
-                key={BS_DISPLAY_MODAL.LABELS.CHARACTERS}
-                menuList={characters.values}
-                onChange={handleCharacterChange}
-                label={BS_DISPLAY_MODAL.LABELS.CHARACTERS}
-                inputLabel={inputLabel}
-                labelWidth={labelWidth}
-                value={filterByCharacter}
-            />;
-            groupFilterComp = <FormFilter
-                key={BS_DISPLAY_MODAL.LABELS.GROUPS}
-                menuList={groups.values}
-                onChange={handleGroupChange}
-                label={BS_DISPLAY_MODAL.LABELS.GROUPS}
-                inputLabel={inputLabel}
-                labelWidth={labelWidth}
-                value={filterByGroup}
-            />;
-            versionFilterComp = <FormFilter
-                key={NEW_COLLECTION_FORM_LABELS.VERSIONS.KEY}
-                menuList={version.values}
-                onChange={handleVersionChange}
-                label={NEW_COLLECTION_FORM_LABELS.VERSIONS.KEY}
-                inputLabel={inputLabel}
-                labelWidth={labelWidth}
-                value={filterByVersion}
-            />;
-            assortmentFilterComp = <FormFilter
-                key={NEW_COLLECTION_FORM_LABELS.ASSORTMENT.KEY}
-                menuList={formattedAssortment}
-                onChange={handleAssortmentChange}
-                label={NEW_COLLECTION_FORM_LABELS.ASSORTMENT.KEY}
-                inputLabel={inputLabel}
-                labelWidth={labelWidth}
-                value={filterByAssortment}
-            />;
-            sortingAttibuteFilter = <FormFilter
-                key={BS_DISPLAY_MODAL.LABELS.SORTING}
-                menuList={[
+
+            assortmentFilterComp = buildFilter(NEW_COLLECTION_FORM_LABELS.ASSORTMENT.KEY, formattedAssortment, handleAssortmentChange, filterByAssortment);
+            characterFilterComp = buildFilter(BS_DISPLAY_MODAL.LABELS.CHARACTERS, characters.values, handleCharacterChange, filterByCharacter);
+            groupFilterComp = buildFilter(BS_DISPLAY_MODAL.LABELS.GROUPS, groups.values, handleGroupChange, filterByGroup);
+            packageTypeFilterComp = buildFilter(NEW_COLLECTION_FORM_LABELS.PACKAGE_TYPE.KEY, packageType.values, handlePackageTypeChange, filterByPackageType);
+            seriesFilterComp = buildFilter(NEW_COLLECTION_FORM_LABELS.SERIES.KEY, series.values, handleSeriesChange, filterBySeries);
+            sourceMaterialFilterComp = buildFilter(NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY, formattedSourceMaterial, handleSourceMaterialChange, filterBySourceMaterial);
+            sourceTypeFilterComp = buildFilter(NEW_COLLECTION_FORM_LABELS.SOURCE_TYPE.KEY, sourceType.values, handleSourceTypeChange, filterBySourceType);
+            versionFilterComp = buildFilter(NEW_COLLECTION_FORM_LABELS.VERSIONS.KEY, version.values, handleVersionChange, filterByVersion);
+            yearFilter = buildFilter(NEW_COLLECTION_FORM_LABELS.YEAR.KEY, filteribleYears, handleYearChange, filterByYear);
+
+            sortingAttibuteFilter = buildFilter(BS_DISPLAY_MODAL.LABELS.SORTING, 
+                [
                     NEW_COLLECTION_FORM_LABELS.NAME.KEY, 
                     NEW_COLLECTION_FORM_LABELS.SERIES_NUMBER.KEY, 
                     NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY, 
                     NEW_COLLECTION_FORM_LABELS.YEAR.KEY,
-                ]}
-                onChange={handleSortingChange}
-                label={BS_DISPLAY_MODAL.LABELS.SORTING}
-                inputLabel={inputLabel}
-                labelWidth={labelWidth}
-                value={sortingAttribute}
-            />;
-            yearFilter = <FormFilter
-                key={NEW_COLLECTION_FORM_LABELS.YEAR.KEY}
-                menuList={filteribleYears}
-                onChange={handleYearChange}
-                label={NEW_COLLECTION_FORM_LABELS.YEAR.KEY}
-                inputLabel={inputLabel}
-                labelWidth={labelWidth}
-                value={filterByYear}
-            />;
+                ], handleSortingChange, sortingAttribute);
         }
     };
     buildFilters();
@@ -387,9 +393,13 @@ export const BlackSeriesCatalog = props => {
                                     <Grid item md={4} xs={12}>{sourceMaterialFilterComp}</Grid>
                                     <Grid item md={4} xs={12}>{characterFilterComp}</Grid>
                                     <Grid item md={4} xs={12}>{groupFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{sourceTypeFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{seriesFilterComp}</Grid>
                                     <Grid item md={4} xs={12}>{assortmentFilterComp}</Grid>
-                                    <Grid item md={4} xs={12}>{versionFilterComp}</Grid>
                                     <Grid item md={4} xs={12}>{yearFilter}</Grid>
+                                    <Grid item md={4} xs={12}>{versionFilterComp}</Grid>
+                                    <Grid item md={4} xs={12}>{packageTypeFilterComp}</Grid>
+                                    
                                     <Grid item md={4} xs={12}>{allViewCheckBox}</Grid>
                                     <Grid item md={4} xs={12}>{ownedCheckBox}</Grid>
                                     <Grid item md={4} xs={12}>{unownedCheckBox}</Grid>

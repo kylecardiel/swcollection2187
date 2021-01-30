@@ -107,6 +107,7 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                                     exclusiveRetailer={figure.exclusiveRetailer}
                                     multipack={figure.multipack}
                                     multipackQuantity={multipackFigureQty}
+                                    packageType={figure.packageType}
                                     retailPrice={figure.retailPrice}
                                     wave={figure.wave}
                                     year={figure.year}
