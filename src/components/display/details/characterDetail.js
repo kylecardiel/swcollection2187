@@ -1,5 +1,5 @@
 import React from 'react';
-import { Browser } from 'shared/util/browserUtil';
+import { isChrome } from 'shared/util/browserUtil';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +8,7 @@ import { SectionHeader } from 'components/display/details/sectionHeader';
 import Typography from '@material-ui/core/Typography';
 
 export const CharacterDetail = ({ name, multipack, multipackFigures, similarFigures, sourceMaterial }) => {
-    const containerHeight = Browser.isChrome() ? 315 : 343;
+    const containerHeight = isChrome ? 315 : 343;
     const classes = useStyles({ containerHeight });
 
     return (

@@ -1,19 +1,21 @@
 import { database } from 'backend/Firebase';
-export class CommonApi {
-    static create = (location, record) => {
-        const ref = database.ref(location);
-        ref.push(record);
-    };
+import { isProduction } from 'shared/util/environment';
 
-    static read = location  => database.ref(location);
+const envPrefix = isProduction ? '' : 'zzzDevData/' ;  
 
-    static update = (location, record)  => {
-        const ref = database.ref(`${location}`);
-        ref.update(record);
-    };
+export const create = (location, record) => {
+    const ref = database.ref(`${envPrefix}${location}`);
+    ref.push(record);
+};
 
-    static delete = (location, recordId)   => {
-        const ref = database.ref(`${location}${recordId}`);
-        ref.remove();
-    };
-}
+export const read = location => database.ref(location);
+
+export const update = (location, record) => {
+    const ref = database.ref(`${location}`);
+    ref.update(record);
+};
+
+export const deleteRecord = (location, recordId) => {
+    const ref = database.ref(`${location}${recordId}`);
+    ref.remove();
+};

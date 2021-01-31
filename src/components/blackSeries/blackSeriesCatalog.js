@@ -206,7 +206,7 @@ export const BlackSeriesCatalog = props => {
         if(screenSize.isLargeDesktopOrLaptop){
             return { height: '75%', width: '50%' };
         } else if (screenSize.isMediumDesktopOrLaptop) {
-            return { height: '65%', width: '50%' };
+            return { height: '80%', width: '50%' };
         } else {
             return { height: '95%', width: '95%' };
         }
@@ -387,7 +387,7 @@ export const BlackSeriesCatalog = props => {
                                 <Grid container spacing={1} className={classes.fitlerContainer}>
                                     <Grid item xs={12}>
                                         <div className={classes.modelHeaderContainer}>
-                                            <h3>{BS_DISPLAY_MODAL.LABELS.FILTER}</h3>
+                                            {BS_DISPLAY_MODAL.LABELS.FILTER}
                                         </div>
                                     </Grid>
                                     <Grid item md={4} xs={12}>{sourceMaterialFilterComp}</Grid>
@@ -405,13 +405,13 @@ export const BlackSeriesCatalog = props => {
                                     <Grid item md={4} xs={12}>{unownedCheckBox}</Grid>
                                     <Grid item md={4} xs={12}>
                                         <div className={classes.modelHeaderContainer}>
-                                            <h3>{BS_DISPLAY_MODAL.LABELS.SORT}</h3>
+                                            {BS_DISPLAY_MODAL.LABELS.SORT}
                                         </div>
                                         {sortingAttibuteFilter}
                                     </Grid>
                                     <Grid item md={6} xs={12}>
                                         <div className={classes.modelHeaderContainer}>
-                                            <h3>{BS_DISPLAY_MODAL.LABELS.DISPLAY}</h3>
+                                            {BS_DISPLAY_MODAL.LABELS.DISPLAY}
                                         </div>
                                         <div className={classes.container}>
                                             <ActionButton
@@ -600,10 +600,11 @@ const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         justifyContent: 'center',
-        marginTop: theme.spacing(5),
+        marginTop: theme.spacing(2),
     },
     modelHeaderContainer: {
         marginLeft: theme.spacing(3),
+        fontWeight: 'bold',
     },
     checkBoxContainer: {
         display: 'flex',
