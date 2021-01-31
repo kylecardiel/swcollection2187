@@ -87,12 +87,10 @@ const useStyles = makeStyles((theme) => ({
     seriesNumberText: {
         paddingTop: theme.spacing(5),
     },
-    quantity: {
-        marginLeft: theme.spacing(2),
-    },
     totalQuanity: {
         border: '2px solid black',
         textAlign: 'center',
+        backgroundColor: Color.white(),
     },
     textStyle: {
         fontWeight: 'bold',

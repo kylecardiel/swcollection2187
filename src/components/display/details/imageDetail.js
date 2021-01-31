@@ -41,14 +41,14 @@ export const ImageDetails = ({ looseImageUrl, newImageUrl }) => {
     );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     detailsContainer: {
         flexGrow: 1,
-        backgroundColor: Color.white(),
+        backgroundColor: Color.nearWhite(),
     },
     largeImageArrowContainer: {
         border: '2px solid black',
-        minHeight: 375,
+        maxheight: 415,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -57,14 +57,16 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: Color.grey(),
         },
+        backgroundColor: Color.white(),
     },
     largeImageContainer: {
         border: '2px solid black',
-        minHeight: 375,
+        maxheight: 415,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
+        backgroundColor: Color.white(),
     },
     smallImageContainer: {
         border: '2px solid black',
@@ -73,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
+        backgroundColor: Color.white(),
     },
     largeImage: {
         flexShrink: 0,

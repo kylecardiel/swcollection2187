@@ -1,4 +1,5 @@
 import React from 'react';
+import { Browser } from 'shared/util/browserUtil';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,8 +8,9 @@ import { SectionHeader } from 'components/display/details/sectionHeader';
 import Typography from '@material-ui/core/Typography';
 
 export const CharacterDetail = ({ name, multipack, multipackFigures, similarFigures, sourceMaterial }) => {
-    // const height = similarFigures.length > 0 ? multipack ? 341 : 341 : 341;
-    const classes = useStyles();
+    const containerHeight = Browser.isChrome() ? 315 : 343;
+    const classes = useStyles({ containerHeight });
+
     return (
         <Grid xs={12} md={12} item className={classes.detailComponent}>
             <SectionHeader text={BS_DETAILS_LABEL.CHARACTER_DETAILS_HEADER} />
@@ -54,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
     detailComponent: {
         border: '2px solid black',
-        height: 341,
+        height: props => props.containerHeight,
     },
     textStyle: {
         fontWeight: 'bold',
