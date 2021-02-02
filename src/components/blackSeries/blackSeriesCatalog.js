@@ -3,7 +3,7 @@ import { CatalogApi } from 'shared/api/catalogApi';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { ActionFigure } from 'components/display/actionfigure';
-import { camelCase } from 'lodash';
+import camelCase from 'lodash/camelCase';
 import ClearIcon from '@material-ui/icons/Clear';
 import { Color } from 'shared/styles/color';
 import Container from '@material-ui/core/Container';

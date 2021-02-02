@@ -33,10 +33,12 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "source-map-explorer": "^2.5.2",
     "styled-components": "^4.4.1",
     "uuid": "^8.0.0"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

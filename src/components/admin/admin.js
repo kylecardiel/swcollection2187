@@ -11,7 +11,7 @@ import { FormDataTable } from 'components/admin/formDataTable';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import Grid from '@material-ui/core/Grid';
 import { HelperDataApi } from 'shared/api/helperDataApi';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
