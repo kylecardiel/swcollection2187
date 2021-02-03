@@ -6,7 +6,7 @@ import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
 import { HowItWorks } from 'components/homePage/howItWorks';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { makeStyles } from '@material-ui/core/styles';
-import { MediaCard } from 'components/common/card';
+import { MediaCard } from 'components/common/cards/mediaCard';
 import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { UserConsumer } from 'components/auth/authContext';
