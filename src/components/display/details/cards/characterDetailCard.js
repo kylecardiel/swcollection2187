@@ -1,11 +1,11 @@
-import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 
 export const CharacterDetailCard = ({ multipack, multipackFigures, name, similarFigures, sourceMaterial }) => {
     const classes = useStyles();

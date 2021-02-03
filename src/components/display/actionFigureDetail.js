@@ -1,30 +1,31 @@
-import React, { useContext, useState } from 'react';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import EditIcon from '@material-ui/icons/Edit';
+import { UserConsumer } from 'components/auth/authContext';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
-import { PAGES } from 'shared/constants/stringConstantsSelectors';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import { CharacterDetailCard } from 'components/display/details/cards/characterDetailCard';
 import { CollectorDetailCard } from 'components/display/details/cards/collectorDetailCard';
-import { Color } from 'shared/styles/color';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import Container from '@material-ui/core/Container';
-import EditIcon from '@material-ui/icons/Edit';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import Grid from '@material-ui/core/Grid';
 import { ImageDetailCard } from 'components/display/details/cards/imageDetailCard';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from 'react-modal';
-import { modalStyles } from 'shared/styles/modalStyles';
-import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
-import PropTypes from 'prop-types';
-import { RecordUtils } from 'shared/util/recordUtils';
 import { ReleaseDetailCard } from 'components/display/details/cards/releaseDetailCard';
+import { getAssortmentColor, getSourceColor } from 'components/display/figureColors';
+import PropTypes from 'prop-types';
+import React, { useContext, useState } from 'react';
+import Modal from 'react-modal';
 import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { PAGES } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
+import { modalStyles } from 'shared/styles/modalStyles';
+import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { UserConsumer } from 'components/auth/authContext';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const ActionFigureDetails = ({ catalogList, figureId, helperData, screenSize, userList }) => {
+export const ActionFigureDetails = ({ assortments, catalogList, figureId, helperData, screenSize, sourceMaterials, userList }) => {
     const { id, email } = useContext(UserConsumer);
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const figure = singleList.filter(f => f.id === figureId)[0];
@@ -33,6 +34,19 @@ export const ActionFigureDetails = ({ catalogList, figureId, helperData, screenS
 
     const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
     const flexFlowDirection = isMobile ? 'column' : 'row';
+
+    const assortmentBackgroundColor = () => {
+        const isSeries4 = figure.assortment === 'Series 4.0';
+        let color = '';
+        if (isSeries4) {
+            const sourceMaterialColors = getSourceColor(sourceMaterials, figure.sourceMaterial);
+            color = sourceMaterialColors.backgroundColor;
+        } else {
+            const assortmentColors = getAssortmentColor(assortments, figure.assortment);
+            color = assortmentColors.backgroundColor;
+        }
+        return color;
+    };
 
     const classes = useStyles({ flexFlowDirection });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
@@ -92,6 +106,7 @@ export const ActionFigureDetails = ({ catalogList, figureId, helperData, screenS
                             <Grid item md={8} xs={12} >
                                 <ReleaseDetailCard 
                                     assortment={figure.assortment}
+                                    assortmentBackgroundColor={assortmentBackgroundColor()}
                                     assortmentNumber={figure.seriesNumber}
                                     exclusiveRetailer={figure.exclusiveRetailer}
                                     multipack={figure.multipack}
@@ -187,9 +202,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 ActionFigureDetails.propTypes = {
+    assortments: PropTypes.array.isRequired,
     catalogList: PropTypes.array.isRequired,
     figureId: PropTypes.string.isRequired,
     helperData: PropTypes.object.isRequired,
     screenSize: PropTypes.object.isRequired,
+    sourceMaterials: PropTypes.array.isRequired,
     userList: PropTypes.array.isRequired,
 };

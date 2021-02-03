@@ -1,22 +1,20 @@
 import Card from '@material-ui/core/Card';
-import { Color } from 'shared/styles/color';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import { makeStyles } from '@material-ui/core/styles';
+import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
-import { StorageReferenceConsumer } from 'context/storageReferenceContext';
+import { Color } from 'shared/styles/color';
 
 export const ImageDetailCard = ({ looseImageUrl, newImageUrl }) => {
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
     const [newImage, setNewImage] = useState(false);
-    const changeImage = changeTo => {
-        const changeImage = changeTo === undefined ? !newImage : changeTo;
-        setNewImage(changeImage);
-    };
+    const arrowChangeImage = () => setNewImage(!newImage);
+    const changeImage = changeTo => setNewImage(changeTo);
 
     const classes = useStyles();
 
@@ -27,13 +25,13 @@ export const ImageDetailCard = ({ looseImageUrl, newImageUrl }) => {
     return (
         <Card className={classes.card}>
             <Grid container spacing={2} className={classes.detailsContainer}>
-                <Grid xs={1} item className={classes.largeImageArrowContainer} onClick={changeImage}>
+                <Grid xs={1} item className={classes.largeImageArrowContainer} onClick={arrowChangeImage}>
                     <KeyboardArrowLeftIcon />
                 </Grid>
                 <Grid xs={10} item className={classes.largeImageContainer}>
                     <img className={classes.largeImage} alt='complex' src={largeImage} />
                 </Grid>
-                <Grid xs={1} item className={classes.largeImageArrowContainer} onClick={changeImage}>
+                <Grid xs={1} item className={classes.largeImageArrowContainer} onClick={arrowChangeImage}>
                     <KeyboardArrowRightIcon />
                 </Grid>
                 <Divider/>
