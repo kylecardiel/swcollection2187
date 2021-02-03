@@ -109,7 +109,8 @@ export const BlackSeriesCatalog = props => {
         setUserDisplaySettings('filterBySeries', value);
     };
 
-    const [newBoxImage, setNewBoxImage] = useState(filterState.newBoxImage);
+    const defaultNewBoxImage = filterState.figureSizeSmall === undefined ? screenSize.isMobileDevice : filterState.figureSizeSmall;
+    const [newBoxImage, setNewBoxImage] = useState(defaultNewBoxImage);
     const handleImageChange = () => {
         setNewBoxImage(!newBoxImage);
         setUserDisplaySettings('newBoxImage', !newBoxImage);

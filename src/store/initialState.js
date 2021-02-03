@@ -11,7 +11,7 @@ export const initialState = {
             filterByVersion: null,
             filterByAssortment: null,
             filterByYear: null,
-            newBoxImage: false,
+            newBoxImage: undefined,
             sortingAttribute: null,
             viewAllFigures: true,
             viewOnlyOwnedFigures: false,
