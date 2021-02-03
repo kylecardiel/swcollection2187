@@ -1,55 +1,40 @@
 import React, { useContext, useState } from 'react';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
-import { CharacterDetail } from 'components/display/details/characterDetail';
+import { CharacterDetailCard } from 'components/display/details/cards/characterDetailCard';
+import { CollectorDetailCard } from 'components/display/details/cards/collectorDetailCard';
 import { Color } from 'shared/styles/color';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import Container from '@material-ui/core/Container';
 import EditIcon from '@material-ui/icons/Edit';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
 import Grid from '@material-ui/core/Grid';
-import { ImageDetails } from 'components/display/details/imageDetail';
+import { ImageDetailCard } from 'components/display/details/cards/imageDetailCard';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
-import { CollectorDetails } from 'components/display/details/collectorDetails';
 import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { ReleaseDetails } from 'components/display/details/releaseDetail';
+import { ReleaseDetailCard } from 'components/display/details/cards/releaseDetailCard';
 import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import Typography from '@material-ui/core/Typography';
 import { UserConsumer } from 'components/auth/authContext';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMaterials, assortments, screenSize, helperData }) => {
+export const ActionFigureDetails = ({ catalogList, figureId, helperData, screenSize, userList }) => {
     const { id, email } = useContext(UserConsumer);
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const figure = singleList.filter(f => f.id === figureId)[0];
     const similarFigures = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.name === figure.name && el.id !== figure.id), 'year');
     const multipackFigures = singleList.filter(el => el.multipack !== '' && el.multipack === figure.multipack && el.id !== figure.id);
 
-    const numberBackgroundColor = () => {
-        const isSeries4 = figure.assortment === 'Series 4.0';
-        let color = '';
-        if (isSeries4) {
-            const sourceMaterialColors = getSourceColor(sourceMaterials, figure.sourceMaterial);
-            color = sourceMaterialColors.backgroundColor;
-        } else {
-            const assortmentColors = getAssortmentColor(assortments, figure.assortment);
-            color = assortmentColors.backgroundColor;
-        }
-        return color;
-    };
-
     const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
     const flexFlowDirection = isMobile ? 'column' : 'row';
 
-    const classes = useStyles({ seriesColor: Color.primary(numberBackgroundColor()), flexFlowDirection });
+    const classes = useStyles({ flexFlowDirection });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
 
     const links = [
@@ -90,20 +75,24 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
             <div className={classes.root}>
-                <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'} />
-                {authEditor && editFigureButton()}
-                <Container maxWidth='sm' className={classes.container}>
-                    <Grid container spacing={2} className={classes.gridContainer}>
-                        <Grid xs={12} md={5} item className={classes.verticalContainer}>
-                            <ImageDetails
-                                looseImageUrl={figure.looseImageUrl}
-                                newImageUrl={figure.newImageUrl}
-                            />
+                <Container component='main' maxWidth='xl'>
+                    <div className={classes.root}>
+                        <Grid container spacing={1} className={classes.container}>
+                            <Grid item xs={12} className={classes.figureHeader}>
+                                <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'} />
+                            </Grid>
                         </Grid>
-                        <Grid xs={12} md={7} item className={classes.verticalContainer}>
-                            <Grid container spacing={2} className={classes.detailsContainer}>
-                                <ReleaseDetails
+                        <Grid container spacing={1} className={classes.container}>
+                            <Grid item md={4} xs={12}>
+                                <ImageDetailCard
+                                    looseImageUrl={figure.looseImageUrl}
+                                    newImageUrl={figure.newImageUrl}
+                                />
+                            </Grid>
+                            <Grid item md={8} xs={12} >
+                                <ReleaseDetailCard 
                                     assortment={figure.assortment}
+                                    assortmentNumber={figure.seriesNumber}
                                     exclusiveRetailer={figure.exclusiveRetailer}
                                     multipack={figure.multipack}
                                     multipackQuantity={multipackFigureQty}
@@ -112,21 +101,17 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                                     wave={figure.wave}
                                     year={figure.year}
                                 />
-                                <Grid xs={12} md={2} item className={classes.seriesNumberComp}>
-                                    <Typography variant='h3' className={classes.seriesNumberText} >
-                                        {figure.seriesNumber}
-                                    </Typography>
-                                </Grid>
-                                <CharacterDetail 
-                                    name={figure.name}
-                                    similarFigures={similarFigures}
-                                    sourceMaterial={figure.sourceMaterial}
-                                    multipack={figure.multipack}
-                                    multipackFigures={multipackFigures}
-                                />
-                                {!isModalOpen && figure.owned &&
-                                    <CollectorDetails
-                                        isMobile={isMobile}
+                                {!isMobile && 
+                                    <CharacterDetailCard 
+                                        name={figure.name}
+                                        similarFigures={similarFigures}
+                                        sourceMaterial={figure.sourceMaterial}
+                                        multipack={figure.multipack}
+                                        multipackFigures={multipackFigures}
+                                    />
+                                }
+                                {!isMobile && !isModalOpen && figure.owned &&
+                                    <CollectorDetailCard
                                         looseCompleteQtyInput={figure.looseCompleteQty}
                                         looseIncompleteQtyInput={figure.looseIncompleteQty}
                                         newInBoxQtyInput={figure.newInBoxQty}
@@ -135,8 +120,33 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
                                     />
                                 }
                             </Grid>
+                            <Grid item md={4} xs={12} >
+                                {isMobile && 
+                                    <CharacterDetailCard 
+                                        name={figure.name}
+                                        similarFigures={similarFigures}
+                                        sourceMaterial={figure.sourceMaterial}
+                                        multipack={figure.multipack}
+                                        multipackFigures={multipackFigures}
+                                    />
+                                }
+                            </Grid>
+                            {isMobile && !isModalOpen && figure.owned &&
+                                    <Grid item md={4} xs={12} >
+                                        <CollectorDetailCard
+                                            looseCompleteQtyInput={figure.looseCompleteQty}
+                                            looseIncompleteQtyInput={figure.looseIncompleteQty}
+                                            newInBoxQtyInput={figure.newInBoxQty}
+                                            ownedId={figure.ownedId}
+                                            userId={id}
+                                        />
+                                    </Grid>
+                            }
                         </Grid>
-                    </Grid>
+                        <Grid item xs={12} >
+                            {authEditor && editFigureButton()}
+                        </Grid>
+                    </div>
                 </Container>
                 <Modal
                     isOpen={isModalOpen}
@@ -158,13 +168,11 @@ export const ActionFigureDetails = ({ figureId, catalogList, userList, sourceMat
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        margin: theme.spacing(2),
+    },
+    figureHeader: {
+        marginTop: theme.spacing(3),
     },
     container: {
-        padding: theme.spacing(3),
-        margin: theme.spacing(1),
-        maxWidth: '99%',
-        height: '75vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -176,37 +184,12 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
     },
-    gridContainer: {
-        display: 'flex',
-        flexFlow: props => props.flexFlowDirection,
-        height: '70vh',
-    },
-    verticalContainer: {
-        flexGrow: 1,
-        display: 'flex',
-        flexFlow: 'column',
-        height: '69vh',
-    },
-    detailsContainer: {
-        flexGrow: 1,
-        backgroundColor: Color.white(),
-    },
-    seriesNumberComp: {
-        border: '2px solid black',
-        backgroundColor: props => props.seriesColor,
-        textAlign: 'center',
-    },
-    seriesNumberText: {
-        paddingTop: theme.spacing(5),
-    },
 }));
 
 ActionFigureDetails.propTypes = {
-    figureId: PropTypes.string.isRequired,
     catalogList: PropTypes.array.isRequired,
-    userList: PropTypes.array.isRequired,
-    sourceMaterials: PropTypes.array.isRequired,
-    assortments: PropTypes.array.isRequired,
-    screenSize: PropTypes.object.isRequired,
+    figureId: PropTypes.string.isRequired,
     helperData: PropTypes.object.isRequired,
+    screenSize: PropTypes.object.isRequired,
+    userList: PropTypes.array.isRequired,
 };
