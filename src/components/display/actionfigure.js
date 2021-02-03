@@ -15,8 +15,8 @@ import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import { UserApi } from 'shared/api/userApi';
 import { UserConsumer } from 'components/auth/authContext';
 
-export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sourceMaterials, assortments }) => {
-    const classes = useStyles();
+export const ActionFigure = ({ assortments, newBoxImage, records, showAssortmentHeaders, smallFigureView, sourceMaterials,  }) => {
+    const classes = useStyles({ smallFigureView });
     const { loggedIn, id } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
@@ -45,10 +45,10 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
     const collectionButton = record => {
         let text, className;
         if (record.owned) {
-            text = BS_CARD_BUTTONS.REMOVE;
+            text = smallFigureView ? BS_CARD_BUTTONS.REMOVE.split(' ')[0] : BS_CARD_BUTTONS.REMOVE;
             className = classes.owned;
         } else {
-            text = BS_CARD_BUTTONS.ADD;
+            text = smallFigureView ? BS_CARD_BUTTONS.ADD.split(' ')[0] : BS_CARD_BUTTONS.ADD;
             className = classes.nameText;
         }
 
@@ -59,9 +59,14 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
 
     let { url } = useRouteMatch();
 
-    const GAP_SIZE = 20;
-    const CARD_HEIGHT = 500;
-    const CARD_WIDTH = 200;
+    const GAP_SIZE = smallFigureView ? 5 : 20;
+    const CARD_HEIGHT = smallFigureView ? 200 : 500;
+    const CARD_WIDTH = smallFigureView ? 75 : 200;
+
+    const cardMediaStyle = {
+        paddingTop: smallFigureView ? 0 : '60%',
+        height: smallFigureView ? 100 : 250,
+    };
 
     const Item = ({ data, index, style }) => {
         const { cardHeight, cardWidth, columnCount, gapSize, itemCount } = data;
@@ -89,12 +94,13 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                         >
                             <Card className={classes.card} >
                                 <DisplayNameSection
-                                    record={records[i]}
-                                    sourceMaterials={sourceMaterials}
                                     assortments={assortments}
+                                    smallFigureView={smallFigureView}
+                                    sourceMaterials={sourceMaterials}
+                                    record={records[i]}
                                 />
                                 <CardMedia
-                                    style={{ paddingTop: '60%', height: 250 }}
+                                    style={cardMediaStyle}
                                     image={
                                         newBoxImage
                                             ? (records[i].newImageUrl || commingSoonPhotoUrl)
@@ -104,11 +110,13 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
                                     src={records[i].name}
                                 />
                             </Card>
-                            <ActionFigureCardContent
-                                record={records[i]}
-                                showAssortmentHeaders={showAssortmentHeaders}
-                                sourceMaterials={sourceMaterials}
-                            />
+                            {!smallFigureView && 
+                                <ActionFigureCardContent
+                                    record={records[i]}
+                                    showAssortmentHeaders={showAssortmentHeaders}
+                                    sourceMaterials={sourceMaterials}
+                                />
+                            }
                         </Link>
                         {loggedIn && collectionButton(records[i])}
                     </Grid>
@@ -156,7 +164,7 @@ export const ActionFigure = ({ records, newBoxImage, showAssortmentHeaders, sour
         <>
             {sourceMaterials && assortments ?
                 <AutoSizer disableHeight >
-                    {({ height, width }) => (
+                    {({ width }) => (
                         <ListWrapper
                             height={window.innerHeight*.8}
                             itemCount={records.length}
@@ -188,8 +196,6 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: theme.spacing(4),
-        padding: theme.spacing(4),
     },
     GridItemEven: {
         display: 'flex',
@@ -296,12 +302,17 @@ const useStyles = makeStyles(theme => ({
         left: '50%',
         transform: 'translate(-50%, -50%)',
     },
+    cardMedia: {
+        paddingTop: '60%',
+        height: 250,
+    },
 }));
 
 ActionFigure.propTypes = {
-    records: PropTypes.array.isRequired,
-    newBoxImage: PropTypes.bool.isRequired,
-    showAssortmentHeaders: PropTypes.string,
-    sourceMaterials: PropTypes.object,
     assortments: PropTypes.object,
+    newBoxImage: PropTypes.bool.isRequired,
+    records: PropTypes.array.isRequired,
+    showAssortmentHeaders: PropTypes.string,
+    smallFigureView: PropTypes.bool.isRequired,
+    sourceMaterials: PropTypes.object,
 };

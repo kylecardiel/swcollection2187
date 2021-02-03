@@ -484,12 +484,13 @@ export const BlackSeriesCatalog = props => {
                 </div>
             </Container>
             <ActionFigure
-                records={displayList}
-                newBoxImage={newBoxImage}
-                catalogList={catalogList}
-                view={true}
-                sourceMaterials={helperData.sourceMaterial}
                 assortments={helperData.assortment}
+                catalogList={catalogList}
+                newBoxImage={newBoxImage}
+                records={displayList}
+                smallFigureView={screenSize.isMobileDevice}
+                sourceMaterials={helperData.sourceMaterial}
+                view={true}
             />
         </React.Fragment >
     );
