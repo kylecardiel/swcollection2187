@@ -115,6 +115,13 @@ export const BlackSeriesCatalog = props => {
         setUserDisplaySettings('newBoxImage', !newBoxImage);
     };
 
+    const defaultFigureSizeSmall = filterState.figureSizeSmall === undefined ? screenSize.isMobileDevice : filterState.figureSizeSmall;
+    const [figureSizeSmall, setFigureSizeSmall] = useState(defaultFigureSizeSmall);
+    const handlefigureSizeSmallChange = () => {
+        setFigureSizeSmall(!figureSizeSmall);
+        setUserDisplaySettings('figureSizeSmall', !figureSizeSmall);
+    };
+
     const [sortingAttribute, setSortingAttribute] = useState(filterState.sortingAttribute);
     const handleSortingChange = e => {
         let value = null;
@@ -409,7 +416,7 @@ export const BlackSeriesCatalog = props => {
                                         </div>
                                         {sortingAttibuteFilter}
                                     </Grid>
-                                    <Grid item md={6} xs={12}>
+                                    <Grid item md={8} xs={12}>
                                         <div className={classes.modelHeaderContainer}>
                                             {BS_DISPLAY_MODAL.LABELS.DISPLAY}
                                         </div>
@@ -421,9 +428,17 @@ export const BlackSeriesCatalog = props => {
                                                 }
                                                 icon={<SwapHorizIcon />}
                                                 onClick={handleImageChange}
+                                                color={Color.black()}
+                                            />
+                                            <ActionButton
+                                                buttonLabel={figureSizeSmall 
+                                                    ? BS_DISPLAY_MODAL.BUTTONS.LARGE_FIGURE
+                                                    : BS_DISPLAY_MODAL.BUTTONS.SMALL_FIGURE
+                                                }
+                                                icon={<SwapHorizIcon />}
+                                                onClick={handlefigureSizeSmallChange}
                                                 color={Color.green()}
                                             />
-                                            
                                         </div>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -488,7 +503,7 @@ export const BlackSeriesCatalog = props => {
                 catalogList={catalogList}
                 newBoxImage={newBoxImage}
                 records={displayList}
-                smallFigureView={screenSize.isMobileDevice}
+                smallFigureView={figureSizeSmall}
                 sourceMaterials={helperData.sourceMaterial}
                 view={true}
             />
