@@ -5,9 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => {
-    const nameSize = record.seriesNumber ? 10 : 12;
-
+export const DisplayNameSection = ({ assortments, record, smallFigureView, sourceMaterials }) => {
+    const nameSize = !smallFigureView ? record.seriesNumber ? 10 : 12 : 12;
     const numberBackgroundColor = () => {
         const isSeries4 = record.assortment === 'Series 4.0';
         let color = '';
@@ -21,7 +20,7 @@ export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => 
         return color;
     };
 
-    const classes = useStyles({ color: numberBackgroundColor() });
+    const classes = useStyles({ color: numberBackgroundColor(), smallFigureView });
     
     const formattedSeriesNumber = () => {
         switch (record.seriesNumber) {
@@ -35,10 +34,12 @@ export const DisplayNameSection = ({ record, sourceMaterials, assortments }) => 
     return (
         <Grid container spacing={0} className={classes.container}>
             <Grid item xs={nameSize} className={classes.nameText}>{record.name}</Grid>
-            {record.seriesNumber &&
+            {!smallFigureView && record.seriesNumber &&
                 <Grid item xs={2} className={classes.seriesNumber}>{formattedSeriesNumber()}</Grid>
             }
-            <Grid item xs={12} className={classes.seriesNumber}>{record.assortment}</Grid>
+            {!smallFigureView && 
+                <Grid item xs={12} className={classes.seriesNumber}>{record.assortment}</Grid> 
+            }
         </Grid>
     );
 };
@@ -53,13 +54,13 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         fontFamily: 'Raleway, sans-serif',
-        fontSize: '12px',
+        fontSize: props => props.smallFigureView ? '8px' : '12px',
         fontWeight: '800',
-        textTransform: 'uppercase',
         color: Color.white(),
         backgroundColor: Color.black(),
         paddingTop: theme.spacing(.5),
         paddingBottom: theme.spacing(.5),
+        textOverflow: 'ellipsis',
     },
     seriesNumber: {
         display: 'flex',
@@ -75,8 +76,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 DisplayNameSection.propTypes = {
-    record: PropTypes.object.isRequired,
-    sourceMaterials: PropTypes.object.isRequired,
     assortments: PropTypes.object.isRequired,
+    record: PropTypes.object.isRequired,
+    smallFigureView: PropTypes.bool.isRequired,
+    sourceMaterials: PropTypes.object.isRequired,
 };
 
