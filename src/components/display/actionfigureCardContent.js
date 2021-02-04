@@ -1,11 +1,11 @@
 import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useContext } from 'react';
-import { BS_CARD_LABELS } from 'shared/constants/stringConstantsSelectors';
-import { Color } from 'shared/styles/color';
+import { UserConsumer } from 'components/auth/authContext';
 import { getSourceColor } from 'components/display/figureColors';
 import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { ROLES } from 'shared/constants/roleConstants';
-import { UserConsumer } from 'components/auth/authContext';
+import { BS_CARD_LABELS } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 
 export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
     const { email } = useContext(UserConsumer);

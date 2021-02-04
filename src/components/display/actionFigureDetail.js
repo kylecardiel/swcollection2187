@@ -7,6 +7,7 @@ import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
+import { CollectorButton } from 'components/display/collectorButton';
 import { CharacterDetailCard } from 'components/display/details/cards/characterDetailCard';
 import { CollectorDetailCard } from 'components/display/details/cards/collectorDetailCard';
 import { ImageDetailCard } from 'components/display/details/cards/imageDetailCard';
@@ -147,16 +148,27 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
                                 }
                             </Grid>
                             {isMobile && !isModalOpen && figure.owned &&
-                                    <Grid item md={4} xs={12} >
-                                        <CollectorDetailCard
-                                            looseCompleteQtyInput={figure.looseCompleteQty}
-                                            looseIncompleteQtyInput={figure.looseIncompleteQty}
-                                            newInBoxQtyInput={figure.newInBoxQty}
-                                            ownedId={figure.ownedId}
-                                            userId={id}
-                                        />
-                                    </Grid>
+                                <Grid item md={4} xs={12} >
+                                    <CollectorDetailCard
+                                        looseCompleteQtyInput={figure.looseCompleteQty}
+                                        looseIncompleteQtyInput={figure.looseIncompleteQty}
+                                        newInBoxQtyInput={figure.newInBoxQty}
+                                        ownedId={figure.ownedId}
+                                        userId={id}
+                                    />
+                                </Grid>
                             }
+                        </Grid>
+                        <Grid item xs={12} >
+                            <div className={classes.editContainer}>
+                                <CollectorButton 
+                                    figureId={figure.id}
+                                    ownedId={figure.ownedId}
+                                    recordOwned={figure.owned}
+                                    smallFigureView={false}
+                                    card={false}
+                                />
+                            </div>
                         </Grid>
                         <Grid item xs={12} >
                             {authEditor && editFigureButton()}
@@ -194,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
     },
     editContainer: {
         marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(-2),
+        marginBottom: theme.spacing(2),
         maxWidth: '99%',
         display: 'flex',
         justifyContent: 'center',

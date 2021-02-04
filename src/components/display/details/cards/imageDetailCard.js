@@ -49,6 +49,7 @@ export const ImageDetailCard = ({ looseImageUrl, newImageUrl }) => {
 const useStyles = makeStyles((theme) => ({
     card: {
         marginTop: theme.spacing(1),
+        paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
     },
     detailsContainer: {
@@ -56,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: Color.nearWhite(),
     },
     largeImageArrowContainer: {
-
         maxheight: 415,
         display: 'flex',
         justifyContent: 'center',
@@ -69,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: Color.white(),
     },
     largeImageContainer: {
-
         maxheight: 415,
         display: 'flex',
         justifyContent: 'center',
