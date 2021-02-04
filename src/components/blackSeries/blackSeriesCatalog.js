@@ -29,6 +29,10 @@ import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { TableStats } from 'components/blackSeries/tableStats';
 import { UserApi } from 'shared/api/userApi';
 import { UserConsumer } from 'components/auth/authContext';
+import { isProduction } from 'shared/util/environment';
+
+import { CatalogData } from 'shared/fixtures/catalogData';
+import { usersData } from 'shared/fixtures/userData';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -36,6 +40,7 @@ export const BlackSeriesCatalog = props => {
     const { id, loggedIn } = useContext(UserConsumer);
     const classes = useStyles();
     const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize, setUserDisplaySettings, clearUserDisplaySettings, filterState } = props;
+
 
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState(filterState.filterBySourceMaterial);
     const handleSourceMaterialChange = e => {
@@ -228,22 +233,28 @@ export const BlackSeriesCatalog = props => {
 
     const [initialState] = useState(props);
     useEffect(() => {
-        const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
-        catalogRef.on('value', snapshot => {
-            if (snapshot.val()) {
-                let records = snapshot.val()['BlackSeries6'];
-                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
-            }
-        });
-
-        if (loggedIn) {
-            const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
-            userRef.on('value', snapshot => {
+        
+        if(isProduction) {
+            const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
+            catalogRef.on('value', snapshot => {
                 if (snapshot.val()) {
                     let records = snapshot.val()['BlackSeries6'];
-                    setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
                 }
             });
+    
+            if (loggedIn) {
+                const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
+                userRef.on('value', snapshot => {
+                    if (snapshot.val()) {
+                        let records = snapshot.val()['BlackSeries6'];
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                    }
+                });
+            }
+        } else {
+            setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
+            setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.BlackSeries6, 'ownedId'));
         }
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData]);
