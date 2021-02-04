@@ -1,18 +1,18 @@
-import { GENERAL, PAGES } from 'shared/constants/stringConstantsSelectors';
-import React, { useState } from 'react';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import { Button } from '@material-ui/core';
-import { Color } from 'shared/styles/color';
-import { ContactMeApi } from 'shared/api/contactMeApi';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { NotReadyYet } from 'components/common/notReadyYet';
 import PropTypes from 'prop-types';
-import { RecordUtils } from 'shared/util/recordUtils';
+import React, { useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { ContactMeApi } from 'shared/api/contactMeApi';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import TextField from '@material-ui/core/TextField';
-import { useForm } from 'react-hook-form';
+import { GENERAL, PAGES } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
+import { RecordUtils } from 'shared/util/recordUtils';
 
 const { HOME } = ROUTE_CONSTANTS;
 
@@ -21,13 +21,20 @@ export const ContactMe = ({ signUpPage }) => {
     
     const [successBanner, setSuccessBanner] = useState(false);
 
-    const { register, handleSubmit, reset } = useForm();
+    const { control, register, handleSubmit, reset } = useForm();
     const onSubmit = data => {
+        console.log(data)
         RecordUtils.addTimeStamps(data);
         ContactMeApi.create(data);
         setSuccessBanner(true);
         reset();
     };
+
+    const inputLabel = useRef(null);
+    const [labelWidth, setLabelWidth] = useState(0);
+    useEffect(() => {
+        setLabelWidth(inputLabel.current.offsetWidth);
+    }, []);
 
     const links = [
         {
@@ -37,6 +44,13 @@ export const ContactMe = ({ signUpPage }) => {
     ];
 
     const { LABELS, SUCCESS, TITLE } = PAGES.CONTACT_ME;
+    const menuItemNone = <MenuItem key={GENERAL.MENU_ITEMS.NONE} value={null}><em>{GENERAL.MENU_ITEMS.NONE}</em></MenuItem>;
+    const categoryValues = [
+        'Bug/Issue - Please Fix',
+        'Enhancement Idea',
+        'Mislabeled Figure',
+        'Other...',
+    ];
 
     return (
         <React.Fragment>
@@ -85,10 +99,30 @@ export const ContactMe = ({ signUpPage }) => {
                                         fullWidth
                                         id={'email'}
                                         name={'email'}
-                                        label={LABELS.Email}
+                                        label={LABELS.EMAIL}
                                         inputRef={register({ required: true })}
                                         type={'email'}
                                     />
+                                </Grid>
+                                <Grid item xs={12} className={classes.inputBoxInColumn}>
+                                    <FormControl variant='outlined' className={classes.dropdown}>
+                                        <InputLabel ref={inputLabel} id={`${'Category'}-label`}>{'Category'}</InputLabel>
+                                        <Controller
+                                            name={'Category'}
+                                            control={control}
+                                            as={
+                                                <Select
+                                                    label={LABELS.CATEGORY}
+                                                    labelId={'Category'}
+                                                    labelWidth={labelWidth}
+                                                    inputProps={{ name: 'Category' }}
+                                                >
+                                                    {menuItemNone}
+                                                    {categoryValues.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
+                                                </Select>
+                                            }
+                                        />
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={12} className={classes.inputBoxInColumn}>
                                     <TextField
@@ -164,6 +198,11 @@ const useStyles = makeStyles(theme => ({
         borderColor: Color.darkGreen(),
         backgroundColor: Color.lightGreen(),
         color: Color.darkGreen(),
+    },
+    dropdown: {
+        width: '100%',
+        marginTop: theme.spacing(0),
+        minWidth: 120,
     },
 }));
 
