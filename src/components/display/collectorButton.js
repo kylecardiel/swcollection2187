@@ -7,7 +7,6 @@ import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_CARD_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
-import { RecordUtils } from 'shared/util/recordUtils';
 import { ActionButton } from 'components/common/buttons/actionButton';
 
 export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFigureView }) => {
@@ -23,7 +22,6 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
             newInBoxQty: 1,
             purchasePrice: 0,
         };
-        RecordUtils.addAuditFields(newCollectile);
         UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile);
     };
 
