@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(12),
         [theme.breakpoints.down('sm')]: {
             borderTop: '0px',
+            paddingBottom: theme.spacing(5),
         },
         [theme.breakpoints.up('md')]: {
             borderTop: '1px solid #696969',
@@ -77,6 +78,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]: {
             borderTop: '1px solid #696969',
             justifyContent: 'space-between',
+            padding: theme.spacing(2),
         },
         [theme.breakpoints.up('md')]: {
             borderTop: '0px',

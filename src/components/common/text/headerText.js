@@ -20,10 +20,13 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         fontFamily: 'Raleway, sans-serif',
         [theme.breakpoints.down('md')]: {
-            fontSize: '20px',
+            fontSize: '18px',
+            paddingLeft: theme.spacing(.5),
+            marginTop: theme.spacing(.5),
         },
         [theme.breakpoints.up('md')]: {
-            fontSize: '36px',
+            fontSize: '40px',
+            paddingLeft: theme.spacing(2),
         },
         fontWeight: '800',
         textTransform: 'uppercase',

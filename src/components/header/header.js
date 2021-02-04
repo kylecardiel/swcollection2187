@@ -16,6 +16,9 @@ import PropTypes from 'prop-types';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import ToolBar from '@material-ui/core/Toolbar';
 import { UserConsumer } from 'components/auth/authContext';
+import { Link as RouterLink } from 'react-router-dom';
+import { IMAGE_PATHS } from 'shared/constants/imagePaths';
+import Link from '@material-ui/core/Link';
 
 const { LOGIN, SIGN_UP, LOGOUT } = HEADER_BUTTONS;
 
@@ -62,7 +65,10 @@ export const Header = ({ title }) => {
                             alignItems='center'
                             spacing={1}
                         >
-                            <Grid container item xs={10} md={8} spacing={1}>
+                            <Grid container item xs={10} md={8} spacing={3} justify='flex-start' alignItems='center'>
+                                <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.HOME}>
+                                    <img src={IMAGE_PATHS.DEATH_STAR_LOGO} alt='logo' width='40px'/>
+                                </Link>
                                 <HeaderText text={title} textColor={'white'} />
                             </Grid>
                             <Grid container item xs={3} spacing={1} className={classes.normalButton}>
