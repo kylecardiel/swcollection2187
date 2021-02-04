@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 
-const { LOGIN, SIGN_UP, LOGOUT } = HEADER_BUTTONS;
+const { HOME, LOGIN, SIGN_UP, LOGOUT } = HEADER_BUTTONS;
 
 export const DrawerContainer = ({ loggedIn, logout }) => {
     const classes = useStyles();
@@ -27,17 +27,21 @@ export const DrawerContainer = ({ loggedIn, logout }) => {
 
     const loginLink = createNavigationLink(LOGIN, ROUTE_CONSTANTS.LOGIN);
     const signUpLink = createNavigationLink(SIGN_UP, ROUTE_CONSTANTS.SIGNUP);
+    const homeLink = createNavigationLink(HOME, ROUTE_CONSTANTS.HOME);
 
     return (
         <Grid container spacing={1} className={classes.container}>
             {!loggedIn && loginLink}
             {!loggedIn && signUpLink}
             {loggedIn &&
-                <Grid item xs={12} className={classes.sections}>
-                    <div className={classes.color} onClick={logout}>
-                        {LOGOUT}
-                    </div>
-                </Grid>
+                <>
+                    {homeLink}
+                    <Grid item xs={12} className={classes.sections}>
+                        <div className={classes.color} onClick={logout}>
+                            {LOGOUT}
+                        </div>
+                    </Grid>
+                </>
             }
         </Grid>
 

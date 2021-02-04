@@ -5,6 +5,7 @@ export const STRING_CONSTANTS = Object.freeze({
             LOGIN: 'Login',
             SIGN_UP: 'Sign Up',
             LOGOUT: 'Logout',
+            HOME: 'Home',
         },
         AUTH: {
             LOGIN: 'Login',
@@ -166,7 +167,7 @@ export const STRING_CONSTANTS = Object.freeze({
                     CHARACTER_DETAILS_HEADER: 'Character Details',
                     SOURCE: 'Source/First Apperance',
                     MORE_SIMILAR_FIGURE: name => `More ${name} Figures`,
-                    MORE_ASSORTMENT: assortment => `from [${assortment} assortment] `,
+                    MORE_ASSORTMENT: assortment => `from [${assortment}] `,
                     MULTIPACK_FIGURE: 'Multipack Figures',
                     COLLECTORS_DETAILS_HEADER: 'Collector Details',
                     NEW_IN_BOX_QUANTITY: 'New in Box Qty',
