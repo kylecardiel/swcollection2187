@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
+import { DateUtils } from 'shared/util/dateUtil';
 
 export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyInput, newInBoxQtyInput, ownedId, userId }) => {
     const [newInBoxQty, setNewInBoxQty] = useState(newInBoxQtyInput);
@@ -34,7 +35,14 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
             break;
         }
 
-        UserApi.update(userId, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, ownedId, { [specificQty]: updateQty });
+        UserApi.update(
+            userId, 
+            FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, 
+            ownedId, 
+            { 
+                [specificQty]: updateQty,
+                lastModifiedDate: DateUtils.getCurrentTimestamp(),
+            });
     };
 
     const quantitySelection = Array.from(Array(16).keys());

@@ -10,13 +10,18 @@ export class RecordUtils {
 
 
     static addAuditFields = (record, userName) => {
-        record.createdBy = userName;
-        record.lastModifiedBy = userName;
+        if(userName) {
+            record.createdBy = userName;
+            record.lastModifiedBy = userName;
+        }
+
         RecordUtils.addTimeStamps(record);
     };
 
     static updateLastModifiedAuditFields = (record, userName) => {
-        record.lastModifiedBy = userName;
+        if(userName) {
+            record.lastModifiedBy = userName;
+        }
         record.lastModifiedDate = DateUtils.getCurrentTimestamp();
     };
 
