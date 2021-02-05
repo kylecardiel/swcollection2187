@@ -1,136 +1,116 @@
-import { Card, CardContent, Grid, makeStyles, Typography } from '@material-ui/core';
-import { UserConsumer } from 'components/auth/authContext';
+import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import { getSourceColor } from 'components/display/figureColors';
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
-import { ROLES } from 'shared/constants/roleConstants';
-import { BS_CARD_LABELS } from 'shared/constants/stringConstantsSelectors';
+import React from 'react';
 import { Color } from 'shared/styles/color';
+import GroupIcon from '@material-ui/icons/Group';
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
 export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
-    const { email } = useContext(UserConsumer);
-    const authEmail = email === ROLES.EMAIL;
-    
-    let bottomCardHieght = 100;
-    if(email) bottomCardHieght = 125;
-    const classes = useStyles({ bottomCardHieght });
+    const classes = useStyles();
 
-    const generateBottomText = (label, value) => {
-        return <Grid item xs={12} key={value} >
-            <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext}>
-                <span>
-                    <span className={classes.textStyle} >{label}</span>
-                    {value}
-                </span>
-            </Typography>
-        </Grid>;
+    const adjustedValue = value => {
+        return value
+            ? value.length > 25
+                ? value.substring(0, 22) + '...'
+                : value
+            : '.';
     };
 
-    const generateAdditionalNameText = value => {
-        let text, className;
-        if(value){
-            text = `(${value})`;
-            className = classes.nameText;
-        } else {
-            text = '-';
-            className = classes.noShowText;
-        }
-
-        return <Grid item xs={12} key={value} >
-            <Typography variant='body2' component='p' className={classes.bottomtext} >
-                <span className={className}>{text}</span>
-            </Typography>
-        </Grid>;
-    };
-
-    const generateSourceMaterialText = () => {
+    const generateSourceMaterialDetail = value => {
         let sourceMaterialBackgroundColor = '';
         let sourceMaterialTextColor = 'yellow';
         const isSeries4 = record.assortment === 'Series 4.0';
         if (isSeries4) {
-            const sourceMaterialColor = getSourceColor(sourceMaterials.values, record.sourceMaterial);
+            const sourceMaterialColor = getSourceColor(sourceMaterials.values, value);
             sourceMaterialBackgroundColor = sourceMaterialColor.backgroundColor;
             sourceMaterialTextColor = sourceMaterialColor.textColor;
         }
 
-        return <Typography variant='body2' color='textSecondary' component='p' className={classes.bottomtext} style={{ backgroundColor: Color.primary(sourceMaterialBackgroundColor) }}>
-            <span
-                className={classes.textStyle}
-                style={{ color: Color.primary(sourceMaterialTextColor) }}
-            >
-                {`${record.sourceMaterial} `}
-            </span>
-        </Typography>;
+        const adjustedValue = value ? value : '-';
+        return <div style={{ backgroundColor: Color.primary(sourceMaterialBackgroundColor), textAlign: 'center' }}>
+            <Typography variant='caption' gutterBottom style={{ color: Color.primary(sourceMaterialTextColor), fontFamily: 'Raleway, sans-serif',}}>
+                <Box fontWeight={'fontWeightBold'}>
+                    {adjustedValue}
+                </Box>
+            </Typography>
+        </div>;
     };
+
+    const generateDetail = value => {
+        const hiddenTextClass = value ? classes.detailRow : classes.detailRowHiddenText;
+        return <div className={hiddenTextClass}>
+            <Typography variant='caption' gutterBottom style={{ fontFamily: 'Raleway, sans-serif' }}>
+                <Box fontWeight={'fontWeightBold'}>
+                    {adjustedValue(value)}
+                </Box>
+            </Typography>
+        </div>;
+    };
+
+    const iconDetails = (multipack, exclusiveRetailer) => {
+        return <div className={classes.iconRow}>
+            { multipack && <GroupIcon /> }
+            { exclusiveRetailer && <LoyaltyIcon /> }
+        </div>;
+    };
+
+    const { additionalNameDetails, exclusiveRetailer, looseCompleteQty, looseIncompleteQty, multipack, newInBoxQty, owned, sourceMaterial, version } = record;
 
     return (
         <Card className={classes.bottomCard}>
             <CardContent >
-                <Grid container spacing={0} className={classes.top}>
-                    {generateAdditionalNameText(record.additionalNameDetails)}
-                    {record.sourceMaterial && generateSourceMaterialText()}
-                    {record.version && generateBottomText(`${BS_CARD_LABELS.VERSION}: `, ` ${record.version}`)}
-                    {record.multipack && generateBottomText('', ` [${record.multipack}]`)}
-                    {record.exclusiveRetailer && generateBottomText('', ` ${record.exclusiveRetailer}`)}
-                    {record.owned
-                        && generateBottomText(`${BS_CARD_LABELS.TOTAL_OWNED}: `, ` ${record.newInBoxQty + record.looseCompleteQty + record.looseIncompleteQty}`)}
-                    {authEmail && generateBottomText(record.id)}
-                </Grid>
+                {generateDetail(additionalNameDetails)}
+                {generateSourceMaterialDetail(sourceMaterial)}
+                {generateDetail(version)}
+                {iconDetails(multipack, exclusiveRetailer)}
+                {owned && generateDetail(`Total Owned: ${newInBoxQty + looseCompleteQty + looseIncompleteQty}`)}
             </CardContent>
         </Card>
     );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+    dividerColor: {
+        marginTop: theme.spacing(-.5),
+        backgroundColor: Color.white(),
+    },
+    detailRow: {
+        display: 'flex',
+        justifyContent: 'center',
+        textAlign: 'center',
+        color: Color.white(),
+        fontSize: '10px',
+    },
+    detailRowYellow: {
+        display: 'flex',
+        justifyContent: 'center',
+        textAlign: 'center',
+        color: Color.darkYellow(),
+        fontSize: '10px',
+    },
+    detailRowHiddenText: {
+        display: 'flex',
+        justifyContent: 'center',
+        textAlign: 'center',
+        fontSize: '10px',
+    },
+    iconRow: {
+        display: 'flex',
+        justifyContent: 'space-around',
+        color: Color.white(),
+    },
     bottomCard: {
         maxWidth: 325,
-        height: props => props.bottomCardHieght,
+        height: 130,
         backgroundColor: Color.black(),
         borderRadius: 0,
         boxShadow: '0 0 5px',
     },
-    bottomtext: {
-        fontSize: '11px',
-        color: Color.white(),
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        width: '100%',
-    },
     source: {
         backgroundColor: Color.white(),
         width: '100%',
-    },
-    textStyle: {
-        fontWeight: 'bold',
-        color: Color.yellow(),
-        display: 'inline-block',
-    },
-    nameText: {
-        color: Color.white(),
-        display: 'inline-block',
-    },
-    noShowText: {
-        fontWeight: 'bold',
-        color: Color.black(),
-        display: 'inline-block',
-    },
-    owned: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontFamily: 'Raleway, sans-serif',
-        fontSize: '12px',
-        fontWeight: '800',
-        textTransform: 'uppercase',
-        color: Color.white(),
-        backgroundColor: Color.grey(),
-        cursor: 'pointer',
-        '&:hover': {
-            backgroundColor: Color.red(),
-        },
-        height: 30,
     },
 }));
 
