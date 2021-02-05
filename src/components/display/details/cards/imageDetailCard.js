@@ -20,26 +20,17 @@ export const ImageDetailCard = ({ looseImageUrl, newImageUrl }) => {
 
     const classes = useStyles();
 
-    const guardedNewImageUrl = 
-        isProduction 
-            ? newImageUrl 
-                ? newImageUrl 
+    const determineImageToUse = image => {
+        return isProduction 
+            ? image 
+                ? image 
                 : commingSoonPhotoUrl 
             : IMAGE_PATHS.FILL_MURRAY;
+    };
 
-    const guardedLooseImageUrl = 
-        isProduction 
-            ? looseImageUrl 
-                ? looseImageUrl 
-                : commingSoonPhotoUrl 
-            : IMAGE_PATHS.FILL_MURRAY;
-    
-    const largeImage = 
-        isProduction 
-            ? newImage 
-                ? guardedNewImageUrl 
-                : guardedLooseImageUrl 
-            : IMAGE_PATHS.FILL_MURRAY;
+    const guardedNewImageUrl = determineImageToUse(newImageUrl);
+    const guardedLooseImageUrl = determineImageToUse(looseImageUrl);    
+    const largeImage = newImage ? guardedNewImageUrl : guardedLooseImageUrl;
 
     return (
         <Card className={classes.card}>
@@ -83,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
         cursor: 'pointer',
         '&:hover': {
-            backgroundColor: Color.grey(),
+            backgroundColor: Color.lightGrey(),
         },
         backgroundColor: Color.white(),
     },
@@ -110,6 +101,10 @@ const useStyles = makeStyles((theme) => ({
     smallImage: {
         flexShrink: 0,
         maxHeight: 125,
+        cursor: 'pointer',
+        '&:hover': {
+            boxShadow: '5px 5px 5px #999',
+        },
     },
 }));
 

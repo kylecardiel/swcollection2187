@@ -75,16 +75,53 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
     const modalSize = { height: '85%', width: '85%' };
     const authEditor = email === ROLES.EMAIL;
 
-    const editFigureButton = () => {
-        return <div className={classes.editContainer}>
-            <ActionButton
-                buttonLabel={'Edit Figure Details'}
-                icon={<EditIcon />}
-                onClick={openModal}
-                color={Color.blue()}
-            />
-        </div>;
-    };
+    const editFigureButton = <div className={classes.editContainer}>
+        <ActionButton
+            icon={<EditIcon />}
+            onClick={openModal}
+            color={Color.blue()}
+        />
+    </div>;
+
+    const releaseDetails = <ReleaseDetailCard 
+        assortment={figure.assortment}
+        assortmentBackgroundColor={assortmentBackgroundColor()}
+        assortmentNumber={figure.seriesNumber}
+        exclusiveRetailer={figure.exclusiveRetailer}
+        multipack={figure.multipack}
+        multipackQuantity={multipackFigureQty}
+        packageType={figure.packageType}
+        retailPrice={figure.retailPrice}
+        wave={figure.wave}
+        year={figure.year}
+    />;
+
+    const characterDetails = <CharacterDetailCard 
+        groups={figure.groups}
+        multipack={figure.multipack}
+        multipackFigures={multipackFigures}
+        name={figure.name}
+        similarFigures={similarFigures}
+        sourceMaterial={figure.sourceMaterial}
+    />;
+
+    const collectorDetails = <CollectorDetailCard
+        looseCompleteQtyInput={figure.looseCompleteQty}
+        looseIncompleteQtyInput={figure.looseIncompleteQty}
+        newInBoxQtyInput={figure.newInBoxQty}
+        ownedId={figure.ownedId}
+        userId={id}
+    />;
+
+    const collectorButton = <div className={classes.editContainer}>
+        <CollectorButton 
+            figureId={figure.id}
+            ownedId={figure.ownedId}
+            recordOwned={figure.owned}
+            smallFigureView={false}
+            card={false}
+        />
+    </div>;
 
     return (
         <React.Fragment>
@@ -103,76 +140,33 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
                                     looseImageUrl={figure.looseImageUrl}
                                     newImageUrl={figure.newImageUrl}
                                 />
+                                {!isMobile &&
+                                    <Grid container direction='row' justify='space-around'>
+                                        {collectorButton}
+                                        {authEditor && editFigureButton}
+                                    </Grid>
+                                }
                             </Grid>
                             <Grid item md={8} xs={12} >
-                                <ReleaseDetailCard 
-                                    assortment={figure.assortment}
-                                    assortmentBackgroundColor={assortmentBackgroundColor()}
-                                    assortmentNumber={figure.seriesNumber}
-                                    exclusiveRetailer={figure.exclusiveRetailer}
-                                    multipack={figure.multipack}
-                                    multipackQuantity={multipackFigureQty}
-                                    packageType={figure.packageType}
-                                    retailPrice={figure.retailPrice}
-                                    wave={figure.wave}
-                                    year={figure.year}
-                                />
-                                {!isMobile && 
-                                    <CharacterDetailCard 
-                                        name={figure.name}
-                                        similarFigures={similarFigures}
-                                        sourceMaterial={figure.sourceMaterial}
-                                        multipack={figure.multipack}
-                                        multipackFigures={multipackFigures}
-                                    />
-                                }
-                                {!isMobile && !isModalOpen && figure.owned &&
-                                    <CollectorDetailCard
-                                        looseCompleteQtyInput={figure.looseCompleteQty}
-                                        looseIncompleteQtyInput={figure.looseIncompleteQty}
-                                        newInBoxQtyInput={figure.newInBoxQty}
-                                        ownedId={figure.ownedId}
-                                        userId={id}
-                                    />
-                                }
+                                {releaseDetails}
+                                {!isMobile && characterDetails}
+                                {!isMobile && !isModalOpen && figure.owned && collectorDetails}
                             </Grid>
                             <Grid item md={4} xs={12} >
-                                {isMobile && 
-                                    <CharacterDetailCard 
-                                        name={figure.name}
-                                        similarFigures={similarFigures}
-                                        sourceMaterial={figure.sourceMaterial}
-                                        multipack={figure.multipack}
-                                        multipackFigures={multipackFigures}
-                                    />
-                                }
+                                {isMobile && characterDetails}
                             </Grid>
                             {isMobile && !isModalOpen && figure.owned &&
                                 <Grid item md={4} xs={12} >
-                                    <CollectorDetailCard
-                                        looseCompleteQtyInput={figure.looseCompleteQty}
-                                        looseIncompleteQtyInput={figure.looseIncompleteQty}
-                                        newInBoxQtyInput={figure.newInBoxQty}
-                                        ownedId={figure.ownedId}
-                                        userId={id}
-                                    />
+                                    {collectorDetails}
                                 </Grid>
                             }
                         </Grid>
-                        <Grid item xs={12} >
-                            <div className={classes.editContainer}>
-                                <CollectorButton 
-                                    figureId={figure.id}
-                                    ownedId={figure.ownedId}
-                                    recordOwned={figure.owned}
-                                    smallFigureView={false}
-                                    card={false}
-                                />
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} >
-                            {authEditor && editFigureButton()}
-                        </Grid>
+                        {isMobile &&
+                            <Grid item xs={12} container direction='row' justify='space-around'>
+                                {collectorButton}
+                                {authEditor && editFigureButton}
+                            </Grid>
+                        }
                     </div>
                 </Container>
                 <Modal
@@ -201,8 +195,7 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     editContainer: {
         marginTop: theme.spacing(2),
