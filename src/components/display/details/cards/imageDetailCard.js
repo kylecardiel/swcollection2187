@@ -7,7 +7,9 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
+import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Color } from 'shared/styles/color';
+import { isProduction } from 'shared/util/environment';
 
 export const ImageDetailCard = ({ looseImageUrl, newImageUrl }) => {
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
@@ -18,9 +20,26 @@ export const ImageDetailCard = ({ looseImageUrl, newImageUrl }) => {
 
     const classes = useStyles();
 
-    const guardedNewImageUrl = newImageUrl ? newImageUrl : commingSoonPhotoUrl;
-    const guardedLooseImageUrl = looseImageUrl ? looseImageUrl : commingSoonPhotoUrl;
-    const largeImage = newImage ? guardedNewImageUrl : guardedLooseImageUrl;
+    const guardedNewImageUrl = 
+        isProduction 
+            ? newImageUrl 
+                ? newImageUrl 
+                : commingSoonPhotoUrl 
+            : IMAGE_PATHS.FILL_MURRAY;
+
+    const guardedLooseImageUrl = 
+        isProduction 
+            ? looseImageUrl 
+                ? looseImageUrl 
+                : commingSoonPhotoUrl 
+            : IMAGE_PATHS.FILL_MURRAY;
+    
+    const largeImage = 
+        isProduction 
+            ? newImage 
+                ? guardedNewImageUrl 
+                : guardedLooseImageUrl 
+            : IMAGE_PATHS.FILL_MURRAY;
 
     return (
         <Card className={classes.card}>

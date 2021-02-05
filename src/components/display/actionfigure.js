@@ -11,8 +11,10 @@ import React, { useContext, useMemo } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
+import { IMAGE_PATHS } from 'shared/constants/imagePaths';
+import { isProduction } from 'shared/util/environment';
 
-export const ActionFigure = ({ assortments, newBoxImage, records, showAssortmentHeaders, smallFigureView, sourceMaterials,  }) => {
+export const ActionFigure = ({ assortments, newBoxImage, records, showAssortmentHeaders, smallFigureView, sourceMaterials }) => {
     const classes = useStyles({ smallFigureView });
     const { loggedIn } = useContext(UserConsumer);
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
@@ -26,6 +28,14 @@ export const ActionFigure = ({ assortments, newBoxImage, records, showAssortment
     const cardMediaStyle = {
         paddingTop: smallFigureView ? 0 : '60%',
         height: smallFigureView ? 100 : 250,
+    };
+
+    const determineImage = (newImageUrl, looseImageUrl) => {
+        if (isProduction){
+            return newBoxImage ? (newImageUrl || commingSoonPhotoUrl) : (looseImageUrl || commingSoonPhotoUrl);
+        } else {
+            return IMAGE_PATHS.FILL_MURRAY;
+        }
     };
 
     const Item = ({ data, index, style }) => {
@@ -61,10 +71,7 @@ export const ActionFigure = ({ assortments, newBoxImage, records, showAssortment
                                 />
                                 <CardMedia
                                     style={cardMediaStyle}
-                                    image={
-                                        newBoxImage
-                                            ? (records[i].newImageUrl || commingSoonPhotoUrl)
-                                            : (records[i].looseImageUrl || commingSoonPhotoUrl)
+                                    image={determineImage(records[i].newImageUrl, records[i].looseImageUrl)
                                     }
                                     title={records[i].name}
                                     src={records[i].name}

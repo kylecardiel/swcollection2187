@@ -1,34 +1,41 @@
-import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared/constants/stringConstantsSelectors';
-import { CatalogApi } from 'shared/api/catalogApi';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import { ActionFigure } from 'components/display/actionfigure';
-import camelCase from 'lodash/camelCase';
-import ClearIcon from '@material-ui/icons/Clear';
-import { Color } from 'shared/styles/color';
 import Container from '@material-ui/core/Container';
-import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
-import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { FormFilter } from 'components/common/form/formFilter';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import Grid from '@material-ui/core/Grid';
 import InputBase from '@material-ui/core/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from 'react-modal';
-import { modalStyles } from 'shared/styles/modalStyles';
-import PropTypes from 'prop-types';
-import { RecordUtils } from 'shared/util/recordUtils';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import ClearIcon from '@material-ui/icons/Clear';
+import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import SaveIcon from '@material-ui/icons/Save';
 import SearchIcon from '@material-ui/icons/Search';
-import { SortingUtils } from 'shared/util/sortingUtil';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
-import { TableStats } from 'components/blackSeries/tableStats';
-import { UserApi } from 'shared/api/userApi';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { UserConsumer } from 'components/auth/authContext';
+import { TableStats } from 'components/blackSeries/tableStats';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
+import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
+import { FormFilter } from 'components/common/form/formFilter';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { generateStatsBasedOnSource } from 'components/common/stats/stats';
+import { ActionFigure } from 'components/display/actionfigure';
+import camelCase from 'lodash/camelCase';
+import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import Modal from 'react-modal';
+import { CatalogApi } from 'shared/api/catalogApi';
+import { UserApi } from 'shared/api/userApi';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared/constants/stringConstantsSelectors';
+import { CatalogData } from 'shared/fixtures/catalogData';
+import { usersData } from 'shared/fixtures/userData';
+import { Color } from 'shared/styles/color';
+import { modalStyles } from 'shared/styles/modalStyles';
+import { isProduction } from 'shared/util/environment';
+import { RecordUtils } from 'shared/util/recordUtils';
+import { SortingUtils } from 'shared/util/sortingUtil';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -36,6 +43,7 @@ export const BlackSeriesCatalog = props => {
     const { id, loggedIn } = useContext(UserConsumer);
     const classes = useStyles();
     const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize, setUserDisplaySettings, clearUserDisplaySettings, filterState } = props;
+
 
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState(filterState.filterBySourceMaterial);
     const handleSourceMaterialChange = e => {
@@ -216,7 +224,7 @@ export const BlackSeriesCatalog = props => {
         } else if (screenSize.isMediumDesktopOrLaptop) {
             return { height: '80%', width: '50%' };
         } else {
-            return { height: '95%', width: '95%' };
+            return { height: '60%', width: '95%' };
         }
     };
 
@@ -224,26 +232,32 @@ export const BlackSeriesCatalog = props => {
 
     const openStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
     const closeStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
-    const statsModalSize = { height: '75%', width: '50%' };
+    // const statsModalSize = { height: '60%', width: '95%' };
 
     const [initialState] = useState(props);
     useEffect(() => {
-        const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
-        catalogRef.on('value', snapshot => {
-            if (snapshot.val()) {
-                let records = snapshot.val()['BlackSeries6'];
-                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
-            }
-        });
-
-        if (loggedIn) {
-            const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
-            userRef.on('value', snapshot => {
+        
+        if(isProduction) {
+            const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
+            catalogRef.on('value', snapshot => {
                 if (snapshot.val()) {
                     let records = snapshot.val()['BlackSeries6'];
-                    setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
                 }
             });
+    
+            if (loggedIn) {
+                const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
+                userRef.on('value', snapshot => {
+                    if (snapshot.val()) {
+                        let records = snapshot.val()['BlackSeries6'];
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                    }
+                });
+            }
+        } else {
+            setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
+            setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.BlackSeries6, 'ownedId'));
         }
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData]);
@@ -363,6 +377,34 @@ export const BlackSeriesCatalog = props => {
     const unownedCheckBox = generateCheckBoxForm(viewOnlyUnownedFigures, handleUnownedFiguresCheckBoxChange, BS_DISPLAY_MODAL.LABELS.NOT_OWNED);
     const stats = generateStatsBasedOnSource(displayList, helperData.sourceMaterial, NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.VALUE);
 
+    const filterButton = <ActionButton
+        icon={<FilterListIcon />}
+        onClick={openModal}
+        color={Color.black()}
+    />;
+
+    const statsButton = <ActionButton
+        icon={<BarChartIcon />}
+        onClick={openStatsModal}
+        color={Color.blue()}
+    />;
+
+    const newlyAddedButton = <ActionButton
+        buttonLabel={screenSize.isMobileDevice ? null : !viewRecent ? BS_CATALOG.BUTTON.RECENT : BS_CATALOG.BUTTON.ALL}
+        icon={!viewRecent ? <NewReleasesIcon /> : <ViewComfyIcon />}
+        onClick={handleViewRecentChange}
+        color={Color.green()}
+        disabled={viewOnlyOwnedFigures}
+    />;
+
+    const myCollectionButton = <ActionButton
+        buttonLabel={screenSize.isMobileDevice ? null : !viewOnlyOwnedFigures ? 'My Collection' : BS_CATALOG.BUTTON.ALL}
+        icon={!viewOnlyOwnedFigures ? <CollectionsBookmarkIcon /> : <ViewComfyIcon />}
+        onClick={handleOwnedFiguresCheckBoxChange}
+        color={Color.green()}
+        disabled={viewRecent}
+    />;
+
     return (
         <React.Fragment>
             <Container component='main' maxWidth='xl'>
@@ -371,7 +413,7 @@ export const BlackSeriesCatalog = props => {
                         <Modal
                             isOpen={isStatsModalOpen}
                             onRequestClose={closeStatsModal}
-                            style={modalStyles(statsModalSize)}
+                            style={modalStyles(modalSize())}
                         >
                             <div className={classes.modalClose}>
                                 <div 
@@ -475,26 +517,20 @@ export const BlackSeriesCatalog = props => {
                                 />
                             </div>
                         </Grid>
-                        <Grid item xs={6} md={3} className={classes.viewFilters}>
-                            <ActionButton
-                                buttonLabel={!viewRecent ? BS_CATALOG.BUTTON.RECENT : BS_CATALOG.BUTTON.ALL}
-                                onClick={handleViewRecentChange}
-                                color={Color.green()}
-                            />
-                        </Grid>
-                        <Grid item xs={3} md={1} className={classes.viewFilters}>
-                            <ActionButton
-                                buttonLabel={BS_CATALOG.BUTTON.STATS}
-                                onClick={openStatsModal}
-                                color={Color.blue()}
-                            />
-                        </Grid>
-                        <Grid item xs={3} md={1} className={classes.viewFilters}>
-                            <ActionButton
-                                icon={<FilterListIcon />}
-                                onClick={openModal}
-                                color={Color.black()}
-                            />
+                        <Grid
+                            item
+                            container
+                            direction='row'
+                            justify='space-around'
+                            spacing={1}
+                            xs={12}
+                            md={6}
+                            className={classes.viewFilters}
+                        >
+                            {myCollectionButton}
+                            {newlyAddedButton}
+                            {statsButton}
+                            {filterButton}
                         </Grid>
                     </Grid>
                 </div>
@@ -546,12 +582,11 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(1),
     },
     alwaysDisplayed: {
+        marginTop: theme.spacing(.35),
         marginBottom: theme.spacing(1),
     },
     viewFilters: {
         marginTop: theme.spacing(1),
-        display: 'flex',
-        justifyContent: 'flex-end',
         marginBottom: theme.spacing(1),
     },
     formControl: {

@@ -31,9 +31,12 @@ export const DisplayNameSection = ({ assortments, record, smallFigureView, sourc
         }
     };
 
+    const name = record.name;
+    const formatedName = smallFigureView && name.length > 15 ? name.substring(0, 12) + '...' : name ;
+    
     return (
         <Grid container spacing={0} className={classes.container}>
-            <Grid item xs={nameSize} className={classes.nameText}>{record.name}</Grid>
+            <Grid item xs={nameSize} className={classes.nameText}>{formatedName}</Grid>
             {!smallFigureView && record.seriesNumber &&
                 <Grid item xs={2} className={classes.seriesNumber}>{formattedSeriesNumber()}</Grid>
             }
@@ -54,7 +57,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         fontFamily: 'Raleway, sans-serif',
-        fontSize: props => props.smallFigureView ? '8px' : '12px',
+        fontSize: props => props.smallFigureView ? '7px' : '12px',
         fontWeight: '800',
         color: Color.white(),
         backgroundColor: Color.black(),
@@ -69,7 +72,6 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Raleway, sans-serif',
         fontSize: '12px',
         fontWeight: '800',
-        textTransform: 'uppercase',
         paddingTop: theme.spacing(.5),
         paddingBottom: theme.spacing(.5),
     },
