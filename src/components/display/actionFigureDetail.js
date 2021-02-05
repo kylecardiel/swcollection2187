@@ -116,6 +116,16 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
         userId={id}
     />;
 
+    const collectorButton = <div className={classes.editContainer}>
+        <CollectorButton 
+            figureId={figure.id}
+            ownedId={figure.ownedId}
+            recordOwned={figure.owned}
+            smallFigureView={false}
+            card={false}
+        />
+    </div>;
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
@@ -133,6 +143,7 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
                                     looseImageUrl={figure.looseImageUrl}
                                     newImageUrl={figure.newImageUrl}
                                 />
+                                {!isMobile && collectorButton}
                             </Grid>
                             <Grid item md={8} xs={12} >
                                 {releaseDetails}
@@ -148,17 +159,11 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
                                 </Grid>
                             }
                         </Grid>
-                        <Grid item xs={12} >
-                            <div className={classes.editContainer}>
-                                <CollectorButton 
-                                    figureId={figure.id}
-                                    ownedId={figure.ownedId}
-                                    recordOwned={figure.owned}
-                                    smallFigureView={false}
-                                    card={false}
-                                />
-                            </div>
-                        </Grid>
+                        {isMobile &&
+                            <Grid item xs={12} >
+                                {collectorButton}
+                            </Grid>
+                        }
                         <Grid item xs={12} >
                             {authEditor && editFigureButton()}
                         </Grid>
@@ -190,8 +195,7 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     editContainer: {
         marginTop: theme.spacing(2),
