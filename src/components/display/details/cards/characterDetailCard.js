@@ -52,7 +52,7 @@ export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name,
 
     const generateGroupDetail = () => {
         return <>
-            {groups.map(g => (
+            {groups.sort().map(g => (
                 <Typography variant='body2' gutterBottom component='p' key={g} className={classes.indent}>
                     {`- ${g}`}
                 </Typography>

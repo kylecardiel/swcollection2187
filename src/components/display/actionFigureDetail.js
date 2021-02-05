@@ -75,16 +75,13 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
     const modalSize = { height: '85%', width: '85%' };
     const authEditor = email === ROLES.EMAIL;
 
-    const editFigureButton = () => {
-        return <div className={classes.editContainer}>
-            <ActionButton
-                buttonLabel={'Edit Figure Details'}
-                icon={<EditIcon />}
-                onClick={openModal}
-                color={Color.blue()}
-            />
-        </div>;
-    };
+    const editFigureButton = <div className={classes.editContainer}>
+        <ActionButton
+            icon={<EditIcon />}
+            onClick={openModal}
+            color={Color.blue()}
+        />
+    </div>;
 
     const releaseDetails = <ReleaseDetailCard 
         assortment={figure.assortment}
@@ -143,7 +140,12 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
                                     looseImageUrl={figure.looseImageUrl}
                                     newImageUrl={figure.newImageUrl}
                                 />
-                                {!isMobile && collectorButton}
+                                {!isMobile &&
+                                    <Grid container direction='row' justify='space-around'>
+                                        {collectorButton}
+                                        {authEditor && editFigureButton}
+                                    </Grid>
+                                }
                             </Grid>
                             <Grid item md={8} xs={12} >
                                 {releaseDetails}
@@ -160,13 +162,11 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
                             }
                         </Grid>
                         {isMobile &&
-                            <Grid item xs={12} >
+                            <Grid item xs={12} container direction='row' justify='space-around'>
                                 {collectorButton}
+                                {authEditor && editFigureButton}
                             </Grid>
                         }
-                        <Grid item xs={12} >
-                            {authEditor && editFigureButton()}
-                        </Grid>
                     </div>
                 </Container>
                 <Modal
