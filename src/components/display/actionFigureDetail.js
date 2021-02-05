@@ -86,6 +86,36 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
         </div>;
     };
 
+    const releaseDetails = <ReleaseDetailCard 
+        assortment={figure.assortment}
+        assortmentBackgroundColor={assortmentBackgroundColor()}
+        assortmentNumber={figure.seriesNumber}
+        exclusiveRetailer={figure.exclusiveRetailer}
+        multipack={figure.multipack}
+        multipackQuantity={multipackFigureQty}
+        packageType={figure.packageType}
+        retailPrice={figure.retailPrice}
+        wave={figure.wave}
+        year={figure.year}
+    />;
+
+    const characterDetails = <CharacterDetailCard 
+        groups={figure.groups}
+        multipack={figure.multipack}
+        multipackFigures={multipackFigures}
+        name={figure.name}
+        similarFigures={similarFigures}
+        sourceMaterial={figure.sourceMaterial}
+    />;
+
+    const collectorDetails = <CollectorDetailCard
+        looseCompleteQtyInput={figure.looseCompleteQty}
+        looseIncompleteQtyInput={figure.looseIncompleteQty}
+        newInBoxQtyInput={figure.newInBoxQty}
+        ownedId={figure.ownedId}
+        userId={id}
+    />;
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
@@ -105,57 +135,16 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
                                 />
                             </Grid>
                             <Grid item md={8} xs={12} >
-                                <ReleaseDetailCard 
-                                    assortment={figure.assortment}
-                                    assortmentBackgroundColor={assortmentBackgroundColor()}
-                                    assortmentNumber={figure.seriesNumber}
-                                    exclusiveRetailer={figure.exclusiveRetailer}
-                                    multipack={figure.multipack}
-                                    multipackQuantity={multipackFigureQty}
-                                    packageType={figure.packageType}
-                                    retailPrice={figure.retailPrice}
-                                    wave={figure.wave}
-                                    year={figure.year}
-                                />
-                                {!isMobile && 
-                                    <CharacterDetailCard 
-                                        name={figure.name}
-                                        similarFigures={similarFigures}
-                                        sourceMaterial={figure.sourceMaterial}
-                                        multipack={figure.multipack}
-                                        multipackFigures={multipackFigures}
-                                    />
-                                }
-                                {!isMobile && !isModalOpen && figure.owned &&
-                                    <CollectorDetailCard
-                                        looseCompleteQtyInput={figure.looseCompleteQty}
-                                        looseIncompleteQtyInput={figure.looseIncompleteQty}
-                                        newInBoxQtyInput={figure.newInBoxQty}
-                                        ownedId={figure.ownedId}
-                                        userId={id}
-                                    />
-                                }
+                                {releaseDetails}
+                                {!isMobile && characterDetails}
+                                {!isMobile && !isModalOpen && figure.owned && collectorDetails}
                             </Grid>
                             <Grid item md={4} xs={12} >
-                                {isMobile && 
-                                    <CharacterDetailCard 
-                                        name={figure.name}
-                                        similarFigures={similarFigures}
-                                        sourceMaterial={figure.sourceMaterial}
-                                        multipack={figure.multipack}
-                                        multipackFigures={multipackFigures}
-                                    />
-                                }
+                                {isMobile && characterDetails}
                             </Grid>
                             {isMobile && !isModalOpen && figure.owned &&
                                 <Grid item md={4} xs={12} >
-                                    <CollectorDetailCard
-                                        looseCompleteQtyInput={figure.looseCompleteQty}
-                                        looseIncompleteQtyInput={figure.looseIncompleteQty}
-                                        newInBoxQtyInput={figure.newInBoxQty}
-                                        ownedId={figure.ownedId}
-                                        userId={id}
-                                    />
+                                    {collectorDetails}
                                 </Grid>
                             }
                         </Grid>

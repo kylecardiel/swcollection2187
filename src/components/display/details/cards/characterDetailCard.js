@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 
-export const CharacterDetailCard = ({ multipack, multipackFigures, name, similarFigures, sourceMaterial }) => {
+export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name, similarFigures, sourceMaterial }) => {
     const classes = useStyles();
 
     const generateDetail = (label, value) => {
@@ -50,6 +50,16 @@ export const CharacterDetailCard = ({ multipack, multipackFigures, name, similar
         </>;
     };
 
+    const generateGroupDetail = () => {
+        return <>
+            {groups.map(g => (
+                <Typography variant='body2' gutterBottom component='p' key={g} className={classes.indent}>
+                    {`- ${g}`}
+                </Typography>
+            ))}
+        </>;
+    };
+
     return (
         <Card className={classes.card}>
             <CardContent>
@@ -57,6 +67,8 @@ export const CharacterDetailCard = ({ multipack, multipackFigures, name, similar
                     {BS_DETAILS_LABEL.CHARACTER_DETAILS_HEADER}
                 </Typography>
                 {generateDetail(BS_DETAILS_LABEL.SOURCE, sourceMaterial)}
+                {generateDetail('Groups', groups.length)}
+                {groups.length > 0 && generateGroupDetail()}
                 {generateDetail(BS_DETAILS_LABEL.MORE_SIMILAR_FIGURE(name), similarFigures.length)}
                 {similarFigures.length > 0 && generatSimilarFigureList()}
                 {generateDetail(BS_DETAILS_LABEL.MULTIPACK_FIGURE, multipackFigures.length)}
@@ -74,12 +86,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
     },
+    indent: {
+        marginLeft: theme.spacing(2),
+    },
 }));
 
 CharacterDetailCard.propTypes = {
+    groups: PropTypes.array,
+    multipack: PropTypes.string,
+    multipackFigures: PropTypes.array,
     name: PropTypes.string.isRequired,
     similarFigures: PropTypes.array,
     sourceMaterial: PropTypes.string.isRequired,
-    multipack: PropTypes.string,
-    multipackFigures: PropTypes.array,
 };

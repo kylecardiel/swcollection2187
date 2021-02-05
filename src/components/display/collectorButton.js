@@ -113,7 +113,7 @@ const useStyles = makeStyles(() => ({
 CollectorButton.propTypes = {
     card: PropTypes.bool.isRequired,
     figureId: PropTypes.string.isRequired,
-    ownedId: PropTypes.string.isRequired,
-    recordOwned: PropTypes.bool.isRequired,
+    ownedId: PropTypes.string,
+    recordOwned: PropTypes.bool,
     smallFigureView: PropTypes.bool.isRequired,
 };

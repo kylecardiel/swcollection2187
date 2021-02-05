@@ -92,9 +92,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 CollectorDetailCard.propTypes = {
-    looseCompleteQtyInput: PropTypes.number.isRequired,
-    looseIncompleteQtyInput: PropTypes.number.isRequired,
-    newInBoxQtyInput: PropTypes.number.isRequired,
+    looseCompleteQtyInput: PropTypes.number,
+    looseIncompleteQtyInput: PropTypes.number,
+    newInBoxQtyInput: PropTypes.number,
     ownedId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
 };
