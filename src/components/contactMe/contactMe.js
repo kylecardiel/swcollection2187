@@ -23,7 +23,6 @@ export const ContactMe = ({ signUpPage }) => {
 
     const { control, register, handleSubmit, reset } = useForm();
     const onSubmit = data => {
-        console.log(data)
         RecordUtils.addTimeStamps(data);
         ContactMeApi.create(data);
         setSuccessBanner(true);
@@ -45,12 +44,6 @@ export const ContactMe = ({ signUpPage }) => {
 
     const { LABELS, SUCCESS, TITLE } = PAGES.CONTACT_ME;
     const menuItemNone = <MenuItem key={GENERAL.MENU_ITEMS.NONE} value={null}><em>{GENERAL.MENU_ITEMS.NONE}</em></MenuItem>;
-    const categoryValues = [
-        'Bug/Issue - Please Fix',
-        'Enhancement Idea',
-        'Mislabeled Figure',
-        'Other...',
-    ];
 
     return (
         <React.Fragment>
@@ -118,7 +111,7 @@ export const ContactMe = ({ signUpPage }) => {
                                                     inputProps={{ name: 'Category' }}
                                                 >
                                                     {menuItemNone}
-                                                    {categoryValues.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
+                                                    {PAGES.CONTACT_ME.CATEGORYS.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
                                                 </Select>
                                             }
                                         />

@@ -245,6 +245,13 @@ export const STRING_CONSTANTS = Object.freeze({
             },
             SUCCESS: 'Thanks, message recevied!',
             TITLE: 'Contact Me',
+            CATEGORYS: [
+                'Bug/Issue - Please Fix',
+                'Enhancement Idea',
+                'How to ...',
+                'Mislabeled Figure',
+                'Other...',
+            ],
         },
         TERMS_OF_SERVICE: {
             TITLE: 'Terms of Service',
