@@ -97,6 +97,7 @@ export const Admin = ({ helperData }) => {
 
     const dataTypes = [
         { key: 'none', value: null },
+
         { key: 'Characters', value: 'characters' },
         { key: 'Collection Type', value: 'collectionType' },
         { key: 'Exclusive Retailer', value: 'exclusiveRetailer' },
@@ -105,9 +106,16 @@ export const Admin = ({ helperData }) => {
         { key: 'Series', value: 'series' },
         { key: 'Source Type', value: 'sourceType' },
         { key: 'Version', value: 'version' },
+
+        { key: 'Video Game Console', value: 'console' },
+        // { key: 'Video Game Developer', value: 'videoGameDeveloper' },
+        { key: 'Video Game Type', value: 'videoGameType' },
+        { key: 'Video Game Series', value: 'videoGameSeries' },
+        { key: 'Video Game Format', value: 'videoGameFormat' },
     ];
 
     let assortmentTable, charactersTable, collectionTypeTable, exclusiveTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
+    let consoleTable, videoGameTypeTable, videoGameSeriesTable, videoGameFormatTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
             assortmentTable = <FormDataTable header={'Assortment'} data={newAssortment} dataType={'assortment'} disable />;
@@ -119,11 +127,14 @@ export const Admin = ({ helperData }) => {
             sourceMaterialTable = <FormDataTable header={'Source Material'} data={newSourceMaterial} dataType={'sourceMaterial'} disable />;
             sourceTypeTable = <FormDataTable header={'Source Type'} data={helperData.sourceType} dataType={'sourceType'} />;
             versionTable = <FormDataTable header={'Version'} data={helperData.version} dataType={'version'} />;
+
+            consoleTable = <FormDataTable header={'VG: Console'} data={helperData.console} dataType={'console'} />;
+            videoGameTypeTable = <FormDataTable header={'VG: Type'} data={helperData.videoGameType} dataType={'videoGameType'} />;
+            videoGameSeriesTable = <FormDataTable header={'VG: Series'} data={helperData.videoGameSeries} dataType={'videoGameSeries'} />;
+            videoGameFormatTable = <FormDataTable header={'VG: Format'} data={helperData.videoGameFormat} dataType={'videoGameFormat'} />;
         }
     };
     buildTables();
-
-    console.log(helperData)
 
     return (
         <React.Fragment>
@@ -236,6 +247,7 @@ export const Admin = ({ helperData }) => {
                                                 {seriesTable}
                                                 {versionTable}
                                                 {sourceTypeTable}
+                                                {exclusiveTable}
                                             </Grid>
                                             <Grid item xs={12} md={3} lg={2}>
                                                 {groupsTable}
@@ -244,7 +256,10 @@ export const Admin = ({ helperData }) => {
                                                 {charactersTable}
                                             </Grid>
                                             <Grid item xs={12} md={3} lg={2}>
-                                                {exclusiveTable}
+                                                {consoleTable}
+                                                {videoGameTypeTable}
+                                                {videoGameSeriesTable}
+                                                {videoGameFormatTable}
                                             </Grid>
                                         </>
                                     }

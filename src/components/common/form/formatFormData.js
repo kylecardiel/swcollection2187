@@ -10,6 +10,11 @@ export const formatFormData = snapshot => {
         sourceMaterial: createFormDataObj(snapshot.sourceMaterial),
         sourceType: createFormDataObj(snapshot.sourceType),
         version: createFormDataObj(snapshot.version),
+
+        console: createFormDataObj(snapshot.console),
+        videoGameFormat: createFormDataObj(snapshot.videoGameFormat),
+        videoGameSeries: createFormDataObj(snapshot.videoGameSeries),
+        videoGameType: createFormDataObj(snapshot.videoGameType),
     };
 };
 
