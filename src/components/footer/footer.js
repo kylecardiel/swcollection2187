@@ -23,6 +23,10 @@ export const Footer = () => {
                         {FOOTER.HOW_TO}
                         {arrowIcon}
                     </Link>
+                    <Link to={ROUTE_CONSTANTS.FUTURE_PLANS} className={classes.links}>
+                        {FOOTER.FUTURE_PLANS}
+                        {arrowIcon}
+                    </Link>
                     <Link to={ROUTE_CONSTANTS.TOS} className={classes.links}>
                         {FOOTER.TOS}
                         {arrowIcon}
