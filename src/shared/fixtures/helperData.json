@@ -91,9 +91,6 @@
         "collectionType" : {
             "-MFIWYKHkkNPdjltU3KO" : [ "Action Figures", "Video Games" ]
         },
-        "console" : {
-            "-MSuSuR7XIiuwPMsrb_A" : [ "Arcade", "Apple II", "Atari 2600", "Famicom", "Nintendo Entertainment System", "Super Nintendo Entertainment System", "Nintendo 64", "Sega Master System", "Sega Dreamcast", "Game Gear", "GameCube", "DOS", "Microsoft Windows", "Macintosh", "Classic Mac OS", "macOS", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", "PlayStation Vita", "Xbox", "Xbox 360", "Xbox One", "Wii", "Wii U", "Game Boy", "Game Boy Color", "Game Boy Advance", "Nintendo DS", "PlayStation Portable", "iOS", "Android", "Linux", "Stadia" ]
-        },
         "exclusiveRetailer" : {
             "-MDk9rKegNGv_KirrDln" : [ "Amazon", "Best Buy", "Convention", "Disney", "Disney Store", "Entertainment Earth", "Fan Channel", "Gamestop", "HasCon", "Hasbro Pulse", "Kmart", "SDCC", "SW Celebration", "Target", "Walgreens", "Walmart" ]
         },
@@ -226,6 +223,9 @@
         },
         "version" : {
             "-MFIWkiIOhuTTWlq9YIb" : [ "Carbonized", "Vintage Card", "White Box" ]
+        },
+        "videoGameConsole" : {
+            "-MSuSuR7XIiuwPMsrb_A" : [ "Arcade", "Apple II", "Atari 2600", "Famicom", "Nintendo Entertainment System", "Super Nintendo Entertainment System", "Nintendo 64", "Sega Master System", "Sega Dreamcast", "Game Gear", "GameCube", "DOS", "Microsoft Windows", "Macintosh", "Classic Mac OS", "macOS", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", "PlayStation Vita", "Xbox", "Xbox 360", "Xbox One", "Wii", "Wii U", "Game Boy", "Game Boy Color", "Game Boy Advance", "Nintendo DS", "PlayStation Portable", "iOS", "Android", "Linux", "Stadia" ]
         },
         "videoGameFormat" : {
             "-MSuYj5FOUaifjcaWQWd" : [ "Cartridge", "Digital", "Disc" ]

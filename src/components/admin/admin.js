@@ -23,7 +23,7 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 import TextField from '@material-ui/core/TextField';
 import { UploadImage } from 'components/admin/uploadImage';
 import { useForm } from 'react-hook-form';
-
+import { NewVideoGameForm } from 'components/catalog/videoGames/newVideoGameForm';
 import { FormSelectorInput } from 'components/admin/formSelectorInputs';
 
 const { HOME } = ROUTE_CONSTANTS;
@@ -31,11 +31,13 @@ const { HOME } = ROUTE_CONSTANTS;
 export const Admin = ({ helperData }) => {
     const classes = useStyles();
 
+    const [newEntryComponent, setNewEntryComponent] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [displayFormDataInput, setDisplayFormDataInput] = useState(true);
-    const [displayFormDataTable, setDisplayFormDataTable] = useState(true);
+    const [displayFormDataTable, setDisplayFormDataTable] = useState(false);
 
-    const openModal = () => {
+    const openModal = component => {
+        setNewEntryComponent(component);
         setIsModalOpen(!isModalOpen);
         setDisplayFormDataInput(!displayFormDataInput);
     };
@@ -107,7 +109,7 @@ export const Admin = ({ helperData }) => {
         { key: 'Source Type', value: 'sourceType' },
         { key: 'Version', value: 'version' },
 
-        { key: 'Video Game Console', value: 'console' },
+        { key: 'Video Game Console', value: 'videoGameConsole' },
         // { key: 'Video Game Developer', value: 'videoGameDeveloper' },
         { key: 'Video Game Type', value: 'videoGameType' },
         { key: 'Video Game Series', value: 'videoGameSeries' },
@@ -115,7 +117,7 @@ export const Admin = ({ helperData }) => {
     ];
 
     let assortmentTable, charactersTable, collectionTypeTable, exclusiveTable, groupsTable, seriesTable, sourceMaterialTable, sourceTypeTable, versionTable;
-    let consoleTable, videoGameTypeTable, videoGameSeriesTable, videoGameFormatTable;
+    let videoGameConsoleTable, videoGameTypeTable, videoGameSeriesTable, videoGameFormatTable;
     const buildTables = () => {
         if (Object.keys(helperData).length !== 0) {
             assortmentTable = <FormDataTable header={'Assortment'} data={newAssortment} dataType={'assortment'} disable />;
@@ -128,13 +130,24 @@ export const Admin = ({ helperData }) => {
             sourceTypeTable = <FormDataTable header={'Source Type'} data={helperData.sourceType} dataType={'sourceType'} />;
             versionTable = <FormDataTable header={'Version'} data={helperData.version} dataType={'version'} />;
 
-            consoleTable = <FormDataTable header={'VG: Console'} data={helperData.console} dataType={'console'} />;
+            videoGameConsoleTable = <FormDataTable header={'VG: Console'} data={helperData.videoGameConsole} dataType={'videoGameConsole'} />;
             videoGameTypeTable = <FormDataTable header={'VG: Type'} data={helperData.videoGameType} dataType={'videoGameType'} />;
             videoGameSeriesTable = <FormDataTable header={'VG: Series'} data={helperData.videoGameSeries} dataType={'videoGameSeries'} />;
             videoGameFormatTable = <FormDataTable header={'VG: Format'} data={helperData.videoGameFormat} dataType={'videoGameFormat'} />;
         }
     };
     buildTables();
+
+    const newBlackSeriesModal = <NewCollectibleForm
+        closeModal={closeModal}
+        catalog
+        formData={helperData}
+    />;
+
+    const newVideoGameModal = <NewVideoGameForm
+        closeModal={closeModal}
+        formData={helperData}
+    />;
 
     return (
         <React.Fragment>
@@ -145,19 +158,21 @@ export const Admin = ({ helperData }) => {
                     onRequestClose={closeModal}
                     style={modalStyles(modalSize)}
                 >
-                    <NewCollectibleForm
-                        closeModal={closeModal}
-                        catalog
-                        formData={helperData}
-                    />
+                    {newEntryComponent}
                 </Modal>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
                         <Grid item xs={12} className={classes.formDataContainer}>
                             <ActionButton
-                                buttonLabel={ADMIN.BUTTON.NEW_ENTRY}
+                                buttonLabel={ADMIN.BUTTON.NEW_BLACK_SERIES}
                                 icon={<AddBoxIcon />}
-                                onClick={openModal}
+                                onClick={() => openModal(newBlackSeriesModal)}
+                                color={Color.green()}
+                            />
+                            <ActionButton
+                                buttonLabel={ADMIN.BUTTON.NEW_VIDEO_GAME}
+                                icon={<AddBoxIcon />}
+                                onClick={() => openModal(newVideoGameModal)}
                                 color={Color.green()}
                             />
                         </Grid>
@@ -256,7 +271,7 @@ export const Admin = ({ helperData }) => {
                                                 {charactersTable}
                                             </Grid>
                                             <Grid item xs={12} md={3} lg={2}>
-                                                {consoleTable}
+                                                {videoGameConsoleTable}
                                                 {videoGameTypeTable}
                                                 {videoGameSeriesTable}
                                                 {videoGameFormatTable}
