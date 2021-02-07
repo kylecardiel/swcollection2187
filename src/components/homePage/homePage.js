@@ -11,6 +11,8 @@ import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { UserConsumer } from 'components/auth/authContext';
 
+const { HOME_PAGE: { CATALOG_CARDS } } = IMAGE_PATHS;
+
 export const Homepage = () => {
     const classes = useStyles();
     const { email, loggedIn } = useContext(UserConsumer);
@@ -32,11 +34,18 @@ export const Homepage = () => {
                             <Grid item xs={12}>
                                 <h2>{HOME_PAGE.GET_STARTED}</h2>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} md={6}>
                                 <MediaCard
                                     cardText={HOME_PAGE.CARDS.BLACK_SERIES}
                                     route={ROUTE_CONSTANTS.BLACK_SERIES}
-                                    imagePath={IMAGE_PATHS.BLACK_SERIES_LOGO}
+                                    imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <MediaCard
+                                    cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
+                                    route={ROUTE_CONSTANTS.VIDEO_GAMES}
+                                    imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
                                 />
                             </Grid>
                         </>

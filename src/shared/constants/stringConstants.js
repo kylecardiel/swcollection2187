@@ -46,6 +46,10 @@ export const STRING_CONSTANTS = Object.freeze({
                     TITLE: 'Black Series Catalog',
                     BODY: 'View and add to your collection!',
                 },
+                VIDEO_GAMES: {
+                    TITLE: 'Video Games Catalog',
+                    BODY: 'View and add to your collection!',
+                },
                 USER_PROFILE: {
                     TITLE: 'User profile',
                     BODY: 'View ...',
@@ -211,6 +215,9 @@ export const STRING_CONSTANTS = Object.freeze({
             },
             SEARCH: 'Search by name…',
             TITLE: 'Black Series Catalog',
+        },
+        VIDEO_GAME_CATALOG: {
+            TITLE: 'Video Games',
         },
         UPLOAD_IMAGE: {
             TITLE: 'Upload Image',
