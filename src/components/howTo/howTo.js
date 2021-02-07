@@ -31,11 +31,11 @@ export const HowTo = ({ screenSize }) => {
 
     const modalSize = () => {
         if(screenSize.isLargeDesktopOrLaptop){
-            return { height: '65%', width: '20%' };
+            return { height: '75%', width: '20%' };
         } else if (screenSize.isMediumDesktopOrLaptop) {
-            return { height: '75%', width: '25%' };
+            return { height: '95%', width: '25%' };
         } else {
-            return { height: '80%', width: '95%' };
+            return { height: '100%', width: '100%' };
         }
     };
 

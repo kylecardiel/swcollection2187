@@ -88,12 +88,14 @@ export const AddAppToHomeScreen = ({ setIsModalOpen }) => {
 
 const useStyles = makeStyles(theme => ({
     stepText:{
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(2),
     },
     largeImage: {
         flexShrink: 0,
         maxHeight: 500,
-        marginBottom: theme.spacing(1),
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(3),
     },
     meatballs: {
         marginTop: theme.spacing(2),
