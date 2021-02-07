@@ -35,7 +35,7 @@ export const HowTo = ({ screenSize }) => {
         } else if (screenSize.isMediumDesktopOrLaptop) {
             return { height: '75%', width: '25%' };
         } else {
-            return { height: '75%', width: '95%' };
+            return { height: '80%', width: '95%' };
         }
     };
 
