@@ -7,8 +7,9 @@ import { FeatureFlagConsumer } from 'context/featureFlagsContext';
 import { Homepage } from 'components/homePage/homePage';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { TermsOfService } from 'components/termsOfService/termsOfService';
+import { FuturePlans } from '../components/futurePlans/futurePlans';
 
-const { ABOUT_ME, HOW_TO, CONTACT_ME, HOME, TOS } = ROUTE_CONSTANTS;
+const { ABOUT_ME, CONTACT_ME, HOME, HOW_TO, FUTURE_PLANS,  TOS } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
     const { signUpPage } = useContext(FeatureFlagConsumer);
@@ -30,6 +31,11 @@ export const PublicRoutes = () => {
                     exact
                     path={HOW_TO}
                     component={HowToConnect}
+                />
+                <Route
+                    exact
+                    path={FUTURE_PLANS}
+                    component={FuturePlans}
                 />
                 <Route
                     exact

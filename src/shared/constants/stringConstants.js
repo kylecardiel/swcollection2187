@@ -74,6 +74,7 @@ export const STRING_CONSTANTS = Object.freeze({
             FOOTER: {
                 ABOUT_ME: 'About Me',
                 CONTACT: 'Contact Me',
+                FUTURE_PLANS: 'Future Plans',
                 HOW_TO: 'How To',
                 TOS: 'Terms of Service',
             },
@@ -118,6 +119,28 @@ export const STRING_CONSTANTS = Object.freeze({
                 STEP_2: 'Step 2: Scroll down to "Add to Homescreen"',
                 STEP_3: 'Step 3: Name your "App"',
                 STEP_4: 'Step 4: Move to desired location',
+            },
+        },
+        FUTURE_PLANS: {
+            TITLE: 'Future Plans',
+            LIST: {
+                TITLE: 'Future Plans for the Site',
+                
+                ABOUT: [
+                    'I want this site to be the ultimate Star Wars collector site.',
+                    'Which means more than just action figure lines.',
+                    'Here are the collections I am looking to add in the future as of now.',
+                    'Feel free to check in periodically, to see what\'s coming next or send me a message about what you\'d like to see next.',
+                ].join('\n'),
+                BLACK_SERIES: 'Add 6" Black Series Collection',
+                VIDEO_GAMES: 'Add Star Wars Video Games',
+                MOVIES: 'Add Star Wars Movies',
+                BLACK_SERIES_LIGHT_SABERS: 'Add Black Series Lightsabers',
+                MICRO_MACHINES_ACTION_FLEET: 'Add Action Fleet Collection',
+                POWER_OF_THE_FORCE: 'Add Power of the Force Collection',
+                STAR_WARS_LEGO: 'Add Star Wars Lego Sets',
+                VINTAGE_COLLECTION: 'Add Vintage Collection',
+                VINTAGE_FIGURES: 'Add Vintage Figures',
             },
         },
         BLACK_SERIES_CATALOG: {
@@ -249,7 +272,8 @@ export const STRING_CONSTANTS = Object.freeze({
                 'Bug/Issue - Please Fix',
                 'Enhancement Idea',
                 'How to ...',
-                'Mislabeled Figure',
+                'Mislabeled Item',
+                'Request to add to collection',
                 'Other...',
             ],
         },
