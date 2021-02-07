@@ -6,6 +6,7 @@ export const ROUTE_CONSTANTS = Object.freeze({
     BLACK_SERIES: '/black-series',
     ADMIN: '/admin',
     ABOUT_ME: '/aboutMe',
+    HOW_TO: '/howTo',
     TOS: '/termsOfService',
     CONTACT_ME: '/contactMe',
 });
