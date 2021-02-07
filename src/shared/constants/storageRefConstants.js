@@ -5,4 +5,5 @@ export const FB_STORAGE_CONSTANTS = Object.freeze({
         ALL: 'ActionFigures/',
         BLACK_SERIES: 'ActionFigures/BlackSeries6/',
     },
+    VIDEO_GAMES: 'VideoGames/',
 });
