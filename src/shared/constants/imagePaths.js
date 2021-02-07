@@ -8,4 +8,12 @@ export const IMAGE_PATHS = Object.freeze({
     STEP_1:  '/img/homepage/step1.png',
     STEP_2:  '/img/homepage/step2.png',
     STEP_3:  '/img/homepage/step3.png',
+    HOW_TO: {
+        ADD_TO_HOME_SCREEN: {
+            STEP_1:  '/img/howTo/addToHomeScreen/HowToHomeScreen.001.png',
+            STEP_2:  '/img/howTo/addToHomeScreen/HowToHomeScreen.002.png',
+            STEP_3:  '/img/howTo/addToHomeScreen/HowToHomeScreen.003.png',
+            STEP_4:  '/img/howTo/addToHomeScreen/HowToHomeScreen.004.png',
+        },
+    },
 });

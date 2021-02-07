@@ -73,8 +73,9 @@ export const STRING_CONSTANTS = Object.freeze({
             },
             FOOTER: {
                 ABOUT_ME: 'About Me',
-                TOS: 'Terms of Service',
                 CONTACT: 'Contact Me',
+                HOW_TO: 'How To',
+                TOS: 'Terms of Service',
             },
         },
         ABOUT: {
@@ -108,6 +109,16 @@ export const STRING_CONSTANTS = Object.freeze({
             TBS_COLLECTION: [
                 '*Like most collectors (I\'ll assume) I struggle with the choice of opening each figure or not...',
             ].join('\n'),
+        },
+        HOW_TO: {
+            TITLE: 'How to ...',
+            ADD_TO_HOME_SCREEN_SCENE: {
+                TITLE: 'Add to homescreen like an app [on iOS]',
+                STEP_1: 'Step 1: In Safair [on iOS device]',
+                STEP_2: 'Step 2: Scroll down to "Add to Homescreen"',
+                STEP_3: 'Step 3: Name your "App"',
+                STEP_4: 'Step 4: Move to desired location',
+            },
         },
         BLACK_SERIES_CATALOG: {
             ACTION_FIGURE_DETAILS: {
@@ -242,6 +253,8 @@ export const STRING_CONSTANTS = Object.freeze({
     GENERAL: {
         BUTTON: {
             SUBMIT: 'Submit',
+            CONTINUE: 'Continue',
+            DONE: 'Done',
         },
         MENU_ITEMS: {
             NONE: 'none',
