@@ -145,7 +145,7 @@ export const Admin = ({ helperData }) => {
     />;
 
     const newVideoGameModal = <NewVideoGameForm
-        closeModal={closeModal}
+        setIsModalOpen={setIsModalOpen}
         formData={helperData}
     />;
 

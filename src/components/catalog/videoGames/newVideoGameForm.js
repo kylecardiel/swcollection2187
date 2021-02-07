@@ -1,30 +1,28 @@
 import Button from '@material-ui/core/Button';
-import { useForm } from 'react-hook-form';
-import { GENERAL, NEW_VIDEO_GAME_FORM } from 'shared/constants/stringConstantsSelectors';
-import React, { useContext, useEffect, useState } from 'react';
-import { CatalogApi } from 'shared/api/catalogApi';
-import { Color } from 'shared/styles/color';
 import Container from '@material-ui/core/Container';
-import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import Grid from '@material-ui/core/Grid';
-import { ProgressBar } from 'components/common/progressBar';
-import PropTypes from 'prop-types';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { storage } from 'backend/Firebase';
+import { makeStyles } from '@material-ui/core/styles';
 import { UserConsumer } from 'components/auth/authContext';
-import { MultiSelector } from 'components/common/form/newFormSelectors/multiSelector';
-import { InputText } from 'components/common/form/newFormSelectors/inputText';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { InputImage } from 'components/common/form/newFormSelectors/inputImage';
 import { InputSelector } from 'components/common/form/newFormSelectors/inputSelector';
-import { makeStyles } from '@material-ui/core/styles';
+import { InputText } from 'components/common/form/newFormSelectors/inputText';
+import { MultiSelector } from 'components/common/form/newFormSelectors/multiSelector';
+import { ProgressBar } from 'components/common/progressBar';
+import PropTypes from 'prop-types';
+import React, { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { CatalogApi } from 'shared/api/catalogApi';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
+import { GENERAL, NEW_VIDEO_GAME_FORM } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
+import { RecordUtils } from 'shared/util/recordUtils';
 import { uploadImageToStorage } from 'shared/util/upload';
 
 const { CATALOG, VIDEO_GAMES } = FB_STORAGE_CONSTANTS;
 
-export const NewVideoGameForm = ({ closeModal, formData }) => {
+export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
     const classes = useStyles();
     const { email } = useContext(UserConsumer);
  
@@ -47,13 +45,16 @@ export const NewVideoGameForm = ({ closeModal, formData }) => {
 
     const onSubmit = async collectible => {
         setSubmitDisabled(true);
+        
         collectible.videoGameConsole = videoGameConsolesSelected;
-        // if(imageFile) collectible.imageFile = await uploadImageToStorage(buildUploadedImagePath(imageFile.name), imageFile, setPercentage);
+        if(imageFile) collectible.imageFile = await uploadImageToStorage(buildUploadedImagePath(imageFile.name), imageFile, setPercentage);
+        
         Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
         RecordUtils.addAuditFields(collectible, email);
-        console.log(collectible);
+        CatalogApi.create(FB_DB_CONSTANTS.VIDEO_GAMES, collectible);
+        
         setSubmitDisabled(false);
-        closeModal();
+        setIsModalOpen(false);
     };
 
     const { 
@@ -81,13 +82,13 @@ export const NewVideoGameForm = ({ closeModal, formData }) => {
 
     const videoGameSeriesInput = <InputSelector
         control={control}
-        label={LABELS.COLLECTION_TYPE}
+        label={LABELS.VIDEO_GAME_SERIES}
         menuItems={videoGameSeries.values}
     />;
 
     const videoGameTypeInput = <InputSelector
         control={control}
-        label={LABELS.COLLECTION_TYPE}
+        label={LABELS.VIDEO_GAME_TYPE}
         menuItems={videoGameType.values}
     />;
 
@@ -181,7 +182,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 NewVideoGameForm.propTypes = {
-    closeModal: PropTypes.func.isRequired, 
+    setIsModalOpen: PropTypes.func.isRequired, 
     formData: PropTypes.object.isRequired,
-    figure:  PropTypes.object,
 };
