@@ -29,6 +29,11 @@ export const dataSet = (state = initialState.dataSet, action) => {
         cloneState.displaySettings = initialState.dataSet.displaySettings;
         return cloneState;
     }
+    case actions.SET_VIDEO_GAME_DATA: {
+        return Array.isArray(action.payload)
+            ? updateState(state, 'catalogList', action.payload)
+            : state;
+    }
     default:
         return state;
     }

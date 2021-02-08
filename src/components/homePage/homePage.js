@@ -10,10 +10,11 @@ import { MediaCard } from 'components/common/cards/mediaCard';
 import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { UserConsumer } from 'components/auth/authContext';
+import PropTypes from 'prop-types';
 
 const { HOME_PAGE: { CATALOG_CARDS } } = IMAGE_PATHS;
 
-export const Homepage = () => {
+export const Homepage = ({ videoGamesCollection }) => {
     const classes = useStyles();
     const { email, loggedIn } = useContext(UserConsumer);
 
@@ -34,24 +35,26 @@ export const Homepage = () => {
                             <Grid item xs={12}>
                                 <h2>{HOME_PAGE.GET_STARTED}</h2>
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={videoGamesCollection ? 6 : 12}>
                                 <MediaCard
                                     cardText={HOME_PAGE.CARDS.BLACK_SERIES}
                                     route={ROUTE_CONSTANTS.BLACK_SERIES}
                                     imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={6}>
-                                <MediaCard
-                                    cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
-                                    route={ROUTE_CONSTANTS.VIDEO_GAMES}
-                                    imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
-                                />
-                            </Grid>
+                            {videoGamesCollection &&
+                                <Grid item xs={12} md={6}>
+                                    <MediaCard
+                                        cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
+                                        route={ROUTE_CONSTANTS.VIDEO_GAMES}
+                                        imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
+                                    />
+                                </Grid>
+                            }
                         </>
                     }
                     {ROLES.EMAIL === email &&
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} >
                             <MediaCard
                                 cardText={HOME_PAGE.CARDS.ADMIN}
                                 route={ROUTE_CONSTANTS.ADMIN}
@@ -73,3 +76,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(.5),
     },
 }));
+
+Homepage.propTypes = {
+    videoGamesCollection: PropTypes.bool.isRequired,
+};
