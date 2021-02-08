@@ -19,6 +19,7 @@ export const VideoGameCard = ({ videoGame }) => {
             if(c.includes('PlayStation')) return <img key={c} src={IMAGE_PATHS.VIDEO_GAMES.PLAYSTATION} alt='PS' className={classes.icon}></img>;
             if(c.includes('Sega')) return <img key={c} src={IMAGE_PATHS.VIDEO_GAMES.SEGA} alt='PS' className={classes.icon}></img>;
             if(c.includes('Xbox')) return <img key={c} src={IMAGE_PATHS.VIDEO_GAMES.XBOX} alt='PS' className={classes.icon}></img>;
+            return null;
         });
     };
 

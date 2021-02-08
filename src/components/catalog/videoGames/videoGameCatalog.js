@@ -2,21 +2,21 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VideoGameCard } from 'components/catalog/videoGames/videoGameCard';
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from 'react';
+// import { Link } from 'react-router-dom';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { isProduction } from 'shared/util/environment';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { SortingUtils } from 'shared/util/sortingUtil';
-import { CatalogData } from 'shared/fixtures/catalogData';
+// import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+// import { isProduction } from 'shared/util/environment';
+// import { RecordUtils } from 'shared/util/recordUtils';
+// import { SortingUtils } from 'shared/util/sortingUtil';
+// import { CatalogData } from 'shared/fixtures/catalogData';
 
-const { HOME } = ROUTE_CONSTANTS;
+// const { HOME } = ROUTE_CONSTANTS;
 
 export const VideoGameCatalog = props => {
     const classes = useStyles();
-    const { helperData, setVideoGameData } = props;
+    // const { helperData, setVideoGameData } = props;
 
     // const [initialState] = useState(props);
     // useEffect(() => {
