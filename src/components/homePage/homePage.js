@@ -18,6 +18,16 @@ export const Homepage = ({ videoGamesCollection }) => {
     const classes = useStyles();
     const { email, loggedIn } = useContext(UserConsumer);
 
+    const videoGameCard = <Grid item xs={12} md={6}>
+        <MediaCard
+            cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
+            route={ROUTE_CONSTANTS.VIDEO_GAMES}
+            imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
+        />
+    </Grid>;
+
+    const introParagraph = videoGamesCollection ? HOME_PAGE.INTRO_PARAGRAPH_GENERIC : HOME_PAGE.INTRO_PARAGRAPH;
+
     return (
         <Container component='main' maxWidth='xl'>
             <div className={classes.root}>
@@ -26,7 +36,7 @@ export const Homepage = ({ videoGamesCollection }) => {
                         <h1>{HOME_PAGE.TAG_LINE}</h1>
                         <section>
                             <h3>{HOME_PAGE.WELCOME}</h3>
-                            <p>{HOME_PAGE.INTRO_PARAGRAPH}</p>
+                            <p>{introParagraph}</p>
                         </section>
                     </Grid>
                     { !loggedIn && <HowItWorks /> }
@@ -42,15 +52,7 @@ export const Homepage = ({ videoGamesCollection }) => {
                                     imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
                                 />
                             </Grid>
-                            {videoGamesCollection &&
-                                <Grid item xs={12} md={6}>
-                                    <MediaCard
-                                        cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
-                                        route={ROUTE_CONSTANTS.VIDEO_GAMES}
-                                        imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
-                                    />
-                                </Grid>
-                            }
+                            {videoGamesCollection && videoGameCard}
                         </>
                     }
                     {ROLES.EMAIL === email &&
@@ -78,5 +80,5 @@ const useStyles = makeStyles(theme => ({
 }));
 
 Homepage.propTypes = {
-    videoGamesCollection: PropTypes.bool.isRequired,
+    videoGamesCollection: PropTypes.bool,
 };

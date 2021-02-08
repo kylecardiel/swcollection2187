@@ -9,5 +9,3 @@ export const getCatalogList = createSelector(getDataSet, dataSet => get(dataSet,
 export const getUserList = createSelector(getDataSet, dataSet => get(dataSet, 'userList', false));
 
 export const getFilterState = createSelector(getDataSet, dataSet => get(dataSet, 'displaySettings', false));
-
-export const getVideoGameList = createSelector(getCatalogList, dataSet => get(dataSet, 'videoGame', false));

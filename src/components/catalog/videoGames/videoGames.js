@@ -1,5 +1,5 @@
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import { VideoGameCatalogConnect } from 'components/hoc/videoGameCatalogConnect';
+import VideoGameCatalogConnect from 'components/hoc/videoGameCatalogConnect';
 import React from 'react';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';

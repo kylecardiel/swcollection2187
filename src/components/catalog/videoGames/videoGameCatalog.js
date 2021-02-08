@@ -1,138 +1,42 @@
-import { Grid } from '@material-ui/core';
+/* eslint-disable react/prop-types */
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { VideoGameCard } from 'components/catalog/videoGames/videoGameCard';
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
-// import { Link } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
-// import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-// import { isProduction } from 'shared/util/environment';
-// import { RecordUtils } from 'shared/util/recordUtils';
-// import { SortingUtils } from 'shared/util/sortingUtil';
-// import { CatalogData } from 'shared/fixtures/catalogData';
+import { CatalogApi } from 'shared/api/catalogApi';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { CatalogData } from 'shared/fixtures/catalogData';
+import { isProduction } from 'shared/util/environment';
+import { RecordUtils } from 'shared/util/recordUtils';
 
-// const { HOME } = ROUTE_CONSTANTS;
+const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
 export const VideoGameCatalog = props => {
     const classes = useStyles();
-    // const { helperData, setVideoGameData } = props;
+    const { helperData, setVideoGameData, videoGameList } = props;
 
-    // const [initialState] = useState(props);
-    // useEffect(() => {
+    const [initialState] = useState(props);
+    useEffect(() => {
         
-    //     if(isProduction) {
-    //         console.log('Implement prod reads...');
-    //     } else {
-    //         // console.log(CatalogData.VideoGames)
-    //         setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.VideoGames, 'id'));
-    //     }
+        if(isProduction) {
+            const catalogRef = CatalogApi.read(VIDEO_GAMES);
+            catalogRef.on('value', snapshot => {
+                if (snapshot.val()) {
+                    let records = snapshot.val();
+                    setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+                }
+            });
+        } else {
+            setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.VideoGames, 'id'));
+        }
 
-    // }, [initialState, setVideoGameData, helperData]);
-
-    const videoGameList =  [
-        {
-            id: 'id123',
-            collectionType: 'Video Games',
-            createdBy: 'kyle.cardiel@gmail.com',
-            createdDate: 'Feb 07, 2021 13:15:37',
-            lastModifiedBy: 'kyle.cardiel@gmail.com',
-            lastModifiedDate: 'Feb 07, 2021 13:15:37',
-            videoGameName: 'Jedi Fallen Order',
-            videoGameConsole: [ 'PlayStation 4', 'Xbox One', 'Microsoft Windows'],
-            videoGameFormat: 'Disc',
-            videoGameSeries: '',
-            videoGameType: 'Action Adventure',
-            year: '2019',
-        },
-        {
-            id: 'id123',
-            collectionType: 'Video Games',
-            createdBy: 'kyle.cardiel@gmail.com',
-            createdDate: 'Feb 07, 2021 13:15:37',
-            lastModifiedBy: 'kyle.cardiel@gmail.com',
-            lastModifiedDate: 'Feb 07, 2021 13:15:37',
-            videoGameName: 'Jedi Fallen Order',
-            videoGameConsole: [ 'PlayStation 4', 'Xbox One', 'Microsoft Windows'],
-            videoGameFormat: 'Disc',
-            videoGameSeries: '',
-            videoGameType: 'Action Adventure',
-            year: '2019',
-        },
-        {
-            id: 'id123',
-            collectionType: 'Video Games',
-            createdBy: 'kyle.cardiel@gmail.com',
-            createdDate: 'Feb 07, 2021 13:15:37',
-            lastModifiedBy: 'kyle.cardiel@gmail.com',
-            lastModifiedDate: 'Feb 07, 2021 13:15:37',
-            videoGameName: 'Jedi Fallen Order',
-            videoGameConsole: [ 'PlayStation 4', 'Xbox One', 'Microsoft Windows'],
-            videoGameFormat: 'Disc',
-            videoGameSeries: '',
-            videoGameType: 'Action Adventure',
-            year: '2019',
-        },
-        {
-            id: 'id123',
-            collectionType: 'Video Games',
-            createdBy: 'kyle.cardiel@gmail.com',
-            createdDate: 'Feb 07, 2021 13:15:37',
-            lastModifiedBy: 'kyle.cardiel@gmail.com',
-            lastModifiedDate: 'Feb 07, 2021 13:15:37',
-            videoGameName: 'Jedi Fallen Order',
-            videoGameConsole: [ 'PlayStation 4', 'Xbox One', 'Microsoft Windows'],
-            videoGameFormat: 'Disc',
-            videoGameSeries: '',
-            videoGameType: 'Action Adventure',
-            year: '2019',
-        },
-        {
-            id: 'id123',
-            collectionType: 'Video Games',
-            createdBy: 'kyle.cardiel@gmail.com',
-            createdDate: 'Feb 07, 2021 13:15:37',
-            lastModifiedBy: 'kyle.cardiel@gmail.com',
-            lastModifiedDate: 'Feb 07, 2021 13:15:37',
-            videoGameName: 'Jedi Fallen Order',
-            videoGameConsole: [ 'PlayStation 4', 'Xbox One', 'Microsoft Windows'],
-            videoGameFormat: 'Disc',
-            videoGameSeries: '',
-            videoGameType: 'Action Adventure',
-            year: '2019',
-        },
-        {
-            id: 'id123',
-            collectionType: 'Video Games',
-            createdBy: 'kyle.cardiel@gmail.com',
-            createdDate: 'Feb 07, 2021 13:15:37',
-            lastModifiedBy: 'kyle.cardiel@gmail.com',
-            lastModifiedDate: 'Feb 07, 2021 13:15:37',
-            videoGameName: 'Jedi Fallen Order',
-            videoGameConsole: [ 'PlayStation 4', 'Xbox One', 'Microsoft Windows'],
-            videoGameFormat: 'Disc',
-            videoGameSeries: '',
-            videoGameType: 'Action Adventure',
-            year: '2019',
-        },
-        {
-            id: 'id123',
-            collectionType: 'Video Games',
-            createdBy: 'kyle.cardiel@gmail.com',
-            createdDate: 'Feb 07, 2021 13:15:37',
-            lastModifiedBy: 'kyle.cardiel@gmail.com',
-            lastModifiedDate: 'Feb 07, 2021 13:15:37',
-            videoGameName: 'Jedi Fallen Order',
-            videoGameConsole: [ 'PlayStation 4', 'Xbox One', 'Microsoft Windows'],
-            videoGameFormat: 'Disc',
-            videoGameSeries: '',
-            videoGameType: 'Action Adventure',
-            year: '2019',
-        },
-    ];
+    }, [initialState, setVideoGameData, helperData]);
 
     const GAP_SIZE = 10;
-    const CARD_HEIGHT = 500;
+    const CARD_HEIGHT = 425;
     const CARD_WIDTH = 300;
 
     const Item = ({ data, index, style }) => {
@@ -233,4 +137,3 @@ VideoGameCatalog.propTypes = {
     helperData: PropTypes.object.isRequired,
     setVideoGameData: PropTypes.func.isRequired,
 };
-

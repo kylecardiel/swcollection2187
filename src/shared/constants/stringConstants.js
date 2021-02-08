@@ -33,7 +33,12 @@ export const STRING_CONSTANTS = Object.freeze({
         HOME_PAGE: {
             TITLE: 'Home',
             WELCOME: 'Hello There!',
-            TAG_LINE: 'Digitally organize your Star Wars Black Series collection!',
+            TAG_LINE: 'Digitally organize your Star Wars collection!',
+            INTRO_PARAGRAPH_GENERIC: [
+                'Do you love Star Wars? Do you collect everything Star Wars related?',
+                'Do you keep track of your collection? Do you want to keep track of your collection?...',
+                'Then you\'re in the right spot!',
+            ].join('\n'),
             INTRO_PARAGRAPH: [
                 'Do you love the Black Series? Do you collect Black Series Figures?',
                 'Do you keep track of your collection? Do you want to keep track of your collection?...',
@@ -269,8 +274,10 @@ export const STRING_CONSTANTS = Object.freeze({
                     COLLECTION_TYPE: { KEY: 'Collection Type', VALUE: 'collectionType' },
                     CONSOLE: { KEY: 'Consoles', VALUE: 'console' },
                     DEVELOPER: { KEY: 'Developer', VALUE: 'developer' },
+                    ICON: { KEY: 'Icon Type', VALUE: 'iconName' },
                     IMAGE: { KEY: 'Image', VALUE: 'imageUrl' },
                     NAME: { KEY: 'Name', VALUE: 'name' },
+                    PRICE: { KEY: 'Price', VALUE: 'price' },
                     VIDEO_GAME_FORMAT: { KEY: 'VG Format', VALUE: 'videoGameFormat' },
                     VIDEO_GAME_SERIES: { KEY: 'VG Series', VALUE: 'videoGameSeries' },
                     VIDEO_GAME_TYPE: { KEY: 'VG Type', VALUE: 'videoGameType' },

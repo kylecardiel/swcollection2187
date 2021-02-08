@@ -92,7 +92,6 @@ export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
         menuItems={videoGameType.values}
     />;
 
-
     const videoGameNameInput = <InputText
         label={LABELS.NAME}
         register={register}
@@ -102,6 +101,16 @@ export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
         label={LABELS.YEAR}
         register={register}
         isNumber
+    />;
+
+    const videoGamePriceInput = <InputText
+        label={LABELS.PRICE}
+        register={register}
+    />;
+
+    const videoGameDeveloperInput = <InputText
+        label={LABELS.DEVELOPER}
+        register={register}
     />;
     
     const videoGameConoleInput = <MultiSelector
@@ -133,6 +142,8 @@ export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
                         {videoGameTypeInput}
                         {videoGameNameInput}
                         {videoGameYearInput}
+                        {videoGamePriceInput}
+                        {videoGameDeveloperInput}
                     </Grid>
                     <Grid item xs={12} container direction='row' justify='space-between' className={classes.row}>
                         {videoGameConoleInput}
