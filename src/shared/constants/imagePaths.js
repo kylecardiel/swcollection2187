@@ -23,4 +23,13 @@ export const IMAGE_PATHS = Object.freeze({
             STEP_4:  '/img/howTo/addToHomeScreen/HowToHomeScreen.004.png',
         },
     },
+    VIDEO_GAMES: {
+        ANDROID: '/img/videoGames/android.png',
+        APPLE: '/img/videoGames/apple.png',
+        NINTENDO: '/img/videoGames/nintendo.png',
+        PLAYSTATION: '/img/videoGames/playstattion.png',
+        SEGA: '/img/videoGames/sega.png',
+        WINDOWS: '/img/videoGames/windows.png',
+        XBOX: '/img/videoGames/xbox.png',
+    },
 });
