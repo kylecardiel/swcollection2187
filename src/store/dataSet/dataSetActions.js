@@ -28,3 +28,9 @@ export const clearUserDisplaySettings = () => ({
     payload: undefined,
 });
 
+export const SET_VIDEO_GAME_DATA = '[dataSet]SET_VIDEO_GAME_DATA';
+export const setVideoGameData = data => ({
+    type: SET_VIDEO_GAME_DATA,
+    payload: data,
+});
+

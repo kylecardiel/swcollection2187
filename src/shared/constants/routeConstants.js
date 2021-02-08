@@ -4,6 +4,7 @@ export const ROUTE_CONSTANTS = Object.freeze({
     SIGNUP: '/signUp',
     FORGOT_PASSWORD: '/forgotPassword',
     BLACK_SERIES: '/black-series',
+    VIDEO_GAMES: '/video-games',
     ADMIN: '/admin',
     ABOUT_ME: '/aboutMe',
     HOW_TO: '/howTo',

@@ -21,8 +21,8 @@ import Grid from '@material-ui/core/Grid';
 import { ProgressBar } from 'components/common/progressBar';
 import PropTypes from 'prop-types';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { storage } from 'backend/Firebase';
 import { UserConsumer } from 'components/auth/authContext';
+import { uploadImageToStorage } from 'shared/util/upload';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
@@ -100,25 +100,8 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const upload = async (image, assortment) => {
-        return new Promise((resolve, reject) => {
-            const uploadTask = storage.ref(`${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${image.name}`).put(image);
-            uploadTask.on('state_changed',
-                snapshot => {
-                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setPercentage(progress);
-                },
-                function error(err) {
-                    console.log('error', err);
-                    reject();
-                },
-                function complete() {
-                    uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-                        resolve(downloadURL);
-                    });
-                },
-            );
-        });
+    const buildUploadedImagePath = name => {
+        return `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${name}`;
     };
 
     const onSubmit = async collectible => {
@@ -134,9 +117,9 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
             CatalogApi.update(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible, figure.id);
 
         } else {
-            if(looseFigureImageFile) collectible.looseImageUrl = await upload(looseFigureImageFile, collectible.assortment);
-            if(looseBlackFigureImageFile) collectible.looseBlackImageUrl = await upload(looseBlackFigureImageFile, collectible.assortment);
-            if(newFigureImageFile) collectible.newImageUrl = await upload(newFigureImageFile, collectible.assortment);
+            if(looseFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseFigureImageFile.name), looseFigureImageFile, setPercentage);
+            if(looseBlackFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseBlackFigureImageFile.name), looseBlackFigureImageFile, setPercentage);
+            if(newFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name), newFigureImageFile, setPercentage);
     
             collectible.groups = groupsSelected;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);

@@ -33,5 +33,5 @@ const useStyles = makeStyles(() => ({
 }));
 
 TableHeaders.propTypes = {
-    columnDefinitions: PropTypes.object.isRequired,
+    columnDefinitions: PropTypes.array.isRequired,
 };

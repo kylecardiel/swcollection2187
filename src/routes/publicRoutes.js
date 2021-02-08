@@ -12,7 +12,7 @@ import { FuturePlans } from '../components/futurePlans/futurePlans';
 const { ABOUT_ME, CONTACT_ME, HOME, HOW_TO, FUTURE_PLANS,  TOS } = ROUTE_CONSTANTS;
 
 export const PublicRoutes = () => {  
-    const { signUpPage } = useContext(FeatureFlagConsumer);
+    const { signUpPage, videoGamesCollection } = useContext(FeatureFlagConsumer);
     return (
         <React.Fragment>
             <Router>
@@ -20,7 +20,7 @@ export const PublicRoutes = () => {
                 <Route
                     exact
                     path={HOME}
-                    component={Homepage}
+                    component={() => <Homepage videoGamesCollection={videoGamesCollection}/>}
                 />
                 <Route
                     exact

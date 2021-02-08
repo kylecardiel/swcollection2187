@@ -16,12 +16,13 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { ScreenSize } from 'components/common/screenSize';
 import { SignUp } from 'components/auth/signUp';
 import { UserConsumer } from 'components/auth/authContext';
+import { VideoGames } from 'components/catalog/videoGames/videoGames';
 
-const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES } = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES, VIDEO_GAMES } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = ({ setScreenSizes }) => {
     const { loggedIn, email } = useContext(UserConsumer);
-    const { signUpPage } = useContext(FeatureFlagConsumer);
+    const { signUpPage, videoGamesCollection } = useContext(FeatureFlagConsumer);
     const redirectRender = () => <Redirect to={HOME} />;
 
     return (
@@ -66,6 +67,16 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                         userLoggedIn={loggedIn}
                         component={BlackSeries}
                     />
+                    {videoGamesCollection &&
+                        <ProtectedRoute
+                            exact
+                            path={VIDEO_GAMES}
+                            redirectPath={LOGIN}
+                            access={true}
+                            userLoggedIn={loggedIn}
+                            component={VideoGames}
+                        />
+                    }
                     <ProtectedRoute
                         exact
                         path={`${BLACK_SERIES}/:id`}

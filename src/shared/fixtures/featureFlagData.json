@@ -1,5 +1,6 @@
 {
     "featureFlagsData" : {
-        "signUpPage" : true
+        "signUpPage" : true,
+        "videoGamesCollection": true
     }
 }

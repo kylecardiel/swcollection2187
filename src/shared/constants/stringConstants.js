@@ -33,7 +33,12 @@ export const STRING_CONSTANTS = Object.freeze({
         HOME_PAGE: {
             TITLE: 'Home',
             WELCOME: 'Hello There!',
-            TAG_LINE: 'Digitally organize your Star Wars Black Series collection!',
+            TAG_LINE: 'Digitally organize your Star Wars collection!',
+            INTRO_PARAGRAPH_GENERIC: [
+                'Do you love Star Wars? Do you collect everything Star Wars related?',
+                'Do you keep track of your collection? Do you want to keep track of your collection?...',
+                'Then you\'re in the right spot!',
+            ].join('\n'),
             INTRO_PARAGRAPH: [
                 'Do you love the Black Series? Do you collect Black Series Figures?',
                 'Do you keep track of your collection? Do you want to keep track of your collection?...',
@@ -44,6 +49,10 @@ export const STRING_CONSTANTS = Object.freeze({
             CARDS: {
                 BLACK_SERIES: {
                     TITLE: 'Black Series Catalog',
+                    BODY: 'View and add to your collection!',
+                },
+                VIDEO_GAMES: {
+                    TITLE: 'Video Games Catalog',
                     BODY: 'View and add to your collection!',
                 },
                 USER_PROFILE: {
@@ -212,6 +221,9 @@ export const STRING_CONSTANTS = Object.freeze({
             SEARCH: 'Search by name…',
             TITLE: 'Black Series Catalog',
         },
+        VIDEO_GAME_CATALOG: {
+            TITLE: 'Video Games',
+        },
         UPLOAD_IMAGE: {
             TITLE: 'Upload Image',
         },
@@ -223,7 +235,8 @@ export const STRING_CONSTANTS = Object.freeze({
                 ADD: 'Add',
                 DISPLAY_TABLES: 'Display Tables',
                 HIDE_TABLES: 'Hide Tables',
-                NEW_ENTRY: 'New Entry',
+                NEW_BLACK_SERIES: 'New Black Series',
+                NEW_VIDEO_GAME: 'New Video Game',
                 UPLOAD: 'Upload',
             },
             IMAGE_FILE_LOCATION: 'File available at:',
@@ -252,6 +265,22 @@ export const STRING_CONSTANTS = Object.freeze({
                     SOURCE_TYPE: { KEY: 'Source Type', VALUE: 'sourceType' },
                     VERSIONS: { KEY: 'Versions', VALUE: 'version' },
                     WAVE: { KEY: 'Wave', VALUE: 'wave' },
+                    YEAR: { KEY: 'Year', VALUE: 'year' },
+                },
+            },
+            NEW_VIDEO_GAME_FORM: {
+                HEADER: 'Feed the Database!',
+                LABELS: {
+                    COLLECTION_TYPE: { KEY: 'Collection Type', VALUE: 'collectionType' },
+                    CONSOLE: { KEY: 'Consoles', VALUE: 'console' },
+                    DEVELOPER: { KEY: 'Developer', VALUE: 'developer' },
+                    ICON: { KEY: 'Icon Type', VALUE: 'iconName' },
+                    IMAGE: { KEY: 'Image', VALUE: 'imageUrl' },
+                    NAME: { KEY: 'Name', VALUE: 'name' },
+                    PRICE: { KEY: 'Price', VALUE: 'price' },
+                    VIDEO_GAME_FORMAT: { KEY: 'VG Format', VALUE: 'videoGameFormat' },
+                    VIDEO_GAME_SERIES: { KEY: 'VG Series', VALUE: 'videoGameSeries' },
+                    VIDEO_GAME_TYPE: { KEY: 'VG Type', VALUE: 'videoGameType' },
                     YEAR: { KEY: 'Year', VALUE: 'year' },
                 },
             },
