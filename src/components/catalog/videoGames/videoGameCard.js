@@ -19,7 +19,7 @@ export const VideoGameCard = ({ videoGame }) => {
         name,
         price,
         videoGameConsole,
-        videoGameSeries,
+        // videoGameSeries,
         videoGameType,
         year,
     } = videoGame;
@@ -51,8 +51,8 @@ export const VideoGameCard = ({ videoGame }) => {
         <Card className={classes.root}>
             <CardHeader
                 title={name}
-                subheader={videoGameSeries}
                 className={classes.header}
+                titleTypographyProps={{ variant: 'subtitle1' }}
             />
             <CardMedia
                 className={classes.media}
@@ -60,8 +60,9 @@ export const VideoGameCard = ({ videoGame }) => {
                 title={name}
             />
             <CardContent>
+                {/* {singleBottomRowText(videoGameSeries)} */}
                 {singleBottomRowText(videoGameType, year)}
-                {singleBottomRowText(price, developer)}
+                {singleBottomRowText(`$${price}`, developer)}
             </CardContent>
             <CardActions >
                 <Grid container direction='row' justify='space-between'>
