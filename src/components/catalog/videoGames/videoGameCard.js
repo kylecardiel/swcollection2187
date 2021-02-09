@@ -1,39 +1,85 @@
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { ActionButton } from 'components/common/buttons/actionButton';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
+import { BS_CARD_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { isProduction } from 'shared/util/environment';
+import { UserApi } from 'shared/api/userApi';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { UserConsumer } from 'components/auth/authContext';
 
 export const VideoGameCard = ({ videoGame }) => {
+    
     const {  
         developer,
         imageFile,
         name,
+        owned,
+        ownedId,
         price,
         videoGameConsole,
-        // videoGameSeries,
         videoGameType,
         year,
     } = videoGame;
 
     const classes = useStyles();
+    const { id } = useContext(UserConsumer);
+    const [ownedVG, setOwnedVG] = useState(owned);
+
+    const addToCollection = () => {
+        let newCollectile = {
+            catalogId: videoGame.id,
+            owned: true,
+            purchasePrice: 0,
+        };
+
+        setOwnedVG(!ownedVG);
+        UserApi.create(id, FB_DB_CONSTANTS.VIDEO_GAMES, newCollectile);
+    };
+
+    const removeFromCollection = () => {
+        setOwnedVG(!ownedVG);
+        UserApi.delete(id, FB_DB_CONSTANTS.VIDEO_GAMES, ownedId);
+    };
+
+    const onclickCard = () => {
+        return ownedVG
+            ? () => removeFromCollection()
+            : () => addToCollection();
+    };
+
 
     const buildSystemIcons = () => {
-        return videoGameConsole.map(c => {
-            if(c.includes('Nintendo')) return <img key={c} src={IMAGE_PATHS.VIDEO_GAMES.NINTENDO} alt='NES' className={classes.icon}></img>;
-            if(c.includes('PlayStation')) return <img key={c} src={IMAGE_PATHS.VIDEO_GAMES.PLAYSTATION} alt='PS' className={classes.icon}></img>;
-            if(c.includes('Sega')) return <img key={c} src={IMAGE_PATHS.VIDEO_GAMES.SEGA} alt='S' className={classes.icon}></img>;
-            if(c.includes('Xbox')) return <img key={c} src={IMAGE_PATHS.VIDEO_GAMES.XBOX} alt='XB' className={classes.icon}></img>;
+        let android, apple, nintendo, playstation, sega, windows, xbox = false;
+
+        videoGameConsole.map(c => {
+            if(c.includes('Android')) android = true;
+            if(c.includes('Apple')) apple = true;
+            if(c.includes('Nintendo')) nintendo = true;
+            if(c.includes('PlayStation')) playstation = true;
+            if(c.includes('Sega')) sega = true;
+            if(c.includes('Windows')) windows = true;
+            if(c.includes('Xbox')) xbox = true;
             return null;
         });
+
+        return <>
+            {android && <img key={'android'} src={IMAGE_PATHS.VIDEO_GAMES.ANDROID} alt='android' className={classes.icon}></img>}
+            {apple && <img key={'apple'} src={IMAGE_PATHS.VIDEO_GAMES.APPLE} alt='apple' className={classes.icon}></img>}
+            {nintendo && <img key={'NES'} src={IMAGE_PATHS.VIDEO_GAMES.NINTENDO} alt='NES' className={classes.iconLonger}></img>}
+            {playstation && <img key={'PS'} src={IMAGE_PATHS.VIDEO_GAMES.PLAYSTATION} alt='PS' className={classes.icon}></img>}
+            {sega && <img key={'S'} src={IMAGE_PATHS.VIDEO_GAMES.SEGA} alt='S' className={classes.icon}></img>}
+            {windows && <img key={'W'} src={IMAGE_PATHS.VIDEO_GAMES.WINDOWS} alt='W' className={classes.icon}></img>}
+            {xbox && <img key={'X'} src={IMAGE_PATHS.VIDEO_GAMES.XBOX} alt='X' className={classes.icon}></img>}
+        </>;
     };
 
     const singleBottomRowText = (first, second) => {
@@ -60,20 +106,24 @@ export const VideoGameCard = ({ videoGame }) => {
                 title={name}
             />
             <CardContent>
-                {/* {singleBottomRowText(videoGameSeries)} */}
                 {singleBottomRowText(videoGameType, year)}
                 {singleBottomRowText(`$${price}`, developer)}
-            </CardContent>
-            <CardActions >
-                <Grid container direction='row' justify='space-between'>
+                <Grid container direction='row' justify='space-between' className={classes.systemIconRow}>
                     {buildSystemIcons()}
                 </Grid>
-            </CardActions>
+                <Grid container direction='row' justify='center' className={classes.collectorButton}>
+                    <ActionButton
+                        buttonLabel={ownedVG ? BS_CARD_BUTTONS.REMOVE : BS_CARD_BUTTONS.ADD}
+                        onClick={onclickCard()}
+                        color={ownedVG ? Color.red() : Color.green()}
+                    />
+                </Grid>
+            </CardContent>
         </Card>
     );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         maxWidth: 345,
     },
@@ -88,6 +138,17 @@ const useStyles = makeStyles(() => ({
     icon: {
         width: 25, 
         height: 25,
+    },
+    iconLonger: {
+        width: 55, 
+        height: 25,
+    },
+    collectorButton: {
+        paddingTop: theme.spacing(1),
+    },
+    systemIconRow: {
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
     },
 }));
 
