@@ -70,6 +70,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 SearchBar.propTypes = {
-    filterByInputText: PropTypes.string.isRequired,
+    filterByInputText: PropTypes.string,
     handleInputTextChange: PropTypes.func.isRequired,
 };

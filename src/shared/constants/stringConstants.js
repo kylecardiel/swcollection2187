@@ -223,6 +223,18 @@ export const STRING_CONSTANTS = Object.freeze({
         },
         VIDEO_GAME_CATALOG: {
             TITLE: 'Video Games',
+            DETAILS: {
+                LABELS: {
+                    CONSOLE: 'Systems/Consoles',
+                    DEVELOPER: 'Developer',
+                    FORMAT: 'Launch Format',
+                    PRICE: 'Launch Price',
+                    RELEASE_DETAILS_HEADER: 'Release Details',
+                    SERIES: 'Game Series',
+                    TYPE: 'Genre',
+                    YEAR: 'Year',
+                },
+            },
         },
         UPLOAD_IMAGE: {
             TITLE: 'Upload Image',
