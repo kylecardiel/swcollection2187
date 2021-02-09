@@ -33,6 +33,8 @@ export const ActionFigureDetails = ({ assortments, catalogList, figureId, helper
     const similarFigures = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.name === figure.name && el.id !== figure.id), 'year');
     const multipackFigures = singleList.filter(el => el.multipack !== '' && el.multipack === figure.multipack && el.id !== figure.id);
 
+    console.log('here?')
+
     const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
     const flexFlowDirection = isMobile ? 'column' : 'row';
 

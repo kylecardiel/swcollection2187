@@ -17,7 +17,7 @@ import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SearchBar } from 'components/common/searchBar';
 import { SortingUtils } from 'shared/util/sortingUtil';
-
+import { Link, useRouteMatch } from 'react-router-dom';
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
@@ -26,7 +26,7 @@ export const VideoGameCatalog = props => {
     const { helperData, setVideoGameData, setUserData, userList, videoGameList } = props;
 
     const { id, loggedIn } = useContext(UserConsumer);
-
+    let { url } = useRouteMatch();
     const [filterByInputName, setFilterByInputName] = useState();
     const handleInputNameChange = e => {
         if (e.target) {
@@ -95,7 +95,14 @@ export const VideoGameCatalog = props => {
                     }}
                 >
                     <Grid item xs={12} key={displayList[i].id} >
-                        <VideoGameCard  videoGame={displayList[i]} />
+                        <Link
+                            to={{
+                                pathname: `${url}/${displayList[i].id}`,
+                            }}
+                            style={{ textDecoration: 'none' }}
+                        >
+                            <VideoGameCard  videoGame={displayList[i]} />
+                        </Link>
                     </Grid>
                 </div >,
             );

@@ -19,12 +19,10 @@ import { UserConsumer } from 'components/auth/authContext';
 export const VideoGameCard = ({ videoGame }) => {
     
     const {  
-        developer,
         imageFile,
         name,
         owned,
         ownedId,
-        price,
         videoGameConsole,
         videoGameType,
         year,
@@ -62,8 +60,8 @@ export const VideoGameCard = ({ videoGame }) => {
 
         videoGameConsole.map(c => {
             if(c.includes('Android')) android = true;
-            if(c.includes('Apple')) apple = true;
-            if(c.includes('Nintendo')) nintendo = true;
+            if(c.includes('macOS') || c.includes('iOS') || c.includes('Macintosh') || c.includes('Classic Mac OS') || c.includes('Apple II')) apple = true;
+            if(c.includes('Nintendo') || c.includes('GameCube') || c.includes('Wii') || c.includes('Switch') || c.includes('Game Boy')) nintendo = true;
             if(c.includes('PlayStation')) playstation = true;
             if(c.includes('Sega')) sega = true;
             if(c.includes('Windows')) windows = true;
@@ -107,7 +105,6 @@ export const VideoGameCard = ({ videoGame }) => {
             />
             <CardContent>
                 {singleBottomRowText(videoGameType, year)}
-                {singleBottomRowText(`$${price}`, developer)}
                 <Grid container direction='row' justify='space-between' className={classes.systemIconRow}>
                     {buildSystemIcons()}
                 </Grid>
