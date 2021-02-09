@@ -1,7 +1,6 @@
 import Container from '@material-ui/core/Container';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
-import InputBase from '@material-ui/core/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -9,7 +8,6 @@ import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import SaveIcon from '@material-ui/icons/Save';
-import SearchIcon from '@material-ui/icons/Search';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { UserConsumer } from 'components/auth/authContext';
@@ -36,6 +34,7 @@ import { modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
+import { SearchBar } from 'components/common/searchBar';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -504,18 +503,10 @@ export const BlackSeriesCatalog = props => {
                             </div>
                         </Modal>
                         <Grid item xs={12} md={6} className={classes.alwaysDisplayed}>
-                            <div className={classes.search}>
-                                <div className={classes.searchIcon}>
-                                    <SearchIcon />
-                                </div>
-                                <InputBase
-                                    defaultValue={filterByInputName}
-                                    placeholder={BS_CATALOG.SEARCH}
-                                    classes={{ root: classes.inputRoot }}
-                                    onChange={handleInputNameChange}
-                                    inputProps={{ 'aria-label': 'search' }}
-                                />
-                            </div>
+                            <SearchBar 
+                                filterByInputText={filterByInputName}
+                                handleInputTextChange={handleInputNameChange}
+                            />
                         </Grid>
                         <Grid
                             item

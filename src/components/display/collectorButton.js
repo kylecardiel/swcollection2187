@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-import { Card, makeStyles } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import { makeStyles } from '@material-ui/core/styles';
 import { UserConsumer } from 'components/auth/authContext';
+import { ActionButton } from 'components/common/buttons/actionButton';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_CARD_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
-import { ActionButton } from 'components/common/buttons/actionButton';
 
 export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFigureView }) => {
     const classes = useStyles();

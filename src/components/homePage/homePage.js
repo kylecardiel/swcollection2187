@@ -27,6 +27,7 @@ export const Homepage = ({ videoGamesCollection }) => {
     </Grid>;
 
     const introParagraph = videoGamesCollection ? HOME_PAGE.INTRO_PARAGRAPH_GENERIC : HOME_PAGE.INTRO_PARAGRAPH;
+    const authorized = ROLES.EMAIL === email;
 
     return (
         <Container component='main' maxWidth='xl'>
@@ -52,10 +53,10 @@ export const Homepage = ({ videoGamesCollection }) => {
                                     imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
                                 />
                             </Grid>
-                            {videoGamesCollection && videoGameCard}
+                            {videoGamesCollection && authorized && videoGameCard}
                         </>
                     }
-                    {ROLES.EMAIL === email &&
+                    {authorized &&
                         <Grid item xs={12} >
                             <MediaCard
                                 cardText={HOME_PAGE.CARDS.ADMIN}

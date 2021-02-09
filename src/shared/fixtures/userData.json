@@ -2571,6 +2571,13 @@
                   "purchasePrice" : 0
                 }
               }
+            },
+            "VideoGames" : {
+                "-MT3WTiKXNrphtMG_YmX" : {
+                  "catalogId" : "-MT--Y1VSUZqjXa3WxvL",
+                  "owned" : true,
+                  "purchasePrice" : 0
+                }
             }
     }
 }
