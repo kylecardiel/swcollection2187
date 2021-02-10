@@ -1,8 +1,8 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { ImageDetailCard } from 'components/catalog/videoGames/imageDetailCard';
-import { ReleaseDetailCard } from 'components/catalog/videoGames/releaseDetailCard';
+import { ImageDetailCard } from 'components/catalog/videoGames/cards/imageDetailCard';
+import { ReleaseDetailCard } from 'components/catalog/videoGames/cards/releaseDetailCard';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';

@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { UserConsumer } from 'components/auth/authContext';
-import { VideoGameCard } from 'components/catalog/videoGames/videoGameCard';
+import { VideoGameCard } from 'components/catalog/videoGames/cards/videoGameCard';
 import { MyCollectionButton } from 'components/common/buttons/myCollectionButton';
 import { SearchBar } from 'components/common/searchBar';
 import PropTypes from 'prop-types';

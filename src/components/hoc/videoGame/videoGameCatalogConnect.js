@@ -1,4 +1,4 @@
-import { VideoGameCatalog } from 'components/catalog/videoGames/videoGameCatalog';
+import { VideoGameCatalog } from 'components/catalog/videoGames/pages/videoGameCatalog';
 import React from 'react';
 import { connect } from 'react-redux';
 import { setUserData, setVideoGameData } from 'store/dataSet/dataSetActions';
