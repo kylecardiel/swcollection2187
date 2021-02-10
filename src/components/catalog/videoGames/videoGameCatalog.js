@@ -2,28 +2,29 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import { UserConsumer } from 'components/auth/authContext';
 import { VideoGameCard } from 'components/catalog/videoGames/videoGameCard';
+import { MyCollectionButton } from 'components/common/buttons/myCollectionButton';
+import { SearchBar } from 'components/common/searchBar';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 import { CatalogApi } from 'shared/api/catalogApi';
+import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { CatalogData } from 'shared/fixtures/catalogData';
-import { UserConsumer } from 'components/auth/authContext';
-import { UserApi } from 'shared/api/userApi';
 import { usersData } from 'shared/fixtures/userData';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { SearchBar } from 'components/common/searchBar';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { Link, useRouteMatch } from 'react-router-dom';
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
 export const VideoGameCatalog = props => {
     const classes = useStyles();
-    const { helperData, setVideoGameData, setUserData, userList, videoGameList } = props;
+    const { helperData, screenSize, setVideoGameData, setUserData, userList, videoGameList } = props;
 
     const { id, loggedIn } = useContext(UserConsumer);
     let { url } = useRouteMatch();
@@ -34,6 +35,9 @@ export const VideoGameCatalog = props => {
             setTimeout(setFilterByInputName(value), 500);
         }
     };
+
+    const [filterByMyCollection, setFilterByMyCollection] = useState(false);
+    const handleMyCollectionChange = () => setFilterByMyCollection(!filterByMyCollection);
 
     const [initialState] = useState(props);
     useEffect(() => {
@@ -67,7 +71,7 @@ export const VideoGameCatalog = props => {
     const massageList = () => {
         let mergedList = videoGameList && userList ? RecordUtils.mergeTwoArraysByAttribute(videoGameList, 'id', userList, 'catalogId') : videoGameList;
         if (filterByInputName) mergedList = mergedList.filter(el => el.name.toLowerCase().includes(filterByInputName.toLowerCase()));
-        
+        if (filterByMyCollection) mergedList = mergedList.filter(el => el.owned === true);
         return SortingUtils.sortDataByAttributeDesc(mergedList, 'year');
     };
 
@@ -144,6 +148,12 @@ export const VideoGameCatalog = props => {
         );
     }
 
+    // const filterButton = <ActionButton
+    //     icon={<FilterListIcon />}
+    //     onClick={openModal}
+    //     color={Color.black()}
+    // />;
+
     return (
         <>
             <Container component='main' maxWidth='xl'>
@@ -153,6 +163,22 @@ export const VideoGameCatalog = props => {
                             <SearchBar 
                                 filterByInputText={filterByInputName}
                                 handleInputTextChange={handleInputNameChange}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            container
+                            direction='row'
+                            justify='space-around'
+                            spacing={1}
+                            xs={12}
+                            md={6}
+                            className={classes.viewFilters}
+                        >
+                            <MyCollectionButton
+                                isMobileDevice={screenSize.isMobileDevice}
+                                filterByMyCollection={!filterByMyCollection}
+                                handleMyCollectionChange={handleMyCollectionChange}
                             />
                         </Grid>
                     </Grid>
@@ -193,7 +219,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(1),
     },
     viewFilters: {
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(1.25),
         marginBottom: theme.spacing(1),
     },
 }));

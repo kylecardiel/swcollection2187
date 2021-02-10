@@ -23,7 +23,7 @@ export const VideoGameDetails = ({ catalogList, videoGameId, screenSize, userLis
     const { id } = useContext(UserConsumer);
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const videoGame = singleList.filter(vg => vg.id === videoGameId)[0];
-    const otherGamesInSeries = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.videoGameSeries === videoGame.videoGameSeries && el.id !== videoGame.id), 'year');
+    const otherGamesInSeries = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => videoGame.videoGameSeries && el.videoGameSeries === videoGame.videoGameSeries && el.id !== videoGame.id), 'year');
 
     const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
     const flexFlowDirection = isMobile ? 'column' : 'row';
@@ -65,7 +65,7 @@ export const VideoGameDetails = ({ catalogList, videoGameId, screenSize, userLis
     };
 
 
-    const imageDetailCard = <ImageDetailCard imageUrl={videoGame.fileImage}/>;
+    const imageDetailCard = <ImageDetailCard imageUrl={videoGame.imageFile}/>;
 
     const releaseDetailCard = <ReleaseDetailCard
         developer={videoGame.developer}

@@ -226,13 +226,13 @@ export const STRING_CONSTANTS = Object.freeze({
             DETAILS: {
                 LABELS: {
                     CONSOLE: 'Systems/Consoles',
-                    DEVELOPER: 'Developer',
+                    DEVELOPER: 'Launch Developer',
                     FORMAT: 'Launch Format',
                     PRICE: 'Launch Price',
                     RELEASE_DETAILS_HEADER: 'Release Details',
                     SERIES: 'Game Series',
                     TYPE: 'Genre',
-                    YEAR: 'Year',
+                    YEAR: 'Launch Year',
                 },
             },
         },
