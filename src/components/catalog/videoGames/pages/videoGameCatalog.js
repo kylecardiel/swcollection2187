@@ -7,10 +7,7 @@ import { VideoGameCard } from 'components/catalog/videoGames/cards/videoGameCard
 import { MyCollectionButton } from 'components/common/buttons/myCollectionButton';
 import { SearchBar } from 'components/common/searchBar';
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { FixedSizeList as List } from 'react-window';
+import React, { useContext, useEffect, useState } from 'react';
 import { CatalogApi } from 'shared/api/catalogApi';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
@@ -19,6 +16,7 @@ import { usersData } from 'shared/fixtures/userData';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
+import { Viewport } from 'components/common/viewport/viewport';
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
@@ -27,7 +25,6 @@ export const VideoGameCatalog = props => {
     const { helperData, screenSize, setVideoGameData, setUserData, userList, videoGameList } = props;
 
     const { id, loggedIn } = useContext(UserConsumer);
-    let { url } = useRouteMatch();
     const [filterByInputName, setFilterByInputName] = useState();
     const handleInputNameChange = e => {
         if (e.target) {
@@ -81,73 +78,6 @@ export const VideoGameCatalog = props => {
     const CARD_HEIGHT = 460;
     const CARD_WIDTH = 300;
 
-    const Item = ({ data, index, style }) => {
-        const { cardHeight, cardWidth, columnCount, gapSize, itemCount } = data;
-        const startIndex = index * columnCount;
-        const stopIndex = Math.min(itemCount - 1, startIndex + columnCount - 1);
-
-        const cards = [];
-        for (let i = startIndex; i <= stopIndex; i++) {
-            cards.push(
-                <div
-                    key={`${displayList[i]}-${i}`}
-                    className={classes.sampleCard}
-                    style={{
-                        flex: `0 0 ${cardWidth}px`,
-                        height: cardHeight,
-                        margin: `0 ${gapSize / 2}px`,
-                    }}
-                >
-                    <Grid item xs={12} key={displayList[i].id} >
-                        <Link
-                            to={{
-                                pathname: `${url}/${displayList[i].id}`,
-                            }}
-                            style={{ textDecoration: 'none' }}
-                        >
-                            <VideoGameCard  videoGame={displayList[i]} />
-                        </Link>
-                    </Grid>
-                </div >,
-            );
-        }
-
-        return (
-            <div className={classes.sampleItem} style={style}>
-                {cards}
-            </div>
-        );
-    };
-
-    function ListWrapper({ height, itemCount, width }) {
-        const columnCount = Math.floor((width - GAP_SIZE) / (CARD_WIDTH + GAP_SIZE));
-        const rowCount = Math.ceil(itemCount / columnCount);
-
-        const itemData = useMemo(
-            () => ({
-                columnCount,
-                itemCount,
-                cardWidth: CARD_WIDTH,
-                cardHeight: CARD_HEIGHT,
-                gapSize: GAP_SIZE,
-            }),
-            [columnCount, itemCount],
-        );
-
-        return (
-            <List
-                className={classes.sampleList}
-                height={height}
-                itemCount={rowCount}
-                itemSize={CARD_HEIGHT + GAP_SIZE}
-                width={width}
-                itemData={itemData}
-            >
-                {Item}
-            </List>
-        );
-    }
-
     // const filterButton = <ActionButton
     //     icon={<FilterListIcon />}
     //     onClick={openModal}
@@ -184,30 +114,18 @@ export const VideoGameCatalog = props => {
                     </Grid>
                 </div>
             </Container>
-            <AutoSizer disableHeight >
-                {({ width }) => (
-                    <ListWrapper
-                        height={window.innerHeight*.8}
-                        itemCount={displayList.length}
-                        width={width}
-                    />
-                )}
-            </AutoSizer>
+            <Viewport 
+                CardComponent={VideoGameCard} 
+                displayList={displayList} 
+                CARD_HEIGHT={CARD_HEIGHT} 
+                CARD_WIDTH={CARD_WIDTH} 
+                GAP_SIZE={GAP_SIZE}
+            />
         </>
     );
 };
 
 const useStyles = makeStyles(theme => ({
-    sampleCard: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    sampleItem: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     card: {
         maxWidth: 325,
         maxHeight: 325,

@@ -16,7 +16,7 @@ import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { UserConsumer } from 'components/auth/authContext';
 
-export const VideoGameCard = ({ videoGame }) => {
+export const VideoGameCard = ({ item }) => {
     
     const {  
         imageFile,
@@ -26,7 +26,7 @@ export const VideoGameCard = ({ videoGame }) => {
         videoGameConsole,
         videoGameType,
         year,
-    } = videoGame;
+    } = item;
 
     const classes = useStyles();
     const { id } = useContext(UserConsumer);
@@ -34,7 +34,7 @@ export const VideoGameCard = ({ videoGame }) => {
 
     const addToCollection = () => {
         let newCollectile = {
-            catalogId: videoGame.id,
+            catalogId: item.id,
             owned: true,
             purchasePrice: 0,
         };
@@ -150,5 +150,5 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 VideoGameCard.propTypes = {
-    videoGame: PropTypes.object.isRequired,
+    item: PropTypes.object.isRequired,
 };
