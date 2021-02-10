@@ -8,7 +8,7 @@ import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Color } from 'shared/styles/color';
 import { isProduction } from 'shared/util/environment';
 
-export const ImageDetailCard = ({ imageUrl }) => {
+export const SingleImageDetailCard = ({ imageUrl }) => {
     const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
 
     const classes = useStyles();
@@ -56,6 +56,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-ImageDetailCard.propTypes = {
+SingleImageDetailCard.propTypes = {
     imageUrl: PropTypes.string,
 };

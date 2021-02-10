@@ -1,8 +1,9 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { ImageDetailCard } from 'components/catalog/videoGames/cards/imageDetailCard';
+import { UserConsumer } from 'components/auth/authContext';
 import { ReleaseDetailCard } from 'components/catalog/videoGames/cards/releaseDetailCard';
+import { SingleImageDetailCard } from 'components/catalog/common/cards/singleImageDetailCard';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
@@ -14,7 +15,6 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { BS_CARD_BUTTONS, PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { UserConsumer } from 'components/auth/authContext';
 import { SortingUtils } from 'shared/util/sortingUtil';
 
 const { HOME, VIDEO_GAMES } = ROUTE_CONSTANTS;
@@ -65,7 +65,7 @@ export const VideoGameDetails = ({ catalogList, videoGameId, screenSize, userLis
     };
 
 
-    const imageDetailCard = <ImageDetailCard imageUrl={videoGame.imageFile}/>;
+    const imageDetailCard = <SingleImageDetailCard imageUrl={videoGame.imageFile}/>;
 
     const releaseDetailCard = <ReleaseDetailCard
         developer={videoGame.developer}

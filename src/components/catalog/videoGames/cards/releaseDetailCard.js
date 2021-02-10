@@ -2,11 +2,11 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { DetailRow } from 'components/catalog/common/cards/detailRow';
+import { DetailRow } from 'components/catalog/common/cards/rows/detailRow';
+import { ListDetailRow } from 'components/catalog/common/cards/rows/listDetailRow';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VG_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
-import { ListDetailRow } from 'components/catalog/common/cards/listDetailRow';
 
 export const ReleaseDetailCard = ({ developer, price, otherGamesInSeries, videoGameConsole, videoGameFormat, videoGameSeries, videoGameType, year }) => {
     const classes = useStyles();
