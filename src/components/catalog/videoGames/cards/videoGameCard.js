@@ -100,7 +100,7 @@ export const VideoGameCard = ({ item }) => {
             />
             <CardMedia
                 className={classes.media}
-                image={!isProduction ? imageFile : IMAGE_PATHS.FILL_MURRAY}
+                image={isProduction ? imageFile : IMAGE_PATHS.FILL_MURRAY}
                 title={name}
                 style={ownedVG ? {} : { filter: 'grayscale(1)' }}
             />
