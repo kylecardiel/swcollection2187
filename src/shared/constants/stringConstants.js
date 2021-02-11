@@ -184,7 +184,7 @@ export const STRING_CONSTANTS = Object.freeze({
             CARDS: {
                 BUTTONS: {
                     ADD: 'Add to Collection',
-                    REMOVE: 'Remove from Collection',
+                    REMOVE: 'Remove',
                 },
                 LABELS: {
                     TOTAL_OWNED: 'Total Owned',
