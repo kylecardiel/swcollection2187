@@ -14,8 +14,8 @@ export const ReleaseDetailCard = ({ developer, price, otherGamesInSeries, videoG
     const generatSimilarFigureList = () => {
         return <>
             {otherGamesInSeries.map(vg => (
-                <Typography variant='body2' gutterBottom component='p' key={vg.name}>
-                    {`- ${vg.name} `}
+                <Typography variant='body2' gutterBottom component='p' key={`${vg.name}-${vg.year}`}>
+                    {`- ${vg.name} (${vg.year})`}
                 </Typography>
             ))}
         </>;

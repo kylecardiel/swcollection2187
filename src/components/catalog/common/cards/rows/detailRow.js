@@ -33,5 +33,8 @@ const useStyles = makeStyles(() => ({
 
 DetailRow.propTypes = {
     label: PropTypes.string.isRequired,
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
 };

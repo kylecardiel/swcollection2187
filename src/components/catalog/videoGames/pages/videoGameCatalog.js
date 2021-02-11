@@ -41,7 +41,7 @@ export const VideoGameCatalog = props => {
         
         if(isProduction) {
             const catalogRef = CatalogApi.read(VIDEO_GAMES);
-            catalogRef.on('value', snapshot => {
+            catalogRef.once('value').then((snapshot) => {
                 if (snapshot.val()) {
                     let records = snapshot.val();
                     setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
@@ -50,7 +50,7 @@ export const VideoGameCatalog = props => {
 
             if (loggedIn) {
                 const userRef = UserApi.read(id, VIDEO_GAMES);
-                userRef.on('value', snapshot => {
+                userRef.once('value').then((snapshot) => {
                     if (snapshot.val()) {
                         let records = snapshot.val();
                         setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
@@ -77,12 +77,6 @@ export const VideoGameCatalog = props => {
     const GAP_SIZE = 10;
     const CARD_HEIGHT = 460;
     const CARD_WIDTH = 300;
-
-    // const filterButton = <ActionButton
-    //     icon={<FilterListIcon />}
-    //     onClick={openModal}
-    //     color={Color.black()}
-    // />;
 
     return (
         <>
