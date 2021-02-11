@@ -16,8 +16,8 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { ScreenSize } from 'components/common/screenSize';
 import { SignUp } from 'components/auth/signUp';
 import { UserConsumer } from 'components/auth/authContext';
-import { VideoGames } from 'components/catalog/videoGames/videoGames';
-import VideoGameDetailsConnect from 'components/hoc/videoGame/videoGameDetailsConnect';
+import { VideoGamesPage } from 'components/catalog/videoGames/pages/videoGamesPage';
+import { VideoGameDetailsPage } from 'components/catalog/videoGames/pages/videoGameDetailsPage';
 
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES, VIDEO_GAMES } = ROUTE_CONSTANTS;
 
@@ -84,7 +84,7 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                                 redirectPath={LOGIN}
                                 access={true}
                                 userLoggedIn={loggedIn}
-                                component={VideoGames}
+                                component={VideoGamesPage}
                             />
                             <ProtectedRoute
                                 exact
@@ -92,7 +92,7 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                                 redirectPath={LOGIN}
                                 access={true}
                                 userLoggedIn={loggedIn}
-                                component={VideoGameDetailsConnect}
+                                component={VideoGameDetailsPage}
                             />
                         </>
                     }

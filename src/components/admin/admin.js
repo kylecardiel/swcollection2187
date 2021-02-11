@@ -23,7 +23,7 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 import TextField from '@material-ui/core/TextField';
 import { UploadImage } from 'components/admin/uploadImage';
 import { useForm } from 'react-hook-form';
-import { NewVideoGameForm } from 'components/catalog/videoGames/newVideoGameForm';
+import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
 import { FormSelectorInput } from 'components/admin/formSelectorInputs';
 
 const { HOME } = ROUTE_CONSTANTS;

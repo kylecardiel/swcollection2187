@@ -1,9 +1,10 @@
-import { VideoGameCatalog } from 'components/catalog/videoGames/videoGameCatalog';
+import { VideoGameCatalog } from 'components/catalog/videoGames/pages/videoGameCatalog';
 import React from 'react';
 import { connect } from 'react-redux';
-import { setVideoGameData, setUserData } from 'store/dataSet/dataSetActions';
+import { setUserData, setVideoGameData } from 'store/dataSet/dataSetActions';
 import { getCatalogList, getUserList } from 'store/dataSet/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
+import { getScreenSize } from 'store/screenSize/screenSizeSelector';
 
 export const VideoGameCatalogConnect = () => {
     return (<VideoGameCatalog />);
@@ -11,6 +12,7 @@ export const VideoGameCatalogConnect = () => {
 
 export const mapStateToProps = state => ({
     helperData: getHelperDataSet(state),
+    screenSize: getScreenSize(state),
     userList: getUserList(state),
     videoGameList: getCatalogList(state),
 });

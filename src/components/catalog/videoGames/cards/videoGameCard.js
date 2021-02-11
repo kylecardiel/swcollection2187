@@ -16,7 +16,7 @@ import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { UserConsumer } from 'components/auth/authContext';
 
-export const VideoGameCard = ({ videoGame }) => {
+export const VideoGameCard = ({ item }) => {
     
     const {  
         imageFile,
@@ -26,15 +26,15 @@ export const VideoGameCard = ({ videoGame }) => {
         videoGameConsole,
         videoGameType,
         year,
-    } = videoGame;
+    } = item;
 
-    const classes = useStyles();
+    const classes = useStyles({ owned });
     const { id } = useContext(UserConsumer);
     const [ownedVG, setOwnedVG] = useState(owned);
 
     const addToCollection = () => {
         let newCollectile = {
-            catalogId: videoGame.id,
+            catalogId: item.id,
             owned: true,
             purchasePrice: 0,
         };
@@ -82,10 +82,10 @@ export const VideoGameCard = ({ videoGame }) => {
 
     const singleBottomRowText = (first, second) => {
         return <Grid container direction='row' justify='space-between'>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant='body2' color={'textSecondary'} component='p'>
                 {first}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant='body2' color={'textSecondary'} component='p'>
                 {second}
             </Typography>
         </Grid>;
@@ -100,8 +100,9 @@ export const VideoGameCard = ({ videoGame }) => {
             />
             <CardMedia
                 className={classes.media}
-                image={isProduction ? imageFile : IMAGE_PATHS.FILL_MURRAY}
+                image={!isProduction ? imageFile : IMAGE_PATHS.FILL_MURRAY}
                 title={name}
+                style={ownedVG ? {} : { filter: 'grayscale(1)' }}
             />
             <CardContent>
                 {singleBottomRowText(videoGameType, year)}
@@ -129,8 +130,8 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '75%', // '56.25%', // 16:9
     },
     header: {
+        color: props => props.owned ? Color.yellow() : Color.white(),
         backgroundColor: Color.black(),
-        color: Color.yellow(),
     },
     icon: {
         width: 25, 
@@ -150,5 +151,5 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 VideoGameCard.propTypes = {
-    videoGame: PropTypes.object.isRequired,
+    item: PropTypes.object.isRequired,
 };
