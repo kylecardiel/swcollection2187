@@ -54,7 +54,10 @@ export const VideoGameCatalog = props => {
 
     const massageList = () => {
         let mergedList = videoGameList && userList ? RecordUtils.mergeTwoArraysByAttribute(videoGameList, 'id', userList, 'catalogId') : videoGameList;
-        if (filterByInputName) mergedList = mergedList.filter(el => el.name.toLowerCase().includes(filterByInputName.toLowerCase()));
+        if (filterByInputName) mergedList = mergedList.filter(el => {
+            return el.name.toLowerCase().includes(filterByInputName.toLowerCase())
+                || (el.videoGameSeries && el.videoGameSeries.toLowerCase().includes(filterByInputName.toLowerCase()));
+        });
         if (filterByMyCollection) mergedList = mergedList.filter(el => el.owned === true);
         return SortingUtils.sortDataByAttributeDesc(mergedList, 'year');
     };
