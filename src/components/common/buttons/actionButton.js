@@ -11,11 +11,16 @@ export const ActionButton = ({ color, buttonLabel, icon, onClick, disabled }) =>
                                     {buttonLabel}
                                 </div>;
 
+    const onButtonClick = e => {
+        e.preventDefault();
+        onClick();
+    };
+
     return (
         <Button 
             variant='contained'
             className={classes.button} 
-            onClick={e => onClick()}
+            onClick={e => onButtonClick(e)}
             disabled={disabled}
         >
             {icon}
