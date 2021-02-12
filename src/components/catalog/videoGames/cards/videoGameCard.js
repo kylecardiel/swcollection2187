@@ -28,9 +28,9 @@ export const VideoGameCard = ({ item }) => {
         year,
     } = item;
 
-    const classes = useStyles({ owned });
     const { id } = useContext(UserConsumer);
     const [ownedVG, setOwnedVG] = useState(owned);
+    const classes = useStyles({ ownedVG });
 
     const addToCollection = () => {
         let newCollectile = {
@@ -130,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '75%', // '56.25%', // 16:9
     },
     header: {
-        color: props => props.owned ? Color.yellow() : Color.white(),
+        color: props => props.ownedVG ? Color.yellow() : Color.white(),
         backgroundColor: Color.black(),
     },
     icon: {

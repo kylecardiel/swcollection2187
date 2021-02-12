@@ -6,25 +6,23 @@ import { UserConsumer } from 'components/auth/authContext';
 import { VideoGameCard } from 'components/catalog/videoGames/cards/videoGameCard';
 import { MyCollectionButton } from 'components/common/buttons/myCollectionButton';
 import { SearchBar } from 'components/common/searchBar';
+import { Viewport } from 'components/common/viewport/viewport';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { CatalogApi } from 'shared/api/catalogApi';
-import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { CatalogData } from 'shared/fixtures/catalogData';
-import { usersData } from 'shared/fixtures/userData';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { Viewport } from 'components/common/viewport/viewport';
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
 export const VideoGameCatalog = props => {
     const classes = useStyles();
-    const { helperData, screenSize, setVideoGameData, setUserData, userList, videoGameList } = props;
+    const { helperData, screenSize, setVideoGameData, userList, videoGameList } = props;
 
-    const { id, loggedIn } = useContext(UserConsumer);
+    const { id } = useContext(UserConsumer);
     const [filterByInputName, setFilterByInputName] = useState();
     const handleInputNameChange = e => {
         if (e.target) {
@@ -39,35 +37,27 @@ export const VideoGameCatalog = props => {
     const [initialState] = useState(props);
     useEffect(() => {
         
-        if(isProduction) {
+        if(!isProduction) {
             const catalogRef = CatalogApi.read(VIDEO_GAMES);
-            catalogRef.on('value', snapshot => {
+            catalogRef.once('value').then((snapshot) => {
                 if (snapshot.val()) {
                     let records = snapshot.val();
                     setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
                 }
             });
 
-            if (loggedIn) {
-                const userRef = UserApi.read(id, VIDEO_GAMES);
-                userRef.on('value', snapshot => {
-                    if (snapshot.val()) {
-                        let records = snapshot.val();
-                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
-                    }
-                });
-            }
-
         } else {
             setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.VideoGames, 'id'));
-            setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.VideoGames, 'ownedId'));
         }
 
-    }, [initialState, setVideoGameData, helperData, setUserData, loggedIn, id]);
+    }, [initialState, setVideoGameData, helperData, id]);
 
     const massageList = () => {
         let mergedList = videoGameList && userList ? RecordUtils.mergeTwoArraysByAttribute(videoGameList, 'id', userList, 'catalogId') : videoGameList;
-        if (filterByInputName) mergedList = mergedList.filter(el => el.name.toLowerCase().includes(filterByInputName.toLowerCase()));
+        if (filterByInputName) mergedList = mergedList.filter(el => {
+            return el.name.toLowerCase().includes(filterByInputName.toLowerCase())
+                || (el.videoGameSeries && el.videoGameSeries.toLowerCase().includes(filterByInputName.toLowerCase()));
+        });
         if (filterByMyCollection) mergedList = mergedList.filter(el => el.owned === true);
         return SortingUtils.sortDataByAttributeDesc(mergedList, 'year');
     };
@@ -77,12 +67,6 @@ export const VideoGameCatalog = props => {
     const GAP_SIZE = 10;
     const CARD_HEIGHT = 460;
     const CARD_WIDTH = 300;
-
-    // const filterButton = <ActionButton
-    //     icon={<FilterListIcon />}
-    //     onClick={openModal}
-    //     color={Color.black()}
-    // />;
 
     return (
         <>
