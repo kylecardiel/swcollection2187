@@ -1,10 +1,8 @@
 import { VideoGameCatalog } from 'components/catalog/videoGames/pages/videoGameCatalog';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { setVideoGameData } from 'store/dataSet/dataSetActions';
-import { getCatalogList } from 'store/dataSet/dataSetSelector';
-import { getUserVideoGames } from 'store/firebase/dataSetSelector';
+import { setUserData, setVideoGameData } from 'store/dataSet/dataSetActions';
+import { getCatalogList, getUserList } from 'store/dataSet/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
 
@@ -15,12 +13,13 @@ export const VideoGameCatalogConnect = () => {
 export const mapStateToProps = state => ({
     helperData: getHelperDataSet(state),
     screenSize: getScreenSize(state),
-    userList: RecordUtils.convertDBNestedObjectsToArrayOfObjects(getUserVideoGames(state), 'ownedId'),
+    userList: getUserList(state),
     videoGameList: getCatalogList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
     setVideoGameData: data => dispatch(setVideoGameData(data)),
+    setUserData: data => dispatch(setUserData(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoGameCatalog);

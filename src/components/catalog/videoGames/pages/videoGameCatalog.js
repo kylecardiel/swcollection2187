@@ -10,19 +10,22 @@ import { Viewport } from 'components/common/viewport/viewport';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { CatalogApi } from 'shared/api/catalogApi';
+import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { CatalogData } from 'shared/fixtures/catalogData';
+import { usersData } from 'shared/fixtures/userData';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
+
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
 export const VideoGameCatalog = props => {
     const classes = useStyles();
-    const { helperData, screenSize, setVideoGameData, userList, videoGameList } = props;
+    const { helperData, screenSize, setUserData, setVideoGameData, userList, videoGameList } = props;
 
-    const { id } = useContext(UserConsumer);
+    const { id, loggedIn } = useContext(UserConsumer);
     const [filterByInputName, setFilterByInputName] = useState();
     const handleInputNameChange = e => {
         if (e.target) {
@@ -46,8 +49,20 @@ export const VideoGameCatalog = props => {
                 }
             });
 
+            if (loggedIn) {
+                const userRef = UserApi.read(id, VIDEO_GAMES);
+                userRef.once('value').then((snapshot) => {
+                    if (snapshot.val()) {
+                        let records = snapshot.val();
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                    }
+                });
+            }
+
+
         } else {
             setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.VideoGames, 'id'));
+            setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.VideoGames, 'ownedId'));
         }
 
     }, [initialState, setVideoGameData, helperData, id]);
@@ -130,4 +145,5 @@ VideoGameCatalog.propTypes = {
     videoGameList: PropTypes.array.isRequired,
     helperData: PropTypes.object.isRequired,
     setVideoGameData: PropTypes.func.isRequired,
+    setUserData: PropTypes.func.isRequired,
 };
