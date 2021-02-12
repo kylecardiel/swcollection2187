@@ -37,7 +37,7 @@ export const VideoGameCatalog = props => {
     const [initialState] = useState(props);
     useEffect(() => {
         
-        if(!isProduction) {
+        if(isProduction) {
             const catalogRef = CatalogApi.read(VIDEO_GAMES);
             catalogRef.once('value').then((snapshot) => {
                 if (snapshot.val()) {
