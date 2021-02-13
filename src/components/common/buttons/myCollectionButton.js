@@ -4,16 +4,18 @@ import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { BS_CATALOG } from 'shared/constants/stringConstantsSelectors';
+import { GENERAL } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 
-const { BUTTON } = BS_CATALOG;
+const { BUTTON } = GENERAL;
 
-export const MyCollectionButton = ({ filterByMyCollection, handleMyCollectionChange, isMobileDevice }) => {
+export const MyCollectionButton = ({ filterByMyCollection, handleMyCollectionChange, isTablet }) => {
+    const label = isTablet ? null : filterByMyCollection ? BUTTON.MY_COLLECTION : BUTTON.ALL;
+    const icon = filterByMyCollection ? <CollectionsBookmarkIcon /> : <ViewComfyIcon />;
     return (
         <ActionButton
-            buttonLabel={isMobileDevice ? null : filterByMyCollection ? 'My Collection' : BUTTON.ALL}
-            icon={filterByMyCollection ? <CollectionsBookmarkIcon /> : <ViewComfyIcon />}
+            buttonLabel={label}
+            icon={icon}
             onClick={handleMyCollectionChange}
             color={Color.green()}
         />
@@ -23,5 +25,5 @@ export const MyCollectionButton = ({ filterByMyCollection, handleMyCollectionCha
 MyCollectionButton.propTypes = {
     filterByMyCollection: PropTypes.bool,
     handleMyCollectionChange: PropTypes.func.isRequired,
-    isMobileDevice: PropTypes.bool.isRequired,
+    isTablet: PropTypes.bool.isRequired,
 };

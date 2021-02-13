@@ -11,27 +11,28 @@ import { MyCollectionButton } from 'components/common/buttons/myCollectionButton
 import { FormFilter } from 'components/common/form/formFilter';
 import { SearchBar } from 'components/common/searchBar';
 import { Viewport } from 'components/common/viewport/viewport';
+import camelCase from 'lodash/camelCase';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { CatalogApi } from 'shared/api/catalogApi';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { NEW_VIDEO_GAME_FORM, GENERAL_FILTER_MODAL } from 'shared/constants/stringConstantsSelectors';
+import { GENERAL_FILTER_MODAL, NEW_VIDEO_GAME_FORM } from 'shared/constants/stringConstantsSelectors';
 import { CatalogData } from 'shared/fixtures/catalogData';
 import { usersData } from 'shared/fixtures/userData';
 import { Color } from 'shared/styles/color';
-import { modalStyles, fitlerModalSizes } from 'shared/styles/modalStyles';
+import { fitlerModalSizes, modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import camelCase from 'lodash/camelCase';
+import { capatilizeString } from 'shared/util/stringUtil';
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
 export const VideoGameCatalog = props => {
     const classes = useStyles();
-    const { helperData, screenSize, setUserData, setVideoGameData, userList, videoGameList } = props;
+    const { clearUserDisplaySettings, filterState, helperData, screenSize, setUserData, setUserDisplaySettings, setVideoGameData, userList, videoGameList } = props;
 
     const { id, loggedIn } = useContext(UserConsumer);
     
@@ -39,56 +40,65 @@ export const VideoGameCatalog = props => {
     const [labelWidth] = useState(0);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const openModal = () => setIsModalOpen(!isModalOpen);
     const closeModal = () => setIsModalOpen(!isModalOpen);
 
-    const [filterByInputName, setFilterByInputName] = useState();
+    const [filterByInputName, setFilterByInputName] = useState(filterState.filterByInputName);
     const handleInputNameChange = e => {
         if (e.target) {
             const { value } = e.target;
             setTimeout(setFilterByInputName(value), 500);
+            setTimeout(setUserDisplaySettings('filterByInputName', value), 500);
         }
     };
 
     const [filterByMyCollection, setFilterByMyCollection] = useState(false);
-    const handleMyCollectionChange = () => setFilterByMyCollection(!filterByMyCollection);
+    const handleMyCollectionChange = () => {
+        setFilterByMyCollection(!filterByMyCollection);
+        setUserDisplaySettings('filterByMyCollection', !filterByMyCollection);
+    };
 
-    const [filterByVideoGameConsole, setFilterByVideoGameConsole] = useState();
+    const [filterByVideoGameConsole, setFilterByVideoGameConsole] = useState(filterState.filterByVideoGameConsole);
     const handleVideoGameConsoleChange = e => {
         const value = e.target.value;
         setFilterByVideoGameConsole(value);
+        setUserDisplaySettings('filterByVideoGameConsole', value);
     };
 
-    const [filterByVideoGameFormat, setFilterByVideoGameFormat] = useState();
+    const [filterByVideoGameFormat, setFilterByVideoGameFormat] = useState(filterState.filterByVideoGameFormat);
     const handleVideoGameFormatChange = e => {
         const value = e.target.value;
         setFilterByVideoGameFormat(value);
+        setUserDisplaySettings('filterByVideoGameFormat', value);
     };
 
-    const [filterByVideoGameSeries, setFilterByVideoGameSeries] = useState();
+    const [filterByVideoGameSeries, setFilterByVideoGameSeries] = useState(filterState.filterByVideoGameSeries);
     const handleVideoGameSeriesChange = e => {
         const value = e.target.value;
         setFilterByVideoGameSeries(value);
+        setUserDisplaySettings('filterByVideoGameSeries', value);
     };
 
-    const [filterByVideoGameType, setFilterByVideoGameType] = useState();
+    const [filterByVideoGameType, setFilterByVideoGameType] = useState(filterState.filterByVideoGameType);
     const handleVideoGameTypeChange = e => {
         const value = e.target.value;
         setFilterByVideoGameType(value);
+        setUserDisplaySettings('filterByVideoGameType', value);
     };
 
-    const [filterByYear, setFilterByYear] = useState();
+    const [filterByYear, setFilterByYear] = useState(filterState.setFilterByYear);
     const handleYearChange = e => {
         const value = e.target.value;
         setFilterByYear(value);
+        setUserDisplaySettings('setFilterByYear', value);
     };
 
-    const [sortingAttribute, setSortingAttribute] = useState();
+    const [sortingAttribute, setSortingAttribute] = useState(filterState.sortingAttribute);
     const handleSortingChange = e => {
         let value = null;
         if (e.target.value) value = camelCase(e.target.value);
         setSortingAttribute(value);
+        setUserDisplaySettings('sortingAttribute', value);
     };
 
     const handleClearFilters = () => {
@@ -98,6 +108,7 @@ export const VideoGameCatalog = props => {
         setFilterByVideoGameType(null);
         setFilterByYear(null);
         setSortingAttribute();
+        clearUserDisplaySettings();
     };
 
 
@@ -158,7 +169,7 @@ export const VideoGameCatalog = props => {
     const CARD_WIDTH = 300;
 
     const myCollectionButton =  <MyCollectionButton
-        isMobileDevice={screenSize.isMobileDevice}
+        isTablet={screenSize.isTablet}
         filterByMyCollection={!filterByMyCollection}
         handleMyCollectionChange={handleMyCollectionChange}
     />;
@@ -190,7 +201,7 @@ export const VideoGameCatalog = props => {
         videoGameTypeFilterComp,
         yearFilter;
     let sortingAttibuteFilter;
-    const formattedSortingAttribute = sortingAttribute ? sortingAttribute.charAt(0).toUpperCase() + sortingAttribute.slice(1) : sortingAttribute;
+    const formattedSortingAttribute = sortingAttribute ? capatilizeString(sortingAttribute) : sortingAttribute;
 
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
@@ -301,8 +312,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 VideoGameCatalog.propTypes = {
-    videoGameList: PropTypes.array.isRequired,
+    clearUserDisplaySettings: PropTypes.func.isRequired,
     helperData: PropTypes.object.isRequired,
-    setVideoGameData: PropTypes.func.isRequired,
     setUserData: PropTypes.func.isRequired,
+    setUserDisplaySettings: PropTypes.func.isRequired,
+    setVideoGameData: PropTypes.func.isRequired,
+    videoGameList: PropTypes.array.isRequired,
 };

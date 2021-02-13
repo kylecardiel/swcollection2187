@@ -17,6 +17,7 @@ import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
 import { FormFilter } from 'components/common/form/formFilter';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { SearchBar } from 'components/common/searchBar';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
 import { ActionFigure } from 'components/display/actionfigure';
 import camelCase from 'lodash/camelCase';
@@ -30,11 +31,11 @@ import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared
 import { CatalogData } from 'shared/fixtures/catalogData';
 import { usersData } from 'shared/fixtures/userData';
 import { Color } from 'shared/styles/color';
-import { modalStyles, fitlerModalSizes } from 'shared/styles/modalStyles';
+import { fitlerModalSizes, modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { SearchBar } from 'components/common/searchBar';
+import { capatilizeString } from 'shared/util/stringUtil';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -331,6 +332,8 @@ export const BlackSeriesCatalog = props => {
         />;
     };
 
+    const formattedSortingAttribute = sortingAttribute ? capatilizeString(sortingAttribute) : sortingAttribute;
+
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, groups, packageType, series, sourceMaterial, sourceType, version } = helperData;
@@ -353,7 +356,7 @@ export const BlackSeriesCatalog = props => {
                     NEW_COLLECTION_FORM_LABELS.SERIES_NUMBER.KEY, 
                     NEW_COLLECTION_FORM_LABELS.SOURCE_MATERIAL.KEY, 
                     NEW_COLLECTION_FORM_LABELS.YEAR.KEY,
-                ], handleSortingChange, sortingAttribute);
+                ], handleSortingChange, formattedSortingAttribute);
         }
     };
     buildFilters();

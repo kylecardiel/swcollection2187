@@ -327,6 +327,10 @@ export const STRING_CONSTANTS = Object.freeze({
             SUBMIT: 'Submit',
             CONTINUE: 'Continue',
             DONE: 'Done',
+            MY_COLLECTION: 'My Collection',
+            ALL: 'View All Again',
+            RECENT: 'Newly Added',
+            STATS: 'Stats',
         },
         MENU_ITEMS: {
             NONE: 'none',
