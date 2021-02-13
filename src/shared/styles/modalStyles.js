@@ -38,3 +38,15 @@ const largerModal = {
     height: '90%',
     width: '95%',
 };
+
+export const fitlerModalSizes = screenSize => {
+    if(screenSize.isLargeDesktopOrLaptop){
+        return { height: '75%', width: '50%' };
+    } else if (screenSize.isMediumDesktopOrLaptop) {
+        return { height: '80%', width: '50%' };
+    } else if (screenSize.isTablet && !screenSize.isMobileDevice) {
+        return screenSize.isPortrait ? { height: '80%', width: '80%' } : { height: '80%', width: '75%' };
+    } else {
+        return { height: '100%', width: '100%' };
+    }
+};

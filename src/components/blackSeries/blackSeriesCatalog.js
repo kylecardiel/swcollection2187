@@ -30,7 +30,7 @@ import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared
 import { CatalogData } from 'shared/fixtures/catalogData';
 import { usersData } from 'shared/fixtures/userData';
 import { Color } from 'shared/styles/color';
-import { modalStyles } from 'shared/styles/modalStyles';
+import { modalStyles, fitlerModalSizes } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
@@ -389,7 +389,7 @@ export const BlackSeriesCatalog = props => {
     />;
 
     const newlyAddedButton = <ActionButton
-        buttonLabel={screenSize.isMobileDevice ? null : !viewRecent ? BS_CATALOG.BUTTON.RECENT : BS_CATALOG.BUTTON.ALL}
+        buttonLabel={screenSize.isTablet ? null : !viewRecent ? BS_CATALOG.BUTTON.RECENT : BS_CATALOG.BUTTON.ALL}
         icon={!viewRecent ? <NewReleasesIcon /> : <ViewComfyIcon />}
         onClick={handleViewRecentChange}
         color={Color.green()}
@@ -397,7 +397,7 @@ export const BlackSeriesCatalog = props => {
     />;
 
     const myCollectionButton = <ActionButton
-        buttonLabel={screenSize.isMobileDevice ? null : !viewOnlyOwnedFigures ? 'My Collection' : BS_CATALOG.BUTTON.ALL}
+        buttonLabel={screenSize.isTablet ? null : !viewOnlyOwnedFigures ? 'My Collection' : BS_CATALOG.BUTTON.ALL}
         icon={!viewOnlyOwnedFigures ? <CollectionsBookmarkIcon /> : <ViewComfyIcon />}
         onClick={handleOwnedFiguresCheckBoxChange}
         color={Color.green()}
@@ -429,7 +429,7 @@ export const BlackSeriesCatalog = props => {
                         <Modal
                             isOpen={isModalOpen}
                             onRequestClose={closeModal}
-                            style={modalStyles(modalSize())}
+                            style={modalStyles(fitlerModalSizes(screenSize))}
                         >
                             <div className={classes.fitlerRoot}>
                                 <FormHeaderSection text={BS_DISPLAY_MODAL.HEADER} textColor={'white'} />
