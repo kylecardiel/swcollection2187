@@ -65,7 +65,7 @@ export const VideoGameCatalog = props => {
             setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.VideoGames, 'ownedId'));
         }
 
-    }, [initialState, setVideoGameData, helperData, id]);
+    }, [initialState, setVideoGameData, helperData, id, loggedIn, setUserData]);
 
     const massageList = () => {
         let mergedList = videoGameList && userList ? RecordUtils.mergeTwoArraysByAttribute(videoGameList, 'id', userList, 'catalogId') : videoGameList;
