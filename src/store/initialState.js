@@ -1,8 +1,14 @@
 export const initialState = {
     dataSet: {
         displayedData: [],
-        catalogList: [],
-        userList: [],
+        catalogList: {
+            actionFigures: [],
+            videoGames: [],
+        },
+        userList: {
+            actionFigures: [],
+            videoGames: [],
+        },
         displaySettings: {
             actionFigures:{
                 filterBySourceMaterial: null,

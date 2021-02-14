@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { getCatalogList } from 'store/dataSet/dataSetSelector';
+import { getVideoGameCatalogList } from 'store/dataSet/dataSetSelector';
 import { getUserVideoGames } from 'store/firebase/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
@@ -15,7 +15,7 @@ export const VideoGameDetailsConnect = ({ videoGameId }) => {
 };
 
 export const mapStateToProps = state => ({
-    catalogList: getCatalogList(state),
+    catalogList: getVideoGameCatalogList(state),
     helperData: getHelperDataSet(state),
     screenSize: getScreenSize(state),
     userList: RecordUtils.convertDBNestedObjectsToArrayOfObjects(getUserVideoGames(state), 'ownedId'),

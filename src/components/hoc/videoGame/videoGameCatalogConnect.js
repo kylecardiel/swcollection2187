@@ -1,8 +1,8 @@
 import { VideoGameCatalog } from 'components/catalog/videoGames/pages/videoGameCatalog';
 import React from 'react';
 import { connect } from 'react-redux';
-import { clearUserDisplaySettings, setUserData, setUserDisplaySettings, setVideoGameData } from 'store/dataSet/dataSetActions';
-import { getCatalogList, getVideoGameFilterState, getUserList } from 'store/dataSet/dataSetSelector';
+import { clearUserDisplaySettings, setUserData, setUserDisplaySettings, setCatalogData } from 'store/dataSet/dataSetActions';
+import { getVideoGameCatalogList, getVideoGameFilterState, getVideoGameUserList, VIDEO_GAME_SUB_CATALOG } from 'store/dataSet/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
 
@@ -14,14 +14,14 @@ export const mapStateToProps = state => ({
     filterState: getVideoGameFilterState(state),
     helperData: getHelperDataSet(state),
     screenSize: getScreenSize(state),
-    userList: getUserList(state),
-    videoGameList: getCatalogList(state),
+    userList: getVideoGameUserList(state),
+    videoGameList: getVideoGameCatalogList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-    setVideoGameData: data => dispatch(setVideoGameData(data)),
-    setUserData: data => dispatch(setUserData(data)),
-    setUserDisplaySettings: (settings, value) => dispatch(setUserDisplaySettings('videoGames', settings, value)),
+    setVideoGameData: data => dispatch(setCatalogData(VIDEO_GAME_SUB_CATALOG, data)),
+    setUserData: data => dispatch(setUserData(VIDEO_GAME_SUB_CATALOG, data)),
+    setUserDisplaySettings: (settings, value) => dispatch(setUserDisplaySettings(VIDEO_GAME_SUB_CATALOG, settings, value)),
     clearUserDisplaySettings: () => dispatch(clearUserDisplaySettings()),
 });
 

@@ -1,27 +1,27 @@
 import { BlackSeriesCatalog } from 'components/blackSeries/blackSeriesCatalog';
+import React from 'react';
 import { connect } from 'react-redux';
-import { setCatalogData, setUserData, setUserDisplaySettings, clearUserDisplaySettings } from 'store/dataSet/dataSetActions';
-import { getCatalogList, getUserList, getActionFigureFilterState } from 'store/dataSet/dataSetSelector';
+import { clearUserDisplaySettings, setCatalogData, setUserData, setUserDisplaySettings } from 'store/dataSet/dataSetActions';
+import { getActionFigureCatalogList, getActionFigureFilterState, getActionFigureUserList, ACTION_FIGURE_PATH } from 'store/dataSet/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
-import React from 'react';
 
 export const BlackSeriesCatalogConnect = () => {
     return (<BlackSeriesCatalog />);
 };
 
 export const mapStateToProps = state => ({
-    catalogList: getCatalogList(state),
-    userList: getUserList(state),
+    catalogList: getActionFigureCatalogList(state),
+    filterState: getActionFigureFilterState(state),
     helperData: getHelperDataSet(state),
     screenSize: getScreenSize(state),
-    filterState: getActionFigureFilterState(state),
+    userList: getActionFigureUserList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-    setCatalogData: data => dispatch(setCatalogData(data)),
-    setUserData: data => dispatch(setUserData(data)),
-    setUserDisplaySettings: (settings, value) => dispatch(setUserDisplaySettings('actionFigures', settings, value)),
+    setCatalogData: data => dispatch(setCatalogData(ACTION_FIGURE_PATH, data)),
+    setUserData: data => dispatch(setUserData(ACTION_FIGURE_PATH, data)),
+    setUserDisplaySettings: (settings, value) => dispatch(setUserDisplaySettings(ACTION_FIGURE_PATH, settings, value)),
     clearUserDisplaySettings: () => dispatch(clearUserDisplaySettings()),
 });
 
