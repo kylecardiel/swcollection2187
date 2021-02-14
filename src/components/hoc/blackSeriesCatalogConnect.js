@@ -1,7 +1,7 @@
 import { BlackSeriesCatalog } from 'components/blackSeries/blackSeriesCatalog';
 import { connect } from 'react-redux';
 import { setCatalogData, setUserData, setUserDisplaySettings, clearUserDisplaySettings } from 'store/dataSet/dataSetActions';
-import { getCatalogList, getUserList, getFilterState } from 'store/dataSet/dataSetSelector';
+import { getCatalogList, getUserList, getActionFigureFilterState } from 'store/dataSet/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
 import React from 'react';
@@ -15,13 +15,13 @@ export const mapStateToProps = state => ({
     userList: getUserList(state),
     helperData: getHelperDataSet(state),
     screenSize: getScreenSize(state),
-    filterState: getFilterState(state),
+    filterState: getActionFigureFilterState(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
     setCatalogData: data => dispatch(setCatalogData(data)),
     setUserData: data => dispatch(setUserData(data)),
-    setUserDisplaySettings: (settings, value) => dispatch(setUserDisplaySettings(settings, value)),
+    setUserDisplaySettings: (settings, value) => dispatch(setUserDisplaySettings('actionFigures', settings, value)),
     clearUserDisplaySettings: () => dispatch(clearUserDisplaySettings()),
 });
 
