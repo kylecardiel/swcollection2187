@@ -26,7 +26,7 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const ActionFigureDetails = ({ assortments, catalogList, figureId, helperData, screenSize, sourceMaterials, userList }) => {
+export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperData, screenSize, sourceMaterials, userList }) => {
     const { id, email } = useContext(UserConsumer);
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const figure = singleList.filter(f => f.id === figureId)[0];
@@ -206,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-ActionFigureDetails.propTypes = {
+BlackSeriesDetails.propTypes = {
     assortments: PropTypes.array.isRequired,
     catalogList: PropTypes.array.isRequired,
     figureId: PropTypes.string.isRequired,

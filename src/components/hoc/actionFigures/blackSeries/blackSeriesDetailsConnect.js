@@ -1,18 +1,18 @@
-import { ActionFigureDetails } from 'components/catalog/actionFigures/blackSeries/pages/actionFigureDetail';
+import { BlackSeriesDetails } from 'components/catalog/actionFigures/blackSeries/pages/blackSeriesDetails';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { getActionFigureCatalogList, getActionFigureUserList } from 'store/dataSet/dataSetSelector';
 import { getAssortments, getHelperDataSet, getSourceMaterial } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
 
-export const ActionFigureDetailsConnect = () => {
+export const BlackSeriesDetailsConnect = ({ figureId }) => {
     return ( 
-        <ActionFigureDetails /> 
+        <BlackSeriesDetails figureId={figureId}/> 
     );
 };
 
 export const mapStateToProps = (state, ownProps) => ({
-    figureId: ownProps.match.params.id,
     catalogList: getActionFigureCatalogList(state),
     helperData: getHelperDataSet(state),
     userList: getActionFigureUserList(state),
@@ -21,4 +21,9 @@ export const mapStateToProps = (state, ownProps) => ({
     screenSize: getScreenSize(state),
 });
 
-export default connect(mapStateToProps)(ActionFigureDetails);
+export default connect(mapStateToProps)(BlackSeriesDetails);
+
+
+BlackSeriesDetailsConnect.propTypes = {
+    figureId: PropTypes.string.isRequired,
+};

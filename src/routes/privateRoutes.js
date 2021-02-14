@@ -1,23 +1,23 @@
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import React, { useContext } from 'react';
-import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
 import Admin from 'components/admin/admin';
-import { BlackSeries } from 'components/catalog/actionFigures/blackSeries/pages/blackSeries';
-import { FeatureFlagConsumer } from 'context/featureFlagsContext';
+import { UserConsumer } from 'components/auth/authContext';
 import { ForgotPassword } from 'components/auth/forgotPassword';
-import { Header } from 'components/header/header';
-import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 import { LogIn } from 'components/auth/logIn';
 import { NoSignUp } from 'components/auth/noSignUp';
+import { SignUp } from 'components/auth/signUp';
+import { BlackSeries } from 'components/catalog/actionFigures/blackSeries/pages/blackSeries';
+import { BlackSeriesDetailsPage } from 'components/catalog/actionFigures/blackSeries/pages/blackSeriesDetailsPage';
+import { VideoGameDetailsPage } from 'components/catalog/videoGames/pages/videoGameDetailsPage';
+import { VideoGamesPage } from 'components/catalog/videoGames/pages/videoGamesPage';
+import { ScreenSize } from 'components/common/screenSize';
+import { Header } from 'components/header/header';
+import { FeatureFlagConsumer } from 'context/featureFlagsContext';
 import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from 'routes/protectedRoute';
 import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { ScreenSize } from 'components/common/screenSize';
-import { SignUp } from 'components/auth/signUp';
-import { UserConsumer } from 'components/auth/authContext';
-import { VideoGamesPage } from 'components/catalog/videoGames/pages/videoGamesPage';
-import { VideoGameDetailsPage } from 'components/catalog/videoGames/pages/videoGameDetailsPage';
+import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 
 const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES, VIDEO_GAMES } = ROUTE_CONSTANTS;
 
@@ -74,7 +74,7 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                         redirectPath={LOGIN}
                         access={true}
                         userLoggedIn={loggedIn}
-                        component={ActionFigureDetailsConnect}
+                        component={BlackSeriesDetailsPage}
                     />
                     {videoGamesCollection &&
                         <>

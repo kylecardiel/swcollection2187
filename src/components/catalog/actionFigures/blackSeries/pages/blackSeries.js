@@ -1,4 +1,4 @@
-import BlackSeriesCatalogConnect from 'components/hoc/blackSeriesCatalogConnect';
+import BlackSeriesCatalogConnect from 'components/hoc/actionFigures/blackSeries/blackSeriesCatalogConnect';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import React from 'react';
