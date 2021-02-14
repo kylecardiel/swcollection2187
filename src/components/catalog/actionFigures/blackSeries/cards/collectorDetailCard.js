@@ -1,3 +1,4 @@
+import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
@@ -65,11 +66,14 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
                 </Typography>
                 <Divider />
                 <div className={classes.detailRow}>
-                    <Typography variant='body2' color='textSecondary' component='p'>
+                    <Typography variant='body2' color='textSecondary' component='span'>
                         {BS_DETAILS_LABEL.TOTAL_OWNED}
                     </Typography>
-                    <Typography variant='body2' component='p'>
-                        {totalOwned}
+                    <Typography variant='body2' component='span'>
+                        <Box fontWeight='fontWeightBold'>
+                            {totalOwned}
+                        </Box>
+                       
                     </Typography>
                 </div>
                 <Divider />

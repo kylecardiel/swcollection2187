@@ -107,7 +107,7 @@ const useStyles = makeStyles(() => ({
 Viewport.propTypes = {
     CardComponent: PropTypes.func.isRequired,
     displayList: PropTypes.array.isRequired,
-    other: PropTypes.object.isRequired,
+    other: PropTypes.object,
     CARD_HEIGHT: PropTypes.number.isRequired,
     CARD_WIDTH: PropTypes.number.isRequired,
     GAP_SIZE: PropTypes.number.isRequired,

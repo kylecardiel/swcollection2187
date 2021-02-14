@@ -23,7 +23,7 @@ const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES, VIDEO_GAMES }
 
 export const PrivateRoutes = ({ setScreenSizes }) => {
     const { loggedIn, email } = useContext(UserConsumer);
-    const { signUpPage, videoGamesCollection } = useContext(FeatureFlagConsumer);
+    const { signUpPage } = useContext(FeatureFlagConsumer);
     const redirectRender = () => <Redirect to={HOME} />;
 
     return (
@@ -76,26 +76,22 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                         userLoggedIn={loggedIn}
                         component={BlackSeriesDetailsPage}
                     />
-                    {videoGamesCollection &&
-                        <>
-                            <ProtectedRoute
-                                exact
-                                path={VIDEO_GAMES}
-                                redirectPath={LOGIN}
-                                access={true}
-                                userLoggedIn={loggedIn}
-                                component={VideoGamesPage}
-                            />
-                            <ProtectedRoute
-                                exact
-                                path={`${VIDEO_GAMES}/:id`}
-                                redirectPath={LOGIN}
-                                access={true}
-                                userLoggedIn={loggedIn}
-                                component={VideoGameDetailsPage}
-                            />
-                        </>
-                    }
+                    <ProtectedRoute
+                        exact
+                        path={VIDEO_GAMES}
+                        redirectPath={LOGIN}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={VideoGamesPage}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={`${VIDEO_GAMES}/:id`}
+                        redirectPath={LOGIN}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={VideoGameDetailsPage}
+                    />
                 </Switch>
             </Router>
             <ScreenSize setScreenSizes={setScreenSizes}/>

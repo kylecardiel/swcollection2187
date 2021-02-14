@@ -20,13 +20,13 @@ export const ReleaseDetailCard = ({ assortment, assortmentNumber, assortmentBack
         return <>
             <Divider />
             <div className={className} >
-                <Typography variant='body2' color={labelColor} component='p'>
+                <Typography variant='body2' color={labelColor} component='span'>
                     <Box fontWeight={fontWeight} >
                         {label}
                     </Box>
                 </Typography>
-                <Typography variant='body2' component='p'>
-                    <Box fontWeight={fontWeight} >
+                <Typography variant='body2' component='span'>
+                    <Box fontWeight='fontWeightBold' >
                         {adjustedValue}
                     </Box>
                 </Typography>

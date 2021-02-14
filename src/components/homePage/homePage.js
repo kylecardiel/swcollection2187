@@ -11,10 +11,12 @@ import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { UserConsumer } from 'components/auth/authContext';
 import PropTypes from 'prop-types';
+import { isProduction } from 'shared/util/environment';
+import packageJson from '../../../package.json';
 
 const { HOME_PAGE: { CATALOG_CARDS } } = IMAGE_PATHS;
 
-export const Homepage = ({ videoGamesCollection }) => {
+export const Homepage = () => {
     const classes = useStyles();
     const { email, loggedIn } = useContext(UserConsumer);
 
@@ -26,8 +28,10 @@ export const Homepage = ({ videoGamesCollection }) => {
         />
     </Grid>;
 
-    const introParagraph = videoGamesCollection ? HOME_PAGE.INTRO_PARAGRAPH_GENERIC : HOME_PAGE.INTRO_PARAGRAPH;
+    const introParagraph = HOME_PAGE.INTRO_PARAGRAPH_GENERIC;
     const authorized = ROLES.EMAIL === email;
+
+    const versionText = `Development ENV & on Version: ${packageJson.version}`;
 
     return (
         <Container component='main' maxWidth='xl'>
@@ -46,14 +50,14 @@ export const Homepage = ({ videoGamesCollection }) => {
                             <Grid item xs={12}>
                                 <h2>{HOME_PAGE.GET_STARTED}</h2>
                             </Grid>
-                            <Grid item xs={12} md={videoGamesCollection ? 6 : 12}>
+                            <Grid item xs={12} md={6}>
                                 <MediaCard
                                     cardText={HOME_PAGE.CARDS.BLACK_SERIES}
                                     route={ROUTE_CONSTANTS.BLACK_SERIES}
                                     imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
                                 />
                             </Grid>
-                            {videoGamesCollection && authorized && videoGameCard}
+                            {videoGameCard}
                         </>
                     }
                     {authorized &&
@@ -65,6 +69,11 @@ export const Homepage = ({ videoGamesCollection }) => {
                         </Grid>
                     }
                     <Footer />
+                    {!isProduction && 
+                        <Grid item xs={12} container direction='row' justify='flex-start' alignItems='center' spacing={1} className={classes.version}>
+                            {versionText}
+                        </Grid>
+                    }
                 </Grid>
             </div>
         </Container>
@@ -77,6 +86,9 @@ const useStyles = makeStyles(theme => ({
     },
     container:{
         marginTop: theme.spacing(.5),
+    },
+    version:{
+        marginTop: theme.spacing(5),
     },
 }));
 

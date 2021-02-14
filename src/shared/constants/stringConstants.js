@@ -48,11 +48,11 @@ export const STRING_CONSTANTS = Object.freeze({
             GET_STARTED: 'Let\'s get started',
             CARDS: {
                 BLACK_SERIES: {
-                    TITLE: 'Black Series Catalog',
+                    TITLE: 'Action Figures: Black Series 6"',
                     BODY: 'View and add to your collection!',
                 },
                 VIDEO_GAMES: {
-                    TITLE: 'Video Games Catalog',
+                    TITLE: 'Video Games',
                     BODY: 'View and add to your collection!',
                 },
                 USER_PROFILE: {
