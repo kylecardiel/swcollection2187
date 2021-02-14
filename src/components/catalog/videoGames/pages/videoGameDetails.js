@@ -16,17 +16,28 @@ import { BS_CARD_BUTTONS, PAGES } from 'shared/constants/stringConstantsSelector
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
+import { ROLES } from 'shared/constants/roleConstants';
+import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
+import { modalStyles } from 'shared/styles/modalStyles';
+import Modal from 'react-modal';
+import EditIcon from '@material-ui/icons/Edit';
 
 const { HOME, VIDEO_GAMES } = ROUTE_CONSTANTS;
 
-export const VideoGameDetails = ({ catalogList, videoGameId, screenSize, userList }) => {
-    const { id } = useContext(UserConsumer);
+export const VideoGameDetails = ({ catalogList, helperData, videoGameId, screenSize, userList }) => {
+    const { email, id } = useContext(UserConsumer);
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const videoGame = singleList.filter(vg => vg.id === videoGameId)[0];
     const otherGamesInSeries = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => videoGame.videoGameSeries && el.videoGameSeries === videoGame.videoGameSeries && el.id !== videoGame.id), 'year');
 
     const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
     const flexFlowDirection = isMobile ? 'column' : 'row';
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => setIsModalOpen(!isModalOpen);
+    const closeModal = () => setIsModalOpen(!isModalOpen);
+    const modalSize = { height: '85%', width: '85%' };
+    const authEditor = email === ROLES.EMAIL;
 
     const classes = useStyles({ flexFlowDirection });
     const links = [
@@ -87,6 +98,14 @@ export const VideoGameDetails = ({ catalogList, videoGameId, screenSize, userLis
         />
     </div>;
 
+    const editFigureButton = <div className={classes.editContainer}>
+        <ActionButton
+            icon={<EditIcon />}
+            onClick={openModal}
+            color={Color.blue()}
+        />
+    </div>;
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={videoGame.name} />
@@ -104,6 +123,7 @@ export const VideoGameDetails = ({ catalogList, videoGameId, screenSize, userLis
                                 {!isMobile &&
                                     <Grid container direction='row' justify='space-around'>
                                         {collectorButton}
+                                        {authEditor && editFigureButton}
                                     </Grid>
                                 }
                             </Grid>
@@ -114,10 +134,23 @@ export const VideoGameDetails = ({ catalogList, videoGameId, screenSize, userLis
                         {isMobile &&
                             <Grid item xs={12} container direction='row' justify='space-around'>
                                 {collectorButton}
+                                {authEditor && editFigureButton}
                             </Grid>
                         }
                     </div>
                 </Container>
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    style={modalStyles(modalSize)}
+                >
+                    <NewVideoGameForm
+                        closeModal={closeModal}
+                        catalog
+                        formData={helperData}
+                        item={videoGame}
+                    />
+                </Modal>
             </div>
         </React.Fragment>
     );
@@ -141,7 +174,8 @@ const useStyles = makeStyles((theme) => ({
 
 VideoGameDetails.propTypes = {
     catalogList: PropTypes.array.isRequired,
-    videoGameId: PropTypes.string.isRequired,
+    helperData: PropTypes.object.isRequired,
     screenSize: PropTypes.object.isRequired,
     userList: PropTypes.array.isRequired,
+    videoGameId: PropTypes.string.isRequired,
 };
