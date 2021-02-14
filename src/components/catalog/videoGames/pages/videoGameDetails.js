@@ -145,8 +145,7 @@ export const VideoGameDetails = ({ catalogList, helperData, videoGameId, screenS
                     style={modalStyles(modalSize)}
                 >
                     <NewVideoGameForm
-                        closeModal={closeModal}
-                        catalog
+                        setIsModalOpen={setIsModalOpen}
                         formData={helperData}
                         item={videoGame}
                     />
