@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { UserConsumer } from 'components/auth/authContext';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_CARD_BUTTONS } from 'shared/constants/stringConstantsSelectors';
@@ -13,6 +13,8 @@ import { Color } from 'shared/styles/color';
 export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFigureView }) => {
     const classes = useStyles();
     const { id } = useContext(UserConsumer);
+
+    const [ownedVG, setOwnedVG] = useState(recordOwned);
 
     const addFigureToCollection = () => {
         let newCollectile = {
@@ -23,15 +25,24 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
             newInBoxQty: 1,
             purchasePrice: 0,
         };
+        setOwnedVG(!ownedVG);
         UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile);
     };
 
     const removeFigureToCollection = () => {
+        setOwnedVG(!ownedVG);
         UserApi.delete(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, ownedId);
     };
 
-    const onclickCard = () => {
-        return recordOwned
+    const onClickCard = e => {
+        e.preventDefault();
+        return ownedVG
+            ? removeFigureToCollection()
+            : addFigureToCollection();
+    };
+
+    const onClickDetails = () => {
+        return ownedVG
             ? () => removeFigureToCollection()
             : () => addFigureToCollection();
     };
@@ -42,7 +53,7 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
 
     const collectionButton = () => {
         let text, className;
-        if (recordOwned) {
+        if (ownedVG) {
             text = textBasedOnSize(BS_CARD_BUTTONS.REMOVE);
             className = classes.owned;
         } else {
@@ -51,14 +62,14 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
         }
 
         if(card){
-            return <Card className={classes.buttonCard} onClick={onclickCard()}>
+            return <Card className={classes.buttonCard} onClick={e => onClickCard(e)}>
                 <div className={className}>{text}</div>
             </Card>;
         } else {
             return <ActionButton
                 buttonLabel={text}
-                onClick={onclickCard()}
-                color={recordOwned ? Color.red() : Color.green()}
+                onClick={onClickDetails()}
+                color={ownedVG ? Color.red() : Color.green()}
             />;
         }
     };

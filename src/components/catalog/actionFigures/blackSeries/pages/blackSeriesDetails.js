@@ -7,12 +7,12 @@ import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
-import { CollectorButton } from 'components/display/collectorButton';
-import { CharacterDetailCard } from 'components/display/details/cards/characterDetailCard';
-import { CollectorDetailCard } from 'components/display/details/cards/collectorDetailCard';
-import { ImageDetailCard } from 'components/display/details/cards/imageDetailCard';
-import { ReleaseDetailCard } from 'components/display/details/cards/releaseDetailCard';
-import { getAssortmentColor, getSourceColor } from 'components/display/figureColors';
+import { CollectorButton } from 'components/catalog/actionFigures/blackSeries/button/collectorButton';
+import { CharacterDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/characterDetailCard';
+import { CollectorDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/collectorDetailCard';
+import { ImageDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/imageDetailCard';
+import { ReleaseDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/releaseDetailCard';
+import { getAssortmentColor, getSourceColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
@@ -26,7 +26,7 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 
 const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
 
-export const ActionFigureDetails = ({ assortments, catalogList, figureId, helperData, screenSize, sourceMaterials, userList }) => {
+export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperData, screenSize, sourceMaterials, userList }) => {
     const { id, email } = useContext(UserConsumer);
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const figure = singleList.filter(f => f.id === figureId)[0];
@@ -206,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-ActionFigureDetails.propTypes = {
+BlackSeriesDetails.propTypes = {
     assortments: PropTypes.array.isRequired,
     catalogList: PropTypes.array.isRequired,
     figureId: PropTypes.string.isRequired,

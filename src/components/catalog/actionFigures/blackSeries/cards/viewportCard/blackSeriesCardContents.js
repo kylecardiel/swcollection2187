@@ -1,13 +1,13 @@
 import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { getSourceColor } from 'components/display/figureColors';
+import { getSourceColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Color } from 'shared/styles/color';
 import GroupIcon from '@material-ui/icons/Group';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
-export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
+export const BlackSeriesCardContent = ({ record, sourceMaterials }) => {
     const classes = useStyles();
 
     const adjustedValue = value => {
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-ActionFigureCardContent.propTypes = {
+BlackSeriesCardContent.propTypes = {
     record: PropTypes.object.isRequired,
     sourceMaterials: PropTypes.object.isRequired,
 };
