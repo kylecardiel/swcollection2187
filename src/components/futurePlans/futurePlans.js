@@ -49,7 +49,6 @@ export const FuturePlans = () => {
     const inProgesssPlan =  <RotateRightIcon fontSize='large' style={{ color: Color.blue() }}/>;
     const nextPlan = <AddBoxIcon fontSize='large' style={{ color: Color.lightGrey() }}/>;
 
-
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={PAGES.FUTURE_PLANS.TITLE} />
@@ -66,14 +65,14 @@ export const FuturePlans = () => {
                         </Typography>
                     </Grid>
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.BLACK_SERIES, completedPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.VIDEO_GAMES, inProgesssPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.MOVIES, nextPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.BLACK_SERIES_LIGHT_SABERS, nextPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.MICRO_MACHINES_ACTION_FLEET, nextPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.STAR_WARS_LEGO, nextPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.POWER_OF_THE_FORCE, nextPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.VIDEO_GAMES, completedPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.MOVIES, inProgesssPlan)}
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.VINTAGE_COLLECTION, nextPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.POWER_OF_THE_FORCE, nextPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.STAR_WARS_LEGO, nextPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.MICRO_MACHINES_ACTION_FLEET, nextPlan)}
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.VINTAGE_FIGURES, nextPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.BLACK_SERIES_LIGHT_SABERS, nextPlan)}
                 </Grid>
             </Container>
         </React.Fragment>
