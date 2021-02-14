@@ -1,4 +1,4 @@
-import { BlackSeriesCatalog } from 'components/blackSeries/blackSeriesCatalog';
+import { BlackSeriesCatalog } from 'components/catalog/actionFigures/blackSeries/pages/blackSeriesCatalog';
 import React from 'react';
 import { connect } from 'react-redux';
 import { clearUserDisplaySettings, setCatalogData, setUserData, setUserDisplaySettings } from 'store/dataSet/dataSetActions';

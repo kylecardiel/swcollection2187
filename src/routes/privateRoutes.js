@@ -2,7 +2,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import React, { useContext } from 'react';
 import ActionFigureDetailsConnect from 'components/hoc/actionFigureDetailsConnect';
 import Admin from 'components/admin/admin';
-import { BlackSeries } from 'components/blackSeries/blackSeries';
+import { BlackSeries } from 'components/catalog/actionFigures/blackSeries/pages/blackSeries';
 import { FeatureFlagConsumer } from 'context/featureFlagsContext';
 import { ForgotPassword } from 'components/auth/forgotPassword';
 import { Header } from 'components/header/header';

@@ -11,7 +11,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { UserConsumer } from 'components/auth/authContext';
-import { TableStats } from 'components/blackSeries/tableStats';
+import { TableStats } from 'components/catalog/actionFigures/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
 import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
