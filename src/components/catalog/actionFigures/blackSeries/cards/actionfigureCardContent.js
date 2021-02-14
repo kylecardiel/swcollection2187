@@ -1,6 +1,6 @@
 import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { getSourceColor } from 'components/display/figureColors';
+import { getSourceColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Color } from 'shared/styles/color';

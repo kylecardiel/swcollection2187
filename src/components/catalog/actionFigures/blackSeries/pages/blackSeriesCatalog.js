@@ -19,7 +19,7 @@ import { FormFilter } from 'components/common/form/formFilter';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { SearchBar } from 'components/common/searchBar';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
-import { ActionFigure } from 'components/display/actionfigure';
+import { ActionFigure } from 'components/catalog/actionFigures/blackSeries/cards/actionfigure';
 import camelCase from 'lodash/camelCase';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';

@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Card, CardMedia, Grid, makeStyles } from '@material-ui/core';
 import { UserConsumer } from 'components/auth/authContext';
-import { ActionFigureCardContent } from 'components/display/actionfigureCardContent';
-import { CollectorButton } from 'components/display/collectorButton';
-import { DisplayNameSection } from 'components/display/displayName';
-import { LoadingSpinner } from 'components/display/loading';
+import { ActionFigureCardContent } from 'components/catalog/actionFigures/blackSeries/cards/actionfigureCardContent';
+import { CollectorButton } from 'components/catalog/actionFigures/blackSeries/button/collectorButton';
+import { DisplayNameSection } from 'components/catalog/actionFigures/blackSeries/helpers/displayName';
+import { LoadingSpinner } from 'components/common/loading';
 import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 import PropTypes from 'prop-types';
 import React, { useContext, useMemo } from 'react';

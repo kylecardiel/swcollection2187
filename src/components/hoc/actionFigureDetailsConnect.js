@@ -1,4 +1,4 @@
-import { ActionFigureDetails } from 'components/display/actionFigureDetail';
+import { ActionFigureDetails } from 'components/catalog/actionFigures/blackSeries/pages/actionFigureDetail';
 import React from 'react';
 import { connect } from 'react-redux';
 import { getActionFigureCatalogList, getActionFigureUserList } from 'store/dataSet/dataSetSelector';

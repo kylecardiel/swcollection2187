@@ -1,5 +1,5 @@
 import { Color } from 'shared/styles/color';
-import { getSourceColor, getAssortmentColor } from 'components/display/figureColors';
+import { getSourceColor, getAssortmentColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
