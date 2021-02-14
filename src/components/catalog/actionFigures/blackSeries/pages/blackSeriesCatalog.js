@@ -240,21 +240,21 @@ export const BlackSeriesCatalog = props => {
         
         if(isProduction) {
             const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
-            catalogRef.on('value', snapshot => {
+            catalogRef.once('value').then((snapshot => {
                 if (snapshot.val()) {
                     let records = snapshot.val()['BlackSeries6'];
                     setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
                 }
-            });
+            }));
     
             if (loggedIn) {
                 const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
-                userRef.on('value', snapshot => {
+                userRef.once('value').then((snapshot => {
                     if (snapshot.val()) {
                         let records = snapshot.val()['BlackSeries6'];
                         setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
                     }
-                });
+                }));
             }
         } else {
             setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
