@@ -30,7 +30,14 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
         UserApi.delete(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, ownedId);
     };
 
-    const onclickCard = () => {
+    const onClickCard = e => {
+        e.preventDefault();
+        return recordOwned
+            ? removeFigureToCollection()
+            : addFigureToCollection();
+    };
+
+    const onClickDetails = () => {
         return recordOwned
             ? () => removeFigureToCollection()
             : () => addFigureToCollection();
@@ -51,13 +58,13 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
         }
 
         if(card){
-            return <Card className={classes.buttonCard} onClick={onclickCard()}>
+            return <Card className={classes.buttonCard} onClick={e => onClickCard(e)}>
                 <div className={className}>{text}</div>
             </Card>;
         } else {
             return <ActionButton
                 buttonLabel={text}
-                onClick={onclickCard()}
+                onClick={onClickDetails()}
                 color={recordOwned ? Color.red() : Color.green()}
             />;
         }

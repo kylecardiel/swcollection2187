@@ -7,7 +7,7 @@ import { Color } from 'shared/styles/color';
 import GroupIcon from '@material-ui/icons/Group';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 
-export const ActionFigureCardContent = ({ record, sourceMaterials }) => {
+export const BlackSeriesCardContent = ({ record, sourceMaterials }) => {
     const classes = useStyles();
 
     const adjustedValue = value => {
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-ActionFigureCardContent.propTypes = {
+BlackSeriesCardContent.propTypes = {
     record: PropTypes.object.isRequired,
     sourceMaterials: PropTypes.object.isRequired,
 };

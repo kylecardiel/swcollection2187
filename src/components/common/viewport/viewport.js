@@ -7,7 +7,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 
-export const Viewport = ({ CardComponent, displayList, CARD_HEIGHT, CARD_WIDTH, GAP_SIZE }) => {
+export const Viewport = ({ CardComponent, displayList, other, CARD_HEIGHT, CARD_WIDTH, GAP_SIZE }) => {
     const classes = useStyles();
     let { url } = useRouteMatch();
 
@@ -35,7 +35,7 @@ export const Viewport = ({ CardComponent, displayList, CARD_HEIGHT, CARD_WIDTH, 
                             }}
                             style={{ textDecoration: 'none' }}
                         >
-                            <CardComponent item={displayList[i]} />
+                            <CardComponent item={displayList[i]} other={other}/>
                         </Link>
                     </Grid>
                 </div >,
@@ -107,6 +107,7 @@ const useStyles = makeStyles(() => ({
 Viewport.propTypes = {
     CardComponent: PropTypes.func.isRequired,
     displayList: PropTypes.array.isRequired,
+    other: PropTypes.object.isRequired,
     CARD_HEIGHT: PropTypes.number.isRequired,
     CARD_WIDTH: PropTypes.number.isRequired,
     GAP_SIZE: PropTypes.number.isRequired,

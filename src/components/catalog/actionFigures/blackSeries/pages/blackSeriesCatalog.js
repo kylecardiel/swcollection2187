@@ -11,6 +11,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { UserConsumer } from 'components/auth/authContext';
+import { BlackSeriesItemCard } from 'components/catalog/actionFigures/blackSeries/cards/viewportCard/blackSeriesItemCard';
 import { TableStats } from 'components/catalog/actionFigures/blackSeries/tableStats';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { CustomCheckbox } from 'components/common/buttons/customCheckbox';
@@ -19,7 +20,7 @@ import { FormFilter } from 'components/common/form/formFilter';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { SearchBar } from 'components/common/searchBar';
 import { generateStatsBasedOnSource } from 'components/common/stats/stats';
-import { ActionFigure } from 'components/catalog/actionFigures/blackSeries/cards/actionfigure';
+import { Viewport } from 'components/common/viewport/viewport';
 import camelCase from 'lodash/camelCase';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
@@ -407,6 +408,10 @@ export const BlackSeriesCatalog = props => {
         disabled={viewRecent}
     />;
 
+    const GAP_SIZE = figureSizeSmall ? 5 : 20;
+    const CARD_HEIGHT = figureSizeSmall ? 200 : 500;
+    const CARD_WIDTH = figureSizeSmall ? 75 : 200;
+
     return (
         <React.Fragment>
             <Container component='main' maxWidth='xl'>
@@ -529,14 +534,20 @@ export const BlackSeriesCatalog = props => {
                     </Grid>
                 </div>
             </Container>
-            <ActionFigure
-                assortments={helperData.assortment}
-                catalogList={catalogList}
-                newBoxImage={newBoxImage}
-                records={displayList}
-                smallFigureView={figureSizeSmall}
-                sourceMaterials={helperData.sourceMaterial}
-                view={true}
+            <Viewport
+                CardComponent={BlackSeriesItemCard} 
+                displayList={displayList} 
+                CARD_HEIGHT={CARD_HEIGHT} 
+                CARD_WIDTH={CARD_WIDTH} 
+                GAP_SIZE={GAP_SIZE}
+                other={{
+                    assortments: helperData.assortment,
+                    catalogList: catalogList,
+                    newBoxImage: newBoxImage,
+                    smallFigureView: figureSizeSmall,
+                    sourceMaterials: helperData.sourceMaterial,
+                    view: true,
+                }}
             />
         </React.Fragment >
     );
