@@ -22,13 +22,34 @@ import { uploadImageToStorage } from 'shared/util/upload';
 
 const { CATALOG, VIDEO_GAMES } = FB_STORAGE_CONSTANTS;
 
-export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
+export const NewVideoGameForm = ({ formData, setIsModalOpen, item }) => {
     const classes = useStyles();
     const { email } = useContext(UserConsumer);
- 
-    const { register, handleSubmit, control } = useForm();
 
-    const [videoGameConsolesSelected, setVideoGameConsolesSelected] = useState([]);
+    const setDefaults = () => {
+        return item 
+            ? { defaultValues: item } 
+            : {
+                collectionType: '',
+                developer: '',
+                name: '',
+                price: '',
+                videoGameFormat: '',
+                videoGameSeries: '',
+                videoGameType: '',
+                year: '',
+            };
+    };
+
+    const { register, handleSubmit, control, watch } = useForm(setDefaults());
+
+    const collectionTypeWatcher = watch('collectionType');
+    const videoGameFormatWatcher = watch('videoGameFormat');
+    const videoGameSeriesWatcher = watch('videoGameSeries');
+    const videoGameTypeWatcher = watch('videoGameType');
+
+    const defaultConsoles = item ? item.videoGameConsole : [];
+    const [videoGameConsolesSelected, setVideoGameConsolesSelected] = useState(defaultConsoles);
     const [imageFile, setImageFile] = useState();
     const [submitDisabled, setSubmitDisabled] = useState(false);
     const [percentage, setPercentage] = useState(0);
@@ -47,12 +68,21 @@ export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
         setSubmitDisabled(true);
         
         collectible.videoGameConsole = videoGameConsolesSelected;
-        if(imageFile) collectible.imageFile = await uploadImageToStorage(buildUploadedImagePath(imageFile.name), imageFile, setPercentage);
+
+        if(item) {
+            collectible.imageFile = item.imageFile;
+            Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
+            RecordUtils.updateLastModifiedAuditFields(collectible, email);
+            CatalogApi.update(FB_DB_CONSTANTS.VIDEO_GAMES, collectible, item.id);
+
+        } else {
+            if(imageFile) collectible.imageFile = await uploadImageToStorage(buildUploadedImagePath(imageFile.name), imageFile, setPercentage);
         
-        Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
-        RecordUtils.addAuditFields(collectible, email);
-        CatalogApi.create(FB_DB_CONSTANTS.VIDEO_GAMES, collectible);
-        
+            Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
+            RecordUtils.addAuditFields(collectible, email);
+            CatalogApi.create(FB_DB_CONSTANTS.VIDEO_GAMES, collectible);
+        }
+
         setSubmitDisabled(false);
         setIsModalOpen(false);
     };
@@ -72,24 +102,28 @@ export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
         control={control}
         label={LABELS.COLLECTION_TYPE}
         menuItems={collectionType.values}
+        value={collectionTypeWatcher}
     />;
 
     const videoGameFormatInput = <InputSelector
         control={control}
         label={LABELS.VIDEO_GAME_FORMAT}
         menuItems={videoGameFormat.values}
+        value={videoGameFormatWatcher}
     />;
 
     const videoGameSeriesInput = <InputSelector
         control={control}
         label={LABELS.VIDEO_GAME_SERIES}
         menuItems={videoGameSeries.values}
+        value={videoGameSeriesWatcher}
     />;
 
     const videoGameTypeInput = <InputSelector
         control={control}
         label={LABELS.VIDEO_GAME_TYPE}
         menuItems={videoGameType.values}
+        value={videoGameTypeWatcher}
     />;
 
     const videoGameNameInput = <InputText
@@ -120,10 +154,12 @@ export const NewVideoGameForm = ({ setIsModalOpen, formData }) => {
         menuItems={videoGameConsole.values}
     />;
     
-    const imageInput = <InputImage 
-        handleChange={handleImageChange}
-        text={LABELS.IMAGE.KEY} 
-    />;
+    const imageInput = !item 
+        ? <InputImage 
+            handleChange={handleImageChange}
+            text={LABELS.IMAGE.KEY} 
+        />
+        : null;
 
     return (
         <React.Fragment>
@@ -193,6 +229,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 NewVideoGameForm.propTypes = {
-    setIsModalOpen: PropTypes.func.isRequired, 
     formData: PropTypes.object.isRequired,
+    setIsModalOpen: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
 };
