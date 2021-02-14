@@ -12,11 +12,11 @@ export const DetailRow = ({ label, value }) => {
     return <>
         <Divider />
         <div className={classes.detailRow}>
-            <Typography variant='body2' color={'textSecondary'} component='p'>
+            <Typography variant='body2' color={'textSecondary'} component='span'>
                 {label}
             </Typography>
-            <Typography variant='body2' component='p'>
-                <Box fontWeight={'fontWeightBold'} >
+            <Typography variant='body2' component='span'>
+                <Box fontWeight='fontWeightBold'>
                     {adjustedValue}
                 </Box>
             </Typography>
