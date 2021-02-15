@@ -289,10 +289,10 @@ export const BlackSeriesCatalog = props => {
         if (filterBySeries) mergedList = mergedList.filter(el => el.series === filterBySeries);
         if (filterByYear) mergedList = mergedList.filter(el => parseInt(el.year) === filterByYear);
         if (filterByPackageType) {
-            if (filterByPackageType === 'Blister Card') {
-                mergedList = mergedList.filter(el => el.packageType === filterByPackageType);
+            if (filterByPackageType === 'Standard Box') {
+                mergedList = mergedList.filter(el => el.packageType === undefined);
             } else {
-                mergedList = mergedList.filter(el => el.packageType !== 'Blister Card');
+                mergedList = mergedList.filter(el => el.packageType === filterByPackageType);
             }
         }
         if (sortingAttribute) {

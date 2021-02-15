@@ -47,6 +47,7 @@ export const Styles = {
         lightGrey: '#aeb2b8',
         orange: '#fc7303',
         // orange: '#e05f0f',
+        jfoBlue: '#15799D',
         purple: '#9952c4',
         rebelsPurple: '#7c2991',
         red: 'red',

@@ -8,7 +8,7 @@ import React from 'react';
 export const DisplayNameSection = ({ assortments, record, smallFigureView, sourceMaterials }) => {
     const nameSize = !smallFigureView ? record.seriesNumber ? 10 : 12 : 12;
     const numberBackgroundColor = () => {
-        const isSeries4 = record.assortment === 'Series 4.0';
+        const isSeries4 = record.packageType === 'Box w/Mural';
         let color = '';
         if (isSeries4) {
             const sourceMaterialColors = getSourceColor(sourceMaterials.values, record.sourceMaterial);
