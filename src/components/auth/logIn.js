@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import { useForm } from 'react-hook-form';
 import { useStyles } from 'components/auth/authMakeStyles';
 import { Validator } from 'shared/util/validator';
+import { GoogleButton } from 'components/auth/googleButton';
 
 export const LogIn = () => {
     const { register, handleSubmit, watch } = useForm();
@@ -49,6 +50,10 @@ export const LogIn = () => {
                 </Avatar>
                 <Typography component='h1' variant='h5'>
                     {AUTH.LOGIN}
+                </Typography>
+                <GoogleButton />
+                <Typography component='h3' color='textSecondary' variant='body2'>
+                    {AUTH.DIVIDER}
                 </Typography>
                 <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
                     <TextField
