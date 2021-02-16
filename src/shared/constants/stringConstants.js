@@ -320,7 +320,7 @@ export const STRING_CONSTANTS = Object.freeze({
             ],
         },
         READ_CONTACT_ME: {
-            TITLE: 'Read Contact Me Responses'
+            TITLE: 'Read Messages Sent to Me',
         },
         TERMS_OF_SERVICE: {
             TITLE: 'Terms of Service',

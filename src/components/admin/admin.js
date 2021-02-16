@@ -166,7 +166,7 @@ export const Admin = ({ helperData }) => {
                     <Grid container spacing={1}>
                         <Grid item md={6} xs={12} className={classes.formDataContainer}>
                             <Link underline='none' component={RouterLink} to={READ_CONTACT_ME}>
-                                {'Read Contact Me Responses'}
+                                {PAGES.READ_CONTACT_ME.TITLE}
                             </Link>
                         </Grid>
                         <Grid item xs={12} className={classes.formDataContainer}>
