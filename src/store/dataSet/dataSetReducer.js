@@ -24,6 +24,11 @@ export const dataSet = (state = initialState.dataSet, action) => {
         cloneState.displaySettings = initialState.dataSet.displaySettings;
         return cloneState;
     }
+    case actions.SET_CONTACT_ME_DATA: {
+        const cloneState = cloneDeep(state);
+        cloneState.contactMe = action.payload;
+        return cloneState;
+    }
     default:
         return state;
     }

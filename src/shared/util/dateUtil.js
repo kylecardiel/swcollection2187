@@ -19,4 +19,8 @@ export class DateUtils {
     static formatDateFromFB = inputDate => {
         return moment(inputDate, 'YYYY-MM-DD').format('ddd MMM DD, YYYY');
     };
+
+    static formatTimestamp = timeStamp => {
+        return moment(timeStamp, DateUtils.defaultFormat).format('YYYY-MM-DD');
+    };
 }

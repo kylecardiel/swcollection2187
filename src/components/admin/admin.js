@@ -25,8 +25,10 @@ import { UploadImage } from 'components/admin/uploadImage';
 import { useForm } from 'react-hook-form';
 import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
 import { FormSelectorInput } from 'components/admin/formSelectorInputs';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 
-const { HOME } = ROUTE_CONSTANTS;
+const { HOME, READ_CONTACT_ME } = ROUTE_CONSTANTS;
 
 export const Admin = ({ helperData }) => {
     const classes = useStyles();
@@ -162,6 +164,11 @@ export const Admin = ({ helperData }) => {
                 </Modal>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
+                        <Grid item md={6} xs={12} className={classes.formDataContainer}>
+                            <Link underline='none' component={RouterLink} to={READ_CONTACT_ME}>
+                                {'Read Contact Me Responses'}
+                            </Link>
+                        </Grid>
                         <Grid item xs={12} className={classes.formDataContainer}>
                             <ActionButton
                                 buttonLabel={ADMIN.BUTTON.NEW_BLACK_SERIES}

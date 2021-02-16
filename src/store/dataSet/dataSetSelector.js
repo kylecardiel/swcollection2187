@@ -18,3 +18,5 @@ export const getVideoGameUserList = createSelector(getUserList, dataSet => get(d
 export const getFilterState = createSelector(getDataSet, dataSet => get(dataSet, 'displaySettings', false));
 export const getActionFigureFilterState = createSelector(getFilterState, dataSet => get(dataSet, ACTION_FIGURE_PATH, false));
 export const getVideoGameFilterState = createSelector(getFilterState, dataSet => get(dataSet, VIDEO_GAME_SUB_CATALOG, false));
+
+export const getContactMeData = createSelector(getDataSet, dataSet => get(dataSet, 'contactMe', false));
