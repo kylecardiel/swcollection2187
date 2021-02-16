@@ -35,7 +35,7 @@ export const FuturePlans = () => {
                 justify='space-between' 
                 className={classes.row} 
             >
-                <Typography variant='body2' component='p' className={classes.text}>
+                <Typography variant='body2' component='span' className={classes.text}>
                     <Box fontWeight='fontWeightBold'>
                         {text}
                     </Box>

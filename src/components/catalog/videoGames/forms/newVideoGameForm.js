@@ -231,5 +231,5 @@ const useStyles = makeStyles(theme => ({
 NewVideoGameForm.propTypes = {
     formData: PropTypes.object.isRequired,
     setIsModalOpen: PropTypes.func.isRequired,
-    item: PropTypes.object.isRequired,
+    item: PropTypes.object,
 };
