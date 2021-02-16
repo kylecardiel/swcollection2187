@@ -19,8 +19,9 @@ export const STRING_CONSTANTS = Object.freeze({
             RESET_PASSWORD: 'Reset Password',
             RESET_PASSWORD_LINK: 'Request Reset Link',
             BACK_TO_LOGIN: 'Back to Login?',
-            DIVIDER: '───────────── OR ────────────',
+            DIVIDER: '─────────  or  ─────────',
             DONT_HAVE_AN_ACCOUNT: 'Don\'t have an account? Sign Up',
+            HUMAN: 'Please verify you are a human',
             FIELD_LABELS: {
                 EMAIL: 'Email',
                 PASSWORD: 'Password',
