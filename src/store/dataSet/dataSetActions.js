@@ -21,3 +21,9 @@ export const clearUserDisplaySettings = () => ({
     type: CLEAR_USER_DISPLAY_SETTINGS,
     payload: undefined,
 });
+
+export const SET_CONTACT_ME_DATA = '[dataSet]SET_CONTACT_ME_DATA';
+export const setContactMeData = data => ({
+    type: SET_CONTACT_ME_DATA,
+    payload: data,
+});

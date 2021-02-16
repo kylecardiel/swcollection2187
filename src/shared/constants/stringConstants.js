@@ -319,6 +319,9 @@ export const STRING_CONSTANTS = Object.freeze({
                 'Other...',
             ],
         },
+        READ_CONTACT_ME: {
+            TITLE: 'Read Contact Me Responses'
+        },
         TERMS_OF_SERVICE: {
             TITLE: 'Terms of Service',
         },

@@ -1,14 +1,11 @@
 export const initialState = {
     dataSet: {
-        displayedData: [],
         catalogList: {
             actionFigures: [],
             videoGames: [],
         },
-        userList: {
-            actionFigures: [],
-            videoGames: [],
-        },
+        contactMe: [],
+        displayedData: [],
         displaySettings: {
             actionFigures:{
                 filterBySourceMaterial: null,
@@ -32,6 +29,10 @@ export const initialState = {
                 filterByYear: null,
                 sortingAttribute: null,
             },
+        },
+        userList: {
+            actionFigures: [],
+            videoGames: [],
         },
     },
     helperDataSet: {},

@@ -18,13 +18,15 @@ import { ProtectedRoute } from 'routes/protectedRoute';
 import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
+import ReadContactMeConnect from 'components/hoc/readContactMeConnect';
 
-const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES, VIDEO_GAMES } = ROUTE_CONSTANTS;
+const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES, VIDEO_GAMES, READ_CONTACT_ME } = ROUTE_CONSTANTS;
 
 export const PrivateRoutes = ({ setScreenSizes }) => {
     const { loggedIn, email } = useContext(UserConsumer);
     const { signUpPage } = useContext(FeatureFlagConsumer);
     const redirectRender = () => <Redirect to={HOME} />;
+    const authorizedAdmin = email === ROLES.EMAIL;
 
     return (
         <React.Fragment>
@@ -56,7 +58,7 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                     <ProtectedRoute
                         path={ADMIN}
                         redirectPath={HOME}
-                        access={email === ROLES.EMAIL}
+                        access={authorizedAdmin}
                         userLoggedIn={loggedIn}
                         component={Admin}
                     />
@@ -91,6 +93,14 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                         access={true}
                         userLoggedIn={loggedIn}
                         component={VideoGameDetailsPage}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={READ_CONTACT_ME}
+                        redirectPath={LOGIN}
+                        access={authorizedAdmin}
+                        userLoggedIn={loggedIn}
+                        component={ReadContactMeConnect}
                     />
                 </Switch>
             </Router>
