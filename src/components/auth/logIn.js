@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { login } from 'backend/FirebaseAuth';
-import React from 'react';
+import React, { useState } from 'react';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { Link as RouterLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
@@ -16,10 +16,13 @@ import Typography from '@material-ui/core/Typography';
 import { useForm } from 'react-hook-form';
 import { useStyles } from 'components/auth/authMakeStyles';
 import { Validator } from 'shared/util/validator';
+import Recaptcha from 'react-recaptcha';
 
 export const LogIn = () => {
     const { register, handleSubmit, watch } = useForm();
     const classes = useStyles();
+
+    const [isVerified, setIsVerified] = useState(false);
 
     const {
         FIELD_LABELS,
@@ -37,7 +40,17 @@ export const LogIn = () => {
     }
 
     const onSubmit = loginInfo => {
-        login(loginInfo.email, loginInfo.password);
+        if(isVerified){
+            login(loginInfo.email, loginInfo.password);
+        } else {
+            alert(AUTH.HUMAN);
+        }
+    };
+
+    const verifyCallback = response => {
+        if(response){
+            setIsVerified(true);
+        }
     };
 
     return (
@@ -80,6 +93,13 @@ export const LogIn = () => {
                             <FormError errorMessage={errorMessage} />
                         </Grid>
                     }
+                    <Grid item xs={12} container direction='row' justify='center' className={classes.recaptchaContainer}>
+                        <Recaptcha
+                            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                            render='explicit'
+                            verifyCallback={verifyCallback}
+                        />
+                    </Grid>
                     <Button
                         type='submit'
                         fullWidth
