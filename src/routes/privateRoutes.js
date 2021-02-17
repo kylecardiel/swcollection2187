@@ -24,9 +24,11 @@ const { HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, BLACK_SERIES, VIDEO_GAMES, 
 
 export const PrivateRoutes = ({ setScreenSizes }) => {
     const { loggedIn, email } = useContext(UserConsumer);
-    const { signUpPage } = useContext(FeatureFlagConsumer);
+    const { googleSignin, signUpPage } = useContext(FeatureFlagConsumer);
     const redirectRender = () => <Redirect to={HOME} />;
     const authorizedAdmin = email === ROLES.EMAIL;
+
+    console.log(googleSignin)
 
     return (
         <React.Fragment>
@@ -39,7 +41,7 @@ export const PrivateRoutes = ({ setScreenSizes }) => {
                         redirectPath={HOME}
                         access={true}
                         userLoggedIn={!loggedIn}
-                        component={LogIn}
+                        component={() => <LogIn googleSignInFlag={googleSignin}/>}
                     />
                     <ProtectedRoute
                         path={FORGOT_PASSWORD}
