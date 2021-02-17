@@ -22,8 +22,6 @@ import PropTypes from 'prop-types';
 
 export const LogIn = ({ googleSignInFlag }) => {
 
-    console.log(googleSignInFlag)
-
     const { register, handleSubmit, watch } = useForm();
     const classes = useStyles();
 
