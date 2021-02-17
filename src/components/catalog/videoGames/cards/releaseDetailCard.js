@@ -7,6 +7,8 @@ import { ListDetailRow } from 'components/catalog/common/cards/rows/listDetailRo
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VG_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
+import { Link } from 'react-router-dom';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 
 export const ReleaseDetailCard = ({ developer, price, otherGamesInSeries, videoGameConsole, videoGameFormat, videoGameSeries, videoGameType, year }) => {
     const classes = useStyles();
@@ -14,9 +16,17 @@ export const ReleaseDetailCard = ({ developer, price, otherGamesInSeries, videoG
     const generatSimilarFigureList = () => {
         return <>
             {otherGamesInSeries.map(vg => (
-                <Typography variant='body2' gutterBottom component='p' key={`${vg.name}-${vg.year}`}>
-                    {`- ${vg.name} (${vg.year})`}
-                </Typography>
+                <Link
+                    to={{
+                        pathname: `${ROUTE_CONSTANTS.VIDEO_GAMES}/${vg.id}`,
+                    }}
+                    style={{ textDecoration: 'none' }}
+                    key={`${vg.name}-${vg.year}`}
+                >
+                    <Typography variant='body2' gutterBottom component='p'>
+                        {`- ${vg.name} (${vg.year})`}
+                    </Typography>
+                </Link>
             ))}
         </>;
     };
