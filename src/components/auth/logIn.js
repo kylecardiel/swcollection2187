@@ -18,8 +18,12 @@ import { useStyles } from 'components/auth/authMakeStyles';
 import { Validator } from 'shared/util/validator';
 import Recaptcha from 'react-recaptcha';
 import { GoogleButton } from 'components/auth/googleButton';
+import PropTypes from 'prop-types';
 
-export const LogIn = () => {
+export const LogIn = ({ googleSignInFlag }) => {
+
+    console.log(googleSignInFlag)
+
     const { register, handleSubmit, watch } = useForm();
     const classes = useStyles();
 
@@ -64,10 +68,14 @@ export const LogIn = () => {
                 <Typography component='h1' variant='h5'>
                     {AUTH.LOGIN}
                 </Typography>
-                <GoogleButton />
-                <Typography component='h3' color='textSecondary' variant='body2'>
-                    {AUTH.DIVIDER}
-                </Typography>
+                {googleSignInFlag && 
+                    <>
+                        <GoogleButton />
+                        <Typography component='h3' color='textSecondary' variant='body2'>
+                            {AUTH.DIVIDER}
+                        </Typography>
+                    </>
+                }
                 <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         variant='outlined'
@@ -130,4 +138,8 @@ export const LogIn = () => {
             </div>
         </Container>
     );
+};
+
+LogIn.propTypes = {
+    googleSignInFlag: PropTypes.bool,
 };

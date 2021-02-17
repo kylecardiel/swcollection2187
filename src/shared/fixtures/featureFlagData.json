@@ -1,5 +1,6 @@
 {
     "featureFlagsData" : {
+        "googleSignin": true,
         "signUpPage" : true,
         "videoGamesCollection": true
     }
