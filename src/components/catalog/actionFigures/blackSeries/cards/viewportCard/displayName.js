@@ -1,5 +1,5 @@
 import { Color } from 'shared/styles/color';
-import { getSourceColor, getAssortmentColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
+import { assortmentBackgroundColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -7,20 +7,9 @@ import React from 'react';
 
 export const DisplayNameSection = ({ assortments, record, smallFigureView, sourceMaterials }) => {
     const nameSize = !smallFigureView ? record.seriesNumber ? 10 : 12 : 12;
-    const numberBackgroundColor = () => {
-        const isSeries4 = record.packageType === 'Box w/Mural';
-        let color = '';
-        if (isSeries4) {
-            const sourceMaterialColors = getSourceColor(sourceMaterials.values, record.sourceMaterial);
-            color = sourceMaterialColors.backgroundColor;
-        } else {
-            const assortmentColors = getAssortmentColor(assortments.values, record.assortment);
-            color = assortmentColors.backgroundColor;
-        }
-        return color;
-    };
-
-    const classes = useStyles({ color: numberBackgroundColor(), smallFigureView });
+    const nunmberBackgroundColor = assortmentBackgroundColor(record, sourceMaterials.values, assortments.values);
+    
+    const classes = useStyles({ color: nunmberBackgroundColor, smallFigureView });
     
     const formattedSeriesNumber = () => {
         switch (record.seriesNumber) {

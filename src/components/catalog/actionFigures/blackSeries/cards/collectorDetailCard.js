@@ -99,6 +99,6 @@ CollectorDetailCard.propTypes = {
     looseCompleteQtyInput: PropTypes.number,
     looseIncompleteQtyInput: PropTypes.number,
     newInBoxQtyInput: PropTypes.number,
-    ownedId: PropTypes.string.isRequired,
+    ownedId: PropTypes.string,
     userId: PropTypes.string.isRequired,
 };
