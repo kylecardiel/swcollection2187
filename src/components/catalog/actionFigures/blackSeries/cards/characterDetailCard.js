@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
+import { Link } from 'react-router-dom';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 
 export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name, similarFigures, sourceMaterial }) => {
     const classes = useStyles();
@@ -31,12 +33,20 @@ export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name,
     const generatSimilarFigureList = () => {
         return <>
             {similarFigures.map(f => (
-                <Typography variant='body2' gutterBottom component='p' key={`${f.additionalNameDetails}-${f.assortment}`}>
-                    {`- ${f.name} `}
-                    {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
-                    {BS_DETAILS_LABEL.MORE_ASSORTMENT(f.assortment)}
-                    {f.version && `[${f.version}]`}
-                </Typography>
+                <Link
+                    to={{
+                        pathname: `${ROUTE_CONSTANTS.BLACK_SERIES}/${f.id}`,
+                    }}
+                    style={{ textDecoration: 'none' }}
+                    key={`${f.additionalNameDetails}-${f.assortment}`}
+                >
+                    <Typography variant='body2' gutterBottom component='p' >
+                        {`- ${f.name} `}
+                        {f.additionalNameDetails && `(${f.additionalNameDetails}) `}
+                        {BS_DETAILS_LABEL.MORE_ASSORTMENT(f.assortment)}
+                        {f.version && `[${f.version}]`}
+                    </Typography>
+                </Link>
             ))}
         </>;
     };

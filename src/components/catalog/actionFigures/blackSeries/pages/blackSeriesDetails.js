@@ -12,7 +12,7 @@ import { CharacterDetailCard } from 'components/catalog/actionFigures/blackSerie
 import { CollectorDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/collectorDetailCard';
 import { ImageDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/imageDetailCard';
 import { ReleaseDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/releaseDetailCard';
-import { getAssortmentColor, getSourceColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
+import { assortmentBackgroundColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
@@ -35,19 +35,6 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
 
     const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
     const flexFlowDirection = isMobile ? 'column' : 'row';
-
-    const assortmentBackgroundColor = () => {
-        const isSeries4 = figure.assortment === 'Series 4.0';
-        let color = '';
-        if (isSeries4) {
-            const sourceMaterialColors = getSourceColor(sourceMaterials, figure.sourceMaterial);
-            color = sourceMaterialColors.backgroundColor;
-        } else {
-            const assortmentColors = getAssortmentColor(assortments, figure.assortment);
-            color = assortmentColors.backgroundColor;
-        }
-        return color;
-    };
 
     const classes = useStyles({ flexFlowDirection });
     const headerText = figure.additionalNameDetails ? `${figure.name} (${figure.additionalNameDetails})` : figure.name;
@@ -85,7 +72,7 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
 
     const releaseDetails = <ReleaseDetailCard 
         assortment={figure.assortment}
-        assortmentBackgroundColor={assortmentBackgroundColor()}
+        assortmentBackgroundColor={assortmentBackgroundColor(figure, sourceMaterials, assortments)}
         assortmentNumber={figure.seriesNumber}
         exclusiveRetailer={figure.exclusiveRetailer}
         multipack={figure.multipack}

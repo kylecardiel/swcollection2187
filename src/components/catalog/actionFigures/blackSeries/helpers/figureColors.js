@@ -11,3 +11,16 @@ export const getAssortmentColor = (assortments, assort) => {
         textColor: 'black',
     };
 };
+
+export const assortmentBackgroundColor = (figure, sourceMaterials, assortments) => {
+    const isSeries4 = figure.packageType === 'Box w/Mural';
+    let color = '';
+    if (isSeries4) {
+        const sourceMaterialColors = getSourceColor(sourceMaterials, figure.sourceMaterial);
+        color = sourceMaterialColors.backgroundColor;
+    } else {
+        const assortmentColors = getAssortmentColor(assortments, figure.assortment);
+        color = assortmentColors.backgroundColor;
+    }
+    return color;
+};
