@@ -7,6 +7,8 @@ export const STRING_CONSTANTS = Object.freeze({
             LOGOUT: 'Logout',
             HOME: 'Home',
             PROFILE: 'Profile',
+            BS: 'Black Series 6"',
+            VIDEO_GAMES: 'Video Games',
         },
         AUTH: {
             LOGIN: 'Login',

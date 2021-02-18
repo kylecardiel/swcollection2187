@@ -9,7 +9,7 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 
-const { HOME, LOGIN, SIGN_UP, LOGOUT, PROFILE } = HEADER_BUTTONS;
+const { HOME, LOGIN, SIGN_UP, LOGOUT, PROFILE, VIDEO_GAMES, BS } = HEADER_BUTTONS;
 
 export const DrawerContainer = ({ loggedIn, logout }) => {
     const classes = useStyles();
@@ -23,32 +23,30 @@ export const DrawerContainer = ({ loggedIn, logout }) => {
         </Link>;
     };
 
-    const notLoggedInLinks = <Container component='main' maxWidth='xl' className={classes.footer}>
-        <Grid container spacing={1} >
-            <Grid item xs={12} className={classes.flex} direction='column' justify='space-between'>
-                {buildLink(ROUTE_CONSTANTS.LOGIN, LOGIN)}
-                {buildLink(ROUTE_CONSTANTS.SIGNUP, SIGN_UP)}
-            </Grid>
+    const notLoggedInLinks = <Grid container spacing={1} >
+        <Grid item xs={12} className={classes.flex} direction='column' justify='space-between'>
+            {buildLink(ROUTE_CONSTANTS.LOGIN, LOGIN)}
+            {buildLink(ROUTE_CONSTANTS.SIGNUP, SIGN_UP)}
         </Grid>
-    </Container>;   
+    </Grid>;   
 
-    const loggedInLinks = <Container component='main' maxWidth='xl' className={classes.footer}>
-        <Grid container spacing={1} >
-            <Grid item xs={12} className={classes.flex} direction='column' justify='space-between'>
-                {buildLink(ROUTE_CONSTANTS.HOME, HOME)}
-                {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE)}
-                {buildLink(ROUTE_CONSTANTS.BLACK_SERIES, 'Black Series 6"')}
-                {buildLink(ROUTE_CONSTANTS.VIDEO_GAMES, 'Video Games')}
-                <Link className={`${classes.links} ${classes.linksBottom}`} onClick={logout}>
-                    {LOGOUT}
-                    {arrowIcon}
-                </Link>
-            </Grid>
+    const loggedInLinks = <Grid container spacing={1} >
+        <Grid item xs={12} className={classes.flex} direction='column' justify='space-between'>
+            {buildLink(ROUTE_CONSTANTS.HOME, HOME)}
+            {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE)}
+            {buildLink(ROUTE_CONSTANTS.BLACK_SERIES, BS)}
+            {buildLink(ROUTE_CONSTANTS.VIDEO_GAMES, VIDEO_GAMES)}
+            <Link className={`${classes.links} ${classes.linksBottom}`} onClick={logout}>
+                {LOGOUT}
+                {arrowIcon}
+            </Link>
         </Grid>
-    </Container>;
+    </Grid>;
 
     return (
-        <>{ loggedIn ? loggedInLinks : notLoggedInLinks }</>
+        <Container component='main' maxWidth='xl' className={classes.footer}>
+            { loggedIn ? loggedInLinks : notLoggedInLinks }
+        </Container>
     );
 };
 
