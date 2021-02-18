@@ -1,50 +1,54 @@
-import { Color } from 'shared/styles/color';
+import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
-import Link from '@material-ui/core/Link';
-import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 
-const { HOME, LOGIN, SIGN_UP, LOGOUT } = HEADER_BUTTONS;
+const { HOME, LOGIN, SIGN_UP, LOGOUT, PROFILE } = HEADER_BUTTONS;
 
 export const DrawerContainer = ({ loggedIn, logout }) => {
     const classes = useStyles();
-    const createNavigationLink = (text, route) => {
-        return <Grid item xs={12} className={classes.sections}>
-            <Link
-                underline='none'
-                component={RouterLink}
-                to={route}
-                color='inherit'
-            >
-                {text}
-            </Link>
-        </Grid>;
+
+    const arrowIcon = <ArrowForwardIosIcon fontSize='small' className={classes.icons}/>;
+    
+    const buildLink = (route, text) => {
+        return <Link to={route} className={classes.links}>
+            {text}
+            {arrowIcon}
+        </Link>;
     };
 
-    const loginLink = createNavigationLink(LOGIN, ROUTE_CONSTANTS.LOGIN);
-    const signUpLink = createNavigationLink(SIGN_UP, ROUTE_CONSTANTS.SIGNUP);
-    const homeLink = createNavigationLink(HOME, ROUTE_CONSTANTS.HOME);
+    const notLoggedInLinks = <Container component='main' maxWidth='xl' className={classes.footer}>
+        <Grid container spacing={1} >
+            <Grid item xs={12} className={classes.flex} direction='column' justify='space-between'>
+                {buildLink(ROUTE_CONSTANTS.LOGIN, LOGIN)}
+                {buildLink(ROUTE_CONSTANTS.SIGNUP, SIGN_UP)}
+            </Grid>
+        </Grid>
+    </Container>;   
+
+    const loggedInLinks = <Container component='main' maxWidth='xl' className={classes.footer}>
+        <Grid container spacing={1} >
+            <Grid item xs={12} className={classes.flex} direction='column' justify='space-between'>
+                {buildLink(ROUTE_CONSTANTS.HOME, HOME)}
+                {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE)}
+                {buildLink(ROUTE_CONSTANTS.BLACK_SERIES, 'Black Series 6"')}
+                {buildLink(ROUTE_CONSTANTS.VIDEO_GAMES, 'Video Games')}
+                <Link className={`${classes.links} ${classes.linksBottom}`} onClick={logout}>
+                    {LOGOUT}
+                    {arrowIcon}
+                </Link>
+            </Grid>
+        </Grid>
+    </Container>;
 
     return (
-        <Grid container spacing={1} className={classes.container}>
-            {!loggedIn && loginLink}
-            {!loggedIn && signUpLink}
-            {loggedIn &&
-                <>
-                    {homeLink}
-                    <Grid item xs={12} className={classes.sections}>
-                        <div className={classes.color} onClick={logout}>
-                            {LOGOUT}
-                        </div>
-                    </Grid>
-                </>
-            }
-        </Grid>
-
+        <>{ loggedIn ? loggedInLinks : notLoggedInLinks }</>
     );
 };
 
@@ -53,9 +57,38 @@ const useStyles = makeStyles(theme => ({
         color: Color.white(),
     },
     sections: {
-        textAlign: 'right',
+        textAlign: 'center',
         fontSize: '18px',
         margin: theme.spacing(3),
+    },
+
+    footer: {
+        marginTop: theme.spacing(3),
+        borderTop: '0px',
+        paddingBottom: theme.spacing(5),
+    },
+    flex: {
+        color: Color.black(),
+    },
+    icons: {
+        display: 'inline',
+    },
+    links: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        textDecoration: 'none',
+        color: Color.black(),
+        fontWeight: 'bold',
+        '&:hover': {
+            textDecoration: 'underline',
+            color: 'blue',
+        },
+        borderTop: '1px solid #696969',
+        padding: theme.spacing(2),
+    },
+    linksBottom: {
+        borderBottom: '1px solid #696969',
     },
 }));
 
