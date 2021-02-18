@@ -1,26 +1,26 @@
-import React, { useContext, useState } from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import { Button } from '@material-ui/core';
-import { Color } from 'shared/styles/color';
+import AppBar from '@material-ui/core/AppBar';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
-import { DrawerContainer } from 'components/header/drawer';
 import Grid from '@material-ui/core/Grid';
-import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
+import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import ToolBar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
+import { logout } from 'backend/FirebaseAuth';
+import { UserConsumer } from 'components/auth/authContext';
 import { HeaderButton } from 'components/common/buttons/headerButtons';
 import { HeaderText } from 'components/common/text/headerText';
-import { logout } from 'backend/FirebaseAuth';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+import { DrawerContainer } from 'components/header/drawer';
 import PropTypes from 'prop-types';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import ToolBar from '@material-ui/core/Toolbar';
-import { UserConsumer } from 'components/auth/authContext';
+import React, { useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
-import Link from '@material-ui/core/Link';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 
-const { LOGIN, SIGN_UP, LOGOUT } = HEADER_BUTTONS;
+const { LOGIN, SIGN_UP } = HEADER_BUTTONS;
 
 export const Header = ({ title }) => {
     const classes = useStyles();
@@ -51,7 +51,6 @@ export const Header = ({ title }) => {
 
     const loginButton = <HeaderButton buttonLabel={LOGIN} route={ROUTE_CONSTANTS.LOGIN} />;
     const signUpButton = <HeaderButton buttonLabel={SIGN_UP} route={ROUTE_CONSTANTS.SIGNUP} />;
-    const logoutButton = <HeaderButton buttonLabel={LOGOUT} onClick={logout} route={ROUTE_CONSTANTS.HOME} />;
 
     return (
         <div className={classes.container}>
@@ -71,25 +70,41 @@ export const Header = ({ title }) => {
                                 </Link>
                                 <HeaderText text={title} textColor={'white'} />
                             </Grid>
-                            <Grid container item xs={3} spacing={1} className={classes.normalButton}>
-                                {loggedIn 
-                                    ? logoutButton 
-                                    : <>{loginButton}{signUpButton}</> 
-                                }
-                            </Grid>
-                            <Grid container item xs={2} spacing={1} className={classes.collapseButton}>
-                                <Button onClick={toggleDrawer('right', true)}>
-                                    <MenuIcon className={classes.collapseButtonColor} />
-                                </Button>
-                                <Drawer
-                                    anchor={'right'}
-                                    open={state['right']}
-                                    onClose={toggleDrawer('right', false)}
-                                    className={classes.drawer}
-                                >
-                                    {list('right')}
-                                </Drawer>
-                            </Grid>
+                            {!loggedIn && 
+                                <>
+                                    <Grid container item xs={3} spacing={1} className={classes.normalButton}>
+                                        <>{loginButton}{signUpButton}</>
+                                    </Grid>
+                                    <Grid container item xs={2} spacing={1} className={classes.collapseButton}>
+                                        <Button onClick={toggleDrawer('right', true)}>
+                                            <MenuIcon className={classes.collapseButtonColor} />
+                                        </Button>
+                                        <Drawer
+                                            anchor={'right'}
+                                            open={state['right']}
+                                            onClose={toggleDrawer('right', false)}
+                                            className={classes.drawer}
+                                        >
+                                            {list('right')}
+                                        </Drawer>
+                                    </Grid>
+                                </>
+                            }
+                            {loggedIn && 
+                                <Grid container item xs={2} spacing={1} direction='row' justify='flex-end' alignItems='center' className={classes.alwaysWhenLoggedIn}>
+                                    <Button onClick={toggleDrawer('right', true)}>
+                                        <MenuIcon className={classes.collapseButtonColor} />
+                                    </Button>
+                                    <Drawer
+                                        anchor={'right'}
+                                        open={state['right']}
+                                        onClose={toggleDrawer('right', false)}
+                                        className={classes.drawer}
+                                    >
+                                        {list('right')}
+                                    </Drawer>
+                                </Grid>
+                            }
                         </Grid>
                     </Container>
                 </ToolBar>
@@ -121,13 +136,21 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
+    alwaysWhenLoggedIn: {
+        boxShadow: 'none',
+    },
     collapseButtonColor: {
         color: 'white',
     },
     list: {
-        width: 250,
+        [theme.breakpoints.down('md')]: {
+            width: 250,
+        },
+        [theme.breakpoints.up('md')]: {
+            width: 400,
+        },
         height: '100%',
-        background: Color.primary('eliteBlackGradient'),
+        background: Color.nearWhite(),
     },
 }));
 

@@ -6,6 +6,9 @@ export const STRING_CONSTANTS = Object.freeze({
             SIGN_UP: 'Sign Up',
             LOGOUT: 'Logout',
             HOME: 'Home',
+            PROFILE: 'Profile',
+            BS: 'Black Series 6"',
+            VIDEO_GAMES: 'Video Games',
         },
         AUTH: {
             LOGIN: 'Login',
@@ -324,6 +327,21 @@ export const STRING_CONSTANTS = Object.freeze({
         },
         TERMS_OF_SERVICE: {
             TITLE: 'Terms of Service',
+        },
+        
+        USER_PROFILE:{
+            TITLE: 'User Profile',
+            SECTION_TITLES: {
+                COLLECTION_TOTALS: 'Collection Totals',
+
+            },
+            TABLE_COL: {
+                COLLECTION_TYPE: 'Type',
+                PRODUCT_LINE: 'Product Line',
+                COUNT: '# Owned',
+                COST: 'Cost',
+                TOTAL: 'Total',
+            },
         },
     },
     GENERAL: {
