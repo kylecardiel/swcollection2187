@@ -44,8 +44,7 @@ export const BlackSeriesCatalog = props => {
     const { id, loggedIn } = useContext(UserConsumer);
     const classes = useStyles();
     const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize, setUserDisplaySettings, clearUserDisplaySettings, filterState } = props;
-
-
+    
     const [filterBySourceMaterial, setFilterBySourceMaterial] = useState(filterState.filterBySourceMaterial);
     const handleSourceMaterialChange = e => {
         const value = e.target.value;

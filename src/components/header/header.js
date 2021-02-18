@@ -20,7 +20,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import Link from '@material-ui/core/Link';
 
-const { LOGIN, SIGN_UP, LOGOUT } = HEADER_BUTTONS;
+const { LOGIN, SIGN_UP, LOGOUT, PROFILE } = HEADER_BUTTONS;
 
 export const Header = ({ title }) => {
     const classes = useStyles();
@@ -52,6 +52,7 @@ export const Header = ({ title }) => {
     const loginButton = <HeaderButton buttonLabel={LOGIN} route={ROUTE_CONSTANTS.LOGIN} />;
     const signUpButton = <HeaderButton buttonLabel={SIGN_UP} route={ROUTE_CONSTANTS.SIGNUP} />;
     const logoutButton = <HeaderButton buttonLabel={LOGOUT} onClick={logout} route={ROUTE_CONSTANTS.HOME} />;
+    const profileButton = <HeaderButton buttonLabel={PROFILE} route={ROUTE_CONSTANTS.USER_PROFILE} />;
 
     return (
         <div className={classes.container}>
@@ -73,7 +74,7 @@ export const Header = ({ title }) => {
                             </Grid>
                             <Grid container item xs={3} spacing={1} className={classes.normalButton}>
                                 {loggedIn 
-                                    ? logoutButton 
+                                    ? <>{profileButton}{logoutButton}</>
                                     : <>{loginButton}{signUpButton}</> 
                                 }
                             </Grid>
