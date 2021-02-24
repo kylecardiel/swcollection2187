@@ -10,6 +10,7 @@ export const STRING_CONSTANTS = Object.freeze({
             BS: 'Black Series 6"',
             VIDEO_GAMES: 'Video Games',
             NAVIGATION: 'Navigation',
+            ADMIN: 'Admin',
         },
         AUTH: {
             LOGIN: 'Login',
