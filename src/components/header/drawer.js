@@ -8,17 +8,22 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HomeIcon from '@material-ui/icons/Home';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import TuneIcon from '@material-ui/icons/Tune';
+import { UserConsumer } from 'components/auth/authContext';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 
-const { NAVIGATION, HOME, LOGIN, SIGN_UP, LOGOUT, PROFILE, VIDEO_GAMES, BS } = HEADER_BUTTONS;
+const { ADMIN, NAVIGATION, HOME, LOGIN, SIGN_UP, LOGOUT, PROFILE, VIDEO_GAMES, BS } = HEADER_BUTTONS;
 
 export const DrawerContainer = ({ loggedIn, logout }) => {
     const classes = useStyles();
+    const { email } = useContext(UserConsumer);
+    const authorized = ROLES.EMAIL === email;
 
     const arrowIcon = <ArrowForwardIosIcon fontSize='small' className={classes.icons}/>;
     
@@ -45,6 +50,7 @@ export const DrawerContainer = ({ loggedIn, logout }) => {
             {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE, <AccountCircleIcon />)}
             {buildLink(ROUTE_CONSTANTS.BLACK_SERIES, BS, <EmojiPeopleIcon />)}
             {buildLink(ROUTE_CONSTANTS.VIDEO_GAMES, VIDEO_GAMES, <SportsEsportsIcon />)}
+            {authorized && buildLink(ROUTE_CONSTANTS.ADMIN, ADMIN, <TuneIcon />)}
             <Link to={''} className={`${classes.links} ${classes.linksBottom}`}>
                 <Grid container item xs={12} spacing={5} className={classes.individualIcon} direction='row' justify='flex-start' onClick={logout}>
                     <ExitToAppIcon />
