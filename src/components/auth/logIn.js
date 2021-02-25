@@ -1,27 +1,28 @@
-import { AUTH } from 'shared/constants/stringConstantsSelectors';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { FormError } from 'components/common/form/formError';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { login } from 'backend/FirebaseAuth';
-import React, { useState } from 'react';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { Link as RouterLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { useForm } from 'react-hook-form';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { login } from 'backend/FirebaseAuth';
 import { useStyles } from 'components/auth/authMakeStyles';
-import { Validator } from 'shared/util/validator';
-import Recaptcha from 'react-recaptcha';
 import { GoogleButton } from 'components/auth/googleButton';
+import { FormError } from 'components/common/form/formError';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import Recaptcha from 'react-recaptcha';
+import { Link as RouterLink } from 'react-router-dom';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { AUTH } from 'shared/constants/stringConstantsSelectors';
+import { isProduction } from 'shared/util/environment';
+import { Validator } from 'shared/util/validator';
 
 export const LogIn = ({ googleSignInFlag }) => {
-
+    
     const { register, handleSubmit, watch } = useForm();
     const classes = useStyles();
 
@@ -43,7 +44,7 @@ export const LogIn = ({ googleSignInFlag }) => {
     }
 
     const onSubmit = loginInfo => {
-        if(isVerified){
+        if(isVerified || !isProduction){
             login(loginInfo.email, loginInfo.password);
         } else {
             alert(AUTH.HUMAN);
@@ -104,13 +105,15 @@ export const LogIn = ({ googleSignInFlag }) => {
                             <FormError errorMessage={errorMessage} />
                         </Grid>
                     }
-                    <Grid item xs={12} container direction='row' justify='center' className={classes.recaptchaContainer}>
-                        <Recaptcha
-                            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                            render='explicit'
-                            verifyCallback={verifyCallback}
-                        />
-                    </Grid>
+                    {isProduction && 
+                        <Grid item xs={12} container direction='row' justify='center' className={classes.recaptchaContainer}>
+                            <Recaptcha
+                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                                render='explicit'
+                                verifyCallback={verifyCallback}
+                            />
+                        </Grid>
+                    }
                     <Button
                         type='submit'
                         fullWidth
