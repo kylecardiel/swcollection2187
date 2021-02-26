@@ -111,18 +111,19 @@ export const VideoGameCatalog = props => {
         clearUserDisplaySettings();
     };
 
-
     const [initialState] = useState(props);
     useEffect(() => {
         
         if(isProduction) {
-            const catalogRef = CatalogApi.read(VIDEO_GAMES);
-            catalogRef.once('value').then((snapshot) => {
-                if (snapshot.val()) {
-                    let records = snapshot.val();
-                    setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
-                }
-            });
+            if(videoGameList.length === 0){
+                const catalogRef = CatalogApi.read(VIDEO_GAMES);
+                catalogRef.once('value').then((snapshot) => {
+                    if (snapshot.val()) {
+                        let records = snapshot.val();
+                        setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+                    }
+                });
+            }
 
             if (loggedIn) {
                 const userRef = UserApi.read(id, VIDEO_GAMES);
@@ -136,11 +137,13 @@ export const VideoGameCatalog = props => {
 
 
         } else {
-            setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.VideoGames, 'id'));
+            if(videoGameList.length === 0){
+                setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.VideoGames, 'id'));
+            }
             setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.VideoGames, 'ownedId'));
         }
 
-    }, [initialState, setVideoGameData, helperData, id, loggedIn, setUserData]);
+    }, [initialState, setVideoGameData, helperData, id, loggedIn, setUserData, videoGameList.length]);
 
     const massageList = () => {
         let mergedList = videoGameList && userList ? RecordUtils.mergeTwoArraysByAttribute(videoGameList, 'id', userList, 'catalogId') : videoGameList;

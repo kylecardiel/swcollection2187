@@ -237,13 +237,15 @@ export const BlackSeriesCatalog = props => {
     useEffect(() => {
         
         if(isProduction) {
-            const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
-            catalogRef.once('value').then((snapshot => {
-                if (snapshot.val()) {
-                    let records = snapshot.val()['BlackSeries6'];
-                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
-                }
-            }));
+            if(catalogList.length === 0){
+                const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
+                catalogRef.once('value').then((snapshot => {
+                    if (snapshot.val()) {
+                        let records = snapshot.val()['BlackSeries6'];
+                        setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+                    }
+                }));
+            }
     
             if (loggedIn) {
                 const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
@@ -255,11 +257,14 @@ export const BlackSeriesCatalog = props => {
                 }));
             }
         } else {
-            setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
+            if(catalogList.length === 0){
+                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
+            }
+            
             setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.BlackSeries6, 'ownedId'));
         }
 
-    }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData]);
+    }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData, catalogList.length]);
 
     const massageList = () => {
         let mergedList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
