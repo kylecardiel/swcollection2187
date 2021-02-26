@@ -36,7 +36,7 @@ import { fitlerModalSizes, modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { capatilizeString } from 'shared/util/stringUtil';
+import { reverseCamelCase } from 'shared/util/stringUtil';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -232,7 +232,6 @@ export const BlackSeriesCatalog = props => {
 
     const openStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
     const closeStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
-    // const statsModalSize = { height: '60%', width: '95%' };
 
     const [initialState] = useState(props);
     useEffect(() => {
@@ -332,8 +331,7 @@ export const BlackSeriesCatalog = props => {
         />;
     };
 
-    const formattedSortingAttribute = sortingAttribute ? capatilizeString(sortingAttribute) : sortingAttribute;
-
+    const formattedSortingAttribute = sortingAttribute ? reverseCamelCase(sortingAttribute) : sortingAttribute;
     const buildFilters = () => {
         if (Object.keys(helperData).length !== 0) {
             const { assortment, characters, groups, packageType, series, sourceMaterial, sourceType, version } = helperData;
