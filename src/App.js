@@ -6,6 +6,7 @@ import { StorageReferenceProvider } from 'context/storageReferenceContext';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Routes } from 'routes/routes';
 import { FeatureFlagApi } from 'shared/api/featureFlagApi';
 import { HelperDataApi } from 'shared/api/helperDataApi';
 import { StorageReferencesApi } from 'shared/api/storageReferencesApi';
@@ -15,8 +16,6 @@ import { storageReferencesData } from 'shared/fixtures/storageReferenceData';
 import { isProduction } from 'shared/util/environment';
 import { setHelperData } from 'store/helperData/helperDataSetActions';
 import { setScreenSizes } from 'store/screenSize/screenSizeActions';
-import { PrivateRoutes } from './routes/privateRoutes';
-import { PublicRoutes } from './routes/publicRoutes';
 
 export const App = ({ setHelperData, setScreenSizes }) => {
     const [user, setUser] = useState({ loggedIn: false });
@@ -59,8 +58,7 @@ export const App = ({ setHelperData, setScreenSizes }) => {
         <FeatureFlagProvider value={featureFlags}>
             <StorageReferenceProvider value={storageReferences}>
                 <UserProvider value={user}>
-                    <PrivateRoutes setScreenSizes={setScreenSizes} />
-                    <PublicRoutes />
+                    <Routes setScreenSizes={setScreenSizes} />
                 </UserProvider>
             </StorageReferenceProvider>
         </FeatureFlagProvider>

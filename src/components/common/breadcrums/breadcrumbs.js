@@ -1,18 +1,19 @@
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Color } from 'shared/styles/color';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 export const CommonBreadCrumbs = ({ links, currentTitle }) => {
     const classes = useStyles();
 
     const linkBreadcrums = links.map(link => {
-        return <Link key={link.route} href={`#${link.route}`} className={classes.text}>
+        return <Link key={link.route} to={link.route} className={classes.text}>
             {link.title}
         </Link>;
     });
@@ -45,6 +46,11 @@ const useStyles = makeStyles(theme => ({
     },
     text: {
         color: Color.yellow(),
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'underline',
+        },
+        cursor: 'pointer',
     },
 }));
 

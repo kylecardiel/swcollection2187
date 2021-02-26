@@ -1,13 +1,10 @@
 import VideoGameDetailsConnect from 'components/hoc/videoGame/videoGameDetailsConnect';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import React from 'react';
 
-export const VideoGameDetailsPage = props => {
+export const VideoGameDetailsPage = () => {
+    let { id } = useParams();
     return (
-        <VideoGameDetailsConnect videoGameId={props.match.params.id}/>
+        <VideoGameDetailsConnect videoGameId={id}/>
     );
-};
-
-VideoGameDetailsPage.propTypes = {
-    match: PropTypes.object.isRequired,
 };

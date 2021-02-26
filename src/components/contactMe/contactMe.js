@@ -200,5 +200,5 @@ const useStyles = makeStyles(theme => ({
 }));
 
 ContactMe.propTypes = {
-    signUpPage: PropTypes.bool.isRequired,
+    signUpPage: PropTypes.bool,
 };

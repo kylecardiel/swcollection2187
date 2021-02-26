@@ -54,5 +54,5 @@ const useStyles = makeStyles(theme => ({
 }));
 
 TermsOfService.propTypes = {
-    signUpPage: PropTypes.bool.isRequired,
+    signUpPage: PropTypes.bool,
 };

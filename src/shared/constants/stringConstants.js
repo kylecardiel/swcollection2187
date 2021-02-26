@@ -54,7 +54,7 @@ export const STRING_CONSTANTS = Object.freeze({
             GET_STARTED: 'Let\'s get started',
             CARDS: {
                 BLACK_SERIES: {
-                    TITLE: 'Action Figures: Black Series 6"',
+                    TITLE: 'Black Series 6"',
                     BODY: 'View and add to your collection!',
                 },
                 VIDEO_GAMES: {
@@ -225,7 +225,7 @@ export const STRING_CONSTANTS = Object.freeze({
                 TOTAL: 'Total',
             },
             SEARCH: 'Search by name…',
-            TITLE: 'Black Series Catalog',
+            TITLE: 'Black Series',
         },
         VIDEO_GAME_CATALOG: {
             TITLE: 'Video Games',

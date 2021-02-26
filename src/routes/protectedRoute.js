@@ -1,18 +1,18 @@
-import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 export const ProtectedRoute = ({ component: Comp, userLoggedIn, access, path, redirectPath, ...rest }) => {
+    const location = useLocation();
 
     return (
-        <Route
-            path={path}
-            {...rest}
-            render={props => {
-                return userLoggedIn && access ? <Comp {...props} /> : <Redirect to={redirectPath} />;
-            }}
-        />
+        <Route {...rest}>
+            {userLoggedIn && access 
+                ? <Comp /> 
+                : <Redirect to={{ pathname: redirectPath, state: { from: location } }} />
+            }
+        </Route>
     );
 };
 
