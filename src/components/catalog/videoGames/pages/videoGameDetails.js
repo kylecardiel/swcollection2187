@@ -1,26 +1,26 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import EditIcon from '@material-ui/icons/Edit';
 import { UserConsumer } from 'components/auth/authContext';
-import { ReleaseDetailCard } from 'components/catalog/videoGames/cards/releaseDetailCard';
 import { SingleImageDetailCard } from 'components/catalog/common/cards/singleImageDetailCard';
+import { ReleaseDetailCard } from 'components/catalog/videoGames/cards/releaseDetailCard';
+import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
+import Modal from 'react-modal';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { BS_CARD_BUTTONS, PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
+import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { ROLES } from 'shared/constants/roleConstants';
-import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
-import { modalStyles } from 'shared/styles/modalStyles';
-import Modal from 'react-modal';
-import EditIcon from '@material-ui/icons/Edit';
 
 const { HOME, VIDEO_GAMES } = ROUTE_CONSTANTS;
 
