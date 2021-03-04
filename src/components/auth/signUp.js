@@ -114,7 +114,7 @@ export const SignUp = () => {
                     </Button>
                     <Grid container justify='flex-end'>
                         <Grid item>
-                            <Link href={`#${ROUTE_CONSTANTS.LOGIN}`} variant='body2'>
+                            <Link href={ROUTE_CONSTANTS.LOGIN} variant='body2'>
                                 {AUTH.HAVE_ACCOUNT}
                             </Link>
                         </Grid>
