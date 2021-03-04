@@ -1,22 +1,27 @@
-import { AUTH } from 'shared/constants/stringConstantsSelectors';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { FormError } from 'components/common/form/formError';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React from 'react';
-import { registerUser } from 'backend/FirebaseAuth';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { useForm } from 'react-hook-form';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { registerUser } from 'backend/FirebaseAuth';
 import { useStyles } from 'components/auth/authMakeStyles';
+import { FormError } from 'components/common/form/formError';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link as RouterLink } from 'react-router-dom';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { AUTH } from 'shared/constants/stringConstantsSelectors';
 import { Validator } from 'shared/util/validator';
+import PropTypes from 'prop-types';
+import { GoogleButton } from 'components/auth/googleButton';
+import Recaptcha from 'react-recaptcha';
+import { isProduction } from 'shared/util/environment';
 
-export const SignUp = () => {
+export const SignUp = ({ googleSignInFlag }) => {
 
     const { register, handleSubmit, watch } = useForm();
     const classes = useStyles();
@@ -40,8 +45,20 @@ export const SignUp = () => {
         errorMessage = null;
     }
 
+    const [isVerified, setIsVerified] = useState(false);
+
     const onSubmit = registrationInfo => {
-        registerUser(registrationInfo);
+        if(isVerified || !isProduction){
+            registerUser(registrationInfo);
+        } else {
+            alert(AUTH.HUMAN);
+        }
+    };
+
+    const verifyCallback = response => {
+        if(response){
+            setIsVerified(true);
+        }
     };
 
     const disableSubmitt = errorMessage !== null;
@@ -56,6 +73,14 @@ export const SignUp = () => {
                 <Typography component='h1' variant='h5'>
                     {AUTH.SIGN_UP}
                 </Typography>
+                {googleSignInFlag && 
+                    <>
+                        <GoogleButton />
+                        <Typography component='h3' color='textSecondary' variant='body2'>
+                            {AUTH.DIVIDER}
+                        </Typography>
+                    </>
+                }
                 <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -101,6 +126,15 @@ export const SignUp = () => {
                                 <FormError errorMessage={errorMessage} />
                             </Grid>
                         }
+                        {isProduction && 
+                        <Grid item xs={12} container direction='row' justify='center' className={classes.recaptchaContainer}>
+                            <Recaptcha
+                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                                render='explicit'
+                                verifyCallback={verifyCallback}
+                            />
+                        </Grid>
+                        }
                     </Grid>
                     <Button
                         type='submit'
@@ -114,7 +148,7 @@ export const SignUp = () => {
                     </Button>
                     <Grid container justify='flex-end'>
                         <Grid item>
-                            <Link href={ROUTE_CONSTANTS.LOGIN} variant='body2'>
+                            <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.LOGIN} >
                                 {AUTH.HAVE_ACCOUNT}
                             </Link>
                         </Grid>
@@ -123,4 +157,8 @@ export const SignUp = () => {
             </div>
         </Container>
     );
+};
+
+SignUp.propTypes = {
+    googleSignInFlag: PropTypes.bool,
 };

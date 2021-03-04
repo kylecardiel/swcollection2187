@@ -66,7 +66,7 @@ export const Routes = ({ setScreenSizes }) => {
                         redirectPath={HOME}
                         access={true}
                         userLoggedIn={!loggedIn}
-                        component={signUpPage ? SignUp : NoSignUp}
+                        component={signUpPage ? () => <SignUp googleSignInFlag={googleSignin}/> : NoSignUp}
                     />
                     <ProtectedRoute
                         path={ADMIN}
