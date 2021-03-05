@@ -29,8 +29,8 @@ export const BlackSeriesCardContent = ({ record, sourceMaterials }) => {
         }
 
         const adjustedValue = value ? value : '-';
-        return <div style={{ backgroundColor: Color.primary(sourceMaterialBackgroundColor), textAlign: 'center' }}>
-            <Typography variant='caption' gutterBottom style={{ color: Color.primary(sourceMaterialTextColor), fontFamily: 'Raleway, sans-serif',}}>
+        return <div style={{ backgroundColor: sourceMaterialBackgroundColor, textAlign: 'center' }}>
+            <Typography variant='caption' gutterBottom style={{ color: Color.primary(sourceMaterialTextColor), fontFamily: 'Raleway, sans-serif' }}>
                 <Box fontWeight={'fontWeightBold'}>
                     {adjustedValue}
                 </Box>
