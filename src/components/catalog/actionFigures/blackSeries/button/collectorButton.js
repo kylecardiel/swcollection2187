@@ -98,10 +98,10 @@ const useStyles = makeStyles(() => ({
         color: Color.white(),
         backgroundColor: Color.green(),
         cursor: 'pointer',
-        '&:hover': {
-            backgroundColor: 'white',
-            color: Color.green(),
-        },
+        // '&:hover': {
+        //     backgroundColor: 'white',
+        //     color: Color.green(),
+        // },
         height: 30,
     },
     owned: {
