@@ -38,7 +38,7 @@ export const DisplayNameSection = ({ assortments, record, smallFigureView, sourc
 
 const useStyles = makeStyles(theme => ({
     container: {
-        backgroundColor: props => Color.primary(props.color),
+        backgroundColor: props => props.color,
         color: Color.black(),
     },
     nameText: {

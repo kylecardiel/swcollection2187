@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
-import { Color } from 'shared/styles/color';
 
 export const ReleaseDetailCard = ({ assortment, assortmentNumber, assortmentBackgroundColor, exclusiveRetailer, multipack, multipackQuantity, packageType, retailPrice, wave, year }) => {
     const classes = useStyles({ assortmentBackgroundColor });
@@ -67,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     detailRowWithColor: {
         display: 'flex',
         justifyContent: 'space-between',
-        backgroundColor: props => Color.primary(props.assortmentBackgroundColor),
+        backgroundColor: props => props.assortmentBackgroundColor,
     },
 }));
 

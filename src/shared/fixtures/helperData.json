@@ -1,240 +1,240 @@
 {
     "helperData" : {
         "assortment" : {
-            "-MDSWiQvaqCy3DlItnF6" : [ 
-                {
-                    "color" : "orange",
-                    "name" : "Orange - 2013/2014",
-                    "sortingAttribute" : "seriesNumber",
-                    "textColor" : "black"
-                }, {
-                    "color" : "blue",
-                    "name" : "Blue - 2014/2015",
-                    "sortingAttribute" : "seriesNumber",
-                    "textColor" : "black"
-                }, {
-                    "color" : "red",
-                    "name" : "Red - 2015-2020",
-                    "sortingAttribute" : "seriesNumber",
-                    "textColor" : "black"
-                }, {
-                    "color" : "red",
-                    "name" : "Red - Delux",
-                    "sortingAttribute" : "seriesNumber",
-                    "textColor" : "black"
-                }, {
-                    "color" : "red",
-                    "name" : "Red - Exclusives",
-                    "sortingAttribute" : "name",
-                    "textColor" : "black"
-                }, {
-                    "color" : "red",
-                    "name" : "Red - Mini",
-                    "sortingAttribute" : "year",
-                    "textColor" : "black"
-                }, {
-                    "color" : "red",
-                    "name" : "With Vehicle/Creatures",
-                    "sortingAttribute" : "seriesNumber",
-                    "textColor" : "black"
-                }, {
-                    "color" : "red",
-                    "name" : "Centerpiece",
-                    "sortingAttribute" : "seriesNumber",
-                    "textColor" : "black"
-                }, {
-                    "color" : "purple",
-                    "name" : "Gaming Greats",
-                    "sortingAttribute" : "name",
-                    "textColor" : "black"
-                }, {
-                    "color" : "grey",
-                    "name" : "40th Anniv",
-                    "sortingAttribute" : "sourceMaterial",
-                    "textColor" : "black"
-                }, {
-                    "color" : "lightGrey",
-                    "name" : "Archive",
-                    "sortingAttribute" : "wave",
-                    "textColor" : "black"
-                }, {
-                    "color" : "black",
-                    "name" : "Series 4.0",
-                    "sortingAttribute" : "sourceMaterial",
-                    "textColor" : "darkYellow"
-                }, {
-                    "color" : "brown",
-                    "name" : "Galaxy's Edge",
-                    "sortingAttribute" : "year",
-                    "textColor" : "black"
-                }, {
-                    "color" : "creditCollection",
-                    "name" : "Credit Collection",
-                    "sortingAttribute" : "year",
-                    "textColor" : "black"
-                }, {
-                    "color" : "green",
-                    "name" : "Convention Exclusive",
-                    "sortingAttribute" : "year",
-                    "textColor" : "black"
-                }, {
-                    "color" : "green",
-                    "name" : "Series 4.0 - Holiday",
-                    "sortingAttribute" : "year",
-                    "textColor" : "red"
-                } 
-            ]
+          "-MDSWiQvaqCy3DlItnF6" : [ {
+            "color" : "#fc7303",
+            "name" : "Orange - 2013/2014",
+            "sortingAttribute" : "seriesNumber",
+            "textColor" : "black"
+          }, {
+            "color" : "#036bfc",
+            "name" : "Blue - 2014/2015",
+            "sortingAttribute" : "seriesNumber",
+            "textColor" : "black"
+          }, {
+            "color" : "red",
+            "name" : "Red - 2015-2020",
+            "sortingAttribute" : "seriesNumber",
+            "textColor" : "black"
+          }, {
+            "color" : "red",
+            "name" : "Red - Delux",
+            "sortingAttribute" : "seriesNumber",
+            "textColor" : "black"
+          }, {
+            "color" : "red",
+            "name" : "Red - Exclusives",
+            "sortingAttribute" : "name",
+            "textColor" : "black"
+          }, {
+            "color" : "red",
+            "name" : "Red - Mini",
+            "sortingAttribute" : "year",
+            "textColor" : "black"
+          }, {
+            "color" : "red",
+            "name" : "With Vehicle/Creatures",
+            "sortingAttribute" : "seriesNumber",
+            "textColor" : "black"
+          }, {
+            "color" : "red",
+            "name" : "Centerpiece",
+            "sortingAttribute" : "seriesNumber",
+            "textColor" : "black"
+          }, {
+            "color" : "#9952c4",
+            "name" : "Gaming Greats",
+            "sortingAttribute" : "name",
+            "textColor" : "black"
+          }, {
+            "color" : "grey",
+            "name" : "Anniversary",
+            "sortingAttribute" : "sourceMaterial",
+            "textColor" : "black"
+          }, {
+            "color" : "#aeb2b8",
+            "name" : "Archive",
+            "sortingAttribute" : "wave",
+            "textColor" : "black"
+          }, {
+            "color" : "black",
+            "name" : "Series 4.0",
+            "sortingAttribute" : "sourceMaterial",
+            "textColor" : "darkYellow"
+          }, {
+            "color" : "#807760",
+            "name" : "Galaxy's Edge",
+            "sortingAttribute" : "year",
+            "textColor" : "black"
+          }, {
+            "color" : "#b69b69",
+            "name" : "Credit Collection",
+            "sortingAttribute" : "year",
+            "textColor" : "black"
+          }, {
+            "color" : "green",
+            "name" : "Convention Exclusive",
+            "sortingAttribute" : "year",
+            "textColor" : "black"
+          }, {
+            "color" : "green",
+            "name" : "Series 4.0 - Holiday",
+            "sortingAttribute" : "year",
+            "textColor" : "red"
+          } ]
         },
         "characters" : {
-            "-MDXKuU9sPY2FLNKQMTP" : [ "Ahsoka Tano", "Anakin Skywalker", "Boba Fett", "C-3PO", "Cassian Andor", "Chewbacca", "Darth Vader", "Darth Maul", "Finn", "Han Solo", "Jyn Erso", "Kylo Ren", "Lando Calrissian", "Leia Organa", "Luke Skywalker", "Obi-Wan Kenobi", "Poe Dameron", "R2-D2", "Rey", "Yoda" ]
+          "-MDXKuU9sPY2FLNKQMTP" : [ "Ahsoka Tano", "Anakin Skywalker", "Boba Fett", "C-3PO", "Cassian Andor", "Chewbacca", "Darth Vader", "Darth Maul", "Finn", "Han Solo", "Jyn Erso", null, "Kylo Ren", "Lando Calrissian", "Leia Organa", "Luke Skywalker", "Obi-Wan Kenobi", "Poe Dameron", "R2-D2", "Rey", "Yoda" ]
         },
         "collectionType" : {
-            "-MFIWYKHkkNPdjltU3KO" : [ "Action Figures", "Video Games" ]
+          "-MFIWYKHkkNPdjltU3KO" : [ "Action Figures", "Video Games" ]
         },
         "exclusiveRetailer" : {
-            "-MDk9rKegNGv_KirrDln" : [ "Amazon", "Best Buy", "Convention", "Disney", "Disney Store", "Entertainment Earth", "Fan Channel", "Gamestop", "HasCon", "Hasbro Pulse", "Kmart", "SDCC", "SW Celebration", "Target", "Walgreens", "Walmart" ]
+          "-MDk9rKegNGv_KirrDln" : [ "Amazon", "Best Buy", "Convention", "Disney", "Disney Store", "Entertainment Earth", "Fan Channel", "Gamestop", "HasCon", "Hasbro Pulse", "Kmart", "SDCC", "SW Celebration", "Target", "Walgreens", "Walmart" ]
         },
         "groups" : {
-            "-MDSZJd-aYgj_XMxlzT7" : [ "Aliens", "Bounty Hunters", "Clones", "Droids", "Empire", "First Order", "Humans", "Jedi", "Jedi Counsel", "Legends", "Mandalorians", "Officers", "Originals", "Pilots", "Prequels", "Rebels", "Republic", "Resistance", "Sequels", "Sith", "Trade Federation", "Troopers" ]
+          "-MDSZJd-aYgj_XMxlzT7" : [ "Aliens", "Bounty Hunters", "Clones", "Droids", "Empire", "Ewok", "First Order", "Humans", "Jedi", "Jedi Counsel", "Legends", "Mandalorians", "Officers", "Originals", "Pilots", "Prequels", "Rebels", "Republic", "Resistance", "Sequels", "Sith", "Trade Federation", "Troopers" ]
         },
         "packageType" : {
-            "-MSK3_Bnc5fq3vXiCkcy" : [ "Blister Card", "Standard Box" ]
+          "-MSK3_Bnc5fq3vXiCkcy" : [ "Blister Card", "Box w/Mural", "Standard Box" ]
         },
         "series" : {
-            "-MDSVWMwIuE3R9AHeFHd" : [ "Black Series 6\"" ]
+          "-MDSVWMwIuE3R9AHeFHd" : [ "Black Series 6\"" ]
         },
         "sourceMaterial" : {
-            "-MDNBjGpdNp6tej-bm_c" : [ 
-                {
-                    "abbr" : "ANH",
-                    "color" : "blue",
-                    "episode" : "IV",
-                    "name" : "A New Hope",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "AOTC",
-                    "color" : "aotcRed",
-                    "episode" : "II",
-                    "name" : "Attack of the Clones",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "BF",
-                    "color" : "blue",
-                    "name" : "BattleFront I/II",
-                    "type" : "Video Game"
-                }, {
-                    "abbr" : "CW",
-                    "color" : "cwYellow",
-                    "name" : "Clone Wars",
-                    "type" : "TV"
-                }, {
-                    "abbr" : "JFO",
-                    "name" : "Jedi Fallen Order",
-                    "type" : "Video Game"
-                }, {
-                    "abbr" : "KOTOR",
-                    "name" : "Knights of the Old Republic",
-                    "type" : "Video Game"
-                }, {
-                    "color" : "blue",
-                    "name" : "Legends"
-                }, {
-                    "abbr" : "REB",
-                    "color" : "rebelsPurple",
-                    "name" : "Rebels",
-                    "type" : "TV"
-                }, {
-                    "abbr" : "RES",
-                    "color" : "blue",
-                    "name" : "Resistance",
-                    "type" : "TV"
-                }, {
-                    "abbr" : "ROTJ",
-                    "color" : "rotjGreen",
-                    "episode" : "VI",
-                    "name" : "Return of the Jedi",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "ROTS",
-                    "color" : "blue",
-                    "episode" : "III",
-                    "name" : "Revenge of the Sith",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "RO",
-                    "color" : "blue",
-                    "name" : "Rogue One",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "Solo",
-                    "color" : "blue",
-                    "name" : "Solo",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "TPM",
-                    "color" : "tpmBrown",
-                    "episode" : "I",
-                    "name" : "The Phantom Menace",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "ESB",
-                    "color" : "esbBlue",
-                    "episode" : "V",
-                    "name" : "The Empire Strikes Back",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "TFA",
-                    "color" : "blue",
-                    "episode" : "VII",
-                    "name" : "The Force Awakens",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "TLJ",
-                    "color" : "blue",
-                    "episode" : "VIII",
-                    "name" : "The Last Jedi",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "TROS",
-                    "color" : "trosBlue",
-                    "episode" : "IX",
-                    "name" : "The Rise of Skywalker",
-                    "type" : "Movie"
-                }, {
-                    "abbr" : "MAND",
-                    "color" : "mandoBrown",
-                    "name" : "The Mandalorian",
-                    "type" : "TV"
-                }, {
-                    "abbr" : "TFU",
-                    "color" : "blue",
-                    "name" : "The Force Unleashed",
-                    "type" : "Video Game"
-                }, {
-                    "abbr" : "TBB",
-                    "color" : "red",
-                    "name" : "The Bad Batch",
-                    "type" : "TV"
-                }
-            ]
+          "-MDNBjGpdNp6tej-bm_c" : [ {
+            "abbr" : "ANH",
+            "color" : "blue",
+            "episode" : "IV",
+            "name" : "A New Hope",
+            "type" : "Movie"
+          }, {
+            "abbr" : "AOTC",
+            "color" : "#c70e1c",
+            "episode" : "II",
+            "name" : "Attack of the Clones",
+            "type" : "Movie"
+          }, {
+            "abbr" : "BF",
+            "color" : "#15799D",
+            "name" : "BattleFront I/II",
+            "type" : "Video Game"
+          }, {
+            "abbr" : "CW",
+            "color" : "#d0a91e",
+            "name" : "Clone Wars",
+            "type" : "TV"
+          }, {
+            "abbr" : "JFO",
+            "color" : "#15799D",
+            "name" : "Jedi Fallen Order",
+            "type" : "Video Game"
+          }, {
+            "abbr" : "KOTOR",
+            "name" : "Knights of the Old Republic",
+            "type" : "Video Game"
+          }, {
+            "color" : "blue",
+            "name" : "Legends"
+          }, {
+            "abbr" : "REB",
+            "color" : "#7c2991",
+            "name" : "Rebels",
+            "type" : "TV"
+          }, {
+            "abbr" : "RES",
+            "color" : "blue",
+            "name" : "Resistance",
+            "type" : "TV"
+          }, {
+            "abbr" : "ROTJ",
+            "color" : "#6b9e3f",
+            "episode" : "VI",
+            "name" : "Return of the Jedi",
+            "type" : "Movie"
+          }, {
+            "abbr" : "ROTS",
+            "color" : "blue",
+            "episode" : "III",
+            "name" : "Revenge of the Sith",
+            "type" : "Movie"
+          }, {
+            "abbr" : "RO",
+            "color" : "blue",
+            "name" : "Rogue One",
+            "type" : "Movie"
+          }, {
+            "abbr" : "Solo",
+            "color" : "blue",
+            "name" : "Solo",
+            "type" : "Movie"
+          }, {
+            "abbr" : "TPM",
+            "color" : "#ac8d48",
+            "episode" : "I",
+            "name" : "The Phantom Menace",
+            "type" : "Movie"
+          }, {
+            "abbr" : "ESB",
+            "color" : "#0175d6",
+            "episode" : "V",
+            "name" : "The Empire Strikes Back",
+            "type" : "Movie"
+          }, {
+            "abbr" : "TFA",
+            "color" : "blue",
+            "episode" : "VII",
+            "name" : "The Force Awakens",
+            "type" : "Movie"
+          }, {
+            "abbr" : "TLJ",
+            "color" : "blue",
+            "episode" : "VIII",
+            "name" : "The Last Jedi",
+            "type" : "Movie"
+          }, {
+            "abbr" : "TROS",
+            "color" : "#47b6cf",
+            "episode" : "IX",
+            "name" : "The Rise of Skywalker",
+            "type" : "Movie"
+          }, {
+            "abbr" : "MAND",
+            "color" : "#d49944",
+            "name" : "The Mandalorian",
+            "type" : "TV"
+          }, {
+            "abbr" : "TFU",
+            "color" : "blue",
+            "name" : "The Force Unleashed",
+            "type" : "Video Game"
+          }, {
+            "abbr" : "TBB",
+            "color" : "#6E2028",
+            "name" : "The Bad Batch",
+            "type" : "TV"
+          } ]
         },
         "sourceType" : {
-            "-MDSPFDCtfuecNbysQEt" : [ "Books", "Comics", "Movie", "TV", "Video Games" ]
+          "-MDSPFDCtfuecNbysQEt" : [ "Books", "Comics", "Movie", "TV", "Video Games" ]
         },
         "version" : {
-            "-MFIWkiIOhuTTWlq9YIb" : [ "Carbonized", "Vintage Card", "White Box" ]
+          "-MFIWkiIOhuTTWlq9YIb" : [ "Carbonized", "Vintage Card", "White Box" ]
         },
         "videoGameConsole" : {
-            "-MSuSuR7XIiuwPMsrb_A" : [ "Arcade", "Apple II", "Atari 2600", "Famicom", "Nintendo Entertainment System", "Super Nintendo Entertainment System", "Nintendo 64", "Sega Master System", "Sega Dreamcast", "Game Gear", "GameCube", "DOS", "Microsoft Windows", "Macintosh", "Classic Mac OS", "macOS", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", "PlayStation Vita", "Xbox", "Xbox 360", "Xbox One", "Wii", "Wii U", "Game Boy", "Game Boy Color", "Game Boy Advance", "Nintendo DS", "PlayStation Portable", "iOS", "Android", "Linux", "Stadia" ]
+          "-MSuSuR7XIiuwPMsrb_A" : [ "Android", "Apple II", "Arcade", "Atari 2600", "Classic Mac OS", "DOS", "Famicom", "Game Gear", "Game Boy", "Game Boy Color", "Game Boy Advance", "GameCube", "Intellivision", "Linux", "Macintosh", "Microsoft Windows", "Nintendo Entertainment System", "Nintendo 64", "Nintendo DS", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", "PlayStation Vita", "PlayStation Portable", "PlayStation 5", "Sega Master System", "Sega Dreamcast", "Stadia", "Super Nintendo Entertainment System", "Switch", "Wii", "Wii U", "Xbox", "Xbox 360", "Xbox One", "Xbox Series X", "iOS", "macOS" ]
+        },
+        "videoGameDeveloper" : {
+          "-MSuYV8mCJkHrhf7wpMn" : [ "EA" ]
         },
         "videoGameFormat" : {
-            "-MSuYj5FOUaifjcaWQWd" : [ "Cartridge", "Digital", "Disc" ]
+          "-MSuYj5FOUaifjcaWQWd" : [ "Cartridge", "Digital", "Disc" ]
         },
         "videoGameSeries" : {
-            "-MSuX6uJSbQTVrrxvP8m" : [ "Battlefront", "Empire at War", "Galactic Battlegrounds", "Jedi Knight", "Knights of the Old Republic", "Rebel Assault", "Rogue Squadron", "Star Wars: Galaxies", "Star Wars Racer", "Star Wars: The Clone Wars animated series", "Starfighter", "The Force Unleashed", "X-Wing" ]
+          "-MSuX6uJSbQTVrrxvP8m" : [ "Battlefront", "Empire at War", "Galactic Battlegrounds", "Jedi Knight", "Knights of the Old Republic", "Rebel Assault", "Rogue Squadron", "Star Wars: Galaxies", "Star Wars Racer", "Star Wars: The Clone Wars animated series", "Star Wars Lego", "Starfighter", "Super Star Wars", "The Force Unleashed", "X-Wing" ]
         },
         "videoGameType" : {
-            "-MSuWKG4GKm2RANwp2Ea" : [ "Action Adventure", "RPG", "Shooter", "Simulator" ]
+          "-MSuWKG4GKm2RANwp2Ea" : [ " Real-Time Strategy", "Action Adventure", "Fighting", "RPG", "Shooter", "Simulator" ]
         }
-    }
+      }
 }
