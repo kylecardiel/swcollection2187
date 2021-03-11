@@ -24,7 +24,7 @@ export const Homepage = () => {
     const blackSeriesCard = <Grid item xs={12} md={6}>
         <MediaCard
             cardText={HOME_PAGE.CARDS.BLACK_SERIES}
-            route={ROUTE_CONSTANTS.BLACK_SERIES}
+            route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
             imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
         />
     </Grid>;

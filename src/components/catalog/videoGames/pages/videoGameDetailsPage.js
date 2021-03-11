@@ -1,9 +1,9 @@
 import VideoGameDetailsConnect from 'components/hoc/videoGame/videoGameDetailsConnect';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import React from 'react';
 
 export const VideoGameDetailsPage = () => {
-    let { id } = useParams();
+    let { state: { id } } = useLocation();
     return (
         <VideoGameDetailsConnect videoGameId={id}/>
     );

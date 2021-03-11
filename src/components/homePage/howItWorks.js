@@ -26,14 +26,14 @@ export const HowItWorks = () => {
                 <HowToCards
                     cardText={HOME_PAGE.CARDS.STEP_2}
                     imagePath={HOW_TO.STEP_2}
-                    route={ROUTE_CONSTANTS.BLACK_SERIES}
+                    route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
                 />
             </Grid>
             <Grid item xs={12} md={4}>
                 <HowToCards
                     cardText={HOME_PAGE.CARDS.STEP_3}
                     imagePath={HOW_TO.STEP_3}
-                    route={ROUTE_CONSTANTS.BLACK_SERIES}
+                    route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
                 />
             </Grid>
         </React.Fragment>

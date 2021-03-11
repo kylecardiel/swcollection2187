@@ -14,7 +14,11 @@ export const ROUTE_CONSTANTS = Object.freeze({
     CONTACT_ME: '/contactMe',
     READ_CONTACT_ME: '/read-contact-me',
     
-    BLACK_SERIES: '/black-series',
+    ACTION_FIGURES: {
+        ALL: '/action-figures',
+        BLACK_SERIES: '/action-figures/black-series',
+    },
+    
     VIDEO_GAMES: '/video-games',
     
     USER_PROFILE: '/user-profile',
