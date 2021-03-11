@@ -9,6 +9,7 @@ import React from 'react';
 import { VG_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import { Link } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { slugify } from 'shared/util/stringUtil';
 
 export const ReleaseDetailCard = ({ developer, price, otherGamesInSeries, videoGameConsole, videoGameFormat, videoGameSeries, videoGameType, year }) => {
     const classes = useStyles();
@@ -18,7 +19,10 @@ export const ReleaseDetailCard = ({ developer, price, otherGamesInSeries, videoG
             {otherGamesInSeries.map(vg => (
                 <Link
                     to={{
-                        pathname: `${ROUTE_CONSTANTS.VIDEO_GAMES}/${vg.id}`,
+                        pathname: `${ROUTE_CONSTANTS.VIDEO_GAMES}/${slugify([
+                            vg.name,
+                        ])}`,
+                        state: { id: vg.id },
                     }}
                     style={{ textDecoration: 'none' }}
                     key={`${vg.name}-${vg.year}`}

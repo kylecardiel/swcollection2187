@@ -1,9 +1,9 @@
 import BlackSeriesDetailsConnect from 'components/hoc/actionFigures/blackSeries/blackSeriesDetailsConnect';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export const BlackSeriesDetailsPage = () => {
-    let { id } = useParams();
+    let { state: { id } } = useLocation();
     return (
         <BlackSeriesDetailsConnect figureId={id}/>
     );

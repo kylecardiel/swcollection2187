@@ -17,7 +17,7 @@ import { Color } from 'shared/styles/color';
 import { Link } from 'react-router-dom';
 
 const { SECTION_TITLES, TABLE_COL } = USER_PROFILE;
-const { BLACK_SERIES, HOME, VIDEO_GAMES } = ROUTE_CONSTANTS;
+const { ACTION_FIGURES, HOME, VIDEO_GAMES } = ROUTE_CONSTANTS;
 
 export const UserProfile = ({ userActionFigureList, userVideoGameList }) => {
     
@@ -74,7 +74,7 @@ export const UserProfile = ({ userActionFigureList, userVideoGameList }) => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {collectionLinkRow('Action Figures', 'Black Series 6"', actionFigureCount, BLACK_SERIES)}
+                                        {collectionLinkRow('Action Figures', 'Black Series 6"', actionFigureCount, ACTION_FIGURES.BLACK_SERIES)}
                                         {collectionLinkRow('Video Games', 'All Games', videoGameCount, VIDEO_GAMES)}
                                         <TableRow key={'Total'} className={classes.tableRow}>
                                             <TableCell className={classes.tableCellCenter}>Total</TableCell>

@@ -6,9 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import { Link } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
+import { slugify } from 'shared/util/stringUtil';
 
 export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name, similarFigures, sourceMaterial }) => {
     const classes = useStyles();
@@ -35,10 +36,15 @@ export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name,
             {similarFigures.map(f => (
                 <Link
                     to={{
-                        pathname: `${ROUTE_CONSTANTS.BLACK_SERIES}/${f.id}`,
+                        pathname: `${ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}/${slugify([
+                            f.assortment,
+                            f.name,
+                            f.additionalNameDetails,
+                        ])}`,
+                        state: { id: f.id },
                     }}
                     style={{ textDecoration: 'none' }}
-                    key={`${f.additionalNameDetails}-${f.assortment}`}
+                    key={`${f.additionalNameDetails}-${f.assortment}-${f.sourceMaterial}`}
                 >
                     <Typography variant='body2' gutterBottom component='p' >
                         {`- ${f.name} `}

@@ -24,7 +24,7 @@ import { modalStyles } from 'shared/styles/modalStyles';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 
-const { HOME, BLACK_SERIES } = ROUTE_CONSTANTS;
+const { ACTION_FIGURES, HOME } = ROUTE_CONSTANTS;
 
 export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperData, screenSize, sourceMaterials, userList }) => {
     const { id, email } = useContext(UserConsumer);
@@ -45,7 +45,7 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
             title: PAGES.HOME_PAGE.TITLE,
         },
         {
-            route: BLACK_SERIES,
+            route: ACTION_FIGURES.BLACK_SERIES,
             title: PAGES.BLACK_SERIES_CATALOG.TITLE,
         },
     ];
