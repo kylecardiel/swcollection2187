@@ -44,7 +44,7 @@ export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name,
                         state: { id: f.id },
                     }}
                     style={{ textDecoration: 'none' }}
-                    key={`${f.additionalNameDetails}-${f.assortment}`}
+                    key={`${f.additionalNameDetails}-${f.assortment}-${f.sourceMaterial}`}
                 >
                     <Typography variant='body2' gutterBottom component='p' >
                         {`- ${f.name} `}
