@@ -66,8 +66,8 @@ export const FuturePlans = () => {
                     </Grid>
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.BLACK_SERIES, completedPlan)}
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.VIDEO_GAMES, completedPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.MOVIES, inProgesssPlan)}
-                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.VINTAGE_COLLECTION, nextPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.VINTAGE_COLLECTION, inProgesssPlan)}
+                    {generateHowToRow(PAGES.FUTURE_PLANS.LIST.MOVIES, nextPlan)}
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.POWER_OF_THE_FORCE, nextPlan)}
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.STAR_WARS_LEGO, nextPlan)}
                     {generateHowToRow(PAGES.FUTURE_PLANS.LIST.MICRO_MACHINES_ACTION_FLEET, nextPlan)}
