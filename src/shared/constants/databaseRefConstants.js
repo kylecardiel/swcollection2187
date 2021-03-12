@@ -1,4 +1,5 @@
 export const FB_DB_CONSTANTS = Object.freeze({
+    ABOUT_ME: 'aboutMe',
     CATALOG: 'Catalog/',
     USERS: 'users/',
     FEATURE_FLAG: 'featureFlags/',
