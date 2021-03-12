@@ -17,7 +17,7 @@ export const AboutMe = ({ aboutMeData, setAboutMeData }) => {
     const classes = useStyles();
 
     useEffect(() => {
-        if(!isProduction) {
+        if(isProduction) {
             const catalogRef = AboutMeApi.read();
             catalogRef.once('value').then((snapshot) => {
                 const snapshotRef = snapshot.val();
