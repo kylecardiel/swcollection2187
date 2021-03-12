@@ -1,4 +1,4 @@
-import { AboutMe } from 'components/aboutMe/aboutMe';
+import AboutMeConnect from 'components/hoc/aboutMeConnect';
 import Admin from 'components/admin/admin';
 import { UserConsumer } from 'components/auth/authContext';
 import { ForgotPassword } from 'components/auth/forgotPassword';
@@ -41,7 +41,7 @@ export const Routes = ({ setScreenSizes }) => {
                 <Switch>
                     <Route exact path='/'><Homepage/></Route>
                     <Route path={HOME}><Homepage/></Route>
-                    <Route path={ABOUT_ME}><AboutMe/></Route>
+                    <Route path={ABOUT_ME}><AboutMeConnect/></Route>
                     <Route path={HOW_TO}><HowToConnect/></Route>
                     <Route path={FUTURE_PLANS}><FuturePlans/></Route>
                     <Route path={TOS}><TermsOfService signUpPage={signUpPage}/></Route>

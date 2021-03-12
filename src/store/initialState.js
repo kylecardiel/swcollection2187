@@ -37,4 +37,5 @@ export const initialState = {
     },
     helperDataSet: {},
     screenSize: null,
+    aboutMe: null,
 };

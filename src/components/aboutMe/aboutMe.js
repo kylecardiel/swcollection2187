@@ -1,16 +1,34 @@
-import React from 'react';
-import { Color } from 'shared/styles/color';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import Container from '@material-ui/core/Container';
-import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { makeStyles } from '@material-ui/core/styles';
-import { PAGES, ABOUT_ME_PAGE } from 'shared/constants/stringConstantsSelectors';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { ABOUT_ME_PAGE, PAGES } from 'shared/constants/stringConstantsSelectors';
+import { isProduction } from 'shared/util/environment';
+import { Color } from 'shared/styles/color';
+import { aboutMe } from 'shared/fixtures/aboutMeData';
+import { AboutMeApi } from 'shared/api/aboutMeApi';
 
 const { HOME } = ROUTE_CONSTANTS;
 
-export const AboutMe = () => {
+export const AboutMe = ({ aboutMeData, setAboutMeData }) => {
     const classes = useStyles();
+
+    useEffect(() => {
+        if(!isProduction) {
+            const catalogRef = AboutMeApi.read();
+            catalogRef.once('value').then((snapshot) => {
+                const snapshotRef = snapshot.val();
+                if (snapshotRef) setAboutMeData(snapshotRef['aboutMeId']);
+            });
+        } else {
+            setAboutMeData(aboutMe);
+        }
+
+    }, [setAboutMeData]);
+
 
     const links = [
         {
@@ -35,37 +53,34 @@ export const AboutMe = () => {
         return section(<p>{text}</p>);
     };
 
+    const buildParagraphs = aboutMeData ? aboutMeData.map((element, index) => {
+        return <div key={index}>
+            {headerSection(element.title)}
+            {bodySection(element.text)}
+        </div>;
+    }) : <></>;
+
+    const body = <>
+        <>{buildParagraphs}</>
+        <>{headerSection(ABOUT_ME_PAGE.HEADER_SNES)}</>
+        <div className={classes.container}>
+            <section className={classes.center}>
+                <img src={IMAGE_PATHS.SNES} alt='SNES'></img>
+            </section>
+        </div>
+    </>;
+
     return (
-        <React.Fragment>
+        <>
             <CommonBreadCrumbs links={links} currentTitle={PAGES.ABOUT.HEADER} />
             <Container component='main' maxWidth='xl'>
                 <div className={classes.root}>
                     <div className={classes.body}>
-                        {headerSection(ABOUT_ME_PAGE.HEADER_INTRO)}
-                        {bodySection(ABOUT_ME_PAGE.INTRO)}
-                        {headerSection(ABOUT_ME_PAGE.HEADER_WHY)}
-                        {bodySection(ABOUT_ME_PAGE.WHY)}
-                        {headerSection(ABOUT_ME_PAGE.HEADER_START)}
-                        {bodySection(ABOUT_ME_PAGE.STARTING)}
-                        {headerSection(ABOUT_ME_PAGE.HEADER_SNES)}
-                        <div className={classes.container}>
-                            <section className={classes.center}>
-                                <img src={IMAGE_PATHS.SNES} alt='SNES'></img>
-                            </section>
-                        </div>
-                        {false && 
-                            <>
-                                {headerSection(ABOUT_ME_PAGE.HEADER_TBS_COLLECTION)}
-                                <div className={classes.container}>
-                                    <img src={IMAGE_PATHS.TBS_COLLECTION} alt='SNES' className={classes.image}></img>
-                                </div>
-                                {bodySection(ABOUT_ME_PAGE.TBS_COLLECTION)}
-                            </>
-                        }
+                        { aboutMeData && body }
                     </div>
                 </div>
             </Container>
-        </React.Fragment>
+        </>
     );
 };
 
@@ -108,3 +123,8 @@ const useStyles = makeStyles(theme => ({
         },
     },
 }));
+
+AboutMe.propTypes = {
+    aboutMeData: PropTypes.array,
+    setAboutMeData: PropTypes.func.isRequired,
+};
