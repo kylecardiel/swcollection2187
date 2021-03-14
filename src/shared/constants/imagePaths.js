@@ -32,4 +32,9 @@ export const IMAGE_PATHS = Object.freeze({
         WINDOWS: '/img/videoGames/windows.png',
         XBOX: '/img/videoGames/xbox.png',
     },
+    SOCIAL_MEDIA: {
+        FACEBOOK: '/img/socialMedia/facebook.png',
+        INSTAGRAM: '/img/socialMedia/instagram.png',
+        TWITTER: '/img/socialMedia/twitter.png',
+    },
 });
