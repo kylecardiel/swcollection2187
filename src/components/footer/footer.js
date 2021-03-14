@@ -1,55 +1,68 @@
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { Color } from 'shared/styles/color';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import { FOOTER } from 'shared/constants/stringConstantsSelectors';
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { DevInfo } from 'components/footer/devInfo';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { EXTERNAL_LINKS } from 'shared/constants/externalLinks';
+import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { FOOTER } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
+
+const { SOCIAL_MEDIA } = IMAGE_PATHS;
 
 export const Footer = () => {
     const classes = useStyles();
     const arrowIcon = <ArrowForwardIosIcon fontSize='small' className={classes.icons}/>;
+
+    const buildLinks = (route, text) => {
+        return <Link to={route} className={classes.links}>
+            {text}
+            {arrowIcon}
+        </Link>;
+    };
+
+    const buildSocialMediaIcon = (link, image, alt) => {
+        return <a href={link}>
+            <img src={image} alt={alt} className={classes.socialMediaIcons}/>
+        </a>;
+    };
+
     return (
-        <Container component='main' maxWidth='xl' className={classes.footer}>
+        <div className={classes.footer}>
             <Grid container spacing={1} >
                 <Grid item xs={12} className={classes.flex}>
-                    <Link to={ROUTE_CONSTANTS.ABOUT_ME} className={classes.links}>
-                        {FOOTER.ABOUT_ME}
-                        {arrowIcon}
-                    </Link>
-                    <Link to={ROUTE_CONSTANTS.HOW_TO} className={classes.links}>
-                        {FOOTER.HOW_TO}
-                        {arrowIcon}
-                    </Link>
-                    <Link to={ROUTE_CONSTANTS.FUTURE_PLANS} className={classes.links}>
-                        {FOOTER.FUTURE_PLANS}
-                        {arrowIcon}
-                    </Link>
-                    <Link to={ROUTE_CONSTANTS.TOS} className={classes.links}>
-                        {FOOTER.TOS}
-                        {arrowIcon}
-                    </Link>
-                    <Link to={ROUTE_CONSTANTS.CONTACT_ME} className={classes.links}>
-                        {FOOTER.CONTACT}
-                        {arrowIcon}
-                    </Link>
+                    {buildLinks(ROUTE_CONSTANTS.ABOUT_ME, FOOTER.ABOUT_ME)}
+                    {buildLinks(ROUTE_CONSTANTS.HOW_TO, FOOTER.HOW_TO)}
+                    {buildLinks(ROUTE_CONSTANTS.FUTURE_PLANS, FOOTER.FUTURE_PLANS)}
+                    {buildLinks(ROUTE_CONSTANTS.TOS, FOOTER.TOS)}
+                    {buildLinks(ROUTE_CONSTANTS.CONTACT_ME, FOOTER.CONTACT)}
+                    <div>
+                        {buildSocialMediaIcon(EXTERNAL_LINKS.FACEBOOK, SOCIAL_MEDIA.FACEBOOK, 'facebook')}
+                        {buildSocialMediaIcon(EXTERNAL_LINKS.INSTAGRAM, SOCIAL_MEDIA.INSTAGRAM, 'instagram')}
+                        {buildSocialMediaIcon(EXTERNAL_LINKS.TWITTER, SOCIAL_MEDIA.TWITTER, 'twitter')}
+                    </div>
                 </Grid>
             </Grid>
-        </Container>
+            <DevInfo />
+        </div>
     );
 };
 
 const useStyles = makeStyles(theme => ({
     footer: {
         marginTop: theme.spacing(12),
+        backgroundColor: Color.white(),
+        paddingBottom: theme.spacing(10),
+        width: '100%',
         [theme.breakpoints.down('sm')]: {
             borderTop: '0px',
             paddingBottom: theme.spacing(5),
         },
         [theme.breakpoints.up('md')]: {
             borderTop: '1px solid #696969',
+            paddingTop: theme.spacing(2),
         },
     },
     flex: {
@@ -91,5 +104,10 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('md')]: {
             borderTop: '0px',
         },
+    },
+    socialMediaIcons: {
+        width: 35, 
+        height: 35,
+        paddingRight: theme.spacing(1),
     },
 }));

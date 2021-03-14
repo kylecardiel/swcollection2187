@@ -10,8 +10,6 @@ import React, { useContext } from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
-import { isProduction } from 'shared/util/environment';
-import packageJson from '../../../package.json';
 
 const { HOME_PAGE: { CATALOG_CARDS } } = IMAGE_PATHS;
 
@@ -47,29 +45,25 @@ export const Homepage = () => {
 
     const introParagraph = HOME_PAGE.INTRO_PARAGRAPH_GENERIC;
 
-    const devSection = !isProduction && 
-        <Grid item xs={12} container direction='row' justify='flex-start' alignItems='center' spacing={1} className={classes.version}>
-            {`Development ENV & on Version: ${packageJson.version}`}
-        </Grid>;
-
     return (
-        <Container component='main' maxWidth='xl'>
-            <div className={classes.root}>
-                <Grid container spacing={1} className={classes.container}>
-                    <Grid item xs={12} className={classes.title}>
-                        <h1>{HOME_PAGE.TAG_LINE}</h1>
-                        <section>
-                            <h3>{HOME_PAGE.WELCOME}</h3>
-                            <p>{introParagraph}</p>
-                        </section>
+        <>
+            <Container component='main' maxWidth='xl'>
+                <div className={classes.root}>
+                    <Grid container spacing={1} className={classes.container}>
+                        <Grid item xs={12} className={classes.title}>
+                            <h1>{HOME_PAGE.TAG_LINE}</h1>
+                            <section>
+                                <h3>{HOME_PAGE.WELCOME}</h3>
+                                <p>{introParagraph}</p>
+                            </section>
+                        </Grid>
+                        {notLoggedInCards}
+                        {loggedInCards}
                     </Grid>
-                    {notLoggedInCards}
-                    {loggedInCards}
-                    <Footer />
-                    {devSection}
-                </Grid>
-            </div>
-        </Container>
+                </div>
+            </Container>
+            <Footer />
+        </>
     );
 };
 
@@ -79,9 +73,6 @@ const useStyles = makeStyles(theme => ({
     },
     container:{
         marginTop: theme.spacing(.5),
-    },
-    version:{
-        marginTop: theme.spacing(5),
     },
 }));
 
