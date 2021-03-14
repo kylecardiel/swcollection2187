@@ -6,7 +6,6 @@ import packageJson from '../../../package.json';
 
 export const DevInfo = () => {
     const classes = useStyles();
-
     const devSection = !isProduction && 
     <Grid item xs={12} container direction='row' justify='flex-start' alignItems='center' spacing={1} className={classes.version}>
         {`Development ENV & on Version: ${packageJson.version}`}
@@ -20,6 +19,12 @@ export const DevInfo = () => {
 const useStyles = makeStyles(theme => ({
     version:{
         marginTop: theme.spacing(5),
-        marginLeft: theme.spacing(5),
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: theme.spacing(2),
+        },
+        [theme.breakpoints.up('md')]: {
+            marginLeft: theme.spacing(5),
+        },
+
     },
 }));

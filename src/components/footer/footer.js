@@ -1,4 +1,5 @@
 import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { DevInfo } from 'components/footer/devInfo';
@@ -30,23 +31,21 @@ export const Footer = () => {
     };
 
     return (
-        <div className={classes.footer}>
-            <Grid container spacing={1} >
-                <Grid item xs={12} className={classes.flex}>
-                    {buildLinks(ROUTE_CONSTANTS.ABOUT_ME, FOOTER.ABOUT_ME)}
-                    {buildLinks(ROUTE_CONSTANTS.HOW_TO, FOOTER.HOW_TO)}
-                    {buildLinks(ROUTE_CONSTANTS.FUTURE_PLANS, FOOTER.FUTURE_PLANS)}
-                    {buildLinks(ROUTE_CONSTANTS.TOS, FOOTER.TOS)}
-                    {buildLinks(ROUTE_CONSTANTS.CONTACT_ME, FOOTER.CONTACT)}
-                    <div>
-                        {buildSocialMediaIcon(EXTERNAL_LINKS.FACEBOOK, SOCIAL_MEDIA.FACEBOOK, 'facebook')}
-                        {buildSocialMediaIcon(EXTERNAL_LINKS.INSTAGRAM, SOCIAL_MEDIA.INSTAGRAM, 'instagram')}
-                        {buildSocialMediaIcon(EXTERNAL_LINKS.TWITTER, SOCIAL_MEDIA.TWITTER, 'twitter')}
-                    </div>
-                </Grid>
+        <Container component='main' maxWidth='xl' className={classes.footer}>
+            <Grid item xs={12} className={classes.flex}>
+                {buildLinks(ROUTE_CONSTANTS.ABOUT_ME, FOOTER.ABOUT_ME)}
+                {buildLinks(ROUTE_CONSTANTS.HOW_TO, FOOTER.HOW_TO)}
+                {buildLinks(ROUTE_CONSTANTS.FUTURE_PLANS, FOOTER.FUTURE_PLANS)}
+                {buildLinks(ROUTE_CONSTANTS.TOS, FOOTER.TOS)}
+                {buildLinks(ROUTE_CONSTANTS.CONTACT_ME, FOOTER.CONTACT)}
+                <div className={classes.socialMediaContainer}>
+                    {buildSocialMediaIcon(EXTERNAL_LINKS.FACEBOOK, SOCIAL_MEDIA.FACEBOOK, 'facebook')}
+                    {buildSocialMediaIcon(EXTERNAL_LINKS.INSTAGRAM, SOCIAL_MEDIA.INSTAGRAM, 'instagram')}
+                    {buildSocialMediaIcon(EXTERNAL_LINKS.TWITTER, SOCIAL_MEDIA.TWITTER, 'twitter')}
+                </div>
             </Grid>
             <DevInfo />
-        </div>
+        </Container>
     );
 };
 
@@ -55,9 +54,9 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(12),
         backgroundColor: Color.white(),
         paddingBottom: theme.spacing(10),
-        width: '100%',
         [theme.breakpoints.down('sm')]: {
             borderTop: '0px',
+            paddingTop: theme.spacing(-1),
             paddingBottom: theme.spacing(5),
         },
         [theme.breakpoints.up('md')]: {
@@ -93,7 +92,6 @@ const useStyles = makeStyles(theme => ({
         color: Color.black(),
         fontWeight: 'bold',
         '&:hover': {
-            textDecoration: 'underline',
             color: 'blue',
         },
         [theme.breakpoints.down('sm')]: {
@@ -103,6 +101,13 @@ const useStyles = makeStyles(theme => ({
         },
         [theme.breakpoints.up('md')]: {
             borderTop: '0px',
+        },
+    },
+    socialMediaContainer: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
         },
     },
     socialMediaIcons: {

@@ -61,8 +61,8 @@ export const Homepage = () => {
                         {loggedInCards}
                     </Grid>
                 </div>
+                <Footer />
             </Container>
-            <Footer />
         </>
     );
 };
