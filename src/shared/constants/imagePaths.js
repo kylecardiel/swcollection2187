@@ -14,6 +14,13 @@ export const IMAGE_PATHS = Object.freeze({
             STEP_2:  '/img/homepage/step2.png',
             STEP_3:  '/img/homepage/step3.png',
         },
+        ACTION_FIGURES: {
+            BLACK_SERIES: {
+                HEROES: 'img/homepage/actionFigures/blackSeries/heros.png',
+                TROOPERS: 'img/homepage/actionFigures/blackSeries/troopers.png',
+                VILLIANS: 'img/homepage/actionFigures/blackSeries/villians.png',
+            },
+        },
     },
     HOW_TO: {
         ADD_TO_HOME_SCREEN: {

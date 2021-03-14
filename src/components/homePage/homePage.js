@@ -10,6 +10,7 @@ import React, { useContext } from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
+import { BlackSeriesHomPageCard } from 'components/homePage/actionFigures/blackSeries/blackSeriesHomePageCard';
 
 const { HOME_PAGE: { CATALOG_CARDS } } = IMAGE_PATHS;
 
@@ -20,11 +21,7 @@ export const Homepage = () => {
     const notLoggedInCards = !loggedIn && <HowItWorks />;
 
     const blackSeriesCard = <Grid item xs={12} md={6}>
-        <MediaCard
-            cardText={HOME_PAGE.CARDS.BLACK_SERIES}
-            route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
-            imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
-        />
+        <BlackSeriesHomPageCard />
     </Grid>;
 
     const videoGameCard = <Grid item xs={12} md={6}>
