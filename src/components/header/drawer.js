@@ -105,10 +105,6 @@ const useStyles = makeStyles(theme => ({
         textDecoration: 'none',
         color: Color.black(),
         fontWeight: 'bold',
-        '&:hover': {
-            textDecoration: 'underline',
-            color: 'blue',
-        },
         borderTop: '1px solid #696969',
         padding: theme.spacing(2),
     },
