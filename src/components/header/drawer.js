@@ -1,7 +1,6 @@
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
@@ -18,7 +17,7 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HEADER_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 
-const { ADMIN, NAVIGATION, HOME, LOGIN, SIGN_UP, LOGOUT, PROFILE, VIDEO_GAMES, BS } = HEADER_BUTTONS;
+const { ADMIN, HOME, LOGIN, SIGN_UP, LOGOUT, PROFILE, VIDEO_GAMES, BS } = HEADER_BUTTONS;
 
 export const DrawerContainer = ({ loggedIn, logout }) => {
     const classes = useStyles();
@@ -63,9 +62,6 @@ export const DrawerContainer = ({ loggedIn, logout }) => {
 
     return (
         <Container component='main' maxWidth='xl' className={classes.footer}>
-            <Typography gutterBottom variant='h5' component='h2'>
-                {NAVIGATION}
-            </Typography>
             { loggedIn ? loggedInLinks : notLoggedInLinks }
         </Container>
     );
@@ -105,10 +101,6 @@ const useStyles = makeStyles(theme => ({
         textDecoration: 'none',
         color: Color.black(),
         fontWeight: 'bold',
-        '&:hover': {
-            textDecoration: 'underline',
-            color: 'blue',
-        },
         borderTop: '1px solid #696969',
         padding: theme.spacing(2),
     },
