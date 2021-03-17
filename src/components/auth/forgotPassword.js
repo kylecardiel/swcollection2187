@@ -49,9 +49,9 @@ export const ForgotPassword = () => {
     };
 
     return (
-        <Container component='main' maxWidth='xs'>
+        <Container component='main' maxWidth='md'>
             <CssBaseline />
-            <div className={classes.paper}>
+            <Container component='main' maxWidth='md' className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
@@ -93,7 +93,7 @@ export const ForgotPassword = () => {
                         </Grid>
                     </Grid>
                 </form>
-            </div>
+            </Container>
         </Container>
     );
 };

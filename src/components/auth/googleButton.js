@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         background: 'white',
         color: '#555555',
         height: 55,
+        maxWidth: 400,
         boxShadow: '1px 1px 1px grey',
         whiteSpace: 'nowrap',
         cursor: 'pointer',

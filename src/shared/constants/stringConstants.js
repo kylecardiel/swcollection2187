@@ -17,7 +17,6 @@ export const STRING_CONSTANTS = Object.freeze({
             SIGN_UP: 'Sign Up',
             LOG_IN: 'LogIn',
             FORGOT_PW: 'Forgot password?',
-            NO_ACCOUNT: 'Don\'t have an account? Sign Up',
             HAVE_ACCOUNT: 'Already have an account? Sign in',
             PASSWORD_DONT_MATCH: 'Passwords do not match',
             INVALID_EMAIL: 'Invalid Email Address',
@@ -25,7 +24,7 @@ export const STRING_CONSTANTS = Object.freeze({
             RESET_PASSWORD_LINK: 'Request Reset Link',
             BACK_TO_LOGIN: 'Back to Login?',
             DIVIDER: '─────────  or  ─────────',
-            DONT_HAVE_AN_ACCOUNT: 'Don\'t have an account? Sign Up',
+            DONT_HAVE_AN_ACCOUNT: 'Don‘t have an account?',
             HUMAN: 'Please verify you are a human',
             FIELD_LABELS: {
                 EMAIL: 'Email',
