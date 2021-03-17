@@ -42,17 +42,40 @@ export const Footer = () => {
 
 const useStyles = makeStyles(theme => ({
     footer: {
-        marginTop: theme.spacing(12),
         backgroundColor: Color.white(),
-        paddingBottom: theme.spacing(10),
+        paddingBottom: theme.spacing(2),
         [theme.breakpoints.down('sm')]: {
             borderTop: '0px',
             paddingTop: theme.spacing(-1),
             paddingBottom: theme.spacing(5),
+            marginTop: theme.spacing(10),
         },
         [theme.breakpoints.up('md')]: {
             borderTop: '1px solid #696969',
+            marginTop: theme.spacing(12),
             paddingTop: theme.spacing(2),
+            // position:'absolute',
+            // left:0,
+            // bottom:0,
+            // right:0,
+        },
+        [theme.breakpoints.up('lg')]: {
+            borderTop: '1px solid #696969',
+            marginTop: theme.spacing(18),
+            paddingTop: theme.spacing(2),
+            // position:'absolute',
+            // left:0,
+            // bottom:0,
+            // right:0,
+        },
+        [theme.breakpoints.up('xl')]: {
+            borderTop: '1px solid #696969',
+            marginTop: theme.spacing(25),
+            paddingTop: theme.spacing(2),
+            // position:'absolute',
+            // left:0,
+            // bottom:0,
+            // right:0,
         },
     },
     flex: {
@@ -82,9 +105,6 @@ const useStyles = makeStyles(theme => ({
         textDecoration: 'none',
         color: Color.black(),
         fontWeight: 'bold',
-        '&:hover': {
-            color: 'blue',
-        },
         [theme.breakpoints.down('sm')]: {
             borderTop: '1px solid #696969',
             justifyContent: 'space-between',
