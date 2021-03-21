@@ -74,7 +74,6 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const [groupsSelected, setGroupsSelected] = useState(defaultGroups);
 
     const [looseFigureImageFile, setLooseFigureImageFile] = useState(null);
-    const [looseBlackFigureImageFile, setBlackLooseFigureImageFile] = useState(null);
     const [newFigureImageFile, setNewFigureImageFile] = useState(null);
 
     const [submitDisabled, setSubmitDisabled] = useState(false);
@@ -84,10 +83,6 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     const handleLooseImageChange = e => {
         if (e.target.files[0]) setLooseFigureImageFile(e.target.files[0]);
-    };
-
-    const handleBlacLoosekImageChange = e => {
-        if (e.target.files[0]) setBlackLooseFigureImageFile(e.target.files[0]);
     };
 
     const handleNewImageChange = e => {
@@ -100,7 +95,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const buildUploadedImagePath = name => {
+    const buildUploadedImagePath = (name, assortment) => {
         return `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${name}`;
     };
 
@@ -117,9 +112,8 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
             CatalogApi.update(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible, figure.id);
 
         } else {
-            if(looseFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseFigureImageFile.name), looseFigureImageFile, setPercentage);
-            if(looseBlackFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseBlackFigureImageFile.name), looseBlackFigureImageFile, setPercentage);
-            if(newFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name), newFigureImageFile, setPercentage);
+            if(looseFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseFigureImageFile.name, collectible.assortment), looseFigureImageFile, setPercentage);
+            if(newFigureImageFile) collectible.newImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name, collectible.assortment), newFigureImageFile, setPercentage);
     
             collectible.groups = groupsSelected;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
@@ -255,11 +249,10 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     const groupSelectInput = groupSelect();
 
-    let looseImageInput, looseBlackImageInput, newImageInput;
+    let looseImageInput, newImageInput;
 
     if(!figure) {
         looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
-        looseBlackImageInput = generatorImageInput(LABELS.LOOSE_BLACK_IMAGE.KEY, handleBlacLoosekImageChange);
         newImageInput = generatorImageInput(LABELS.NIB_IMAGE.KEY, handleNewImageChange);
     }
 
@@ -297,7 +290,6 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
                         {groupSelectInput}
 
                         {looseImageInput}
-                        {looseBlackImageInput}
                         {newImageInput}
                         <Grid item xs={12} className={classes.submitButtonrow}>
                             <Button
