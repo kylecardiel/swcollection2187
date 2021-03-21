@@ -11,7 +11,7 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import { slugify } from 'shared/util/stringUtil';
 
-export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name, similarFigures, sourceMaterial }) => {
+export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name, similarFigures, sourceMaterial, sourceType }) => {
     const classes = useStyles();
 
     const generateDetail = (label, value) => {
@@ -86,6 +86,7 @@ export const CharacterDetailCard = ({ groups, multipack, multipackFigures, name,
                     {BS_DETAILS_LABEL.CHARACTER_DETAILS_HEADER}
                 </Typography>
                 {generateDetail(BS_DETAILS_LABEL.SOURCE, sourceMaterial)}
+                {generateDetail(BS_DETAILS_LABEL.SOURCE_TYPE, sourceType)}
                 {generateDetail('Groups', groups.length)}
                 {groups.length > 0 && generateGroupDetail()}
                 {generateDetail(BS_DETAILS_LABEL.MORE_SIMILAR_FIGURE(name), similarFigures.length)}
@@ -117,4 +118,5 @@ CharacterDetailCard.propTypes = {
     name: PropTypes.string.isRequired,
     similarFigures: PropTypes.array,
     sourceMaterial: PropTypes.string.isRequired,
+    sourceType: PropTypes.string.isRequired,
 };

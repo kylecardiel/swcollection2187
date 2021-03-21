@@ -90,6 +90,7 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
         name={figure.name}
         similarFigures={similarFigures}
         sourceMaterial={figure.sourceMaterial}
+        sourceType={figure.sourceType}
     />;
 
     const collectorDetails = <CollectorDetailCard
