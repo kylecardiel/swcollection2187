@@ -7,6 +7,8 @@ import { getVideoGameCatalogList } from 'store/dataSet/dataSetSelector';
 import { getUserVideoGames } from 'store/firebase/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
+import { usersData } from 'shared/fixtures/userData';
+import { isProduction } from 'shared/util/environment';
 
 export const VideoGameDetailsConnect = ({ videoGameId }) => {
     return ( 
@@ -18,7 +20,12 @@ export const mapStateToProps = state => ({
     catalogList: getVideoGameCatalogList(state),
     helperData: getHelperDataSet(state),
     screenSize: getScreenSize(state),
-    userList: RecordUtils.convertDBNestedObjectsToArrayOfObjects(getUserVideoGames(state), 'ownedId'),
+    userList: RecordUtils.convertDBNestedObjectsToArrayOfObjects(
+        isProduction 
+            ? getUserVideoGames(state) 
+            : usersData.VideoGames, 
+        'ownedId',
+    ),
 });
 
 export default connect(mapStateToProps)(VideoGameDetails);

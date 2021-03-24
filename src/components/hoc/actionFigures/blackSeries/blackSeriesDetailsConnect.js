@@ -2,6 +2,8 @@ import { BlackSeriesDetails } from 'components/catalog/actionFigures/blackSeries
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { usersData } from 'shared/fixtures/userData';
+import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { getActionFigureCatalogList } from 'store/dataSet/dataSetSelector';
 import { getUserActionFiguresBlackSeries6 } from 'store/firebase/dataSetSelector';
@@ -20,7 +22,12 @@ export const mapStateToProps = state => ({
     helperData: getHelperDataSet(state),
     screenSize: getScreenSize(state),
     sourceMaterials: getSourceMaterial(state).values,
-    userList: RecordUtils.convertDBNestedObjectsToArrayOfObjects(getUserActionFiguresBlackSeries6(state), 'ownedId'),
+    userList: RecordUtils.convertDBNestedObjectsToArrayOfObjects(
+        isProduction 
+            ? getUserActionFiguresBlackSeries6(state) 
+            : usersData.ActionFigures.BlackSeries6, 
+        'ownedId',
+    ),
 });
 
 export default connect(mapStateToProps)(BlackSeriesDetails);

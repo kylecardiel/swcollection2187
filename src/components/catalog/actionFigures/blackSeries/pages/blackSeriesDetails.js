@@ -94,10 +94,14 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
     />;
 
     const collectorDetails = <CollectorDetailCard
+        averageBuyPriceInput={figure.averageBuyPrice}
         looseCompleteQtyInput={figure.looseCompleteQty}
         looseIncompleteQtyInput={figure.looseIncompleteQty}
         newInBoxQtyInput={figure.newInBoxQty}
         ownedId={figure.ownedId}
+        preorderedInput={figure.preordered}
+        sellableInput={figure.sellable}
+        tradeableInput={figure.tradeable}
         userId={id}
     />;
 
