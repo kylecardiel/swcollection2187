@@ -99,6 +99,9 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
         looseIncompleteQtyInput={figure.looseIncompleteQty}
         newInBoxQtyInput={figure.newInBoxQty}
         ownedId={figure.ownedId}
+        preorderedInput={figure.preordered}
+        sellableInput={figure.sellable}
+        tradeableInput={figure.tradeable}
         userId={id}
     />;
 

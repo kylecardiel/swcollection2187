@@ -24,6 +24,9 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
             looseIncompleteQty: 0,
             newInBoxQty: 1,
             averageBuyPrice: 0,
+            preordered: false,
+            sellable: false,
+            tradeable: false,
         };
         setOwnedVG(!ownedVG);
         UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile);

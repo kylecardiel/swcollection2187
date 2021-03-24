@@ -17,8 +17,10 @@ import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { DateUtils } from 'shared/util/dateUtil';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { IOSSwitch } from 'components/common/switcher/iOSSwitch';
 
-export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyInput, newInBoxQtyInput, ownedId, userId, averageBuyPriceInput }) => {
+export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyInput, newInBoxQtyInput, ownedId, userId, averageBuyPriceInput, preorderedInput, sellableInput, tradeableInput }) => {
     const [newInBoxQty, setNewInBoxQty] = useState(newInBoxQtyInput);
     const [looseCompleteQty, setLooseCompleteQty] = useState(looseCompleteQtyInput);
     const [looseIncompleteQty, setLooseIncompleteQty] = useState(looseIncompleteQtyInput);
@@ -26,13 +28,15 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
     const defaultAverageBuyPriceInput = averageBuyPriceInput ? averageBuyPriceInput : 0;
     const [averageBuyPrice, setAverageBuyPrice] = useState(defaultAverageBuyPriceInput);
 
-    // const [tradeSell, setTradeSell] = useState(tradeSellInput ? tradeSellInput : '');
+    const [preordered, setPreordered] = useState(preorderedInput ? preorderedInput : false);
+    const [tradeable, setTradeable] = useState(tradeableInput ? tradeableInput :false);
+    const [sellable, setSellable] = useState(sellableInput ? sellableInput : false);
 
     const classes = useStyles();
     const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
 
     const changeQty = (e, specificQty) => {
-        const updateQty = e.target.value;
+        let updateQty = e.target.value;
         switch (specificQty) {
         case 'newInBoxQty':
             setNewInBoxQty(updateQty);
@@ -45,7 +49,18 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
             break;
         case 'averageBuyPrice':
             setAverageBuyPrice(updateQty);
-            console.log(updateQty);
+            break;
+        case 'preordered':
+            updateQty = !preordered;
+            setPreordered(!preordered);
+            break;
+        case 'tradeable':
+            updateQty = !tradeable;
+            setTradeable(!tradeable);
+            break;
+        case 'sellable':
+            updateQty = !sellable;
+            setSellable(!sellable);
             break;
         default:
             break;
@@ -77,18 +92,30 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
     };
 
 
-    const averageBuyPriceForm = <FormControl fullWidth className={classes.averageBuyPriceForm} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-amount">{BS_DETAILS_LABEL.AVERAGE_BUY_PRICE}</InputLabel>
-        <OutlinedInput
-            classes={{ input: classes.averageBuyPriceInput }}
-            id="outlined-adornment-amount"
-            value={averageBuyPrice}
-            onChange={e => changeQty(e, 'averageBuyPrice')}
-            startAdornment={<InputAdornment position="start">$</InputAdornment>}
-            labelWidth={120}
-            type={'number'}
-        />
-    </FormControl>;
+    const averageBuyPriceForm = <Grid container justify='center'>
+        <FormControl fullWidth className={classes.averageBuyPriceForm} variant='outlined'>
+            <InputLabel htmlFor='outlined-adornment-amount'>{BS_DETAILS_LABEL.AVERAGE_BUY_PRICE}</InputLabel>
+            <OutlinedInput
+                classes={{ input: classes.averageBuyPriceInput }}
+                id='outlined-adornment-amount'
+                value={averageBuyPrice}
+                onChange={e => changeQty(e, 'averageBuyPrice')}
+                startAdornment={<InputAdornment position='start'>$</InputAdornment>}
+                labelWidth={105}
+                type={'number'}
+            />
+        </FormControl>
+    </Grid>;
+    
+    const generateSwitch = (label, changeValue, initialValue) => {
+        return <Grid container justify='flex-start'>
+            <FormControlLabel
+                className={classes.switcher}
+                control={<IOSSwitch checked={initialValue} onChange={e => changeQty(e, changeValue)} name={changeValue} />}
+                label={label}
+            />
+        </Grid>;
+    };
 
     return (
         <Card className={classes.card}>
@@ -108,6 +135,17 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
                     </Typography>
                 </div>
                 <Divider />
+                <div className={classes.detailRow}>
+                    <Typography variant='body2' color='textSecondary' component='span'>
+                        {BS_DETAILS_LABEL.TOTAL_INVESTED}
+                    </Typography>
+                    <Typography variant='body2' component='span'>
+                        <Box fontWeight='fontWeightBold'>
+                            {`$${totalOwned * averageBuyPrice}`}
+                        </Box>
+                    </Typography>
+                </div>
+                <Divider />
                 <Grid container spacing={1} direction='row' justify='space-around'  className={classes.outerContainer}>
                     <Grid className={classes.innerContainer}>
                         {formQuantityInputs(BS_DETAILS_LABEL.NEW_IN_BOX_QUANTITY, 'newInBoxQty', newInBoxQty)}
@@ -116,6 +154,9 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
                     </Grid>
                     <Grid className={classes.innerContainer}>
                         {averageBuyPriceForm}
+                        {generateSwitch(BS_DETAILS_LABEL.PREORDER, 'preordered', preordered)}
+                        {generateSwitch(BS_DETAILS_LABEL.SELLABLE, 'sellable', sellable)}
+                        {generateSwitch(BS_DETAILS_LABEL.TRADEABLE, 'tradeable', tradeable)}
                     </Grid>
                 </Grid>
             </CardContent>
@@ -144,7 +185,7 @@ const useStyles = makeStyles((theme) => ({
     },
     averageBuyPriceForm:{
         marginTop: theme.spacing(1),
-        minWidth: 225,
+        width: 225,
         backgroundColor: Color.white(),
     },
     averageBuyPriceInput: {
@@ -160,6 +201,13 @@ const useStyles = makeStyles((theme) => ({
             margin: 0,
         },
     },
+    switcher: {
+        marginTop: theme.spacing(1),
+        marginLeft: theme.spacing(3),
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: theme.spacing(1),
+        },
+    },
 }));
 
 CollectorDetailCard.propTypes = {
@@ -168,7 +216,8 @@ CollectorDetailCard.propTypes = {
     looseIncompleteQtyInput: PropTypes.number,
     newInBoxQtyInput: PropTypes.number,
     ownedId: PropTypes.string,
+    preorderedInput: PropTypes.bool,
+    sellableInput: PropTypes.bool,
+    tradeableInput: PropTypes.bool,
     userId: PropTypes.string.isRequired,
-    tradeSellInput: PropTypes.string,
 };
-
