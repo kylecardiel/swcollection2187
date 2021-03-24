@@ -4,11 +4,23 @@ import { aboutMe } from 'store/aboutMe/aboutMeDataSetReducer';
 import { dataSet } from 'store/dataSet/dataSetReducer';
 import { helperDataSet } from 'store/helperData/helperDataSetReducer';
 import { screenSize } from 'store/screenSize/screenSizeReducer';
+import { isProduction } from 'shared/util/environment';
 
-export const appReducer = combineReducers({
-    firebase: firebaseReducer,
-    aboutMe,
-    dataSet,
-    helperDataSet,
-    screenSize,
-});
+const determineReducers = () => {
+    const reducers = {
+        aboutMe,
+        dataSet,
+        helperDataSet,
+        screenSize,
+    };
+
+    if(isProduction){
+        reducers['firebase'] = firebaseReducer;
+    }
+
+    return reducers;
+};
+
+export const appReducer = combineReducers(determineReducers());
+
+
