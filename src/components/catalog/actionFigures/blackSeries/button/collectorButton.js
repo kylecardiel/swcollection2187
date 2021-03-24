@@ -23,7 +23,7 @@ export const CollectorButton = ({ card, figureId, ownedId, recordOwned, smallFig
             looseCompleteQty: 0,
             looseIncompleteQty: 0,
             newInBoxQty: 1,
-            purchasePrice: 0,
+            averageBuyPrice: 0,
         };
         setOwnedVG(!ownedVG);
         UserApi.create(id, FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, newCollectile);
