@@ -1,4 +1,3 @@
-
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import React from 'react';
@@ -21,7 +20,7 @@ export const IOSSwitch = props => {
     );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         width: 42,
         height: 26,
@@ -50,8 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
     track: {
         borderRadius: 26 / 2,
-        border: `1px solid ${theme.palette.grey[400]}`,
-        backgroundColor: theme.palette.grey[50],
+        backgroundColor: theme.palette.grey[300],
         opacity: 1,
         transition: theme.transitions.create(['background-color', 'border']),
     },

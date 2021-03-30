@@ -21,46 +21,57 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { IOSSwitch } from 'components/common/switcher/iOSSwitch';
 
 export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyInput, newInBoxQtyInput, ownedId, userId, averageBuyPriceInput, preorderedInput, sellableInput, tradeableInput }) => {
-    const [newInBoxQty, setNewInBoxQty] = useState(newInBoxQtyInput);
-    const [looseCompleteQty, setLooseCompleteQty] = useState(looseCompleteQtyInput);
-    const [looseIncompleteQty, setLooseIncompleteQty] = useState(looseIncompleteQtyInput);
-    
+
+    const [qtyValues, setQtyValues] = useState({
+        newInBoxQty: newInBoxQtyInput,
+        looseCompleteQty: looseCompleteQtyInput,
+        looseIncompleteQty: looseIncompleteQtyInput,
+    });
+
+    const handleQtyValues = (qtyChange, qty) => {
+        setQtyValues({ ...qtyValues, [qtyChange]: qty });
+    };
+
     const defaultAverageBuyPriceInput = averageBuyPriceInput ? averageBuyPriceInput : 0;
     const [averageBuyPrice, setAverageBuyPrice] = useState(defaultAverageBuyPriceInput);
 
-    const [preordered, setPreordered] = useState(preorderedInput ? preorderedInput : false);
-    const [tradeable, setTradeable] = useState(tradeableInput ? tradeableInput :false);
-    const [sellable, setSellable] = useState(sellableInput ? sellableInput : false);
+    const [collectorSwitches, setCollectorSwitches] = useState({
+        preordered: preorderedInput ? preorderedInput : false,
+        tradeable: tradeableInput ? tradeableInput :false,
+        sellable: sellableInput ? sellableInput : false,
+    });
+
+    const handleCollectorSwitches = switchChange => {
+        setCollectorSwitches({ ...collectorSwitches, [switchChange]: !collectorSwitches[switchChange] });
+    };
 
     const classes = useStyles();
-    const totalOwned = newInBoxQty + looseCompleteQty + looseIncompleteQty;
+    const totalOwned = qtyValues.newInBoxQty + qtyValues.looseCompleteQty + qtyValues.looseIncompleteQty;
+
+    const newInBoxQty = 'newInBoxQty';
+    const looseCompleteQty = 'looseCompleteQty';
+    const looseIncompleteQty = 'looseIncompleteQty';
 
     const changeQty = (e, specificQty) => {
         let updateQty = e.target.value;
         switch (specificQty) {
-        case 'newInBoxQty':
-            setNewInBoxQty(updateQty);
+        case newInBoxQty:
+            handleQtyValues(newInBoxQty, updateQty);
             break;
-        case 'looseCompleteQty':
-            setLooseCompleteQty(updateQty);
+        case looseCompleteQty:
+            handleQtyValues(looseCompleteQty, updateQty);
             break;
-        case 'looseIncompleteQty':
-            setLooseIncompleteQty(updateQty);
+        case looseIncompleteQty:
+            handleQtyValues(looseIncompleteQty, updateQty);
             break;
         case 'averageBuyPrice':
             setAverageBuyPrice(updateQty);
             break;
         case 'preordered':
-            updateQty = !preordered;
-            setPreordered(!preordered);
-            break;
         case 'tradeable':
-            updateQty = !tradeable;
-            setTradeable(!tradeable);
-            break;
         case 'sellable':
-            updateQty = !sellable;
-            setSellable(!sellable);
+            updateQty = !collectorSwitches[specificQty];
+            handleCollectorSwitches(specificQty);
             break;
         default:
             break;
@@ -117,6 +128,8 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
         </Grid>;
     };
 
+    const totalInvested = `$${Math.round(totalOwned * averageBuyPrice * 100) / 100}`;
+
     return (
         <Card className={classes.card}>
             <CardContent>
@@ -141,22 +154,22 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
                     </Typography>
                     <Typography variant='body2' component='span'>
                         <Box fontWeight='fontWeightBold'>
-                            {`$${totalOwned * averageBuyPrice}`}
+                            {totalInvested}
                         </Box>
                     </Typography>
                 </div>
                 <Divider />
                 <Grid container spacing={1} direction='row' justify='space-around'  className={classes.outerContainer}>
                     <Grid className={classes.innerContainer}>
-                        {formQuantityInputs(BS_DETAILS_LABEL.NEW_IN_BOX_QUANTITY, 'newInBoxQty', newInBoxQty)}
-                        {formQuantityInputs(BS_DETAILS_LABEL.OPEN_COMPLETE_QUANTITY, 'looseCompleteQty', looseCompleteQty)}
-                        {formQuantityInputs(BS_DETAILS_LABEL.OPEN_INCOMPLETE_QUANTITY, 'looseIncompleteQty', looseIncompleteQty)}
+                        {formQuantityInputs(BS_DETAILS_LABEL.NEW_IN_BOX_QUANTITY, newInBoxQty, qtyValues.newInBoxQty)}
+                        {formQuantityInputs(BS_DETAILS_LABEL.OPEN_COMPLETE_QUANTITY, looseCompleteQty, qtyValues.looseCompleteQty)}
+                        {formQuantityInputs(BS_DETAILS_LABEL.OPEN_INCOMPLETE_QUANTITY, looseIncompleteQty, qtyValues.looseIncompleteQty)}
                     </Grid>
                     <Grid className={classes.innerContainer}>
                         {averageBuyPriceForm}
-                        {generateSwitch(BS_DETAILS_LABEL.PREORDER, 'preordered', preordered)}
-                        {generateSwitch(BS_DETAILS_LABEL.SELLABLE, 'sellable', sellable)}
-                        {generateSwitch(BS_DETAILS_LABEL.TRADEABLE, 'tradeable', tradeable)}
+                        {generateSwitch(BS_DETAILS_LABEL.PREORDER, 'preordered', collectorSwitches.preordered)}
+                        {generateSwitch(BS_DETAILS_LABEL.SELLABLE, 'sellable', collectorSwitches.sellable)}
+                        {generateSwitch(BS_DETAILS_LABEL.TRADEABLE, 'tradeable', collectorSwitches.tradeable)}
                     </Grid>
                 </Grid>
             </CardContent>
