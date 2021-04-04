@@ -2,6 +2,7 @@
     "featureFlagsData" : {
         "googleSignin": true,
         "signUpPage" : true,
+        "retailCard": true,
         "videoGamesCollection": true
     }
 }

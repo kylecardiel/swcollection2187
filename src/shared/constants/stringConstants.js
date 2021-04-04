@@ -148,6 +148,7 @@ export const STRING_CONSTANTS = Object.freeze({
                     PACKAGE_TYPE: 'Package Type',
                     PREORDER: 'Preordered',
                     RELEASE_DETAILS_HEADER: 'Release Details',
+                    RETAILERS: 'Retailers',
                     RETAIL_PRICE: 'Retail Price',
                     SELLABLE: 'Sellable',
                     SOURCE: 'Source/First Apperance',

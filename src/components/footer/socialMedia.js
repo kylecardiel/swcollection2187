@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { EXTERNAL_LINKS } from 'shared/constants/externalLinks';
+import { SOCIAL_MEDIA_LINKS } from 'shared/constants/socialMediaLinks';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 
 const { SOCIAL_MEDIA } = IMAGE_PATHS;
@@ -15,9 +15,9 @@ export const SocialMedia = () => {
 
     return (
         <div className={classes.container}>
-            {buildSocialMediaIcon(EXTERNAL_LINKS.FACEBOOK, SOCIAL_MEDIA.FACEBOOK, 'facebook')}
-            {buildSocialMediaIcon(EXTERNAL_LINKS.INSTAGRAM, SOCIAL_MEDIA.INSTAGRAM, 'instagram')}
-            {buildSocialMediaIcon(EXTERNAL_LINKS.TWITTER, SOCIAL_MEDIA.TWITTER, 'twitter')}
+            {buildSocialMediaIcon(SOCIAL_MEDIA_LINKS.FACEBOOK, SOCIAL_MEDIA.FACEBOOK, 'facebook')}
+            {buildSocialMediaIcon(SOCIAL_MEDIA_LINKS.INSTAGRAM, SOCIAL_MEDIA.INSTAGRAM, 'instagram')}
+            {buildSocialMediaIcon(SOCIAL_MEDIA_LINKS.TWITTER, SOCIAL_MEDIA.TWITTER, 'twitter')}
         </div>
     );
 };

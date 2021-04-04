@@ -3,16 +3,18 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import { UserConsumer } from 'components/auth/authContext';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
-import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
 import { CollectorButton } from 'components/catalog/actionFigures/blackSeries/button/collectorButton';
 import { CharacterDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/characterDetailCard';
 import { CollectorDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/collectorDetailCard';
 import { ImageDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/imageDetailCard';
 import { ReleaseDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/releaseDetailCard';
+import { RetailDetailCard } from 'components/catalog/actionFigures/blackSeries/cards/retailDetailCard';
 import { assortmentBackgroundColor } from 'components/catalog/actionFigures/blackSeries/helpers/figureColors';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
+import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
+import { FeatureFlagConsumer } from 'context/featureFlagsContext';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
@@ -28,6 +30,8 @@ const { ACTION_FIGURES, HOME } = ROUTE_CONSTANTS;
 
 export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperData, screenSize, sourceMaterials, userList }) => {
     const { id, email } = useContext(UserConsumer);
+    const { retailCard } = useContext(FeatureFlagConsumer);
+
     const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
     const figure = singleList.filter(f => f.id === figureId)[0];
     const similarFigures = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => el.name === figure.name && el.id !== figure.id), 'year');
@@ -115,52 +119,64 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
         />
     </div>;
 
+    const retailDetails = <RetailDetailCard 
+        name={figure.name}
+        additionalNameDetails={figure.additionalNameDetails}
+        exclusiveRetailer={figure.exclusiveRetailer}
+    />;
+
+    const content = <div className={classes.root}>
+        <Grid container spacing={1} className={classes.container}>
+            <Grid item xs={12} className={classes.figureHeader}>
+                <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'} />
+            </Grid>
+        </Grid>
+        <Grid container spacing={1} className={classes.container}>
+            <Grid item md={4} xs={12}>
+                <ImageDetailCard
+                    looseImageUrl={figure.looseImageUrl}
+                    newImageUrl={figure.newImageUrl}
+                />
+                {!isMobile && retailCard && retailDetails}
+                {!isMobile &&
+                    <Grid container direction='row' justify='space-around'>
+                        {collectorButton}
+                        {authEditor && editFigureButton}
+                    </Grid>
+                }
+            </Grid>
+            <Grid item md={8} xs={12} >
+                {releaseDetails}
+                {!isMobile && characterDetails}
+                {!isMobile && !isModalOpen && figure.owned && collectorDetails}
+            </Grid>
+            <Grid item md={4} xs={12} >
+                {isMobile && characterDetails}
+            </Grid>
+            <Grid item md={4} xs={12} >
+                {isMobile && retailCard && retailDetails}
+            </Grid>
+            {isMobile && !isModalOpen && figure.owned &&
+                <Grid item md={4} xs={12} >
+                    {collectorDetails}
+                </Grid>
+            }
+        </Grid>
+        {isMobile &&
+            <Grid item xs={12} container direction='row' justify='space-around'>
+                {collectorButton}
+                {authEditor && editFigureButton}
+            </Grid>
+        }
+    </div>;
+
+    const dynamicContent = isMobile ? content : <Container component='main' maxWidth='xl'>{content}</Container>;
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={currentTitleBreadCrumbs} />
             <div className={classes.root}>
-                <Container component='main' maxWidth='xl'>
-                    <div className={classes.root}>
-                        <Grid container spacing={1} className={classes.container}>
-                            <Grid item xs={12} className={classes.figureHeader}>
-                                <FormHeaderSection text={headerText} textColor={'white'} backgroundColor={'black'} />
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={1} className={classes.container}>
-                            <Grid item md={4} xs={12}>
-                                <ImageDetailCard
-                                    looseImageUrl={figure.looseImageUrl}
-                                    newImageUrl={figure.newImageUrl}
-                                />
-                                {!isMobile &&
-                                    <Grid container direction='row' justify='space-around'>
-                                        {collectorButton}
-                                        {authEditor && editFigureButton}
-                                    </Grid>
-                                }
-                            </Grid>
-                            <Grid item md={8} xs={12} >
-                                {releaseDetails}
-                                {!isMobile && characterDetails}
-                                {!isMobile && !isModalOpen && figure.owned && collectorDetails}
-                            </Grid>
-                            <Grid item md={4} xs={12} >
-                                {isMobile && characterDetails}
-                            </Grid>
-                            {isMobile && !isModalOpen && figure.owned &&
-                                <Grid item md={4} xs={12} >
-                                    {collectorDetails}
-                                </Grid>
-                            }
-                        </Grid>
-                        {isMobile &&
-                            <Grid item xs={12} container direction='row' justify='space-around'>
-                                {collectorButton}
-                                {authEditor && editFigureButton}
-                            </Grid>
-                        }
-                    </div>
-                </Container>
+                {dynamicContent}
                 <Modal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
@@ -183,7 +199,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     figureHeader: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(2),
     },
     container: {
         display: 'flex',
