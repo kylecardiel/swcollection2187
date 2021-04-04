@@ -106,39 +106,41 @@ export const VideoGameDetails = ({ catalogList, helperData, videoGameId, screenS
         />
     </div>;
 
+    const content = <div className={classes.root}>
+        <Grid container spacing={1} className={classes.container}>
+            <Grid item xs={12} className={classes.figureHeader}>
+                <FormHeaderSection text={videoGame.name} textColor={'white'} backgroundColor={'black'} />
+            </Grid>
+        </Grid>
+        <Grid container spacing={1} className={classes.container}>
+            <Grid item md={4} xs={12}>
+                {imageDetailCard}
+                {!isMobile &&
+                <Grid container direction='row' justify='space-around'>
+                    {collectorButton}
+                    {authEditor && editFigureButton}
+                </Grid>
+                }
+            </Grid>
+            <Grid item md={8} xs={12} >
+                {releaseDetailCard}
+            </Grid>
+        </Grid>
+        {isMobile &&
+        <Grid item xs={12} container direction='row' justify='space-around'>
+            {collectorButton}
+            {authEditor && editFigureButton}
+        </Grid>
+        }
+    </div>;
+
+    const dynamicContent = isMobile ? content : <Container component='main' maxWidth='xl'>{content}</Container>;
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={videoGame.name} />
             <div className={classes.root}>
-                <Container component='main' maxWidth='xl'>
-                    <div className={classes.root}>
-                        <Grid container spacing={1} className={classes.container}>
-                            <Grid item xs={12} className={classes.figureHeader}>
-                                <FormHeaderSection text={videoGame.name} textColor={'white'} backgroundColor={'black'} />
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={1} className={classes.container}>
-                            <Grid item md={4} xs={12}>
-                                {imageDetailCard}
-                                {!isMobile &&
-                                    <Grid container direction='row' justify='space-around'>
-                                        {collectorButton}
-                                        {authEditor && editFigureButton}
-                                    </Grid>
-                                }
-                            </Grid>
-                            <Grid item md={8} xs={12} >
-                                {releaseDetailCard}
-                            </Grid>
-                        </Grid>
-                        {isMobile &&
-                            <Grid item xs={12} container direction='row' justify='space-around'>
-                                {collectorButton}
-                                {authEditor && editFigureButton}
-                            </Grid>
-                        }
-                    </div>
-                </Container>
+                {dynamicContent}
                 <Modal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
