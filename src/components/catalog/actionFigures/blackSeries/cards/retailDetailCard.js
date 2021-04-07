@@ -2,33 +2,38 @@ import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { EXTERNAL_LINKS } from 'shared/constants/externalLinks';
-// import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
-import Grid from '@material-ui/core/Grid';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-
-const { 
-    AMAZON,
-    // BEST_BUY,
-    // DISNEY,
-    // DORKSIDE,
-    EBAY,
-    // GAMESTOP,
-    MERCARI,
-    TARGET,
-    // WALGREENS,
-    WALMART 
-} = EXTERNAL_LINKS;
 
 export const RetailDetailCard = ({ additionalNameDetails, name, exclusiveRetailer }) => {
     const classes = useStyles();
 
+    // TODO: 
+    //  - Ebay dynamic link
+    //  - If exclusiveRetailer = Online exclusive asign dorkside..
+
+    const retailers = [exclusiveRetailer, 'Amazon', 'Walmart'];
+    const exclusiveRetailerLinks = () => {
+        return <>
+            {Object.keys(EXTERNAL_LINKS).map(key => {
+                if(retailers.includes(EXTERNAL_LINKS[key].NAME) && !EXTERNAL_LINKS[key].RESELLER){
+                    const dynamicLink = buildLink(EXTERNAL_LINKS[key].SPACE_REPLACER).toLowerCase();
+                    return generateDetail(EXTERNAL_LINKS[key].NAME, EXTERNAL_LINKS[key].LINK(dynamicLink));
+                }
+                return null;
+            })
+
+            }
+        </>;
+    };
+
     const generateDetail = (label, link) => {
-        return <div className={classes.detailRow} >
+        return <div className={classes.detailRow} key={label}>
             <a href={link} target='_blank' rel='noopener noreferrer'>
                 <Typography variant='body2' color={'textSecondary'} component='span'>
                     <Box  >
@@ -44,40 +49,23 @@ export const RetailDetailCard = ({ additionalNameDetails, name, exclusiveRetaile
         return `${name.replace(' ', space)}${space}${additionalNameDetails.replace(' ', space)}`;
     };
 
-    const SPACE_REPLACER = '%20';
-    const SPACE_REPLACER_II = '+';
-    
-    const plusLink = buildLink(SPACE_REPLACER_II);
-    const percentLink = buildLink(SPACE_REPLACER);
-
     return (
         <Card className={classes.card}>
             <CardContent>
-                {/* <Typography gutterBottom variant='h5' component='h2'>
-                    {BS_DETAILS_LABEL.RETAILERS}
-                </Typography> */}
                 <Grid container spacing={1} className={classes.container}>
                     <Grid item xs={6} className={classes.retailContainer}>
                         <Typography gutterBottom variant='body1' component='span'>
                             {'Retailers'}
                         </Typography>
                         <Divider />
-                        {generateDetail(AMAZON.NAME, AMAZON.LINK(plusLink.toLowerCase()))}
-                        {/* {generateDetail(BEST_BUY.NAME, BEST_BUY.LINK)} */}
-                        {/* {generateDetail(DISNEY.NAME, DISNEY.LINK)} */}
-                        {/* {generateDetail(DORKSIDE.NAME, DORKSIDE.LINK)} */}
-                        {/* {generateDetail(GAMESTOP.NAME, GAMESTOP.LINK)} */}
-                        {generateDetail(TARGET.NAME, TARGET.LINK(plusLink.toLowerCase()))}
-                        {/* {generateDetail(WALGREENS.NAME, WALGREENS.LINK)} */}
-                        {generateDetail(WALMART.NAME, WALMART.LINK(percentLink.toLowerCase()))}
+                        {exclusiveRetailerLinks()}
                     </Grid>
                     <Grid item xs={6} className={classes.retailContainer}>
                         <Typography gutterBottom variant='body1' component='span'>
                             {'Resellers'}
                         </Typography>
                         <Divider />
-                        {generateDetail(EBAY.NAME, EBAY.LINK)}
-                        {generateDetail(MERCARI.NAME, MERCARI.LINK(percentLink.toLowerCase()))}
+                        {generateDetail(EXTERNAL_LINKS.MERCARI.NAME, EXTERNAL_LINKS.MERCARI.LINK(buildLink(EXTERNAL_LINKS.MERCARI.SPACE_REPLACER).toLowerCase()))}
                     </Grid>
                 </Grid>
             </CardContent>
@@ -95,6 +83,8 @@ const useStyles = makeStyles((theme) => ({
     detailRow: {
         display: 'flex',
         justifyContent: 'space-between',
+        paddingLeft: '20px',
+        paddingRight: '20px',
     },
 }));
 
