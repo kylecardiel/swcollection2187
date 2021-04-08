@@ -29,7 +29,7 @@ export const Footer = () => {
     </>;
 
     return (
-        <div component='main' maxWidth='xl' className={classes.footer}>
+        <div className={classes.footer}>
             <Grid item xs={12} className={classes.flex}>
                 {siteLinks}
                 <SocialMedia />
