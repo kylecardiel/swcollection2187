@@ -18,7 +18,7 @@ export const DevInfo = () => {
 
 const useStyles = makeStyles(theme => ({
     version:{
-        marginTop: theme.spacing(5),
+        marginTop: theme.spacing(3),
         [theme.breakpoints.down('sm')]: {
             marginLeft: theme.spacing(2),
         },

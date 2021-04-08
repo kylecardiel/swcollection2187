@@ -8,7 +8,7 @@ const { SOCIAL_MEDIA } = IMAGE_PATHS;
 export const SocialMedia = () => {
     const classes = useStyles();
     const buildSocialMediaIcon = (link, image, alt) => {
-        return <a href={link}>
+        return <a href={link} target='_blank' rel='noopener noreferrer'>
             <img src={image} alt={alt} className={classes.icons}/>
         </a>;
     };

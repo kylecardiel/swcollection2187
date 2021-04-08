@@ -43,8 +43,6 @@ export const Homepage = () => {
         {videoGameCard}
     </>;
 
-    const introParagraph = HOME_PAGE.INTRO_PARAGRAPH_GENERIC;
-
     return (
         <>
             <Container component='main' maxWidth='xl'>
@@ -54,15 +52,15 @@ export const Homepage = () => {
                             <h1>{HOME_PAGE.TAG_LINE}</h1>
                             <section>
                                 <h3>{HOME_PAGE.WELCOME}</h3>
-                                <p>{introParagraph}</p>
+                                <p>{HOME_PAGE.INTRO_PARAGRAPH_GENERIC}</p>
                             </section>
                         </Grid>
                         {notLoggedInCards}
                         {loggedInCards}
                     </Grid>
                 </div>
-                <Footer />
             </Container>
+            <Footer />
         </>
     );
 };
