@@ -27,7 +27,7 @@ import { ROLES } from 'shared/constants/roleConstants';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HEADER_TITLE } from 'shared/constants/stringConstantsSelectors';
 
-const { ABOUT_ME, ACTION_FIGURES, CONTACT_ME, HOW_TO, FUTURE_PLANS, TOS, HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, VIDEO_GAMES, READ_CONTACT_ME, USER_PROFILE } = ROUTE_CONSTANTS;
+const { ABOUT_ME, ACTION_FIGURES, CONTACT_ME, HOW_TO, FUTURE_PLANS, TOS, HOME, LOGIN, SIGNUP, FORGOT_PASSWORD, ADMIN, VIDEO_GAMES, VIDEO_GAME_NAME, READ_CONTACT_ME, USER_PROFILE } = ROUTE_CONSTANTS;
 
 export const Routes = ({ setScreenSizes }) => {  
     const { googleSignin, signUpPage } = useContext(FeatureFlagConsumer);
@@ -85,7 +85,7 @@ export const Routes = ({ setScreenSizes }) => {
                     />
                     <ProtectedRoute
                         exact
-                        path={`${ACTION_FIGURES.BLACK_SERIES}/:name`}
+                        path={ACTION_FIGURES.BLACK_SERIES_NAME}
                         redirectPath={LOGIN}
                         access={true}
                         userLoggedIn={loggedIn}
@@ -101,7 +101,7 @@ export const Routes = ({ setScreenSizes }) => {
                     />
                     <ProtectedRoute
                         exact
-                        path={`${VIDEO_GAMES}/:name`}
+                        path={VIDEO_GAME_NAME}
                         redirectPath={LOGIN}
                         access={true}
                         userLoggedIn={loggedIn}

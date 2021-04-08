@@ -17,9 +17,11 @@ export const ROUTE_CONSTANTS = Object.freeze({
     ACTION_FIGURES: {
         ALL: '/action-figures',
         BLACK_SERIES: '/action-figures/black-series',
+        BLACK_SERIES_NAME: '/action-figures/black-series/:name',
     },
     
     VIDEO_GAMES: '/video-games',
+    VIDEO_GAME_NAME: '/video-games/:name',
     
     USER_PROFILE: '/user-profile',
 });

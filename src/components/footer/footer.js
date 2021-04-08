@@ -1,5 +1,4 @@
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { DevInfo } from 'components/footer/devInfo';
@@ -30,13 +29,13 @@ export const Footer = () => {
     </>;
 
     return (
-        <Container component='main' maxWidth='xl' className={classes.footer}>
+        <div component='main' maxWidth='xl' className={classes.footer}>
             <Grid item xs={12} className={classes.flex}>
                 {siteLinks}
                 <SocialMedia />
             </Grid>
             <DevInfo />
-        </Container>
+        </div>
     );
 };
 
@@ -52,30 +51,12 @@ const useStyles = makeStyles(theme => ({
         },
         [theme.breakpoints.up('md')]: {
             borderTop: '1px solid #696969',
-            marginTop: theme.spacing(12),
-            paddingTop: theme.spacing(2),
-            // position:'absolute',
-            // left:0,
-            // bottom:0,
-            // right:0,
-        },
-        [theme.breakpoints.up('lg')]: {
-            borderTop: '1px solid #696969',
-            marginTop: theme.spacing(18),
-            paddingTop: theme.spacing(2),
-            // position:'absolute',
-            // left:0,
-            // bottom:0,
-            // right:0,
-        },
-        [theme.breakpoints.up('xl')]: {
-            borderTop: '1px solid #696969',
-            marginTop: theme.spacing(25),
-            paddingTop: theme.spacing(2),
-            // position:'absolute',
-            // left:0,
-            // bottom:0,
-            // right:0,
+            marginTop: '1rem',
+            padding: '1rem',
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            width: '100%',
         },
     },
     flex: {
