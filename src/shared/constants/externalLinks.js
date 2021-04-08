@@ -25,9 +25,9 @@ export const EXTERNAL_LINKS = Object.freeze({
     },
     EBAY: { 
         NAME: 'Ebay',
-        LINK: 'https://www.ebay.com/',
+        LINK: name => `https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1312&_nkw=star+wars+black+series+${name}&_sacat=0`,
         RESELLER: true,
-        SPACE_REPLACER: '',
+        SPACE_REPLACER: '+',
     },
     GAMESTOP: { 
         NAME: 'Gamestop',

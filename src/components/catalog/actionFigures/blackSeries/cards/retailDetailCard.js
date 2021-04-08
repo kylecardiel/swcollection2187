@@ -14,7 +14,6 @@ export const RetailDetailCard = ({ additionalNameDetails, name, exclusiveRetaile
     const classes = useStyles();
 
     // TODO: 
-    //  - Ebay dynamic link
     //  - If exclusiveRetailer = Online exclusive asign dorkside..
 
     const retailers = [exclusiveRetailer, 'Amazon', 'Walmart'];
@@ -66,6 +65,7 @@ export const RetailDetailCard = ({ additionalNameDetails, name, exclusiveRetaile
                         </Typography>
                         <Divider />
                         {generateDetail(EXTERNAL_LINKS.MERCARI.NAME, EXTERNAL_LINKS.MERCARI.LINK(buildLink(EXTERNAL_LINKS.MERCARI.SPACE_REPLACER).toLowerCase()))}
+                        {generateDetail(EXTERNAL_LINKS.EBAY.NAME, EXTERNAL_LINKS.EBAY.LINK(buildLink(EXTERNAL_LINKS.EBAY.SPACE_REPLACER).toLowerCase()))}
                     </Grid>
                 </Grid>
             </CardContent>
