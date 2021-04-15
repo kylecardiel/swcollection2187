@@ -56,6 +56,10 @@ export const STRING_CONSTANTS = Object.freeze({
                     TITLE: 'Black Series 6"',
                     BODY: 'View and add to your collection!',
                 },
+                VINTAGE_COLLECTION: {
+                    TITLE: 'Vintage Collection',
+                    BODY: 'View and add to your collection!',
+                },
                 VIDEO_GAMES: {
                     TITLE: 'Video Games',
                     BODY: 'View and add to your collection!',
