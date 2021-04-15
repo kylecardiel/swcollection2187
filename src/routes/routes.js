@@ -1,4 +1,3 @@
-import AboutMeConnect from 'components/hoc/aboutMeConnect';
 import Admin from 'components/admin/admin';
 import { UserConsumer } from 'components/auth/authContext';
 import { ForgotPassword } from 'components/auth/forgotPassword';
@@ -7,12 +6,14 @@ import { NoSignUp } from 'components/auth/noSignUp';
 import { SignUp } from 'components/auth/signUp';
 import { BlackSeries } from 'components/catalog/actionFigures/blackSeries/pages/blackSeries';
 import { BlackSeriesDetailsPage } from 'components/catalog/actionFigures/blackSeries/pages/blackSeriesDetailsPage';
+import { VintageCollection } from 'components/catalog/actionFigures/vintageCollection/pages/vintageCollection';
 import { VideoGameDetailsPage } from 'components/catalog/videoGames/pages/videoGameDetailsPage';
 import { VideoGamesPage } from 'components/catalog/videoGames/pages/videoGamesPage';
 import { ScreenSize } from 'components/common/screenSize';
 import { ContactMe } from 'components/contactMe/contactMe';
 import { FuturePlans } from 'components/futurePlans/futurePlans';
 import { Header } from 'components/header/header';
+import AboutMeConnect from 'components/hoc/aboutMeConnect';
 import HowToConnect from 'components/hoc/howToConnect';
 import ReadContactMeConnect from 'components/hoc/readContactMeConnect';
 import UserProfileConnect from 'components/hoc/userProfileConnect';
@@ -77,7 +78,7 @@ export const Routes = ({ setScreenSizes }) => {
                     />
                     <ProtectedRoute
                         exact
-                        path={`${ACTION_FIGURES.BLACK_SERIES}`}
+                        path={ACTION_FIGURES.BLACK_SERIES}
                         redirectPath={LOGIN}
                         access={true}
                         userLoggedIn={loggedIn}
@@ -98,6 +99,14 @@ export const Routes = ({ setScreenSizes }) => {
                         access={true}
                         userLoggedIn={loggedIn}
                         component={VideoGamesPage}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={ACTION_FIGURES.VINTAGE_COLLECTION}
+                        redirectPath={LOGIN}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={VintageCollection}
                     />
                     <ProtectedRoute
                         exact

@@ -19,7 +19,7 @@ export const Homepage = () => {
 
     const notLoggedInCards = !loggedIn && <HowItWorks />;
 
-    const blackSeriesCard = <Grid item xs={12} md={6}>
+    const blackSeriesCard = <Grid item xs={12} md={4}>
         <MediaCard
             cardText={HOME_PAGE.CARDS.BLACK_SERIES}
             route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
@@ -27,11 +27,19 @@ export const Homepage = () => {
         />
     </Grid>;
 
-    const videoGameCard = <Grid item xs={12} md={6}>
+    const videoGameCard = <Grid item xs={12} md={4}>
         <MediaCard
             cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
             route={ROUTE_CONSTANTS.VIDEO_GAMES}
             imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
+        />
+    </Grid>;
+
+    const vintageCollectionCard = <Grid item xs={12} md={4}>
+        <MediaCard
+            cardText={HOME_PAGE.CARDS.VINTAGE_COLLECTION}
+            route={ROUTE_CONSTANTS.ACTION_FIGURES.VINTAGE_COLLECTION}
+            imagePath={CATALOG_CARDS.VINTAGE_COLLECTION_LOGO}
         />
     </Grid>;
 
@@ -41,6 +49,7 @@ export const Homepage = () => {
         </Grid>
         {blackSeriesCard}
         {videoGameCard}
+        {vintageCollectionCard}
     </>;
 
     return (
