@@ -10,6 +10,7 @@ import React, { useContext } from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 
 const { HOME_PAGE: { CATALOG_CARDS } } = IMAGE_PATHS;
 
@@ -24,6 +25,8 @@ export const Homepage = () => {
             cardText={HOME_PAGE.CARDS.BLACK_SERIES}
             route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
             imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
+            tag={'Action Figures'}
+            tagColor={Color.yellow()}
         />
     </Grid>;
 
@@ -32,6 +35,8 @@ export const Homepage = () => {
             cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
             route={ROUTE_CONSTANTS.VIDEO_GAMES}
             imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
+            tag={'Media'}
+            tagColor={Color.blue()}
         />
     </Grid>;
 
@@ -40,6 +45,8 @@ export const Homepage = () => {
             cardText={HOME_PAGE.CARDS.VINTAGE_COLLECTION}
             route={ROUTE_CONSTANTS.ACTION_FIGURES.VINTAGE_COLLECTION}
             imagePath={CATALOG_CARDS.VINTAGE_COLLECTION_LOGO}
+            tag={'Action Figures'}
+            tagColor={Color.yellow()}
         />
     </Grid>;
 
