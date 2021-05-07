@@ -235,7 +235,7 @@ export const STRING_CONSTANTS = Object.freeze({
                 ADD: 'Add',
                 DISPLAY_TABLES: 'Display Tables',
                 HIDE_TABLES: 'Hide Tables',
-                NEW_BLACK_SERIES: 'New Black Series',
+                NEW_BLACK_SERIES: 'New BS/VC Figures',
                 NEW_VIDEO_GAME: 'New Video Game',
                 UPLOAD: 'Upload',
             },
@@ -244,6 +244,7 @@ export const STRING_CONSTANTS = Object.freeze({
             LABELS: {
                 ASSORTMENT: 'assortment',
                 DATA_TYPE: 'dataType',
+                SERIES: 'series',
             },
             NEW_COLLECTION_FORM: {
                 HEADER: 'Feed the Database!',

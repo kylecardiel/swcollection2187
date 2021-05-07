@@ -8,6 +8,7 @@ export const FB_DB_CONSTANTS = Object.freeze({
     ACTION_FIGURES: {
         ALL: 'ActionFigures/',
         BLACK_SERIES: 'ActionFigures/BlackSeries6/',
+        THE_VINTAGE_COLLECTION: 'ActionFigures/TheVintageCollection/',
     },
     CONTACT_ME: 'contactMe/',
     VIDEO_GAMES: 'VideoGames/',
