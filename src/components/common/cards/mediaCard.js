@@ -28,17 +28,14 @@ export const MediaCard = ({ route, imagePath, cardText, tag, tagColor }) => {
                         <Typography gutterBottom variant='h5' component='h2'>
                             {cardText.TITLE}
                         </Typography>
-                        <Typography variant='body2' color='textSecondary' component='p'>
-
-                            <Grid container direction='row' justify='space-between' spacing={1} >
-                                <Grid item xs={9} >
-                                    {cardText.BODY}
-                                </Grid>
-                                <Grid item xs={3} className={classes.tag}>
-                                    {tag}
-                                </Grid>
+                        <Grid container direction='row' justify='space-between' spacing={1} >
+                            <Grid item xs={9} >
+                                {cardText.BODY}
                             </Grid>
-                        </Typography>
+                            <Grid item xs={3} className={classes.tag}>
+                                {tag}
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </CardActionArea>
             </Card>

@@ -5,23 +5,23 @@ import {
     makeStyles,
     MenuItem,
     Select, TextField,
-    Typography,
+    Typography
 } from '@material-ui/core';
-import { Controller, useForm } from 'react-hook-form';
-import { GENERAL, NEW_COLLECTION_FORM } from 'shared/constants/stringConstantsSelectors';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { CatalogApi } from 'shared/api/catalogApi';
-import { Color } from 'shared/styles/color';
 import Container from '@material-ui/core/Container';
-import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import Grid from '@material-ui/core/Grid';
+import { UserConsumer } from 'components/auth/authContext';
+import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { ProgressBar } from 'components/common/progressBar';
 import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { CatalogApi } from 'shared/api/catalogApi';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
+import { GENERAL, NEW_COLLECTION_FORM } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { UserConsumer } from 'components/auth/authContext';
 import { uploadImageToStorage } from 'shared/util/upload';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
@@ -29,7 +29,7 @@ const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const classes = useStyles();
     const { email } = useContext(UserConsumer);
- 
+
     const setDefaults = () => {
         return figure 
             ? { defaultValues: figure } 
@@ -99,17 +99,29 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         return `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${name}`;
     };
 
+    const determineDatabasePath = series => {
+        switch (series) {
+        case 'Black Series 6"':
+            return FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES;
+        case 'The Vintage Collection':
+            return FB_DB_CONSTANTS.ACTION_FIGURES.THE_VINTAGE_COLLECTION;
+        default:
+            return FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES;
+        }
+    };
+
     const onSubmit = async collectible => {
         setSubmitDisabled(true);
         collectible.groups = groupsSelected;
+        const databasePath = determineDatabasePath(collectible.series);
         
         if(figure) {
             collectible.looseImageUrl = figure.looseImageUrl;
-            collectible.looseBlackImageUrl = figure.looseBlackImageUrl;
+            // collectible.looseBlackImageUrl = figure.looseBlackImageUrl;
             collectible.newImageUrl = figure.newImageUrl;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
             RecordUtils.updateLastModifiedAuditFields(collectible, email);
-            CatalogApi.update(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible, figure.id);
+            CatalogApi.update(databasePath, collectible, figure.id);
 
         } else {
             if(looseFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseFigureImageFile.name, collectible.assortment), looseFigureImageFile, setPercentage);
@@ -118,7 +130,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
             collectible.groups = groupsSelected;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
             RecordUtils.addAuditFields(collectible, email);
-            CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible);
+            CatalogApi.create(databasePath, collectible);
         }
         setSubmitDisabled(false);
         closeModal();

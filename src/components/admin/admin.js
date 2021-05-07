@@ -1,36 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ActionButton } from 'components/common/buttons/actionButton';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import { ADMIN } from 'shared/constants/stringConstantsSelectors';
 import Button from '@material-ui/core/Button';
-import { Color } from 'shared/styles/color';
-import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
-import { connect } from 'react-redux';
 import Container from '@material-ui/core/Container';
-import { FormDataTable } from 'components/admin/formDataTable';
-import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import Grid from '@material-ui/core/Grid';
-import { HelperDataApi } from 'shared/api/helperDataApi';
-import isEmpty from 'lodash/isEmpty';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from 'react-modal';
-import { modalStyles } from 'shared/styles/modalStyles';
-import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
-import { PAGES } from 'shared/constants/stringConstantsSelectors';
-import PropTypes from 'prop-types';
-import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
-import { SortingUtils } from 'shared/util/sortingUtil';
-import TextField from '@material-ui/core/TextField';
-import { UploadImage } from 'components/admin/uploadImage';
-import { useForm } from 'react-hook-form';
-import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
-import { FormSelectorInput } from 'components/admin/formSelectorInputs';
-import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import { FormDataTable } from 'components/admin/formDataTable';
+import { FormSelectorInput } from 'components/admin/formSelectorInputs';
+import { UploadImage } from 'components/admin/uploadImage';
+import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
+import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
+import { ActionButton } from 'components/common/buttons/actionButton';
+import { NewCollectibleForm } from 'components/common/form/newCollectibleForm';
+import isEmpty from 'lodash/isEmpty';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import Modal from 'react-modal';
+import { connect } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
+import { HelperDataApi } from 'shared/api/helperDataApi';
+import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+import { ADMIN, PAGES } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
+import { modalStyles } from 'shared/styles/modalStyles';
+import { SortingUtils } from 'shared/util/sortingUtil';
+import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 
 const { HOME, READ_CONTACT_ME } = ROUTE_CONSTANTS;
 
 export const Admin = ({ helperData }) => {
+    console.log(helperData)
     const classes = useStyles();
 
     const [newEntryComponent, setNewEntryComponent] = useState(null);
@@ -53,9 +53,13 @@ export const Admin = ({ helperData }) => {
     const handleChangeDataType = e => setDatatype(e.target.value);
 
     const [newAssortment, setNewAssortment] = useState({ values: [] });
+    const [newSeries, setNewSeries] = useState({ values: [] });
     const [newSourceMaterial, setNewSourceMaterial] = useState({ values: [] });
+
     const [uploadAssortment, setUploadAssortment] = useState();
+    const [uploadSeries, setUploadSeries] = useState();
     const handleChangeUploadAssortment = e => setUploadAssortment(e.target.value);
+    const handleChangeUploadSeries = e => setUploadSeries(e.target.value);
 
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
@@ -66,6 +70,9 @@ export const Admin = ({ helperData }) => {
     useEffect(() => {
         setNewAssortment({
             values: helperData.assortment.values.map(({ name }) => name),
+        });
+        setNewSeries({
+            values: helperData.series.values,
         });
         setNewSourceMaterial({
             values: helperData.sourceMaterial.values.map(({ name }) => name),
@@ -184,9 +191,20 @@ export const Admin = ({ helperData }) => {
                             />
                         </Grid>
                         <Grid item xs={6} className={classes.formDataContainer}>
-                            <UploadImage assortment={uploadAssortment} />
+                            <UploadImage assortment={uploadAssortment} series={uploadSeries}/>
                         </Grid>
-                        <Grid item xs={6} className={classes.formDataContainer}>
+                        <Grid item xs={3} className={classes.formDataContainer}>
+                            {helperData.assortment && displayFormDataInput &&
+                                <FormSelectorInput
+                                    label={ADMIN.LABELS.SERIES}
+                                    labelWidth={labelWidth}
+                                    handleOnChange={handleChangeUploadSeries}
+                                    menuItems={newSeries.values}
+                                    inputLabel={inputLabel}
+                                />
+                            }
+                        </Grid>
+                        <Grid item xs={3} className={classes.formDataContainer}>
                             {helperData.assortment && displayFormDataInput &&
                                 <FormSelectorInput
                                     label={ADMIN.LABELS.ASSORTMENT}
