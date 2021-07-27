@@ -271,7 +271,7 @@ export const BlackSeriesCatalog = props => {
 
         if(viewRecent) {
             mergedList = mergedList.filter(el => el.createdDate ? true : false);
-            return SortingUtils.sortDateDescending(mergedList).slice(0, 40);
+            return SortingUtils.sortDateDescending(mergedList).slice(0, 50);
         }
 
         if (!viewAllFigures) {
