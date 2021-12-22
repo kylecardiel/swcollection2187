@@ -104,9 +104,19 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         collectible.groups = groupsSelected;
         
         if(figure) {
-            collectible.looseImageUrl = figure.looseImageUrl;
-            collectible.looseBlackImageUrl = figure.looseBlackImageUrl;
-            collectible.newImageUrl = figure.newImageUrl;
+            if(looseFigureImageFile) {
+                collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseFigureImageFile.name, collectible.assortment), looseFigureImageFile, setPercentage);
+            } else {
+                collectible.looseImageUrl = figure.looseImageUrl;
+            }
+
+            if(newFigureImageFile) {
+                collectible.newImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name, collectible.assortment), newFigureImageFile, setPercentage);
+            } else {
+                collectible.newImageUrl = figure.newImageUrl;
+            }
+
+            collectible.looseBlackImageUrl = newFigureImageFile || figure.looseBlackImageUrl;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
             RecordUtils.updateLastModifiedAuditFields(collectible, email);
             CatalogApi.update(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible, figure.id);
@@ -251,10 +261,8 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     let looseImageInput, newImageInput;
 
-    if(!figure) {
-        looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
-        newImageInput = generatorImageInput(LABELS.NIB_IMAGE.KEY, handleNewImageChange);
-    }
+    looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
+    newImageInput = generatorImageInput(LABELS.NIB_IMAGE.KEY, handleNewImageChange);
 
     return (
         <React.Fragment>

@@ -1,3 +1,4 @@
+import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -74,6 +75,10 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
         />
     </div>;
 
+    const figureIdLabel = <div className={classes.editIdContainer}>
+        {figure.id}
+    </div>;
+
     const releaseDetails = <ReleaseDetailCard 
         assortment={figure.assortment}
         assortmentBackgroundColor={assortmentBackgroundColor(figure, sourceMaterials, assortments)}
@@ -134,15 +139,26 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
         <Grid container spacing={1} className={classes.container}>
             <Grid item md={4} xs={12}>
                 <ImageDetailCard
+                    assortment={figure.assortment}
+                    authEditor
+                    figureId={figure.id}
+                    isMobile
                     looseImageUrl={figure.looseImageUrl}
                     newImageUrl={figure.newImageUrl}
                 />
                 {!isMobile && retailCard && retailDetails}
                 {!isMobile &&
-                    <Grid container direction='row' justify='space-around'>
-                        {collectorButton}
-                        {authEditor && editFigureButton}
-                    </Grid>
+                    <>
+                        <Grid container direction='row' justify='space-around'>
+                            {collectorButton}
+                        </Grid>
+                        <Card className={classes.card}>
+                            <Grid container direction='row' justify='space-around'>
+                                {authEditor && editFigureButton}
+                                {authEditor && figureIdLabel}
+                            </Grid>
+                        </Card>
+                    </>
                 }
             </Grid>
             <Grid item md={8} xs={12} >
@@ -211,6 +227,16 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '99%',
         display: 'flex',
         justifyContent: 'center',
+    },
+    editIdContainer: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(2),
+        maxWidth: '99%',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    card: {
+        marginTop: theme.spacing(1),
     },
 }));
 

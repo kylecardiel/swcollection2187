@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
     smallImageContainer: {
         maxHeight: 150,
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
@@ -109,6 +110,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 ImageDetailCard.propTypes = {
+    assortment: PropTypes.string.isRequired,
+    authEditor: PropTypes.bool.isRequired,
+    figureId: PropTypes.string.isRequired,
+    isMobile: PropTypes.bool.isRequired,
     looseImageUrl: PropTypes.string,
     newImageUrl: PropTypes.string,
 };
