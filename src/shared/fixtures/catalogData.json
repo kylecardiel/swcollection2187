@@ -8393,6 +8393,31 @@
             "wave" : "",
             "year" : "2021"
           }
+        },
+        "TheVintageCollection": {
+          "-M_GQBt9fl8btcUpHGtQ" : {
+            "additionalNameDetails" : "something, maybe?",
+            "assortment" : "",
+            "collectionType" : "Action Figures",
+            "createdBy" : "kyle.cardiel@gmail.com",
+            "createdDate" : "May 09, 2021 08:59:15",
+            "exclusiveRetailer" : "",
+            "groups" : [ "Bounty Hunters", "Humans", "Originals" ],
+            "lastModifiedBy" : "kyle.cardiel@gmail.com",
+            "lastModifiedDate" : "May 09, 2021 08:59:15",
+            "multipack" : "",
+            "name" : "Dengar",
+            "newImageUrl" : "https://firebasestorage.googleapis.com/v0/b/swcollection2187.appspot.com/o/Catalog%2FActionFigures%2FBlackSeries6%2Fvc1-new-front-dengar.jpg?alt=media&token=0b8bd6b7-d9d3-48ca-8dc5-b9fe7165208f",
+            "packageType" : "",
+            "retailPrice" : "7.99",
+            "series" : "The Vintage Collection",
+            "seriesNumber" : "155",
+            "sourceMaterial" : "The Empire Strikes Back",
+            "sourceType" : "Movie",
+            "version" : "Vintage Card",
+            "wave" : "",
+            "year" : "2010"
+          }
         }
       },
       "VideoGames" : {

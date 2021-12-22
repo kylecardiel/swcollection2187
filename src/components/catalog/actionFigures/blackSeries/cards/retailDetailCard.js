@@ -56,14 +56,14 @@ export const RetailDetailCard = ({ additionalNameDetails, name, exclusiveRetaile
                         <Typography gutterBottom variant='body1' component='span'>
                             {'Retailers'}
                         </Typography>
-                        <Divider />
+                        <Divider className={classes.divider}/>
                         {exclusiveRetailerLinks()}
                     </Grid>
                     <Grid item xs={6} className={classes.retailContainer}>
                         <Typography gutterBottom variant='body1' component='span'>
                             {'Resellers'}
                         </Typography>
-                        <Divider />
+                        <Divider className={classes.divider}/>
                         {generateDetail(EXTERNAL_LINKS.MERCARI.NAME, EXTERNAL_LINKS.MERCARI.LINK(buildLink(EXTERNAL_LINKS.MERCARI.SPACE_REPLACER).toLowerCase()))}
                         {generateDetail(EXTERNAL_LINKS.EBAY.NAME, EXTERNAL_LINKS.EBAY.LINK(buildLink(EXTERNAL_LINKS.EBAY.SPACE_REPLACER).toLowerCase()))}
                     </Grid>
@@ -85,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         paddingLeft: '20px',
         paddingRight: '20px',
+    },
+    divider: {
+        marginBottom: theme.spacing(1),
     },
 }));
 

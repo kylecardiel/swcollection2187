@@ -5,7 +5,7 @@ import {
     makeStyles,
     MenuItem,
     Select, TextField,
-    Typography
+    Typography,
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +23,10 @@ import { GENERAL, NEW_COLLECTION_FORM } from 'shared/constants/stringConstantsSe
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { uploadImageToStorage } from 'shared/util/upload';
+import Checkbox from '@material-ui/core/Checkbox';
+import { green } from '@material-ui/core/colors';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { withStyles } from '@material-ui/core/styles';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
@@ -200,7 +204,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const groupSelect = () => {
         return <>
             {generatorInputText('Groups')}
-            <Grid item xs={12} md={10} className={classes.inputBoxInColumn}>
+            <Grid item xs={6} md={6} className={classes.inputBoxInColumn}>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="Groups-label">{'Groups'}</InputLabel>
                     <Select
@@ -214,6 +218,33 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
                         {groups.values.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
                     </Select>
                 </FormControl>
+            </Grid>
+        </>;
+    };
+
+    const GreenCheckbox = withStyles({
+        root: {
+            color: green[400],
+            '&$checked': {
+                color: green[600],
+            },
+        },
+        checked: {},
+    })((props) => <Checkbox color="default" {...props} />);
+
+    const rereleasedCheck = () => {
+        return <>
+            {generatorInputText('Rereleased?')}
+            <Grid item xs={2} md={2} className={classes.inputBoxInColumn}>
+                <FormControlLabel
+                    control={<GreenCheckbox checked={true} onChange={handleChange} name="checkedG" />}
+                    label="Custom color"
+                />
+                {/* <Checkbox
+                    checked={true}
+                    // onChange={handleChange}
+                    // inputProps={{ 'aria-label': 'primary checkbox' }}
+                /> */}
             </Grid>
         </>;
     };
@@ -271,6 +302,8 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     const groupSelectInput = groupSelect();
 
+    const rereleasedInput = rereleasedCheck();
+
     let looseImageInput, newImageInput;
 
     looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
@@ -308,6 +341,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
                         {packageTypeInput}
 
                         {groupSelectInput}
+                        {rereleasedInput}
 
                         {looseImageInput}
                         {newImageInput}

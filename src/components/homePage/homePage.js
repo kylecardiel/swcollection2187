@@ -26,7 +26,7 @@ export const Homepage = () => {
             route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
             imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
             tag={'Action Figures'}
-            tagColor={Color.yellow()}
+            tagColor={Color.red()}
         />
     </Grid>;
 
@@ -46,7 +46,7 @@ export const Homepage = () => {
             route={ROUTE_CONSTANTS.ACTION_FIGURES.VINTAGE_COLLECTION}
             imagePath={CATALOG_CARDS.VINTAGE_COLLECTION_LOGO}
             tag={'Action Figures'}
-            tagColor={Color.yellow()}
+            tagColor={Color.red()}
         />
     </Grid>;
 
