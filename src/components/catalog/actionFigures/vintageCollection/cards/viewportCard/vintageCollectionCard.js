@@ -4,13 +4,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { UserConsumer } from 'components/auth/authContext';
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Color } from 'shared/styles/color';
 import { isProduction } from 'shared/util/environment';
-import { DisplayNameSection } from 'components/catalog/actionFigures/vintageCollection/cards/displayName';
+import { DisplayNameSection } from 'components/catalog/actionFigures/vintageCollection/cards/viewportCard/displayName';
 
 export const VintageCollectionCard = ({ item }) => {
     
@@ -22,9 +21,7 @@ export const VintageCollectionCard = ({ item }) => {
         year,
     } = item;
 
-    const { id } = useContext(UserConsumer);
     const classes = useStyles();
-
 
     const centeredRowText = text => {
         return <Grid container direction='row' justify='center'>

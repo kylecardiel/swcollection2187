@@ -238,21 +238,19 @@ export const BlackSeriesCatalog = props => {
         
         if(isProduction) {
             if(catalogList.length === 0){
-                const catalogRef = CatalogApi.read(`${ACTION_FIGURES.ALL}`);
+                const catalogRef = CatalogApi.read(`${ACTION_FIGURES.BLACK_SERIES}`);
                 catalogRef.once('value').then((snapshot => {
                     if (snapshot.val()) {
-                        let records = snapshot.val()['BlackSeries6'];
-                        setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+                        setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
                     }
                 }));
             }
     
             if (loggedIn) {
-                const userRef = UserApi.read(id, `${ACTION_FIGURES.ALL}`);
+                const userRef = UserApi.read(id, `${ACTION_FIGURES.BLACK_SERIES}`);
                 userRef.once('value').then((snapshot => {
                     if (snapshot.val()) {
-                        let records = snapshot.val()['BlackSeries6'];
-                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'ownedId'));
                     }
                 }));
             }
