@@ -1,48 +1,50 @@
-import Container from '@material-ui/core/Container';
+// import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { CatalogData } from 'shared/fixtures/catalogData';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import { VintageCollectionCard } from 'components/catalog/actionFigures/vintageCollection/cards/viewportCard/vintageCollectionCard';
 import { isProduction } from 'shared/util/environment';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { CatalogApi } from 'shared/api/catalogApi';
-import { UserApi } from 'shared/api/userApi';
+// import { UserApi } from 'shared/api/userApi';
 import { UserConsumer } from 'components/auth/authContext';
-import { usersData } from 'shared/fixtures/userData';
+// import { usersData } from 'shared/fixtures/userData';
 import { Viewport } from 'components/common/viewport/viewport';
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
 export const VintageCollectionCatalog = (props) => {
     const { id, loggedIn } = useContext(UserConsumer);
-    const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize, setUserDisplaySettings, clearUserDisplaySettings, filterState } = props;
-    const classes = useStyles();
+    const { helperData, catalogList, setCatalogData, setUserData, screenSize, filterState } = props;
+    // const classes = useStyles();
     
     const [initialState] = useState(props);
     useEffect(() => {
         
         if(isProduction) {
-            console.log('Production Data TBD');
+            const catalogRef = CatalogApi.read(`${ACTION_FIGURES.THE_VINTAGE_COLLECTION}`);
+            catalogRef.once('value').then((snapshot => {
+                if (snapshot.val()) {
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
+                }
+            }));
         } else {
-            if(catalogList.length === 0){
-                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.TheVintageCollection, 'id'));
-            }
-            
-            setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.TheVintageCollection, 'ownedId'));
+            setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.TheVintageCollection, 'id'));
+            // setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.TheVintageCollection, 'ownedId'));
         }
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData, catalogList.length]);
 
     const defaultFigureSizeSmall = filterState.figureSizeSmall === undefined ? screenSize.isMobileDevice : filterState.figureSizeSmall;
-    const [figureSizeSmall, setFigureSizeSmall] = useState(defaultFigureSizeSmall);
+    const [figureSizeSmall] = useState(defaultFigureSizeSmall);
 
     const defaultNewBoxImage = filterState.figureSizeSmall === undefined ? screenSize.isMobileDevice : filterState.figureSizeSmall;
-    const [newBoxImage, setNewBoxImage] = useState(defaultNewBoxImage);
+    const [newBoxImage] = useState(defaultNewBoxImage);
 
     const GAP_SIZE = figureSizeSmall ? 5 : 20;
-    const CARD_HEIGHT = figureSizeSmall ? 200 : 500;
+    const CARD_HEIGHT = figureSizeSmall ? 200 : 400;
     const CARD_WIDTH = figureSizeSmall ? 75 : 200;
 
     return (
@@ -56,6 +58,7 @@ export const VintageCollectionCatalog = (props) => {
                 CARD_HEIGHT={CARD_HEIGHT} 
                 CARD_WIDTH={CARD_WIDTH} 
                 GAP_SIZE={GAP_SIZE}
+                isDisabled
                 other={{
                     assortments: helperData.assortment,
                     catalogList: catalogList,
@@ -69,11 +72,11 @@ export const VintageCollectionCatalog = (props) => {
     );
 };
 
-const useStyles = makeStyles(theme => ({
-    container: {
-        margin: theme.spacing(10),
-    },
-}));
+// const useStyles = makeStyles(theme => ({
+//     container: {
+//         margin: theme.spacing(10),
+//     },
+// }));
 
 VintageCollectionCatalog.propTypes = {
     catalogList: PropTypes.array.isRequired,

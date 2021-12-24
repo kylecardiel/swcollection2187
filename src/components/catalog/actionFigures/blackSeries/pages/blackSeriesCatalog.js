@@ -237,14 +237,12 @@ export const BlackSeriesCatalog = props => {
     useEffect(() => {
         
         if(isProduction) {
-            if(catalogList.length === 0){
-                const catalogRef = CatalogApi.read(`${ACTION_FIGURES.BLACK_SERIES}`);
-                catalogRef.once('value').then((snapshot => {
-                    if (snapshot.val()) {
-                        setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
-                    }
-                }));
-            }
+            const catalogRef = CatalogApi.read(`${ACTION_FIGURES.BLACK_SERIES}`);
+            catalogRef.once('value').then((snapshot => {
+                if (snapshot.val()) {
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
+                }
+            }));
     
             if (loggedIn) {
                 const userRef = UserApi.read(id, `${ACTION_FIGURES.BLACK_SERIES}`);
@@ -255,10 +253,7 @@ export const BlackSeriesCatalog = props => {
                 }));
             }
         } else {
-            if(catalogList.length === 0){
-                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
-            }
-            
+            setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
             setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.BlackSeries6, 'ownedId'));
         }
 

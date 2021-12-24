@@ -110,6 +110,14 @@ export const Routes = ({ setScreenSizes }) => {
                     />
                     <ProtectedRoute
                         exact
+                        path={ACTION_FIGURES.VINTAGE_COLLECTION_NAME}
+                        redirectPath={LOGIN}
+                        access={true}
+                        userLoggedIn={loggedIn}
+                        component={VintageCollection}
+                    />
+                    <ProtectedRoute
+                        exact
                         path={VIDEO_GAME_NAME}
                         redirectPath={LOGIN}
                         access={true}

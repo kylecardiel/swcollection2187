@@ -12,6 +12,10 @@ export const BlackSeries = () => {
             route: HOME,
             title: PAGES.HOME_PAGE.TITLE,
         },
+        {
+            route: HOME,
+            title: PAGES.ACTION_FIGURES.TITLE,
+        },
     ];
 
     return (

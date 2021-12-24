@@ -13,11 +13,15 @@ export const VintageCollection = () => {
             route: HOME,
             title: PAGES.HOME_PAGE.TITLE,
         },
+        {
+            route: HOME,
+            title: PAGES.ACTION_FIGURES.TITLE,
+        },
     ];
 
     return (
         <React.Fragment>
-            <CommonBreadCrumbs links={links} currentTitle={PAGES.BLACK_SERIES_CATALOG.TITLE} />
+            <CommonBreadCrumbs links={links} currentTitle={PAGES.VINTAGE_COLLECTION_CATALOG.TITLE} />
             <VintageCollectionCatalogConnect />
         </React.Fragment>
     );
