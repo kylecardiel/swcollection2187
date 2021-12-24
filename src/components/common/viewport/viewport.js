@@ -8,7 +8,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 import { slugify } from 'shared/util/stringUtil';
 
-export const Viewport = ({ CardComponent, displayList, other, CARD_HEIGHT, CARD_WIDTH, GAP_SIZE }) => {
+export const Viewport = ({ CardComponent, displayList, other, CARD_HEIGHT, CARD_WIDTH, GAP_SIZE, isDisabled }) => {
     const classes = useStyles();
     let { url } = useRouteMatch();
 
@@ -31,14 +31,19 @@ export const Viewport = ({ CardComponent, displayList, other, CARD_HEIGHT, CARD_
                 >
                     <Grid item xs={12} key={displayList[i].id} >
                         <Link
-                            to={{
-                                pathname: `${url}/${slugify([
-                                    displayList[i].assortment,
-                                    displayList[i].name,
-                                    displayList[i].additionalNameDetails,
-                                ])}`,
-                                state: { id: displayList[i].id },
-                            }}
+                            to={isDisabled ? 
+                                {
+                                    pathname: `${url}`,
+                                } : 
+                                {
+                                    pathname: `${url}/${slugify([
+                                        displayList[i].assortment,
+                                        displayList[i].name,
+                                        displayList[i].additionalNameDetails,
+                                    ])}`,
+                                    state: { id: displayList[i].id },
+                                }
+                            }
                             style={{ textDecoration: 'none' }}
                         >
                             <CardComponent item={displayList[i]} other={other}/>
@@ -117,4 +122,5 @@ Viewport.propTypes = {
     CARD_HEIGHT: PropTypes.number.isRequired,
     CARD_WIDTH: PropTypes.number.isRequired,
     GAP_SIZE: PropTypes.number.isRequired,
+    isDisabled: PropTypes.bool,
 };

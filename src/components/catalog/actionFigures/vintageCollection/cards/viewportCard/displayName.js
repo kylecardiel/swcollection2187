@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 DisplayNameSection.propTypes = {
     name: PropTypes.string.isRequired,
     reissue: PropTypes.bool,
-    smallFigureView: PropTypes.bool.isRequired,
+    smallFigureView: PropTypes.bool,
     seriesNumber: PropTypes.string.isRequired,
 };
 

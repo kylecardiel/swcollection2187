@@ -233,18 +233,18 @@ export const BlackSeriesCatalog = props => {
     const openStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
     const closeStatsModal = () => setIsStatsModalOpen(!isStatsModalOpen);
 
+    const [readyToRender, setReadyToRender] = useState(false);
     const [initialState] = useState(props);
     useEffect(() => {
         
         if(isProduction) {
-            if(catalogList.length === 0){
-                const catalogRef = CatalogApi.read(`${ACTION_FIGURES.BLACK_SERIES}`);
-                catalogRef.once('value').then((snapshot => {
-                    if (snapshot.val()) {
-                        setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
-                    }
-                }));
-            }
+            const catalogRef = CatalogApi.read(`${ACTION_FIGURES.BLACK_SERIES}`);
+            catalogRef.once('value').then((snapshot => {
+                if (snapshot.val()) {
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
+                    setReadyToRender(true);
+                }
+            }));
     
             if (loggedIn) {
                 const userRef = UserApi.read(id, `${ACTION_FIGURES.BLACK_SERIES}`);
@@ -255,11 +255,9 @@ export const BlackSeriesCatalog = props => {
                 }));
             }
         } else {
-            if(catalogList.length === 0){
-                setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
-            }
-            
+            setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
             setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.BlackSeries6, 'ownedId'));
+            setReadyToRender(true);
         }
 
     }, [initialState, setCatalogData, setUserData, id, loggedIn, helperData, catalogList.length]);
@@ -413,7 +411,7 @@ export const BlackSeriesCatalog = props => {
     const CARD_WIDTH = figureSizeSmall ? 75 : 200;
 
     return (
-        <React.Fragment>
+        <>
             <Container component='main' maxWidth='xl'>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
@@ -534,22 +532,24 @@ export const BlackSeriesCatalog = props => {
                     </Grid>
                 </div>
             </Container>
-            <Viewport
-                CardComponent={BlackSeriesItemCard} 
-                displayList={displayList} 
-                CARD_HEIGHT={CARD_HEIGHT} 
-                CARD_WIDTH={CARD_WIDTH} 
-                GAP_SIZE={GAP_SIZE}
-                other={{
-                    assortments: helperData.assortment,
-                    catalogList: catalogList,
-                    newBoxImage: newBoxImage,
-                    smallFigureView: figureSizeSmall,
-                    sourceMaterials: helperData.sourceMaterial,
-                    view: true,
-                }}
-            />
-        </React.Fragment >
+            {readyToRender && 
+                <Viewport
+                    CardComponent={BlackSeriesItemCard} 
+                    displayList={displayList} 
+                    CARD_HEIGHT={CARD_HEIGHT} 
+                    CARD_WIDTH={CARD_WIDTH} 
+                    GAP_SIZE={GAP_SIZE}
+                    other={{
+                        assortments: helperData.assortment,
+                        catalogList: catalogList,
+                        newBoxImage: newBoxImage,
+                        smallFigureView: figureSizeSmall,
+                        sourceMaterials: helperData.sourceMaterial,
+                        view: true,
+                    }}
+                />
+            }
+        </>
     );
 };
 

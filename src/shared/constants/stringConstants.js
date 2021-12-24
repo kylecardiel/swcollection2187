@@ -133,6 +133,9 @@ export const STRING_CONSTANTS = Object.freeze({
                 VINTAGE_FIGURES: 'Add Vintage Figures',
             },
         },
+        ACTION_FIGURES: {
+            TITLE: 'Action Figures',
+        },
         BLACK_SERIES_CATALOG: {
             ACTION_FIGURE_DETAILS: {
                 LABELS: {
@@ -224,6 +227,9 @@ export const STRING_CONSTANTS = Object.freeze({
                 },
             },
         },
+        VINTAGE_COLLECTION_CATALOG: {
+            TITLE: 'Vintage Collection',
+        },
         UPLOAD_IMAGE: {
             TITLE: 'Upload Image',
         },
@@ -313,7 +319,6 @@ export const STRING_CONSTANTS = Object.freeze({
         TERMS_OF_SERVICE: {
             TITLE: 'Terms of Service',
         },
-        
         USER_PROFILE:{
             TITLE: 'User Profile',
             SECTION_TITLES: {

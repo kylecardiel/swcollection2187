@@ -39,12 +39,11 @@ export const VintageCollectionCard = ({ item }) => {
             />
             <CardMedia
                 className={classes.media}
-                // image={isProduction ? newImageUrl : IMAGE_PATHS.FILL_MURRAY}
-                image={newImageUrl}
+                image={isProduction ? newImageUrl : IMAGE_PATHS.FILL_MURRAY}
                 title={name}
             />
             <CardContent className={classes.cardContent}>
-                {centeredRowText(additionalNameDetails)}
+                {centeredRowText(additionalNameDetails || '-' )}
                 {centeredRowText(year)}
             </CardContent>
         </Card>
