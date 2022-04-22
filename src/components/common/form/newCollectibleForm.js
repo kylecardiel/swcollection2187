@@ -99,8 +99,12 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const buildUploadedImagePath = (name, assortment) => {
-        return `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${name}`;
+    const buildUploadedImagePath = (name, assortment, series) => {
+        if(series){
+            return `${CATALOG}${determineDatabasePath(series)}${assortment}/${name}`;
+        } else {
+            return `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${name}`;
+        }
     };
 
     const determineDatabasePath = series => {
@@ -139,7 +143,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
         } else {
             if(looseFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseFigureImageFile.name, collectible.assortment), looseFigureImageFile, setPercentage);
-            if(newFigureImageFile) collectible.newImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name, collectible.assortment), newFigureImageFile, setPercentage);
+            if(newFigureImageFile) collectible.newImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name, collectible.assortment, collectible.series), newFigureImageFile, setPercentage);
     
             collectible.groups = groupsSelected;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);

@@ -30,7 +30,6 @@ import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 const { HOME, READ_CONTACT_ME } = ROUTE_CONSTANTS;
 
 export const Admin = ({ helperData }) => {
-    console.log(helperData)
     const classes = useStyles();
 
     const [newEntryComponent, setNewEntryComponent] = useState(null);

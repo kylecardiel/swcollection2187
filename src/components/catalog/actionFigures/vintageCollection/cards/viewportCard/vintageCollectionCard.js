@@ -5,14 +5,15 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { Color } from 'shared/styles/color';
 import { isProduction } from 'shared/util/environment';
 import { DisplayNameSection } from 'components/catalog/actionFigures/vintageCollection/cards/viewportCard/displayName';
+import { StorageReferenceConsumer } from 'context/storageReferenceContext';
 
 export const VintageCollectionCard = ({ item }) => {
-    
+    const { commingSoonPhotoUrl } = useContext(StorageReferenceConsumer);
     const {  
         additionalNameDetails,
         name,
@@ -39,7 +40,7 @@ export const VintageCollectionCard = ({ item }) => {
             />
             <CardMedia
                 className={classes.media}
-                image={isProduction ? newImageUrl : IMAGE_PATHS.FILL_MURRAY}
+                image={isProduction ? ( newImageUrl || commingSoonPhotoUrl) : IMAGE_PATHS.FILL_MURRAY}
                 title={name}
             />
             <CardContent className={classes.cardContent}>
