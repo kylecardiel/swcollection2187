@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { ADMIN } from 'shared/constants/stringConstantsSelectors';
-import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
 import { makeStyles } from '@material-ui/core/styles';
+import { storage } from 'backend/Firebase';
 import { ProgressBar } from 'components/common/progressBar';
 import PropTypes from 'prop-types';
-import { storage } from 'backend/Firebase';
+import React, { useState } from 'react';
+import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
+import { ADMIN } from 'shared/constants/stringConstantsSelectors';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
-export const UploadImage = ({ assortment }) => {
+export const UploadImage = ({ series, assortment }) => {
     const classes = useStyles();
     
     const [image, setImage] = useState(null);
@@ -21,13 +21,22 @@ export const UploadImage = ({ assortment }) => {
         }
     };
 
+    const determineDatabasePath = (series, assortment) => {
+        switch (series) {
+        case 'Black Series 6"':
+            return assortment ? `${ACTION_FIGURES.BLACK_SERIES}${assortment}/` : ACTION_FIGURES.BLACK_SERIES;
+        case 'The Vintage Collection':
+            return ACTION_FIGURES.THE_VINTAGE_COLLECTION;
+        default:
+            return ACTION_FIGURES.BLACK_SERIES;
+        }
+    };
+
     const handleUpload = () => {
         setDownloadURL(null);
-        const location = assortment 
-            ? `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${image.name}` 
-            : `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${image.name}`;
-
-        const uploadTask = storage.ref(location).put(image);
+        const databasePath = determineDatabasePath(series, assortment);
+ 
+        const uploadTask = storage.ref(`${CATALOG}${databasePath}${image.name}`).put(image);
         uploadTask.on(
             'state_changed',
             function (snapshot) {
@@ -61,4 +70,5 @@ const useStyles = makeStyles(() => ({
 
 UploadImage.propTypes = {
     assortment: PropTypes.array,
+    series: PropTypes.string,
 };

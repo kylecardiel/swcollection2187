@@ -5,31 +5,35 @@ import {
     makeStyles,
     MenuItem,
     Select, TextField,
-    Typography,
+    Typography
 } from '@material-ui/core';
-import { Controller, useForm } from 'react-hook-form';
-import { GENERAL, NEW_COLLECTION_FORM } from 'shared/constants/stringConstantsSelectors';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { CatalogApi } from 'shared/api/catalogApi';
-import { Color } from 'shared/styles/color';
 import Container from '@material-ui/core/Container';
-import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
-import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import Grid from '@material-ui/core/Grid';
+import { UserConsumer } from 'components/auth/authContext';
+import { convertArrayObjectToArrayOfObjectProperty } from 'components/common/form/formatFormData';
+import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { ProgressBar } from 'components/common/progressBar';
 import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { CatalogApi } from 'shared/api/catalogApi';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
+import { FB_STORAGE_CONSTANTS } from 'shared/constants/storageRefConstants';
+import { GENERAL, NEW_COLLECTION_FORM } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { UserConsumer } from 'components/auth/authContext';
 import { uploadImageToStorage } from 'shared/util/upload';
+import Checkbox from '@material-ui/core/Checkbox';
+import { green } from '@material-ui/core/colors';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { withStyles } from '@material-ui/core/styles';
 
 const { CATALOG, ACTION_FIGURES } = FB_STORAGE_CONSTANTS;
 
 export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const classes = useStyles();
     const { email } = useContext(UserConsumer);
- 
+
     const setDefaults = () => {
         return figure 
             ? { defaultValues: figure } 
@@ -95,13 +99,29 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const buildUploadedImagePath = (name, assortment) => {
-        return `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${name}`;
+    const buildUploadedImagePath = (name, assortment, series) => {
+        if(series){
+            return `${CATALOG}${determineDatabasePath(series)}${assortment}/${name}`;
+        } else {
+            return `${CATALOG}${ACTION_FIGURES.BLACK_SERIES}${assortment}/${name}`;
+        }
+    };
+
+    const determineDatabasePath = series => {
+        switch (series) {
+        case 'Black Series 6"':
+            return FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES;
+        case 'The Vintage Collection':
+            return FB_DB_CONSTANTS.ACTION_FIGURES.THE_VINTAGE_COLLECTION;
+        default:
+            return FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES;
+        }
     };
 
     const onSubmit = async collectible => {
         setSubmitDisabled(true);
         collectible.groups = groupsSelected;
+        const databasePath = determineDatabasePath(collectible.series);
         
         if(figure) {
             if(looseFigureImageFile) {
@@ -119,16 +139,16 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
             collectible.looseBlackImageUrl = newFigureImageFile || figure.looseBlackImageUrl;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
             RecordUtils.updateLastModifiedAuditFields(collectible, email);
-            CatalogApi.update(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible, figure.id);
+            CatalogApi.update(databasePath, collectible, figure.id);
 
         } else {
             if(looseFigureImageFile) collectible.looseImageUrl = await uploadImageToStorage(buildUploadedImagePath(looseFigureImageFile.name, collectible.assortment), looseFigureImageFile, setPercentage);
-            if(newFigureImageFile) collectible.newImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name, collectible.assortment), newFigureImageFile, setPercentage);
+            if(newFigureImageFile) collectible.newImageUrl = await uploadImageToStorage(buildUploadedImagePath(newFigureImageFile.name, collectible.assortment, collectible.series), newFigureImageFile, setPercentage);
     
             collectible.groups = groupsSelected;
             Object.keys(collectible).forEach(key => collectible[key] === undefined && delete collectible[key]);
             RecordUtils.addAuditFields(collectible, email);
-            CatalogApi.create(FB_DB_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, collectible);
+            CatalogApi.create(databasePath, collectible);
         }
         setSubmitDisabled(false);
         closeModal();
@@ -188,7 +208,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
     const groupSelect = () => {
         return <>
             {generatorInputText('Groups')}
-            <Grid item xs={12} md={10} className={classes.inputBoxInColumn}>
+            <Grid item xs={6} md={6} className={classes.inputBoxInColumn}>
                 <FormControl className={classes.formControl}>
                     <InputLabel id="Groups-label">{'Groups'}</InputLabel>
                     <Select
@@ -202,6 +222,33 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
                         {groups.values.map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
                     </Select>
                 </FormControl>
+            </Grid>
+        </>;
+    };
+
+    const GreenCheckbox = withStyles({
+        root: {
+            color: green[400],
+            '&$checked': {
+                color: green[600],
+            },
+        },
+        checked: {},
+    })((props) => <Checkbox color="default" {...props} />);
+
+    const rereleasedCheck = () => {
+        return <>
+            {generatorInputText('Rereleased?')}
+            <Grid item xs={2} md={2} className={classes.inputBoxInColumn}>
+                <FormControlLabel
+                    control={<GreenCheckbox checked={true} onChange={handleChange} name="checkedG" />}
+                    label="Custom color"
+                />
+                {/* <Checkbox
+                    checked={true}
+                    // onChange={handleChange}
+                    // inputProps={{ 'aria-label': 'primary checkbox' }}
+                /> */}
             </Grid>
         </>;
     };
@@ -259,6 +306,8 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
 
     const groupSelectInput = groupSelect();
 
+    const rereleasedInput = rereleasedCheck();
+
     let looseImageInput, newImageInput;
 
     looseImageInput = generatorImageInput(LABELS.LOOSE_IMAGE.KEY, handleLooseImageChange);
@@ -296,6 +345,7 @@ export const NewCollectibleForm = ({ closeModal, formData, figure }) => {
                         {packageTypeInput}
 
                         {groupSelectInput}
+                        {rereleasedInput}
 
                         {looseImageInput}
                         {newImageInput}

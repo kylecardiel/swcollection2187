@@ -10,28 +10,45 @@ import React, { useContext } from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { HOME_PAGE } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
+import { FeatureFlagConsumer } from 'context/featureFlagsContext';
 
 const { HOME_PAGE: { CATALOG_CARDS } } = IMAGE_PATHS;
 
 export const Homepage = () => {
     const classes = useStyles();
     const { loggedIn } = useContext(UserConsumer);
+    const { vintageCollection } = useContext(FeatureFlagConsumer);
 
     const notLoggedInCards = !loggedIn && <HowItWorks />;
 
-    const blackSeriesCard = <Grid item xs={12} md={6}>
+    const blackSeriesCard = <Grid item xs={12} md={vintageCollection ? 4 : 6}>
         <MediaCard
             cardText={HOME_PAGE.CARDS.BLACK_SERIES}
             route={ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES}
             imagePath={CATALOG_CARDS.BLACK_SERIES_LOGO}
+            tag={'Action Figures'}
+            tagColor={Color.red()}
         />
     </Grid>;
 
-    const videoGameCard = <Grid item xs={12} md={6}>
+    const videoGameCard = <Grid item xs={12} md={vintageCollection ? 4 : 6}>
         <MediaCard
             cardText={HOME_PAGE.CARDS.VIDEO_GAMES}
             route={ROUTE_CONSTANTS.VIDEO_GAMES}
             imagePath={CATALOG_CARDS.VIDEO_GAMES_LOGO}
+            tag={'Media'}
+            tagColor={Color.blue()}
+        />
+    </Grid>;
+
+    const vintageCollectionCard = <Grid item xs={12} md={vintageCollection ? 4 : 6}>
+        <MediaCard
+            cardText={HOME_PAGE.CARDS.VINTAGE_COLLECTION}
+            route={ROUTE_CONSTANTS.ACTION_FIGURES.VINTAGE_COLLECTION}
+            imagePath={CATALOG_CARDS.VINTAGE_COLLECTION_LOGO}
+            tag={'Action Figures'}
+            tagColor={Color.red()}
         />
     </Grid>;
 
@@ -41,6 +58,7 @@ export const Homepage = () => {
         </Grid>
         {blackSeriesCard}
         {videoGameCard}
+        {vintageCollection && vintageCollectionCard}
     </>;
 
     return (

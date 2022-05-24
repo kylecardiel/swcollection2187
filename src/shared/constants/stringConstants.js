@@ -56,6 +56,10 @@ export const STRING_CONSTANTS = Object.freeze({
                     TITLE: 'Black Series 6"',
                     BODY: 'View and add to your collection!',
                 },
+                VINTAGE_COLLECTION: {
+                    TITLE: 'Vintage Collection',
+                    BODY: 'View and add to your collection!',
+                },
                 VIDEO_GAMES: {
                     TITLE: 'Video Games',
                     BODY: 'View and add to your collection!',
@@ -128,6 +132,9 @@ export const STRING_CONSTANTS = Object.freeze({
                 VINTAGE_COLLECTION: 'Add Vintage Collection',
                 VINTAGE_FIGURES: 'Add Vintage Figures',
             },
+        },
+        ACTION_FIGURES: {
+            TITLE: 'Action Figures',
         },
         BLACK_SERIES_CATALOG: {
             ACTION_FIGURE_DETAILS: {
@@ -220,6 +227,9 @@ export const STRING_CONSTANTS = Object.freeze({
                 },
             },
         },
+        VINTAGE_COLLECTION_CATALOG: {
+            TITLE: 'Vintage Collection',
+        },
         UPLOAD_IMAGE: {
             TITLE: 'Upload Image',
         },
@@ -231,7 +241,7 @@ export const STRING_CONSTANTS = Object.freeze({
                 ADD: 'Add',
                 DISPLAY_TABLES: 'Display Tables',
                 HIDE_TABLES: 'Hide Tables',
-                NEW_BLACK_SERIES: 'New Black Series',
+                NEW_BLACK_SERIES: 'New BS/VC Figures',
                 NEW_VIDEO_GAME: 'New Video Game',
                 UPLOAD: 'Upload',
             },
@@ -240,6 +250,7 @@ export const STRING_CONSTANTS = Object.freeze({
             LABELS: {
                 ASSORTMENT: 'assortment',
                 DATA_TYPE: 'dataType',
+                SERIES: 'series',
             },
             NEW_COLLECTION_FORM: {
                 HEADER: 'Feed the Database!',
@@ -308,7 +319,6 @@ export const STRING_CONSTANTS = Object.freeze({
         TERMS_OF_SERVICE: {
             TITLE: 'Terms of Service',
         },
-        
         USER_PROFILE:{
             TITLE: 'User Profile',
             SECTION_TITLES: {

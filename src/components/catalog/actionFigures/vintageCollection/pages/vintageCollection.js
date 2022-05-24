@@ -1,12 +1,13 @@
-import BlackSeriesCatalogConnect from 'components/hoc/actionFigures/blackSeries/blackSeriesCatalogConnect';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import React from 'react';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
+// import { VintageCollectionCatalog } from 'components/catalog/actionFigures/vintageCollection/pages/vintageCollectionCatalog';
+import VintageCollectionCatalogConnect from 'components/hoc/actionFigures/vintageCollection/vintageCollectionCatalogConnect';
 
 const { HOME } = ROUTE_CONSTANTS;
 
-export const BlackSeries = () => {
+export const VintageCollection = () => {
     const links = [
         {
             route: HOME,
@@ -20,8 +21,8 @@ export const BlackSeries = () => {
 
     return (
         <React.Fragment>
-            <CommonBreadCrumbs links={links} currentTitle={PAGES.BLACK_SERIES_CATALOG.TITLE} />
-            <BlackSeriesCatalogConnect />
+            <CommonBreadCrumbs links={links} currentTitle={PAGES.VINTAGE_COLLECTION_CATALOG.TITLE} />
+            <VintageCollectionCatalogConnect />
         </React.Fragment>
     );
 };

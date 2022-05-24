@@ -9,7 +9,7 @@ let logger = createLogger();
 
 let middleware = [];
 if (isProduction) {
-    middleware = [...middleware, thunk];
+    middleware = [...middleware, thunk, logger];
 } else {
     middleware = [...middleware, thunk, logger];
 }

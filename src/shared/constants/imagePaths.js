@@ -8,6 +8,7 @@ export const IMAGE_PATHS = Object.freeze({
         CATALOG_CARDS: {
             BLACK_SERIES_LOGO: '/img/blackSeriesLogo.png',
             VIDEO_GAMES_LOGO: '/img/homepage/videoGameLogo.png',
+            VINTAGE_COLLECTION_LOGO: '/img/homepage/vintageCollection.jpeg',
         },
         HOW_TO: {
             STEP_1:  '/img/homepage/step1.png',
