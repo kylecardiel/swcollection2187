@@ -1,9 +1,9 @@
-// import Container from '@material-ui/core/Container';
+import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { CatalogData } from 'shared/fixtures/catalogData';
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { VintageCollectionCard } from 'components/catalog/actionFigures/vintageCollection/cards/viewportCard/vintageCollectionCard';
 import { isProduction } from 'shared/util/environment';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
@@ -18,7 +18,7 @@ const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 export const VintageCollectionCatalog = (props) => {
     const { id, loggedIn } = useContext(UserConsumer);
     const { helperData, catalogList, setCatalogData, setUserData, screenSize, filterState } = props;
-    // const classes = useStyles();
+    const classes = useStyles();
     
     const [initialState] = useState(props);
     useEffect(() => {
@@ -49,9 +49,9 @@ export const VintageCollectionCatalog = (props) => {
 
     return (
         <>
-            {/* <Container component='main' maxWidth='xl' className={classes.container}>
-                Search and Filter Components to come 
-            </Container> */}
+            <Container component='main' maxWidth='xl' className={classes.container}>
+                
+            </Container>
             <Viewport
                 CardComponent={VintageCollectionCard} 
                 displayList={catalogList} 
@@ -72,11 +72,11 @@ export const VintageCollectionCatalog = (props) => {
     );
 };
 
-// const useStyles = makeStyles(theme => ({
-//     container: {
-//         margin: theme.spacing(10),
-//     },
-// }));
+const useStyles = makeStyles(theme => ({
+    container: {
+        margin: theme.spacing(1.5),
+    },
+}));
 
 VintageCollectionCatalog.propTypes = {
     catalogList: PropTypes.array.isRequired,
