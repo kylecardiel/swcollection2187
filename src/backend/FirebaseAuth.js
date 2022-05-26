@@ -1,8 +1,8 @@
-import firebase from 'backend/Firebase';
+import { auth } from 'backend/Firebase';
+import { GoogleAuthProvider } from 'firebase/auth';
 import { defaultUser } from 'components/auth/authContext';
 
-export const provider = new firebase.auth.GoogleAuthProvider();
-export const auth = firebase.auth();
+export const provider = new GoogleAuthProvider();
 
 export const onAuthStateChange = callback => {
     return auth.onAuthStateChanged(user => {

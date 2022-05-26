@@ -12,9 +12,10 @@ import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { isProduction } from 'shared/util/environment';
 import { ContactMeApi } from 'shared/api/contactMeApi';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { ContactMe } from 'shared/fixtures/contactMe';
 import { DateUtils } from 'shared/util/dateUtil';
+import ContactMeFile from 'shared/fixtures/contactMe.json';
 
+const { ContactMe } = ContactMeFile;
 const { HOME, ADMIN } = ROUTE_CONSTANTS;
 
 export const ReadContactMe = ({ contactMeData, setContactMeData }) => {

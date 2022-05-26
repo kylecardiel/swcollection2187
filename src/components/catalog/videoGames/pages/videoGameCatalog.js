@@ -19,14 +19,17 @@ import { CatalogApi } from 'shared/api/catalogApi';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { GENERAL_FILTER_MODAL, NEW_VIDEO_GAME_FORM } from 'shared/constants/stringConstantsSelectors';
-import { CatalogData } from 'shared/fixtures/catalogData';
-import { usersData } from 'shared/fixtures/userData';
 import { Color } from 'shared/styles/color';
 import { fitlerModalSizes, modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { capatilizeString } from 'shared/util/stringUtil';
+import catalogDataFile from 'shared/fixtures/catalogData.json';
+import userDataFile from 'shared/fixtures/userData.json';
+
+const { CatalogData } = catalogDataFile;
+const { usersData } = userDataFile;
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 

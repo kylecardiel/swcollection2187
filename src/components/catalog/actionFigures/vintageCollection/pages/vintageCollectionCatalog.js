@@ -2,7 +2,6 @@ import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { CatalogData } from 'shared/fixtures/catalogData';
 import { makeStyles } from '@material-ui/core/styles';
 import { VintageCollectionCard } from 'components/catalog/actionFigures/vintageCollection/cards/viewportCard/vintageCollectionCard';
 import { isProduction } from 'shared/util/environment';
@@ -12,6 +11,9 @@ import { CatalogApi } from 'shared/api/catalogApi';
 import { UserConsumer } from 'components/auth/authContext';
 // import { usersData } from 'shared/fixtures/userData';
 import { Viewport } from 'components/common/viewport/viewport';
+import catalogDataFile from 'shared/fixtures/catalogData.json';
+
+const { CatalogData } = catalogDataFile;
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
