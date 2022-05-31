@@ -36,7 +36,7 @@ export const CatalogFilter = ({ closeModal, fitlerComponentSet, handleClearFilte
                         {sortComponent}
                     </>
                 }
-                <Grid item xs={12} container direction='row' justify='space-around' spacing={3} className={classes.container}>
+                <Grid item xs={12} container direction='row' justifyContent='space-around' spacing={3} className={classes.container}>
                     <ActionButton
                         buttonLabel={GENERAL_FILTER_MODAL.BUTTONS.CLOSE}
                         icon={<SaveIcon />}

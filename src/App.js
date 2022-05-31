@@ -29,8 +29,11 @@ export const App = ({ setHelperData, setScreenSizes }) => {
     useEffect(() => {
         onAuthStateChange(setUser);
 
+        console.log('isProduction', isProduction);
         if (isProduction){
+            console.log('inside Production');
             const helperDataRef = HelperDataApi.read();
+            console.log('helperDataRef', helperDataRef);
             helperDataRef.on('value', snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) {

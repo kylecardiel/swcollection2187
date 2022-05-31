@@ -29,14 +29,14 @@ import { CatalogApi } from 'shared/api/catalogApi';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared/constants/stringConstantsSelectors';
+import catalogDataFile from 'shared/fixtures/catalogData.json';
+import userDataFile from 'shared/fixtures/userData.json';
 import { Color } from 'shared/styles/color';
 import { fitlerModalSizes, modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { reverseCamelCase } from 'shared/util/stringUtil';
-import catalogDataFile from 'shared/fixtures/catalogData.json';
-import userDataFile from 'shared/fixtures/userData.json';
 
 const { CatalogData } = catalogDataFile;
 const { usersData } = userDataFile;
@@ -521,7 +521,7 @@ export const BlackSeriesCatalog = props => {
                             item
                             container
                             direction='row'
-                            justify='space-around'
+                            justifyContent='space-around'
                             spacing={1}
                             xs={12}
                             md={6}

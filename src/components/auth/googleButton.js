@@ -1,12 +1,12 @@
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { signInWithGoogle } from 'backend/googleAuth';
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 
 export const GoogleButton = () => {
     const classes = useStyles();
     return (
-        <Grid container direction='row' justify='space-around' alignItems='center' spacing={1} className={classes.container} onClick={signInWithGoogle}>
+        <Grid container direction='row' justifyContent='space-around' alignItems='center' spacing={1} className={classes.container} onClick={signInWithGoogle}>
             <Grid item className={classes.icon}>
                 <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png' alt='google icon' width='25px' height='25px' />
             </Grid>

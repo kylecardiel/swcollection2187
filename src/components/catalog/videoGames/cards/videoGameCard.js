@@ -5,16 +5,16 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { UserConsumer } from 'components/auth/authContext';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
+import { UserApi } from 'shared/api/userApi';
+import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
 import { BS_CARD_BUTTONS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { isProduction } from 'shared/util/environment';
-import { UserApi } from 'shared/api/userApi';
-import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
-import { UserConsumer } from 'components/auth/authContext';
 
 export const VideoGameCard = ({ item }) => {
     
@@ -81,7 +81,7 @@ export const VideoGameCard = ({ item }) => {
     };
 
     const singleBottomRowText = (first, second) => {
-        return <Grid container direction='row' justify='space-between'>
+        return <Grid container direction='row' justifyContent='space-between'>
             <Typography variant='body2' color={'textSecondary'} component='p'>
                 {first}
             </Typography>
@@ -106,10 +106,10 @@ export const VideoGameCard = ({ item }) => {
             />
             <CardContent>
                 {singleBottomRowText(videoGameType, year)}
-                <Grid container direction='row' justify='space-between' className={classes.systemIconRow}>
+                <Grid container direction='row' justifyContent='space-between' className={classes.systemIconRow}>
                     {buildSystemIcons()}
                 </Grid>
-                <Grid container direction='row' justify='center' className={classes.collectorButton}>
+                <Grid container direction='row' justifyContent='center' className={classes.collectorButton}>
                     <ActionButton
                         buttonLabel={ownedVG ? BS_CARD_BUTTONS.REMOVE : BS_CARD_BUTTONS.ADD}
                         onClick={onclickCard()}

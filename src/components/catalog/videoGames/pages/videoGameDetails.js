@@ -116,7 +116,7 @@ export const VideoGameDetails = ({ catalogList, helperData, videoGameId, screenS
             <Grid item md={4} xs={12}>
                 {imageDetailCard}
                 {!isMobile &&
-                <Grid container direction='row' justify='space-around'>
+                <Grid container direction='row' justifyContent='space-around'>
                     {collectorButton}
                     {authEditor && editFigureButton}
                 </Grid>
@@ -127,7 +127,7 @@ export const VideoGameDetails = ({ catalogList, helperData, videoGameId, screenS
             </Grid>
         </Grid>
         {isMobile &&
-        <Grid item xs={12} container direction='row' justify='space-around'>
+        <Grid item xs={12} container direction='row' justifyContent='space-around'>
             {collectorButton}
             {authEditor && editFigureButton}
         </Grid>

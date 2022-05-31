@@ -3,6 +3,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -10,6 +11,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FormFilter } from 'components/common/form/formFilter';
+import { IOSSwitch } from 'components/common/switcher/iOSSwitch';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { UserApi } from 'shared/api/userApi';
@@ -17,8 +19,6 @@ import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_DETAILS_LABEL } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { DateUtils } from 'shared/util/dateUtil';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { IOSSwitch } from 'components/common/switcher/iOSSwitch';
 
 export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyInput, newInBoxQtyInput, ownedId, userId, averageBuyPriceInput, preorderedInput, sellableInput, tradeableInput }) => {
 
@@ -103,7 +103,7 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
     };
 
 
-    const averageBuyPriceForm = <Grid container justify='center'>
+    const averageBuyPriceForm = <Grid container justifyContent='center'>
         <FormControl fullWidth className={classes.averageBuyPriceForm} variant='outlined'>
             <InputLabel htmlFor='outlined-adornment-amount'>{BS_DETAILS_LABEL.AVERAGE_BUY_PRICE}</InputLabel>
             <OutlinedInput
@@ -119,7 +119,7 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
     </Grid>;
     
     const generateSwitch = (label, changeValue, initialValue) => {
-        return <Grid container justify='flex-start'>
+        return <Grid container justifyContent='flex-start'>
             <FormControlLabel
                 className={classes.switcher}
                 control={<IOSSwitch checked={initialValue} onChange={e => changeQty(e, changeValue)} name={changeValue} />}
@@ -159,7 +159,7 @@ export const CollectorDetailCard = ({ looseCompleteQtyInput, looseIncompleteQtyI
                     </Typography>
                 </div>
                 <Divider />
-                <Grid container spacing={1} direction='row' justify='space-around'  className={classes.outerContainer}>
+                <Grid container spacing={1} direction='row' justifyContent='space-around'  className={classes.outerContainer}>
                     <Grid className={classes.innerContainer}>
                         {formQuantityInputs(BS_DETAILS_LABEL.NEW_IN_BOX_QUANTITY, newInBoxQty, qtyValues.newInBoxQty)}
                         {formQuantityInputs(BS_DETAILS_LABEL.OPEN_COMPLETE_QUANTITY, looseCompleteQty, qtyValues.looseCompleteQty)}

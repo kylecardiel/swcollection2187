@@ -60,11 +60,11 @@ export const Header = ({ title }) => {
                         <Grid
                             container
                             direction='row'
-                            justify='space-between'
+                            justifyContent='space-between'
                             alignItems='center'
                             spacing={1}
                         >
-                            <Grid container item xs={10} md={8} spacing={3} justify='flex-start' alignItems='center'>
+                            <Grid container item xs={10} md={8} spacing={3} justifyContent='flex-start' alignItems='center'>
                                 <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.HOME}>
                                     <img src={IMAGE_PATHS.DEATH_STAR_LOGO} alt='logo' width='40px'/>
                                 </Link>
@@ -91,7 +91,7 @@ export const Header = ({ title }) => {
                                 </>
                             }
                             {loggedIn && 
-                                <Grid container item xs={2} spacing={1} direction='row' justify='flex-end' alignItems='center' className={classes.alwaysWhenLoggedIn}>
+                                <Grid container item xs={2} spacing={1} direction='row' justifyContent='flex-end' alignItems='center' className={classes.alwaysWhenLoggedIn}>
                                     <Button onClick={toggleDrawer('right', true)}>
                                         <MenuIcon className={classes.collapseButtonColor} />
                                     </Button>
