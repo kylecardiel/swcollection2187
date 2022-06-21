@@ -14,6 +14,7 @@ import ContactMeFile from 'shared/fixtures/contactMe.json';
 import { DateUtils } from 'shared/util/dateUtil';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
+import { onValue } from 'firebase/database';
 
 const { ContactMe } = ContactMeFile;
 const { HOME, ADMIN } = ROUTE_CONSTANTS;
@@ -35,10 +36,10 @@ export const ReadContactMe = ({ contactMeData, setContactMeData }) => {
         
         if(isProduction) {
             const catalogRef = ContactMeApi.read();
-            catalogRef.once('value').then((snapshot) => {
-                if (snapshot.val()) {
-                    let records = snapshot.val();
-                    setContactMeData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+            onValue(catalogRef, snapshot => {
+                const snapshotValue = snapshot.val();
+                if (snapshotValue) {
+                    setContactMeData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                 }
             });
 
