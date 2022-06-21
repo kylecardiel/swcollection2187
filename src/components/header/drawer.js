@@ -46,7 +46,7 @@ export const DrawerContainer = ({ loggedIn, logout }) => {
     const loggedInLinks = <Grid container spacing={1} >
         <Grid container item xs={12} className={classes.flex} direction='column' justifyContent='space-between'>
             {buildLink(ROUTE_CONSTANTS.HOME, HOME, <HomeIcon/>)}
-            {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE, <AccountCircleIcon />)}
+            {/* {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE, <AccountCircleIcon />)} */}
             {buildLink(ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, BS, <EmojiPeopleIcon />)}
             {buildLink(ROUTE_CONSTANTS.VIDEO_GAMES, VIDEO_GAMES, <SportsEsportsIcon />)}
             {authorized && buildLink(ROUTE_CONSTANTS.ADMIN, ADMIN, <TuneIcon />)}
