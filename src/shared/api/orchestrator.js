@@ -1,5 +1,5 @@
 import { database } from 'backend/Firebase';
-import { ref, push } from 'firebase/database';
+import { ref, push, update } from 'firebase/database';
 import { isProduction } from 'shared/util/environment';
 
 const envPrefix = isProduction ? '' : 'zzzDevData/' ;  
@@ -11,9 +11,9 @@ export const create = (location, record) => {
 
 export const read = location => ref(database, location);
 
-export const update = (location, record) => {
+export const updateRecord = (location, record) => {
     const databaseRef = ref(database, `${location}`);
-    databaseRef.update(record);
+    update(databaseRef, record);
 };
 
 export const deleteRecord = (location, recordId) => {

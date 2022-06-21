@@ -1,6 +1,6 @@
 import { read } from 'shared/api/orchestrator';
 import { database } from 'backend/Firebase';
-import { ref } from 'firebase/database';
+import { ref, update } from 'firebase/database';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 
 const { HELPER_DATA } = FB_DB_CONSTANTS;
@@ -17,6 +17,6 @@ export class HelperDataApi {
 
     static general = (formData, dataType) => {
         const databaseRef = ref(database,`${HELPER_DATA}${dataType}`);
-        databaseRef.update(formData);
+        update(databaseRef, formData);
     };
 }
