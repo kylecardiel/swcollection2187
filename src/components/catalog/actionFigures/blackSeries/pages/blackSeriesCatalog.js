@@ -37,6 +37,7 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 import { reverseCamelCase } from 'shared/util/stringUtil';
 import catalogDataFile from 'shared/fixtures/catalogData.json';
 import userDataFile from 'shared/fixtures/userData.json';
+import { onValue } from 'firebase/database';
 
 const { CatalogData } = catalogDataFile;
 const { usersData } = userDataFile;
@@ -242,20 +243,22 @@ export const BlackSeriesCatalog = props => {
         
         if(isProduction) {
             const catalogRef = CatalogApi.read(`${ACTION_FIGURES.BLACK_SERIES}`);
-            catalogRef.once('value').then((snapshot => {
-                if (snapshot.val()) {
-                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
+            onValue(catalogRef, snapshot => {
+                const snapshotValue = snapshot.val();
+                if (snapshotValue) {
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                     setReadyToRender(true);
                 }
-            }));
+            });
     
             if (loggedIn) {
                 const userRef = UserApi.read(id, `${ACTION_FIGURES.BLACK_SERIES}`);
-                userRef.once('value').then((snapshot => {
-                    if (snapshot.val()) {
-                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'ownedId'));
+                onValue(userRef, snapshot => {
+                    const snapshotValue = snapshot.val();
+                    if (snapshotValue) {
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'ownedId'));
                     }
-                }));
+                });
             }
         } else {
             setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
