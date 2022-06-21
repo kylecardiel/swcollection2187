@@ -37,8 +37,6 @@ import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { reverseCamelCase } from 'shared/util/stringUtil';
-import catalogDataFile from 'shared/fixtures/catalogData.json';
-import userDataFile from 'shared/fixtures/userData.json';
 import { onValue } from 'firebase/database';
 
 const { CatalogData } = catalogDataFile;
