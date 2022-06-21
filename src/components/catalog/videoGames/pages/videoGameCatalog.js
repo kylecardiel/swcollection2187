@@ -27,7 +27,6 @@ import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { capatilizeString } from 'shared/util/stringUtil';
-import userDataFile from 'shared/fixtures/userData.json';
 import { onValue } from 'firebase/database';
 
 const { CatalogData } = catalogDataFile;
