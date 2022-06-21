@@ -27,6 +27,7 @@ import { SortingUtils } from 'shared/util/sortingUtil';
 import { capatilizeString } from 'shared/util/stringUtil';
 import catalogDataFile from 'shared/fixtures/catalogData.json';
 import userDataFile from 'shared/fixtures/userData.json';
+import { onValue } from 'firebase/database';
 
 const { CatalogData } = catalogDataFile;
 const { usersData } = userDataFile;
@@ -120,20 +121,20 @@ export const VideoGameCatalog = props => {
         if(isProduction) {
             if(videoGameList.length === 0){
                 const catalogRef = CatalogApi.read(VIDEO_GAMES);
-                catalogRef.once('value').then((snapshot) => {
-                    if (snapshot.val()) {
-                        let records = snapshot.val();
-                        setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+                onValue(catalogRef, snapshot => {
+                    const snapshotValue = snapshot.val();
+                    if (snapshotValue) {
+                        setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                     }
                 });
             }
 
             if (loggedIn) {
                 const userRef = UserApi.read(id, VIDEO_GAMES);
-                userRef.once('value').then((snapshot) => {
-                    if (snapshot.val()) {
-                        let records = snapshot.val();
-                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                onValue(userRef, snapshot => {
+                    const snapshotValue = snapshot.val();
+                    if (snapshotValue) {
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'ownedId'));
                     }
                 });
             }
