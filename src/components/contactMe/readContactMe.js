@@ -7,13 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
+import { ContactMeApi } from 'shared/api/contactMeApi';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
-import { isProduction } from 'shared/util/environment';
-import { ContactMeApi } from 'shared/api/contactMeApi';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { DateUtils } from 'shared/util/dateUtil';
 import ContactMeFile from 'shared/fixtures/contactMe.json';
+import { DateUtils } from 'shared/util/dateUtil';
+import { isProduction } from 'shared/util/environment';
+import { RecordUtils } from 'shared/util/recordUtils';
 
 const { ContactMe } = ContactMeFile;
 const { HOME, ADMIN } = ROUTE_CONSTANTS;
@@ -55,7 +55,7 @@ export const ReadContactMe = ({ contactMeData, setContactMeData }) => {
                 item xs={12} 
                 container 
                 direction='row' 
-                justify='space-between' 
+                justifyContent='space-between' 
                 className={classes.row} 
                 
             >
@@ -77,7 +77,7 @@ export const ReadContactMe = ({ contactMeData, setContactMeData }) => {
             <CommonBreadCrumbs links={links} currentTitle={PAGES.READ_CONTACT_ME.TITLE} />
             <Container component='main' maxWidth='md' className={classes.container}>
                 <Grid container direction='column'>
-                    <Grid item xs={12} container direction='row' justify='center'>
+                    <Grid item xs={12} container direction='row' justifyContent='center'>
                         <h3>{PAGES.READ_CONTACT_ME.TITLE}</h3>
                     </Grid>
                     {contactMeData.map(c => generateHowToRow(buildMessageString(c)))}

@@ -149,11 +149,11 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
                 {!isMobile && retailCard && retailDetails}
                 {!isMobile &&
                     <>
-                        <Grid container direction='row' justify='space-around'>
+                        <Grid container direction='row' justifyContent='space-around'>
                             {collectorButton}
                         </Grid>
                         <Card className={classes.card}>
-                            <Grid container direction='row' justify='space-around'>
+                            <Grid container direction='row' justifyContent='space-around'>
                                 {authEditor && editFigureButton}
                                 {authEditor && figureIdLabel}
                             </Grid>
@@ -179,7 +179,7 @@ export const BlackSeriesDetails = ({ assortments, catalogList, figureId, helperD
             }
         </Grid>
         {isMobile &&
-            <Grid item xs={12} container direction='row' justify='space-around'>
+            <Grid item xs={12} container direction='row' justifyContent='space-around'>
                 {collectorButton}
                 {authEditor && editFigureButton}
             </Grid>
