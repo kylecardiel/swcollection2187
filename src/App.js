@@ -16,6 +16,7 @@ import { setScreenSizes } from 'store/screenSize/screenSizeActions';
 import helperDataFile from 'shared/fixtures/helperData.json';
 import featureFlagsDataFile from 'shared/fixtures/featureFlagData.json';
 import storageReferencesDataFile from 'shared/fixtures/storageReferenceData.json';
+import { onValue } from 'firebase/database';
 
 const { helperData } = helperDataFile;
 const { featureFlagsData } = featureFlagsDataFile;
@@ -31,7 +32,7 @@ export const App = ({ setHelperData, setScreenSizes }) => {
 
         if (isProduction){
             const helperDataRef = HelperDataApi.read();
-            helperDataRef.on('value', snapshot => {
+            onValue(helperDataRef, snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) {
                     setHelperData(formatFormData(snapshotRef));
@@ -39,13 +40,13 @@ export const App = ({ setHelperData, setScreenSizes }) => {
             });
 
             const storageReferencesDataRef = StorageReferencesApi.read();
-            storageReferencesDataRef.on('value', snapshot => {
+            onValue(storageReferencesDataRef, snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) setStorageReferences({ commingSoonPhotoUrl: snapshotRef.photoComingSoon['-MFRMcLIEPfRlDK8O3Ye'] });
             });
 
             const featureFlagDataRef = FeatureFlagApi.read();
-            featureFlagDataRef.on('value', snapshot => {
+            onValue(featureFlagDataRef, snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) setFeatureFlags(snapshotRef);
             });
