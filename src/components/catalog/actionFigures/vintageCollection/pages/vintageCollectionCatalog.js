@@ -12,6 +12,7 @@ import { UserConsumer } from 'components/auth/authContext';
 // import { usersData } from 'shared/fixtures/userData';
 import { Viewport } from 'components/common/viewport/viewport';
 import catalogDataFile from 'shared/fixtures/catalogData.json';
+import { onValue } from 'firebase/database';
 
 const { CatalogData } = catalogDataFile;
 
@@ -27,11 +28,12 @@ export const VintageCollectionCatalog = (props) => {
         
         if(isProduction) {
             const catalogRef = CatalogApi.read(`${ACTION_FIGURES.THE_VINTAGE_COLLECTION}`);
-            catalogRef.once('value').then((snapshot => {
-                if (snapshot.val()) {
-                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
+            onValue(catalogRef, snapshot => {
+                const snapshotValue = snapshot.val();
+                if (snapshotValue) {
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                 }
-            }));
+            });
         } else {
             setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.TheVintageCollection, 'id'));
             // setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.TheVintageCollection, 'ownedId'));
