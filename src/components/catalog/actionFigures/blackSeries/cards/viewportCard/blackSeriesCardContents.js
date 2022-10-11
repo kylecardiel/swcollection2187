@@ -21,7 +21,7 @@ export const BlackSeriesCardContent = ({ record, sourceMaterials }) => {
     const generateSourceMaterialDetail = value => {
         let sourceMaterialBackgroundColor = '';
         let sourceMaterialTextColor = 'yellow';
-        const isSeries4 = record.packageType && record.packageType.includes('Box w/Mural');
+        const isSeries4 = record.packageType === 'Box w/Mural' || record.packageType === 'Box w/Mural [no plastic]';
         if (isSeries4) {
             const sourceMaterialColor = getSourceColor(sourceMaterials.values, value);
             sourceMaterialBackgroundColor = sourceMaterialColor.backgroundColor;
