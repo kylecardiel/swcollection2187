@@ -13,7 +13,7 @@ export const getAssortmentColor = (assortments, assort) => {
 };
 
 export const assortmentBackgroundColor = (figure, sourceMaterials, assortments) => {
-    const isSeries4 = figure.packageType.includes('Box w/Mural');
+    const isSeries4 = figure.packageType && figure.packageType.includes('Box w/Mural');
     let color = '';
     if (isSeries4) {
         const sourceMaterialColors = getSourceColor(sourceMaterials, figure.sourceMaterial);
