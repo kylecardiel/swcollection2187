@@ -5,46 +5,59 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { ChromePicker } from 'react-color';
 import Divider from '@material-ui/core/Divider';
-import Modal from 'react-modal';
-import { modalStyles } from 'shared/styles/modalStyles';
+// import Modal from 'react-modal';
+// import { modalStyles } from 'shared/styles/modalStyles';
+import { SortingUtils } from 'shared/util/sortingUtil';
+// import { SourceMaterialForm } from 'components/admin/sourceMaterialForm';
+
+const TYPES = {
+    MOVIE: 'Movie',
+    TV: 'TV',
+    VG: 'Video Game',
+};
 
 export const SourceMaterialTable = ({ sourceMaterials }) => {
     const classes = useStyles();
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [movies] = useState(sourceMaterials.values.filter(s => s.type === 'Movie'));
-    const [tvShows] = useState(sourceMaterials.values.filter(s => s.type === 'TV'));
-    const [videoGames] = useState(sourceMaterials.values.filter(s => s.type === 'Video Game'));
-    const [other] = useState(sourceMaterials.values.filter(s => !['Movie', 'TV', 'Video Game'].includes(s.type)));
-    const [selectedSourceColor, setSelectedSourceColor] = useState('white');
-
-    const modalSize = { height: '243px', width: '225px' };
-
-    const openModal = (sourceName) => {
-        const source = sourceMaterials.values.filter(s => s.name === sourceName);
-
-        setSelectedSourceColor(source.color);
-        setIsModalOpen(!isModalOpen);
+    const getSourceByType = (type) => {
+        return SortingUtils.sortDataByAttributeAsc(sourceMaterials.values.filter(s => s.type === type), 'year');
     };
+    
+    const [movies] = useState(getSourceByType(TYPES.MOVIE));
+    const [tvShows] = useState(getSourceByType(TYPES.TV));
+    const [videoGames] = useState(getSourceByType(TYPES.VG));
+    const [other] = useState(sourceMaterials.values.filter(s => ![TYPES.MOVIE, TYPES.TV, TYPES.VG].includes(s.type)));
+    // const [selectedSourceColor, setSelectedSourceColor] = useState('white');
 
-    const closeModal = () => {
-        setIsModalOpen(!isModalOpen);
-    };
+    // const modalSize = { height: '243px', width: '225px' };
+
+    // const openModal = (sourceName) => {
+    //     const source = sourceMaterials.values.filter(s => s.name === sourceName);
+
+    //     setSelectedSourceColor(source.color);
+    //     setIsModalOpen(!isModalOpen);
+    // };
+
+    // const closeModal = () => {
+    //     setIsModalOpen(!isModalOpen);
+    // };
+
+    // onClick={() => openModeal(s.name)}
 
     const generateSoureMaterialCard = (sourceType) => {
         return sourceType.map(
             s => <Grid item xs={12} md={3} key={s.name}>
-                <Card className={classes.card} key={s.name} onClick={() => openModal(s.name)}>
+                <Card className={classes.card} key={s.name}>
                     <CardContent>
                         <Typography variant='body2' color='textSecondary' component='p'>
                             <span className={classes.textStyle}>{s.name}</span>
                         </Typography>
                         <Divider />
                         <Typography variant='body2' color='textSecondary' component='p'>
-                            {s.type}
+                            {s.year}
                         </Typography>
                         <div style={{ 
                             width: '90%', 
@@ -72,15 +85,13 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
             alignItems='center'
             spacing={1}
         >
-            <Modal
+            {/* <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}
                 style={modalStyles(modalSize)}
             >
-                <ChromePicker 
-                    color={selectedSourceColor}
-                />
-            </Modal>
+                <SourceMaterialForm />
+            </Modal> */}
             <Grid item xs={12}>
                 <h1>Movies</h1>
             </Grid>
