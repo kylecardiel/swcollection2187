@@ -18,7 +18,7 @@ export const SingleImageDetailCard = ({ imageUrl }) => {
             ? image 
                 ? image 
                 : commingSoonPhotoUrl 
-            : IMAGE_PATHS.FILL_MURRAY;
+            : IMAGE_PATHS.PLACEHOLDER_TEST_IMAGE;
     };
 
     return (

@@ -40,7 +40,7 @@ export const VintageCollectionCard = ({ item }) => {
             />
             <CardMedia
                 className={classes.media}
-                image={isProduction ? ( newImageUrl || commingSoonPhotoUrl) : IMAGE_PATHS.FILL_MURRAY}
+                image={isProduction ? ( newImageUrl || commingSoonPhotoUrl) : IMAGE_PATHS.PLACEHOLDER_TEST_IMAGE}
                 title={name}
             />
             <CardContent className={classes.cardContent}>
