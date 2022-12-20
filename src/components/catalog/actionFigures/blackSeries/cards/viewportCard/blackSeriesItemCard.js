@@ -26,7 +26,7 @@ export const BlackSeriesItemCard = ({ item, other }) => {
         if (isProduction){
             return newBoxImage ? (newImageUrl || commingSoonPhotoUrl) : (looseImageUrl || commingSoonPhotoUrl);
         } else {
-            return IMAGE_PATHS.FILL_MURRAY;
+            return IMAGE_PATHS.PLACEHOLDER_TEST_IMAGE;
         }
     };
 
