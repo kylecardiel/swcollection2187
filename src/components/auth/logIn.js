@@ -57,6 +57,8 @@ export const LogIn = ({ googleSignInFlag }) => {
         }
     };
 
+    console.log('something???');
+
     return (
         <Container component='main' maxWidth='md'>
             <CssBaseline />

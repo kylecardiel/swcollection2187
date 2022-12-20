@@ -1,4 +1,4 @@
-import { auth } from 'backend/Firebase';
+import { auth, signIn } from 'backend/Firebase';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { defaultUser } from 'components/auth/authContext';
 
@@ -19,7 +19,7 @@ export const onAuthStateChange = callback => {
 };
 
 export const login = (email, password) => {
-    auth.signInWithEmailAndPassword(email, password)
+    signIn(auth, email, password)
         .catch(error => {
             if (error.message !== null) {
                 alert(error.message);
