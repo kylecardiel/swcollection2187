@@ -29,14 +29,18 @@ import { CatalogApi } from 'shared/api/catalogApi';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { BS_CATALOG, BS_DISPLAY_MODAL, NEW_COLLECTION_FORM_LABELS } from 'shared/constants/stringConstantsSelectors';
-import { CatalogData } from 'shared/fixtures/catalogData';
-import { usersData } from 'shared/fixtures/userData';
+import catalogDataFile from 'shared/fixtures/catalogData.json';
+import userDataFile from 'shared/fixtures/userData.json';
 import { Color } from 'shared/styles/color';
 import { fitlerModalSizes, modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { reverseCamelCase } from 'shared/util/stringUtil';
+import { onValue } from 'firebase/database';
+
+const { CatalogData } = catalogDataFile;
+const { usersData } = userDataFile;
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -239,20 +243,22 @@ export const BlackSeriesCatalog = props => {
         
         if(isProduction) {
             const catalogRef = CatalogApi.read(`${ACTION_FIGURES.BLACK_SERIES}`);
-            catalogRef.once('value').then((snapshot => {
-                if (snapshot.val()) {
-                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
+            onValue(catalogRef, snapshot => {
+                const snapshotValue = snapshot.val();
+                if (snapshotValue) {
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                     setReadyToRender(true);
                 }
-            }));
+            });
     
             if (loggedIn) {
                 const userRef = UserApi.read(id, `${ACTION_FIGURES.BLACK_SERIES}`);
-                userRef.once('value').then((snapshot => {
-                    if (snapshot.val()) {
-                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'ownedId'));
+                onValue(userRef, snapshot => {
+                    const snapshotValue = snapshot.val();
+                    if (snapshotValue) {
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'ownedId'));
                     }
-                }));
+                });
             }
         } else {
             setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.BlackSeries6, 'id'));
@@ -518,7 +524,7 @@ export const BlackSeriesCatalog = props => {
                             item
                             container
                             direction='row'
-                            justify='space-around'
+                            justifyContent='space-around'
                             spacing={1}
                             xs={12}
                             md={6}

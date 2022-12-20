@@ -2,7 +2,6 @@ import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { RecordUtils } from 'shared/util/recordUtils';
-import { CatalogData } from 'shared/fixtures/catalogData';
 import { makeStyles } from '@material-ui/core/styles';
 import { VintageCollectionCard } from 'components/catalog/actionFigures/vintageCollection/cards/viewportCard/vintageCollectionCard';
 import { isProduction } from 'shared/util/environment';
@@ -12,6 +11,10 @@ import { CatalogApi } from 'shared/api/catalogApi';
 import { UserConsumer } from 'components/auth/authContext';
 // import { usersData } from 'shared/fixtures/userData';
 import { Viewport } from 'components/common/viewport/viewport';
+import catalogDataFile from 'shared/fixtures/catalogData.json';
+import { onValue } from 'firebase/database';
+
+const { CatalogData } = catalogDataFile;
 
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
@@ -25,11 +28,12 @@ export const VintageCollectionCatalog = (props) => {
         
         if(isProduction) {
             const catalogRef = CatalogApi.read(`${ACTION_FIGURES.THE_VINTAGE_COLLECTION}`);
-            catalogRef.once('value').then((snapshot => {
-                if (snapshot.val()) {
-                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshot.val(), 'id'));
+            onValue(catalogRef, snapshot => {
+                const snapshotValue = snapshot.val();
+                if (snapshotValue) {
+                    setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                 }
-            }));
+            });
         } else {
             setCatalogData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(CatalogData.ActionFigures.TheVintageCollection, 'id'));
             // setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(usersData.ActionFigures.TheVintageCollection, 'ownedId'));

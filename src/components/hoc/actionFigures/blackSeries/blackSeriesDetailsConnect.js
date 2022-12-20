@@ -2,13 +2,15 @@ import { BlackSeriesDetails } from 'components/catalog/actionFigures/blackSeries
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { usersData } from 'shared/fixtures/userData';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { getActionFigureCatalogList } from 'store/dataSet/dataSetSelector';
 import { getUserActionFiguresBlackSeries6 } from 'store/firebase/dataSetSelector';
 import { getAssortments, getHelperDataSet, getSourceMaterial } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
+import userDataFile from 'shared/fixtures/userData.json';
+
+const { usersData } = userDataFile;
 
 export const BlackSeriesDetailsConnect = ({ figureId }) => {
     return ( 

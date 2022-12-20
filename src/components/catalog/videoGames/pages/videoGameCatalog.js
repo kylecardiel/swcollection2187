@@ -19,14 +19,18 @@ import { CatalogApi } from 'shared/api/catalogApi';
 import { UserApi } from 'shared/api/userApi';
 import { FB_DB_CONSTANTS } from 'shared/constants/databaseRefConstants';
 import { GENERAL_FILTER_MODAL, NEW_VIDEO_GAME_FORM } from 'shared/constants/stringConstantsSelectors';
-import { CatalogData } from 'shared/fixtures/catalogData';
-import { usersData } from 'shared/fixtures/userData';
+import catalogDataFile from 'shared/fixtures/catalogData.json';
+import userDataFile from 'shared/fixtures/userData.json';
 import { Color } from 'shared/styles/color';
 import { fitlerModalSizes, modalStyles } from 'shared/styles/modalStyles';
 import { isProduction } from 'shared/util/environment';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { capatilizeString } from 'shared/util/stringUtil';
+import { onValue } from 'firebase/database';
+
+const { CatalogData } = catalogDataFile;
+const { usersData } = userDataFile;
 
 const { VIDEO_GAMES } = FB_DB_CONSTANTS;
 
@@ -117,20 +121,20 @@ export const VideoGameCatalog = props => {
         if(isProduction) {
             if(videoGameList.length === 0){
                 const catalogRef = CatalogApi.read(VIDEO_GAMES);
-                catalogRef.once('value').then((snapshot) => {
-                    if (snapshot.val()) {
-                        let records = snapshot.val();
-                        setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+                onValue(catalogRef, snapshot => {
+                    const snapshotValue = snapshot.val();
+                    if (snapshotValue) {
+                        setVideoGameData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                     }
                 });
             }
 
             if (loggedIn) {
                 const userRef = UserApi.read(id, VIDEO_GAMES);
-                userRef.once('value').then((snapshot) => {
-                    if (snapshot.val()) {
-                        let records = snapshot.val();
-                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId'));
+                onValue(userRef, snapshot => {
+                    const snapshotValue = snapshot.val();
+                    if (snapshotValue) {
+                        setUserData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'ownedId'));
                     }
                 });
             }
@@ -261,7 +265,7 @@ export const VideoGameCatalog = props => {
                             item
                             container
                             direction='row'
-                            justify='space-around'
+                            justifyContent='space-around'
                             spacing={1}
                             xs={12}
                             md={6}

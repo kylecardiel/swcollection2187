@@ -171,7 +171,7 @@ export const NewVideoGameForm = ({ formData, setIsModalOpen, item }) => {
                     </div>
                 }
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Grid item xs={12} container direction='row' justify='space-between' className={classes.row}>
+                    <Grid item xs={12} container direction='row' justifyContent='space-between' className={classes.row}>
                         {collectionTypeInput}
                         {videoGameFormatInput}
                         {videoGameSeriesInput}
@@ -181,10 +181,10 @@ export const NewVideoGameForm = ({ formData, setIsModalOpen, item }) => {
                         {videoGamePriceInput}
                         {videoGameDeveloperInput}
                     </Grid>
-                    <Grid item xs={12} container direction='row' justify='space-between' className={classes.row}>
+                    <Grid item xs={12} container direction='row' justifyContent='space-between' className={classes.row}>
                         {videoGameConoleInput}
                     </Grid>
-                    <Grid item xs={12} container direction='row' justify='space-between' className={classes.row}>
+                    <Grid item xs={12} container direction='row' justifyContent='space-between' className={classes.row}>
                         {imageInput}
                     </Grid>
                     <Grid item xs={12} className={classes.submitButtonrow}>

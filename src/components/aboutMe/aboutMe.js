@@ -8,9 +8,11 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { ABOUT_ME_PAGE, PAGES } from 'shared/constants/stringConstantsSelectors';
 import { isProduction } from 'shared/util/environment';
 import { Color } from 'shared/styles/color';
-import { aboutMe } from 'shared/fixtures/aboutMeData';
 import { AboutMeApi } from 'shared/api/aboutMeApi';
+import aboutMeFile from 'shared/fixtures/aboutMeData.json';
+import { onValue } from 'firebase/database';
 
+const { aboutMe } = aboutMeFile;
 const { HOME } = ROUTE_CONSTANTS;
 
 export const AboutMe = ({ aboutMeData, setAboutMeData }) => {
@@ -19,7 +21,7 @@ export const AboutMe = ({ aboutMeData, setAboutMeData }) => {
     useEffect(() => {
         if(isProduction) {
             const catalogRef = AboutMeApi.read();
-            catalogRef.once('value').then((snapshot) => {
+            onValue(catalogRef, snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) setAboutMeData(snapshotRef['aboutMeId']);
             });

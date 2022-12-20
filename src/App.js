@@ -10,12 +10,17 @@ import { Routes } from 'routes/routes';
 import { FeatureFlagApi } from 'shared/api/featureFlagApi';
 import { HelperDataApi } from 'shared/api/helperDataApi';
 import { StorageReferencesApi } from 'shared/api/storageReferencesApi';
-import { featureFlagsData } from 'shared/fixtures/featureFlagData';
-import { helperData } from 'shared/fixtures/helperData';
-import { storageReferencesData } from 'shared/fixtures/storageReferenceData';
 import { isProduction } from 'shared/util/environment';
 import { setHelperData } from 'store/helperData/helperDataSetActions';
 import { setScreenSizes } from 'store/screenSize/screenSizeActions';
+import helperDataFile from 'shared/fixtures/helperData.json';
+import featureFlagsDataFile from 'shared/fixtures/featureFlagData.json';
+import storageReferencesDataFile from 'shared/fixtures/storageReferenceData.json';
+import { onValue } from 'firebase/database';
+
+const { helperData } = helperDataFile;
+const { featureFlagsData } = featureFlagsDataFile;
+const { storageReferencesData } = storageReferencesDataFile;
 
 export const App = ({ setHelperData, setScreenSizes }) => {
     const [user, setUser] = useState({ loggedIn: false });
@@ -27,7 +32,7 @@ export const App = ({ setHelperData, setScreenSizes }) => {
 
         if (isProduction){
             const helperDataRef = HelperDataApi.read();
-            helperDataRef.on('value', snapshot => {
+            onValue(helperDataRef, snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) {
                     setHelperData(formatFormData(snapshotRef));
@@ -35,13 +40,13 @@ export const App = ({ setHelperData, setScreenSizes }) => {
             });
 
             const storageReferencesDataRef = StorageReferencesApi.read();
-            storageReferencesDataRef.on('value', snapshot => {
+            onValue(storageReferencesDataRef, snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) setStorageReferences({ commingSoonPhotoUrl: snapshotRef.photoComingSoon['-MFRMcLIEPfRlDK8O3Ye'] });
             });
 
             const featureFlagDataRef = FeatureFlagApi.read();
-            featureFlagDataRef.on('value', snapshot => {
+            onValue(featureFlagDataRef, snapshot => {
                 const snapshotRef = snapshot.val();
                 if (snapshotRef) setFeatureFlags(snapshotRef);
             });

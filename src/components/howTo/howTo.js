@@ -7,12 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { AddAppToHomeScreen } from 'components/howTo/addAppToHomeScreen';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { modalStyles } from 'shared/styles/modalStyles';
-import PropTypes from 'prop-types';
 
 const { HOME } = ROUTE_CONSTANTS;
 
@@ -53,7 +53,7 @@ export const HowTo = ({ screenSize }) => {
                 item xs={12} 
                 container 
                 direction='row' 
-                justify='space-between' 
+                justifyContent='space-between' 
                 className={classes.row} 
                 onClick={() => openModal(modalComponent)}
             >
@@ -72,7 +72,7 @@ export const HowTo = ({ screenSize }) => {
             <CommonBreadCrumbs links={links} currentTitle={PAGES.HOW_TO.TITLE} />
             <Container component='main' maxWidth='md' className={classes.container}>
                 <Grid container direction='column'>
-                    <Grid item xs={12} container direction='row' justify='center'>
+                    <Grid item xs={12} container direction='row' justifyContent='center'>
                         <h3>{PAGES.HOW_TO.TITLE}</h3>
                     </Grid>
                     {generateHowToRow(PAGES.HOW_TO.ADD_TO_HOME_SCREEN_SCENE.TITLE, <AddAppToHomeScreen setIsModalOpen={setIsModalOpen}/>)}

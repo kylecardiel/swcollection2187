@@ -3,15 +3,15 @@ export class SortingUtils {
 
     static sortDataByAttributeDesc = (data, attribute) => {
         return data.sort((a, b) => (a[attribute] < b[attribute]) ? 1 : -1);
-    }
+    };
 
     static sortDataByAttributeAsc = (data, attribute) => {
         return data.sort((a, b) => (a[attribute] > b[attribute]) ? 1 : -1);
-    }
+    };
 
     static sortDataByStringIntAsc = (data, attribute) => {
         return data.sort((a, b) => (SortingUtils.alphaNumericSorting(a[attribute], b[attribute])));
-    }
+    };
 
     static alphaNumericSorting = (a, b) => {
         const regex = /^([a-z]*)(\d*)/i;
@@ -24,7 +24,7 @@ export class SortingUtils {
             return SortingUtils.alphaNumericSorting(a.substr(_a[0].length), b.substr(_b[0].length));
         }   
         return _n;
-    }
+    };
 
     static convertArrayTo2dMatrix = (list, elementsPerSubArray) => {
         let matrix = [], i, k;
@@ -36,9 +36,9 @@ export class SortingUtils {
             matrix[k].push(list[i]);
         }
         return matrix;
-    } 
+    }; 
 
     static sortDateDescending = dates => {
         return dates.sort((a,b) => new moment(b.createdDate) - new moment(a.createdDate));
-    }
+    };
 }

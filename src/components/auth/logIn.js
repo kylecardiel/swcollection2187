@@ -106,7 +106,7 @@ export const LogIn = ({ googleSignInFlag }) => {
                         </Grid>
                     }
                     {isProduction && 
-                        <Grid item xs={12} container direction='row' justify='center' className={classes.recaptchaContainer}>
+                        <Grid item xs={12} container direction='row' justifyContent='center' className={classes.recaptchaContainer}>
                             <Recaptcha
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                                 render='explicit'

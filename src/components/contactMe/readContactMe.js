@@ -7,14 +7,16 @@ import Typography from '@material-ui/core/Typography';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
+import { ContactMeApi } from 'shared/api/contactMeApi';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
-import { isProduction } from 'shared/util/environment';
-import { ContactMeApi } from 'shared/api/contactMeApi';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { ContactMe } from 'shared/fixtures/contactMe';
+import ContactMeFile from 'shared/fixtures/contactMe.json';
 import { DateUtils } from 'shared/util/dateUtil';
+import { isProduction } from 'shared/util/environment';
+import { RecordUtils } from 'shared/util/recordUtils';
+import { onValue } from 'firebase/database';
 
+const { ContactMe } = ContactMeFile;
 const { HOME, ADMIN } = ROUTE_CONSTANTS;
 
 export const ReadContactMe = ({ contactMeData, setContactMeData }) => {
@@ -34,10 +36,10 @@ export const ReadContactMe = ({ contactMeData, setContactMeData }) => {
         
         if(isProduction) {
             const catalogRef = ContactMeApi.read();
-            catalogRef.once('value').then((snapshot) => {
-                if (snapshot.val()) {
-                    let records = snapshot.val();
-                    setContactMeData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id'));
+            onValue(catalogRef, snapshot => {
+                const snapshotValue = snapshot.val();
+                if (snapshotValue) {
+                    setContactMeData(RecordUtils.convertDBNestedObjectsToArrayOfObjects(snapshotValue, 'id'));
                 }
             });
 
@@ -54,7 +56,7 @@ export const ReadContactMe = ({ contactMeData, setContactMeData }) => {
                 item xs={12} 
                 container 
                 direction='row' 
-                justify='space-between' 
+                justifyContent='space-between' 
                 className={classes.row} 
                 
             >
@@ -76,7 +78,7 @@ export const ReadContactMe = ({ contactMeData, setContactMeData }) => {
             <CommonBreadCrumbs links={links} currentTitle={PAGES.READ_CONTACT_ME.TITLE} />
             <Container component='main' maxWidth='md' className={classes.container}>
                 <Grid container direction='column'>
-                    <Grid item xs={12} container direction='row' justify='center'>
+                    <Grid item xs={12} container direction='row' justifyContent='center'>
                         <h3>{PAGES.READ_CONTACT_ME.TITLE}</h3>
                     </Grid>
                     {contactMeData.map(c => generateHowToRow(buildMessageString(c)))}

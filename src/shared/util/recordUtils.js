@@ -41,7 +41,7 @@ export class RecordUtils {
         for(let i=0; i<array1.length; i++) {
             merged.push({
                 ...array1[i], 
-                ...(array2.find((itmInner) => itmInner[array2Attr] === array1[i][array1Attr]))
+                ...(array2.find((itmInner) => itmInner[array2Attr] === array1[i][array1Attr])),
             });
         }
         return merged;

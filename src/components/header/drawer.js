@@ -28,7 +28,7 @@ export const DrawerContainer = ({ loggedIn, logout }) => {
     
     const buildLink = (route, text, icon) => {
         return <Link to={route} className={classes.links}>
-            <Grid container item xs={12} spacing={5} className={classes.individualIcon} direction='row' justify='flex-start'>
+            <Grid container item xs={12} spacing={5} className={classes.individualIcon} direction='row' justifyContent='flex-start'>
                 {icon}
                 <span className={classes.text}>{text}</span>
             </Grid>
@@ -37,21 +37,21 @@ export const DrawerContainer = ({ loggedIn, logout }) => {
     };
 
     const notLoggedInLinks = <Grid container spacing={1} >
-        <Grid container item xs={12} className={classes.flex} direction='column' justify='space-between'>
+        <Grid container item xs={12} className={classes.flex} direction='column' justifyContent='space-between'>
             {buildLink(ROUTE_CONSTANTS.LOGIN, LOGIN)}
             {buildLink(ROUTE_CONSTANTS.SIGNUP, SIGN_UP)}
         </Grid>
     </Grid>;   
 
     const loggedInLinks = <Grid container spacing={1} >
-        <Grid container item xs={12} className={classes.flex} direction='column' justify='space-between'>
+        <Grid container item xs={12} className={classes.flex} direction='column' justifyContent='space-between'>
             {buildLink(ROUTE_CONSTANTS.HOME, HOME, <HomeIcon/>)}
-            {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE, <AccountCircleIcon />)}
+            {/* {buildLink(ROUTE_CONSTANTS.USER_PROFILE, PROFILE, <AccountCircleIcon />)} */}
             {buildLink(ROUTE_CONSTANTS.ACTION_FIGURES.BLACK_SERIES, BS, <EmojiPeopleIcon />)}
             {buildLink(ROUTE_CONSTANTS.VIDEO_GAMES, VIDEO_GAMES, <SportsEsportsIcon />)}
             {authorized && buildLink(ROUTE_CONSTANTS.ADMIN, ADMIN, <TuneIcon />)}
             <Link to={''} className={`${classes.links} ${classes.linksBottom}`}>
-                <Grid container item xs={12} spacing={5} className={classes.individualIcon} direction='row' justify='flex-start' onClick={logout}>
+                <Grid container item xs={12} spacing={5} className={classes.individualIcon} direction='row' justifyContent='flex-start' onClick={logout}>
                     <ExitToAppIcon />
                     <span className={classes.text}>{LOGOUT}</span>
                 </Grid>

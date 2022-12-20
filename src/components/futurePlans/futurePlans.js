@@ -4,6 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import RotateRightIcon from '@material-ui/icons/RotateRight';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
@@ -11,7 +12,6 @@ import React from 'react';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
-import AddBoxIcon from '@material-ui/icons/AddBox';
 
 const { HOME } = ROUTE_CONSTANTS;
 
@@ -32,7 +32,7 @@ export const FuturePlans = () => {
                 item xs={12} 
                 container 
                 direction='row' 
-                justify='space-between' 
+                justifyContent='space-between' 
                 className={classes.row} 
             >
                 <Typography variant='body2' component='span' className={classes.text}>

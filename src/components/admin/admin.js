@@ -26,6 +26,7 @@ import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
+import { SourceMaterialTable } from 'components/admin/sourceMaterialTable';
 
 const { HOME, READ_CONTACT_ME } = ROUTE_CONSTANTS;
 
@@ -304,6 +305,9 @@ export const Admin = ({ helperData }) => {
                                     }
                                 </Grid>
                             </Container>
+                        </Grid>
+                        <Grid item xs={12} className={classes.formDataContainer}>
+                            <SourceMaterialTable sourceMaterials={helperData.sourceMaterial}/>
                         </Grid>
                     </Grid>
                 </div>

@@ -6,14 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { store } from 'store/storeFactory';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
-import firebase from 'backend/Firebase';
+import { firebaseApp } from 'backend/Firebase';
 import Modal from 'react-modal';
 import { BrowserRouter } from 'react-router-dom';
 
 const rrfConfig = { userProfile: 'users' };
 
 const rrfProps = {
-    firebase,
+    firebase: firebaseApp,
     config: rrfConfig,
     dispatch: store.dispatch,
 };

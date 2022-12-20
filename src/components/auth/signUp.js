@@ -9,17 +9,17 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { registerUser } from 'backend/FirebaseAuth';
 import { useStyles } from 'components/auth/authMakeStyles';
+import { GoogleButton } from 'components/auth/googleButton';
 import { FormError } from 'components/common/form/formError';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Recaptcha from 'react-recaptcha';
 import { Link as RouterLink } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { AUTH } from 'shared/constants/stringConstantsSelectors';
-import { Validator } from 'shared/util/validator';
-import PropTypes from 'prop-types';
-import { GoogleButton } from 'components/auth/googleButton';
-import Recaptcha from 'react-recaptcha';
 import { isProduction } from 'shared/util/environment';
+import { Validator } from 'shared/util/validator';
 
 export const SignUp = ({ googleSignInFlag }) => {
 
@@ -127,7 +127,7 @@ export const SignUp = ({ googleSignInFlag }) => {
                             </Grid>
                         }
                         {isProduction && 
-                        <Grid item xs={12} container direction='row' justify='center' className={classes.recaptchaContainer}>
+                        <Grid item xs={12} container direction='row' justifyContent='center' className={classes.recaptchaContainer}>
                             <Recaptcha
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                                 render='explicit'
@@ -146,7 +146,7 @@ export const SignUp = ({ googleSignInFlag }) => {
                     >
                         {AUTH.SIGN_UP}
                     </Button>
-                    <Grid container justify='flex-end'>
+                    <Grid container justifyContent='flex-end'>
                         <Grid item>
                             <Link underline='none' component={RouterLink} to={ROUTE_CONSTANTS.LOGIN} >
                                 {AUTH.HAVE_ACCOUNT}

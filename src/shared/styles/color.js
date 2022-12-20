@@ -3,7 +3,7 @@ export class Color {
     static primary = color => {
         const styledColor = Styles.colors[color];
         return styledColor ? styledColor : 'black';
-    }
+    };
 
     static black = () => Color.primary('black');
     static blackGradient = () => Color.primary('blackGradient');

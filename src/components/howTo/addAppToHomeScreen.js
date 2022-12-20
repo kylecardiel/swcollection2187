@@ -8,8 +8,8 @@ import { ActionButton } from 'components/common/buttons/actionButton';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { IMAGE_PATHS } from 'shared/constants/imagePaths';
-import { Color } from 'shared/styles/color';
 import { GENERAL, PAGES } from 'shared/constants/stringConstantsSelectors';
+import { Color } from 'shared/styles/color';
 
 const { HOW_TO: { ADD_TO_HOME_SCREEN } }  = IMAGE_PATHS;
 const { HOW_TO : { ADD_TO_HOME_SCREEN_SCENE } } = PAGES;
@@ -79,7 +79,7 @@ export const AddAppToHomeScreen = ({ setIsModalOpen }) => {
         <Grid container direction='column' alignItems='center'>
             {currentScene}
             {continueButton}
-            <Grid item xs={12} container direction='row' justify='center' className={classes.meatballs}>
+            <Grid item xs={12} container direction='row' justifyContent='center' className={classes.meatballs}>
                 {numberOfScenes.map(s => generateCorrectMeatBallPlaceholder(s))}
             </Grid>
         </Grid>

@@ -7,8 +7,10 @@ import { getVideoGameCatalogList } from 'store/dataSet/dataSetSelector';
 import { getUserVideoGames } from 'store/firebase/dataSetSelector';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
-import { usersData } from 'shared/fixtures/userData';
 import { isProduction } from 'shared/util/environment';
+import userDataFile from 'shared/fixtures/userData.json';
+
+const { usersData } = userDataFile;
 
 export const VideoGameDetailsConnect = ({ videoGameId }) => {
     return ( 
