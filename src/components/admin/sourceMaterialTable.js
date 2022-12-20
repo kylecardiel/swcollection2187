@@ -6,10 +6,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Divider from '@material-ui/core/Divider';
-// import Modal from 'react-modal';
-// import { modalStyles } from 'shared/styles/modalStyles';
+import Modal from 'react-modal';
+import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
-// import { SourceMaterialForm } from 'components/admin/sourceMaterialForm';
+import { SourceMaterialForm } from 'components/admin/sourceMaterialForm';
 
 const TYPES = {
     MOVIE: 'Movie',
@@ -20,7 +20,7 @@ const TYPES = {
 export const SourceMaterialTable = ({ sourceMaterials }) => {
     const classes = useStyles();
 
-    // const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const getSourceByType = (type) => {
         return SortingUtils.sortDataByAttributeAsc(sourceMaterials.values.filter(s => s.type === type), 'year');
@@ -30,22 +30,19 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
     const [tvShows] = useState(getSourceByType(TYPES.TV));
     const [videoGames] = useState(getSourceByType(TYPES.VG));
     const [other] = useState(sourceMaterials.values.filter(s => ![TYPES.MOVIE, TYPES.TV, TYPES.VG].includes(s.type)));
-    // const [selectedSourceColor, setSelectedSourceColor] = useState('white');
+    const [selectedSourceColor, setSelectedSourceColor] = useState('white');
 
-    // const modalSize = { height: '243px', width: '225px' };
+    const modalSize = { height: '40%', width: '20%' };
 
-    // const openModal = (sourceName) => {
-    //     const source = sourceMaterials.values.filter(s => s.name === sourceName);
+    const openModal = (sourceName) => {
+        const source = sourceMaterials.values.filter(s => s.name === sourceName);
+        setSelectedSourceColor(source[0].color);
+        setIsModalOpen(!isModalOpen);
+    };
 
-    //     setSelectedSourceColor(source.color);
-    //     setIsModalOpen(!isModalOpen);
-    // };
-
-    // const closeModal = () => {
-    //     setIsModalOpen(!isModalOpen);
-    // };
-
-    // onClick={() => openModeal(s.name)}
+    const closeModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
 
     const generateSoureMaterialCard = (sourceType) => {
         return sourceType.map(
@@ -68,7 +65,9 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
                             paddingTop: '5px',
                             paddingDown: '5px',
                             margin: '5%',
-                        }}>
+                        }}
+                        onClick={() => openModal(s.name)}
+                        >
                             {s.color}
                         </div>
                     </CardContent>
@@ -85,13 +84,16 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
             alignItems='center'
             spacing={1}
         >
-            {/* <Modal
+            <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}
                 style={modalStyles(modalSize)}
             >
-                <SourceMaterialForm />
-            </Modal> */}
+                <SourceMaterialForm 
+                    selectedSourceColor={selectedSourceColor}
+                    setSelectedSourceColor={setSelectedSourceColor}
+                />
+            </Modal>
             <Grid item xs={12}>
                 <h1>Movies</h1>
             </Grid>

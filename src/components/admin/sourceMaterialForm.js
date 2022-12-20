@@ -17,28 +17,34 @@ const TYPES = {
     VG: 'Video Game',
 };
 
-export const SourceMaterialForm = ({ sourceMaterials, sourceUpdated }) => {
+export const SourceMaterialForm = ({ selectedSourceColor, setSelectedSourceColor }) => {
     const classes = useStyles();
-
-    const [source] = useState(sourceUpdated);
+    // const [source] = useState(sourceUpdated);  sourceUpdated
 
     return(
         <Grid 
             container
-            direction='row'
+            direction='column'
             alignItems='center'
             spacing={1}
+            className={classes.container}
         >
-            form goes here?
+            <Grid item>
+                Source Color Picker
+            </Grid>
+            <Grid item>
+                <ChromePicker 
+                    color={selectedSourceColor}
+                    onChangeComplete={setSelectedSourceColor}
+                />
+            </Grid>
         </Grid>
     );
 };
 
 const useStyles = makeStyles(theme => ({
-    card: {
-        maxWidth: 500,
-        maxHeight: 325,
-        textAlign: 'center',
+    container: {
+        padding: theme.spacing(2),
     },
     textStyle: {
         fontWeight: 'bold',
@@ -48,6 +54,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 SourceMaterialForm.propTypes = {
-    sourceMaterials: PropTypes.object.isRequired,
-    sourceUpdated: PropTypes.object.isRequired,
+    selectedSourceColor: PropTypes.string.isRequired,
+    setSelectedSourceColor: PropTypes.func.isRequired,
 };
