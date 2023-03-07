@@ -54,10 +54,9 @@ export const LogIn = ({ googleSignInFlag }) => {
     const verifyCallback = response => {
         if(response){
             setIsVerified(true);
+            console.log('verifyCallback setting to true???');
         }
     };
-
-    console.log('something???');
 
     return (
         <Container component='main' maxWidth='md'>
@@ -112,7 +111,7 @@ export const LogIn = ({ googleSignInFlag }) => {
                             <Recaptcha
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                                 render='explicit'
-                                verifyCallback={verifyCallback}
+                                onloadCallbackName={verifyCallback}
                             />
                         </Grid>
                     }
