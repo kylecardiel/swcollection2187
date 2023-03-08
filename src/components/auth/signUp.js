@@ -14,7 +14,7 @@ import { FormError } from 'components/common/form/formError';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Recaptcha from 'react-recaptcha';
+import { Recaptcha } from 'components/auth/recaptcha';
 import { Link as RouterLink } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { AUTH } from 'shared/constants/stringConstantsSelectors';
@@ -55,11 +55,11 @@ export const SignUp = ({ googleSignInFlag }) => {
         }
     };
 
-    // const verifyCallback = response => {
-    //     if(response){
-    //         setIsVerified(true);
-    //     }
-    // };
+    const onChange = response => {
+        if(response){
+            setIsVerified(true);
+        }
+    };
 
     const disableSubmitt = errorMessage !== null;
 
@@ -126,15 +126,11 @@ export const SignUp = ({ googleSignInFlag }) => {
                                 <FormError errorMessage={errorMessage} />
                             </Grid>
                         }
-                        {/* {isProduction && 
+                        {isProduction && 
                         <Grid item xs={12} container direction='row' justifyContent='center' className={classes.recaptchaContainer}>
-                            <Recaptcha
-                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                                render='explicit'
-                                verifyCallback={verifyCallback}
-                            />
+                            <Recaptcha onChange={onChange} />
                         </Grid>
-                        } */}
+                        }
                     </Grid>
                     <Button
                         type='submit'

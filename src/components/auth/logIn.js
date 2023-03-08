@@ -14,7 +14,7 @@ import { FormError } from 'components/common/form/formError';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Recaptcha from 'react-recaptcha';
+import { Recaptcha } from 'components/auth/recaptcha';
 import { Link as RouterLink } from 'react-router-dom';
 import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { AUTH } from 'shared/constants/stringConstantsSelectors';
@@ -26,7 +26,7 @@ export const LogIn = ({ googleSignInFlag }) => {
     const { register, handleSubmit, watch } = useForm();
     const classes = useStyles();
 
-    const [isVerified, setIsVerified] = useState(true);
+    const [isVerified, setIsVerified] = useState(false);
 
     const {
         FIELD_LABELS,
@@ -51,12 +51,11 @@ export const LogIn = ({ googleSignInFlag }) => {
         }
     };
 
-    // const verifyCallback = response => {
-    //     if(response){
-    //         setIsVerified(true);
-    //         console.log('verifyCallback setting to true???');
-    //     }
-    // };
+    const onChange = response => {
+        if(response){
+            setIsVerified(true);
+        }
+    };
 
     return (
         <Container component='main' maxWidth='md'>
@@ -106,15 +105,11 @@ export const LogIn = ({ googleSignInFlag }) => {
                             <FormError errorMessage={errorMessage} />
                         </Grid>
                     }
-                    {/* {isProduction && 
+                    {isProduction && 
                         <Grid item xs={12} container direction='row' justifyContent='center' className={classes.recaptchaContainer}>
-                            <Recaptcha
-                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                                render='explicit'
-                                onloadCallbackName={verifyCallback}
-                            />
+                            <Recaptcha onChange={onChange} />
                         </Grid>
-                    } */}
+                    }
                     <Button
                         type='submit'
                         fullWidth
