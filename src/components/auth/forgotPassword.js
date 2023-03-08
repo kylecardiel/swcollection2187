@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { auth } from 'backend/Firebase';
+import { auth, resetPassword } from 'backend/Firebase';
 import { FormError } from 'components/common/form/formError';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
@@ -39,7 +39,7 @@ export const ForgotPassword = () => {
     }
 
     const onSubmit = () => {
-        auth().sendPasswordResetEmail(emailInput).then(function () {
+        resetPassword(auth, emailInput).then(function () {
             alert('Email sent to reset password');
         }).catch(error => {
             if (error.message !== null) {

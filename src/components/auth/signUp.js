@@ -45,7 +45,7 @@ export const SignUp = ({ googleSignInFlag }) => {
         errorMessage = null;
     }
 
-    const [isVerified, setIsVerified] = useState(false);
+    const [isVerified, setIsVerified] = useState(true);
 
     const onSubmit = registrationInfo => {
         if(isVerified || !isProduction){
@@ -55,11 +55,11 @@ export const SignUp = ({ googleSignInFlag }) => {
         }
     };
 
-    const verifyCallback = response => {
-        if(response){
-            setIsVerified(true);
-        }
-    };
+    // const verifyCallback = response => {
+    //     if(response){
+    //         setIsVerified(true);
+    //     }
+    // };
 
     const disableSubmitt = errorMessage !== null;
 
@@ -126,7 +126,7 @@ export const SignUp = ({ googleSignInFlag }) => {
                                 <FormError errorMessage={errorMessage} />
                             </Grid>
                         }
-                        {isProduction && 
+                        {/* {isProduction && 
                         <Grid item xs={12} container direction='row' justifyContent='center' className={classes.recaptchaContainer}>
                             <Recaptcha
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
@@ -134,7 +134,7 @@ export const SignUp = ({ googleSignInFlag }) => {
                                 verifyCallback={verifyCallback}
                             />
                         </Grid>
-                        }
+                        } */}
                     </Grid>
                     <Button
                         type='submit'

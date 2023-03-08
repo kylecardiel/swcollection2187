@@ -26,7 +26,7 @@ export const LogIn = ({ googleSignInFlag }) => {
     const { register, handleSubmit, watch } = useForm();
     const classes = useStyles();
 
-    const [isVerified, setIsVerified] = useState(false);
+    const [isVerified, setIsVerified] = useState(true);
 
     const {
         FIELD_LABELS,
@@ -51,12 +51,12 @@ export const LogIn = ({ googleSignInFlag }) => {
         }
     };
 
-    const verifyCallback = response => {
-        if(response){
-            setIsVerified(true);
-            console.log('verifyCallback setting to true???');
-        }
-    };
+    // const verifyCallback = response => {
+    //     if(response){
+    //         setIsVerified(true);
+    //         console.log('verifyCallback setting to true???');
+    //     }
+    // };
 
     return (
         <Container component='main' maxWidth='md'>
@@ -106,7 +106,7 @@ export const LogIn = ({ googleSignInFlag }) => {
                             <FormError errorMessage={errorMessage} />
                         </Grid>
                     }
-                    {isProduction && 
+                    {/* {isProduction && 
                         <Grid item xs={12} container direction='row' justifyContent='center' className={classes.recaptchaContainer}>
                             <Recaptcha
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
@@ -114,7 +114,7 @@ export const LogIn = ({ googleSignInFlag }) => {
                                 onloadCallbackName={verifyCallback}
                             />
                         </Grid>
-                    }
+                    } */}
                     <Button
                         type='submit'
                         fullWidth

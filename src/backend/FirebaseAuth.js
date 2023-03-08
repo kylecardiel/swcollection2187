@@ -1,8 +1,5 @@
-import { auth, signIn } from 'backend/Firebase';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { auth, createUserWithEmail, signIn, signOut } from 'backend/Firebase';
 import { defaultUser } from 'components/auth/authContext';
-
-export const provider = new GoogleAuthProvider();
 
 export const onAuthStateChange = callback => {
     return auth.onAuthStateChanged(user => {
@@ -20,6 +17,9 @@ export const onAuthStateChange = callback => {
 
 export const login = (email, password) => {
     signIn(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+        })
         .catch(error => {
             if (error.message !== null) {
                 alert(error.message);
@@ -28,21 +28,20 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-    auth.signOut();
+    signOut(auth).then(() => {})
+        .catch((error) => {
+            if (error.message !== null) {
+                alert(error.message);
+            }
+        });
 };
 
 export const registerUser = registrationInfo => {
-    auth.createUserWithEmailAndPassword(
-        registrationInfo.email,
-        registrationInfo.password,
-    ).then(() => {
-        auth.onAuthStateChanged(user => {
-            user.updateProfile({
-                email: registrationInfo.email,
-            });
-        });
-    })
-        .catch(error => {
+    createUserWithEmail(auth, registrationInfo.email, registrationInfo.password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+        })
+        .catch((error) => {
             if (error.message !== null) {
                 alert(error.message);
             }
