@@ -1,12 +1,18 @@
-import { auth } from 'backend/Firebase';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
+const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
+
 export const signInWithGoogle = () => {
-    auth.signInWithPopup(googleProvider).then()
-        .catch(error => {
-            if (error.message !== null) {
-                alert(error.message);
+    signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+        }).catch((error) => {
+            const errorMessage = error.message;
+            if (errorMessage !== null) {
+                alert(errorMessage);
             }
         });
 };
