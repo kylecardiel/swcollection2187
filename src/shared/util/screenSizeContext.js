@@ -6,7 +6,8 @@ export const defaultScreen = {
     isTablet: false,
     isMobileDevice: false,
     isPortrait: false,
- };
+};
+
 const ScreenContext = createContext(defaultScreen);
 export const ScreenProvider = ScreenContext.Provider;
 export const ScreenConsumer = ScreenContext;
