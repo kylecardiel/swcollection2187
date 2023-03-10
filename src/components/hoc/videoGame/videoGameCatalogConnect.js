@@ -21,7 +21,7 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
     setVideoGameData: data => dispatch(setCatalogData(VIDEO_GAME_SUB_CATALOG, data)),
     setUserData: data => dispatch(setUserData(VIDEO_GAME_SUB_CATALOG, data)),
-    setUserDisplaySettings: (settings, value) => dispatch(setUserDisplaySettings(VIDEO_GAME_SUB_CATALOG, settings, value)),
+    setUserDisplaySettings: (value) => dispatch(setUserDisplaySettings(VIDEO_GAME_SUB_CATALOG, value)),
     clearUserDisplaySettings: () => dispatch(clearUserDisplaySettings()),
 });
 

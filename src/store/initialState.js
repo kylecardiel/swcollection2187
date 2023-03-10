@@ -1,3 +1,13 @@
+export const initialVideoGameFilter = {
+    search: null,
+    videoGameConsole: null,
+    videoGameFormat: null,
+    videoGameSeries: null,
+    videoGameType: null,
+    year: null,
+    sorting: null,
+};
+
 export const initialState = {
     dataSet: {
         catalogList: {
@@ -21,14 +31,7 @@ export const initialState = {
                 viewOnlyOwnedFigures: false,
                 viewOnlyUnownedFigures: false,
             },
-            videoGames: {
-                filterByVideoGameConsole: null,
-                filterByVideoGameFormat: null,
-                filterByVideoGameSeries: null,
-                filterByVideoGameType: null,
-                filterByYear: null,
-                sortingAttribute: null,
-            },
+            videoGames: initialVideoGameFilter,
         },
         userList: {
             actionFigures: [],

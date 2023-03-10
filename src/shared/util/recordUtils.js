@@ -1,7 +1,6 @@
 import { DateUtils } from 'shared/util/dateUtil';
 
 export class RecordUtils {
-
     static addTimeStamps = record => {
         const nowTimeStamp = DateUtils.getCurrentTimestamp();
         record.createdDate = nowTimeStamp;
@@ -23,6 +22,15 @@ export class RecordUtils {
             record.lastModifiedBy = userName;
         }
         record.lastModifiedDate = DateUtils.getCurrentTimestamp();
+    };
+
+
+    static formatById = (records) => {
+        return RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'id');
+    };
+
+    static formatByOwnedId = (records) => {
+        return RecordUtils.convertDBNestedObjectsToArrayOfObjects(records, 'ownedId');
     };
 
     static convertDBNestedObjectsToArrayOfObjects = (records, idValue) => {

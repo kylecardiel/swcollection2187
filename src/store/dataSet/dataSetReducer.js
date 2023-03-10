@@ -16,7 +16,7 @@ export const dataSet = (state = initialState.dataSet, action) => {
     }
     case actions.SET_USER_DISPLAY_SETTINGS: {
         const cloneState = cloneDeep(state);
-        cloneState.displaySettings[action.payload.catalog][action.payload.setting] = action.payload.value;
+        cloneState.displaySettings[action.payload.catalog] = action.payload.value;
         return cloneState;
     }
     case actions.CLEAR_USER_DISPLAY_SETTINGS: {

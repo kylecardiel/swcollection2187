@@ -8,7 +8,7 @@ import { BlackSeries } from 'components/catalog/actionFigures/blackSeries/pages/
 import { BlackSeriesDetailsPage } from 'components/catalog/actionFigures/blackSeries/pages/blackSeriesDetailsPage';
 import { VintageCollection } from 'components/catalog/actionFigures/vintageCollection/pages/vintageCollection';
 import { VideoGameDetailsPage } from 'components/catalog/videoGames/pages/videoGameDetailsPage';
-import { VideoGamesPage } from 'components/catalog/videoGames/pages/videoGamesPage';
+import VideoGameCatalogConnect from 'components/hoc/videoGame/videoGameCatalogConnect';
 import { ScreenSize } from 'components/common/screenSize';
 import { ContactMe } from 'components/contactMe/contactMe';
 import { FuturePlans } from 'components/futurePlans/futurePlans';
@@ -98,7 +98,7 @@ export const Routes = ({ setScreenSizes }) => {
                         redirectPath={LOGIN}
                         access={true}
                         userLoggedIn={loggedIn}
-                        component={VideoGamesPage}
+                        component={VideoGameCatalogConnect}
                     />
                     <ProtectedRoute
                         exact
