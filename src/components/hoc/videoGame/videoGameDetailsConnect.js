@@ -1,37 +1,30 @@
-import { VideoGameDetails } from 'components/catalog/videoGames/pages/videoGameDetails';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RecordUtils } from 'shared/util/recordUtils';
 import { getVideoGameCatalogList } from 'store/dataSet/dataSetSelector';
-import { getUserVideoGames } from 'store/firebase/dataSetSelector';
-import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { getScreenSize } from 'store/screenSize/screenSizeSelector';
-import { isProduction } from 'shared/util/environment';
-import userDataFile from 'shared/fixtures/userData.json';
+import { VideoGameDetails } from 'components/catalog/videoGames/pages/videoGameDetails';
+import { VideoGameHelper } from 'components/catalog/videoGames/videoGameHelper';
 
-const { usersData } = userDataFile;
-
-export const VideoGameDetailsConnect = ({ videoGameId }) => {
+export const VideoGameDetailsConnect = ({ videoGame }) => {
     return ( 
-        <VideoGameDetails videoGameId={videoGameId}/> 
+        <VideoGameDetails videoGame={videoGame}/> 
     );
 };
 
-export const mapStateToProps = state => ({
-    catalogList: getVideoGameCatalogList(state),
-    helperData: getHelperDataSet(state),
-    screenSize: getScreenSize(state),
-    userList: RecordUtils.convertDBNestedObjectsToArrayOfObjects(
-        isProduction 
-            ? getUserVideoGames(state) 
-            : usersData.VideoGames, 
-        'ownedId',
-    ),
-});
+export const mapStateToProps = (state, ownProps) => {
+    const otherGamesInSeries = VideoGameHelper.getOtherGamesInSeries(getVideoGameCatalogList(state), ownProps.videoGame);
+    const screenSize = getScreenSize(state);
+    const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
+
+    return {
+        otherGamesInSeries,
+        isMobile,
+    };
+};
 
 export default connect(mapStateToProps)(VideoGameDetails);
 
 VideoGameDetailsConnect.propTypes = {
-    videoGameId: PropTypes.string.isRequired,
+    videoGame: PropTypes.object.isRequired,
 };

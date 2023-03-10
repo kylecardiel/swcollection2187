@@ -19,9 +19,7 @@ export const ReleaseDetailCard = ({ developer, price, otherGamesInSeries, videoG
             {otherGamesInSeries.map(vg => (
                 <Link
                     to={{
-                        pathname: `${ROUTE_CONSTANTS.VIDEO_GAMES}/${slugify([
-                            vg.name,
-                        ])}`,
+                        pathname: `${ROUTE_CONSTANTS.VIDEO_GAMES}/${slugify([vg.name])}`,
                         state: { id: vg.id },
                     }}
                     style={{ textDecoration: 'none' }}

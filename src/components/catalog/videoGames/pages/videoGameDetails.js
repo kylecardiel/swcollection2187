@@ -5,7 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { UserConsumer } from 'components/auth/authContext';
 import { SingleImageDetailCard } from 'components/catalog/common/cards/singleImageDetailCard';
 import { ReleaseDetailCard } from 'components/catalog/videoGames/cards/releaseDetailCard';
-import { NewVideoGameForm } from 'components/catalog/videoGames/forms/newVideoGameForm';
+import NewVideoGameForm from 'components/catalog/videoGames/forms/newVideoGameForm';
 import { CommonBreadCrumbs } from 'components/common/breadcrums/breadcrumbs';
 import { ActionButton } from 'components/common/buttons/actionButton';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
@@ -19,18 +19,11 @@ import { ROUTE_CONSTANTS } from 'shared/constants/routeConstants';
 import { BS_CARD_BUTTONS, PAGES } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { modalStyles } from 'shared/styles/modalStyles';
-import { RecordUtils } from 'shared/util/recordUtils';
-import { SortingUtils } from 'shared/util/sortingUtil';
 
 const { HOME, VIDEO_GAMES } = ROUTE_CONSTANTS;
 
-export const VideoGameDetails = ({ catalogList, helperData, videoGameId, screenSize, userList }) => {
+export const VideoGameDetails = ({ otherGamesInSeries, isMobile, videoGame }) => {
     const { email, id } = useContext(UserConsumer);
-    const singleList = catalogList && userList ? RecordUtils.mergeTwoArraysByAttribute(catalogList, 'id', userList, 'catalogId') : catalogList;
-    const videoGame = singleList.filter(vg => vg.id === videoGameId)[0];
-    const otherGamesInSeries = SortingUtils.sortDataByStringIntAsc(singleList.filter(el => videoGame.videoGameSeries && el.videoGameSeries === videoGame.videoGameSeries && el.id !== videoGame.id), 'year');
-
-    const isMobile = screenSize.isMobileDevice && screenSize.isPortrait;
     const flexFlowDirection = isMobile ? 'column' : 'row';
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -148,7 +141,6 @@ export const VideoGameDetails = ({ catalogList, helperData, videoGameId, screenS
                 >
                     <NewVideoGameForm
                         setIsModalOpen={setIsModalOpen}
-                        formData={helperData}
                         item={videoGame}
                     />
                 </Modal>
@@ -174,9 +166,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 VideoGameDetails.propTypes = {
-    catalogList: PropTypes.array.isRequired,
-    helperData: PropTypes.object.isRequired,
-    screenSize: PropTypes.object.isRequired,
-    userList: PropTypes.array.isRequired,
-    videoGameId: PropTypes.string.isRequired,
+    otherGamesInSeries: PropTypes.array,
+    isMobile: PropTypes.bool.isRequired,
+    videoGame: PropTypes.object,
 };

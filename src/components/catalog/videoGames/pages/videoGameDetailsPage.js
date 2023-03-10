@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 import React from 'react';
 
 export const VideoGameDetailsPage = () => {
-    let { state: { id } } = useLocation();
+    let { state: { item } } = useLocation();
     return (
-        <VideoGameDetailsConnect videoGameId={id}/>
+        <VideoGameDetailsConnect videoGame={item}/>
     );
 };

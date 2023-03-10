@@ -41,7 +41,7 @@ export const Viewport = ({ CardComponent, displayList, other, CARD_HEIGHT, CARD_
                                         displayList[i].name,
                                         displayList[i].additionalNameDetails,
                                     ])}`,
-                                    state: { id: displayList[i].id },
+                                    state: { id: displayList[i].id, item: displayList[i] },
                                 }
                             }
                             style={{ textDecoration: 'none' }}

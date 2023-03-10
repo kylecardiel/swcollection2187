@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { UserConsumer } from 'components/auth/authContext';
 import { FormHeaderSection } from 'components/common/form/formHeaderSection';
@@ -19,6 +20,7 @@ import { GENERAL, NEW_VIDEO_GAME_FORM } from 'shared/constants/stringConstantsSe
 import { Color } from 'shared/styles/color';
 import { RecordUtils } from 'shared/util/recordUtils';
 import { uploadImageToStorage } from 'shared/util/upload';
+import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 
 const { CATALOG, VIDEO_GAMES } = FB_STORAGE_CONSTANTS;
 
@@ -203,6 +205,12 @@ export const NewVideoGameForm = ({ formData, setIsModalOpen, item }) => {
         </React.Fragment>
     );
 };
+
+export const mapStateToProps = state => ({
+    formData: getHelperDataSet(state),
+});
+
+export default connect(mapStateToProps)(NewVideoGameForm);
 
 const useStyles = makeStyles(theme => ({
     conatiner: {
