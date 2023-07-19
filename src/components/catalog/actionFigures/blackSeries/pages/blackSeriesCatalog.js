@@ -38,6 +38,7 @@ import { RecordUtils } from 'shared/util/recordUtils';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { reverseCamelCase } from 'shared/util/stringUtil';
 import { onValue } from 'firebase/database';
+import { ROLES } from 'shared/constants/roleConstants';
 
 const { CatalogData } = catalogDataFile;
 const { usersData } = userDataFile;
@@ -45,7 +46,9 @@ const { usersData } = userDataFile;
 const { ACTION_FIGURES } = FB_DB_CONSTANTS;
 
 export const BlackSeriesCatalog = props => {
-    const { id, loggedIn } = useContext(UserConsumer);
+    const { email, id, loggedIn } = useContext(UserConsumer);
+    const authorized = ROLES.EMAIL === email;
+
     const classes = useStyles();
     const { helperData, catalogList, setCatalogData, userList, setUserData, screenSize, setUserDisplaySettings, clearUserDisplaySettings, filterState } = props;
     
@@ -119,6 +122,24 @@ export const BlackSeriesCatalog = props => {
         const value = e.target.value;
         setFilterBySeries(value);
         setUserDisplaySettings('filterBySeries', value);
+    };
+
+    const [filterByMissingLooseImageUrl, setFilterByMissingLooseImageUrl] = useState(filterState.filterByMissingLooseImageUrl);
+    const handleMissingLooseImageUrlChange = () => {
+        setFilterByMissingLooseImageUrl(!filterByMissingLooseImageUrl);
+        setUserDisplaySettings('filterByMissingLooseImageUrl', !filterByMissingLooseImageUrl);
+    };
+
+    const [filterByMissingNewImageUrl, setFilterByMissingNewImageUrl] = useState(filterState.filterByMissingNewImageUrl);
+    const handleMissingNewImageUrlChange = () => {
+        setFilterByMissingNewImageUrl(!filterByMissingNewImageUrl);
+        setUserDisplaySettings('filterByMissingNewImageUrl', !filterByMissingNewImageUrl);
+    };
+
+    const [filterByMissingNumber, setFilterByMissingNumber] = useState(filterState.filterByMissingNumber);
+    const handleMissingNumberChange = () => {
+        setFilterByMissingNumber(!filterByMissingNumber);
+        setUserDisplaySettings('filterByMissingNumber', !filterByMissingNumber);
     };
 
     const defaultNewBoxImage = filterState.figureSizeSmall === undefined ? screenSize.isMobileDevice : filterState.figureSizeSmall;
@@ -207,6 +228,10 @@ export const BlackSeriesCatalog = props => {
         setFilterBySeries(null);
         setFilterBySourceType(null);
 
+        setFilterByMissingLooseImageUrl(null);
+        setFilterByMissingNewImageUrl(null);
+        setFilterByMissingNumber(null);
+
         setViewAllFigures(true);
         setViewOnlyOwnedFigures(false);
         setViewOnlyUnownedFigures(false);
@@ -293,6 +318,9 @@ export const BlackSeriesCatalog = props => {
         if (filterBySourceType) mergedList = mergedList.filter(el => el.sourceType === filterBySourceType);
         if (filterBySeries) mergedList = mergedList.filter(el => el.series === filterBySeries);
         if (filterByYear) mergedList = mergedList.filter(el => parseInt(el.year) === filterByYear);
+        if (filterByMissingLooseImageUrl) mergedList = mergedList.filter(el => el.looseImageUrl === undefined);
+        if (filterByMissingNewImageUrl) mergedList = mergedList.filter(el => el.newImageUrl === undefined);
+        if (filterByMissingNumber) mergedList = mergedList.filter(el => el.seriesNumber === undefined);
         if (filterByPackageType) {
             if (filterByPackageType === 'Standard Box') {
                 mergedList = mergedList.filter(el => el.packageType === undefined);
@@ -495,6 +523,30 @@ export const BlackSeriesCatalog = props => {
                                             />
                                         </div>
                                     </Grid>
+                                    {
+                                        authorized && <Grid item xs={12}>
+                                            <div className={classes.container}>
+                                                <ActionButton
+                                                    buttonLabel={BS_DISPLAY_MODAL.BUTTONS.NO_LOOSE_IMAGE}
+                                                    icon={<SwapHorizIcon />}
+                                                    onClick={handleMissingLooseImageUrlChange}
+                                                    color={Color.yellow()}
+                                                />
+                                                <ActionButton
+                                                    buttonLabel={BS_DISPLAY_MODAL.BUTTONS.NO_NEW_IMAGE}
+                                                    icon={<SwapHorizIcon />}
+                                                    onClick={handleMissingNewImageUrlChange}
+                                                    color={Color.yellow()}
+                                                />
+                                                <ActionButton
+                                                    buttonLabel={BS_DISPLAY_MODAL.BUTTONS.NO_NUMBER}
+                                                    icon={<SwapHorizIcon />}
+                                                    onClick={handleMissingNumberChange}
+                                                    color={Color.yellow()}
+                                                />
+                                            </div>
+                                        </Grid>
+                                    }
                                     <Grid item xs={12}>
                                         <div className={classes.container}>
                                             <ActionButton

@@ -10,6 +10,9 @@ export const initialState = {
             actionFigures:{
                 filterBySourceMaterial: null,
                 filterByCharacter: null,
+                filterByMissingLooseImageUrl: null,
+                filterByMissingNewImageUrl: null,
+                filterByMissingNumber: null,
                 filterByInputName: null,
                 filterByGroup: null,
                 filterByVersion: null,
