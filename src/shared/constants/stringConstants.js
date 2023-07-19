@@ -190,6 +190,9 @@ export const STRING_CONSTANTS = Object.freeze({
                     LARGE_FIGURE: 'Large Figure',
                     OUT_OF_BOX: 'Out of Box Image',
                     SMALL_FIGURE: 'Small Figure',
+                    NO_LOOSE_IMAGE: 'Missing Loose Image',
+                    NO_NEW_IMAGE: 'Missing New Image',
+                    NO_NUMBER: 'Missing Number',
                 },
                 HEADER: 'Filter / Sort / Display',
                 LABELS: {
