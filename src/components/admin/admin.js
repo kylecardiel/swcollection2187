@@ -27,6 +27,7 @@ import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { SourceMaterialTable } from 'components/admin/sourceMaterialTable';
+import { NewSourceForm } from 'components/admin/newSourceForm';
 
 const { HOME, READ_CONTACT_ME } = ROUTE_CONSTANTS;
 
@@ -158,6 +159,10 @@ export const Admin = ({ helperData }) => {
         formData={helperData}
     />;
 
+    const newSourceModal = <NewSourceForm
+        c={closeModal}
+    />;
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={PAGES.ADMIN.TITLE} />
@@ -188,6 +193,12 @@ export const Admin = ({ helperData }) => {
                                 icon={<AddBoxIcon />}
                                 onClick={() => openModal(newVideoGameModal)}
                                 color={Color.green()}
+                            />
+                            <ActionButton
+                                buttonLabel={ADMIN.BUTTON.NEW_SOURCE}
+                                icon={<AddBoxIcon />}
+                                onClick={() => openModal(newSourceModal)}
+                                color={Color.blue()}
                             />
                         </Grid>
                         <Grid item xs={6} className={classes.formDataContainer}>

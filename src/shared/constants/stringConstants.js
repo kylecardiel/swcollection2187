@@ -246,6 +246,7 @@ export const STRING_CONSTANTS = Object.freeze({
                 HIDE_TABLES: 'Hide Tables',
                 NEW_BLACK_SERIES: 'New BS/VC Figures',
                 NEW_VIDEO_GAME: 'New Video Game',
+                NEW_SOURCE: 'New Source',
                 UPLOAD: 'Upload',
             },
             IMAGE_FILE_LOCATION: 'File available at:',
