@@ -27,6 +27,7 @@ import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
 import { getHelperDataSet } from 'store/helperData/helperDataSetSelector';
 import { SourceMaterialTable } from 'components/admin/sourceMaterialTable';
+import { NewSourceForm } from 'components/admin/newSourceForm';
 
 const { HOME, READ_CONTACT_ME } = ROUTE_CONSTANTS;
 
@@ -37,6 +38,8 @@ export const Admin = ({ helperData }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [displayFormDataInput, setDisplayFormDataInput] = useState(true);
     const [displayFormDataTable, setDisplayFormDataTable] = useState(false);
+
+    const [modalSize, setModalSize] = useState({ height: '85%', width: '85%' });
 
     const openModal = component => {
         setNewEntryComponent(component);
@@ -80,7 +83,6 @@ export const Admin = ({ helperData }) => {
     }, [helperData]);
 
     const { register, handleSubmit, reset } = useForm();
-    const modalSize = { height: '85%', width: '85%' };
 
     const onSubmit = attribute => {
         let existingData = helperData[dataType];
@@ -119,7 +121,6 @@ export const Admin = ({ helperData }) => {
         { key: 'Version', value: 'version' },
 
         { key: 'Video Game Console', value: 'videoGameConsole' },
-        // { key: 'Video Game Developer', value: 'videoGameDeveloper' },
         { key: 'Video Game Type', value: 'videoGameType' },
         { key: 'Video Game Series', value: 'videoGameSeries' },
         { key: 'Video Game Format', value: 'videoGameFormat' },
@@ -158,6 +159,15 @@ export const Admin = ({ helperData }) => {
         formData={helperData}
     />;
 
+    const newSourceModal = <NewSourceForm closeModal={closeModal} />;
+
+    const openGenericModal = (modalType, dimensions) => {
+        setModalSize(dimensions);
+        openModal(modalType);
+    };
+
+    const standardModalSize = { height: '85%', width: '85%' };
+
     return (
         <React.Fragment>
             <CommonBreadCrumbs links={links} currentTitle={PAGES.ADMIN.TITLE} />
@@ -180,14 +190,20 @@ export const Admin = ({ helperData }) => {
                             <ActionButton
                                 buttonLabel={ADMIN.BUTTON.NEW_BLACK_SERIES}
                                 icon={<AddBoxIcon />}
-                                onClick={() => openModal(newBlackSeriesModal)}
+                                onClick={() => openGenericModal(newBlackSeriesModal, standardModalSize)}
                                 color={Color.green()}
                             />
                             <ActionButton
                                 buttonLabel={ADMIN.BUTTON.NEW_VIDEO_GAME}
                                 icon={<AddBoxIcon />}
-                                onClick={() => openModal(newVideoGameModal)}
+                                onClick={() => openGenericModal(newVideoGameModal, standardModalSize)}
                                 color={Color.green()}
+                            />
+                            <ActionButton
+                                buttonLabel={ADMIN.BUTTON.NEW_SOURCE}
+                                icon={<AddBoxIcon />}
+                                onClick={() => openGenericModal(newSourceModal, { height: '50%', width: '50%' })}
+                                color={Color.blue()}
                             />
                         </Grid>
                         <Grid item xs={6} className={classes.formDataContainer}>

@@ -16,6 +16,7 @@ const defaultContentStyleOverride = {
     padding: 0,
     border: 0,
     borderRadius: 0,
+    overflow: 'hidden',
 };
 
 export const modalStyles = (contentStyleOverride, overlayStylesOverride) => {
