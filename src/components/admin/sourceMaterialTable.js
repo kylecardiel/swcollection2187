@@ -38,7 +38,7 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
     const [selectedSourceColor, setSelectedSourceColor] = useState('white');
     const [sourceMaterial, setSourceMaterial] = useState();
 
-    const modalSize = { height: '85%', width: '85%' };
+    const modalSize = { height: '55%', width: '50%' };
 
     const openModal = (sourceName) => {
         const source = sourceMaterials.values.filter(s => s.name === sourceName)[0];

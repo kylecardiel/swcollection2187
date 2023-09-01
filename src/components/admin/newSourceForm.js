@@ -12,6 +12,7 @@ import { InputSelector } from 'components/common/form/newFormSelectors/inputSele
 import { InputText } from 'components/common/form/newFormSelectors/inputText';
 import { HelperDataApi } from 'shared/api/helperDataApi';
 import { onValue } from 'firebase/database';
+import { ChromePicker } from 'react-color';
 
 const { LABELS } = NEW_SOURCE_FORM_LABELS;
 
@@ -30,6 +31,7 @@ export const NewSourceForm = ({ closeModal, item }) => {
 
     const { register, handleSubmit, control, watch } = useForm(setDefaults());
     const [sourceMaterial, setSourceMaterial] = useState();
+    const [color, setColor] = useState(item.color);
     const typeWatcher = watch('type');
 
     useEffect(() => {
@@ -43,6 +45,7 @@ export const NewSourceForm = ({ closeModal, item }) => {
 
     const onSubmit = async source => {
         let formData = {};
+        source.color = color.hex;
         if(item) {
             const newSetSourceMaterials = sourceMaterial.value.filter(el => el.name !== item.name);
             newSetSourceMaterials.push(source);
@@ -62,17 +65,22 @@ export const NewSourceForm = ({ closeModal, item }) => {
             <Container component='main' maxWidth='xl' className={classes.conatiner}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid item xs={12} container direction='row' justifyContent='space-between'>
-                        <InputText label={LABELS.NAME} register={register} />
-                        <InputText label={LABELS.COLOR} register={register} />
-                        <InputText label={LABELS.YEAR} register={register} />
-                    </Grid>
-                    <Grid item xs={12} container direction='row' justifyContent='center'>
-                        <InputSelector
-                            control={control}
-                            label={LABELS.TYPE}
-                            menuItems={['Books', 'Comics', 'Movie', 'TV', 'Video Games']}
-                            value={typeWatcher}
-                        />
+                        <Grid xs={12} container>
+                            <InputText label={LABELS.NAME} register={register} />
+                            <InputText label={LABELS.YEAR} register={register} />
+                            <InputSelector
+                                control={control}
+                                label={LABELS.TYPE}
+                                menuItems={['Books', 'Comics', 'Movie', 'TV', 'Video Games']}
+                                value={typeWatcher}
+                            />
+                        </Grid>
+                        <Grid xs={12} container direction='row' justifyContent='center'>
+                            <ChromePicker 
+                                color={color}
+                                onChangeComplete={(c) => setColor(c)}
+                            />
+                        </Grid>
                     </Grid>
                     <Grid item xs={12} className={classes.submitButtonrow}>
                         <Button
