@@ -12,7 +12,7 @@ export const create = (location, record) => {
 export const read = location => ref(database, location);
 
 export const updateRecord = (location, record) => {
-    const databaseRef = ref(database, `${location}`);
+    const databaseRef = ref(database, `${envPrefix}${location}`);
     update(databaseRef, record);
 };
 

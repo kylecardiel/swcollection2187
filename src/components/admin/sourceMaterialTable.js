@@ -9,7 +9,8 @@ import Divider from '@material-ui/core/Divider';
 import Modal from 'react-modal';
 import { modalStyles } from 'shared/styles/modalStyles';
 import { SortingUtils } from 'shared/util/sortingUtil';
-import { SourceMaterialForm } from 'components/admin/sourceMaterialForm';
+// import { SourceMaterialForm } from 'components/admin/sourceMaterialForm';
+import { NewSourceForm } from 'components/admin/newSourceForm';
 
 const TYPES = {
     MOVIE: 'Movie',
@@ -26,17 +27,23 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
         return SortingUtils.sortDataByAttributeAsc(sourceMaterials.values.filter(s => s.type === type), 'year');
     };
     
+    const sortByName = (sourceTypes) => {
+        return sourceTypes.sort((a, b) => (a['name'] > b['name']) ? 1 : -1);
+    };
+
     const [movies] = useState(getSourceByType(TYPES.MOVIE));
-    const [tvShows] = useState(getSourceByType(TYPES.TV));
-    const [videoGames] = useState(getSourceByType(TYPES.VG));
+    const [tvShows] = useState(sortByName(getSourceByType(TYPES.TV)));
+    const [videoGames] = useState(sortByName(getSourceByType(TYPES.VG)));
     const [other] = useState(sourceMaterials.values.filter(s => ![TYPES.MOVIE, TYPES.TV, TYPES.VG].includes(s.type)));
     const [selectedSourceColor, setSelectedSourceColor] = useState('white');
+    const [sourceMaterial, setSourceMaterial] = useState();
 
-    const modalSize = { height: '40%', width: '20%' };
+    const modalSize = { height: '85%', width: '85%' };
 
     const openModal = (sourceName) => {
-        const source = sourceMaterials.values.filter(s => s.name === sourceName);
-        setSelectedSourceColor(source[0].color);
+        const source = sourceMaterials.values.filter(s => s.name === sourceName)[0];
+        setSourceMaterial(source);
+        setSelectedSourceColor(source.color);
         setIsModalOpen(!isModalOpen);
     };
 
@@ -47,7 +54,7 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
     const generateSoureMaterialCard = (sourceType) => {
         return sourceType.map(
             s => <Grid item xs={12} md={3} key={s.name}>
-                <Card className={classes.card} key={s.name}>
+                <Card className={classes.card} key={s.name} onClick={() => openModal(s.name)}>
                     <CardContent>
                         <Typography variant='body2' color='textSecondary' component='p'>
                             <span className={classes.textStyle}>{s.name}</span>
@@ -66,7 +73,6 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
                             paddingDown: '5px',
                             margin: '5%',
                         }}
-                        onClick={() => openModal(s.name)}
                         >
                             {s.color}
                         </div>
@@ -89,9 +95,9 @@ export const SourceMaterialTable = ({ sourceMaterials }) => {
                 onRequestClose={closeModal}
                 style={modalStyles(modalSize)}
             >
-                <SourceMaterialForm 
-                    selectedSourceColor={selectedSourceColor}
-                    setSelectedSourceColor={setSelectedSourceColor}
+                <NewSourceForm 
+                    closeModal={closeModal}
+                    item={sourceMaterial}
                 />
             </Modal>
             <Grid item xs={12}>

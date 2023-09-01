@@ -295,6 +295,14 @@ export const STRING_CONSTANTS = Object.freeze({
                     YEAR: { KEY: 'Year', VALUE: 'year' },
                 },
             },
+            NEW_SOURCE_FORM: {
+                LABELS: {
+                    COLOR: { KEY: 'Color', VALUE: 'color' },
+                    NAME: { KEY: 'Name', VALUE: 'name' },
+                    TYPE: { KEY: 'Type', VALUE: 'type' },
+                    YEAR: { KEY: 'Year', VALUE: 'year' },
+                },
+            },
             TABLE_DETAILS: 'These tables populate the form inputs:',
             TITLE: 'Administration',
         },

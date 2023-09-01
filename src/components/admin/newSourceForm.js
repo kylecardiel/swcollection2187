@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,26 +6,54 @@ import { FormHeaderSection } from 'components/common/form/formHeaderSection';
 import { useForm } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { GENERAL } from 'shared/constants/stringConstantsSelectors';
-import TextField from '@material-ui/core/TextField';
+import { GENERAL, NEW_SOURCE_FORM_LABELS } from 'shared/constants/stringConstantsSelectors';
 import { Color } from 'shared/styles/color';
 import { InputSelector } from 'components/common/form/newFormSelectors/inputSelector';
+import { InputText } from 'components/common/form/newFormSelectors/inputText';
+import { HelperDataApi } from 'shared/api/helperDataApi';
+import { onValue } from 'firebase/database';
 
-export const NewSourceForm = ({ closeModal }) => {
+const { LABELS } = NEW_SOURCE_FORM_LABELS;
+
+export const NewSourceForm = ({ closeModal, item }) => {
     const classes = useStyles();
-
     const setDefaults = () => {
-        return {
-            name: '',
-            color: '',
-            type: '',
-        };
+        return item 
+            ? { defaultValues: item } 
+            : {
+                name: '',
+                color: '',
+                type: '',
+                year: '',
+            };
     };
 
     const { register, handleSubmit, control, watch } = useForm(setDefaults());
+    const [sourceMaterial, setSourceMaterial] = useState();
+    const typeWatcher = watch('type');
 
-    const onSubmit = () => {
+    useEffect(() => {
+        const catalogRef = HelperDataApi.read();
+        onValue(catalogRef, snapshot => {
+            const snapshotValue = snapshot.val();
+            const key = Object.keys(snapshotValue.sourceMaterial)[0];
+            setSourceMaterial({ key, value: snapshotValue.sourceMaterial[key] });
+        });
+    }, []);
 
+    const onSubmit = async source => {
+        let formData = {};
+        if(item) {
+            const newSetSourceMaterials = sourceMaterial.value.filter(el => el.name !== item.name);
+            newSetSourceMaterials.push(source);
+            formData[sourceMaterial.key] = newSetSourceMaterials;
+            HelperDataApi.update(formData, 'sourceMaterial');
+        } else {
+            sourceMaterial.value.push(source);
+            formData[sourceMaterial.key] = sourceMaterial.value;
+            HelperDataApi.update(formData, 'sourceMaterial');
+        }
+        closeModal();
     };
 
     return (
@@ -34,34 +62,19 @@ export const NewSourceForm = ({ closeModal }) => {
             <Container component='main' maxWidth='xl' className={classes.conatiner}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid item xs={12} container direction='row' justifyContent='space-between'>
-                        <TextField
-                            variant='outlined'
-                            className={classes.textField}
-                            fullWidth
-                            id={'name'}
-                            name={'name'}
-                            label={'name'}
-                            inputRef={register()}
-                            type={'string'}
-                        />
-                        <TextField
-                            variant='outlined'
-                            className={classes.textField}
-                            fullWidth
-                            id={'color'}
-                            name={'color'}
-                            label={'color'}
-                            inputRef={register()}
-                            type={'string'}
-                        />
+                        <InputText label={LABELS.NAME} register={register} />
+                        <InputText label={LABELS.COLOR} register={register} />
+                        <InputText label={LABELS.YEAR} register={register} />
+                    </Grid>
+                    <Grid item xs={12} container direction='row' justifyContent='center'>
                         <InputSelector
                             control={control}
-                            label={'type'}
-                            menuItems={['Movie', 'TV', 'Video Games']}
-                            value={'something'}
-                        />;
+                            label={LABELS.TYPE}
+                            menuItems={['Books', 'Comics', 'Movie', 'TV', 'Video Games']}
+                            value={typeWatcher}
+                        />
                     </Grid>
-                    <Grid item xs={12} direction='row' justifyContent='center' className={classes.submitButtonrow}>
+                    <Grid item xs={12} className={classes.submitButtonrow}>
                         <Button
                             type='submit'
                             fullWidth
@@ -82,12 +95,9 @@ const useStyles = makeStyles(theme => ({
         paddingTop: theme.spacing(2),
         overflow: 'hidden',
     },
-    textField: {
-        margin: theme.spacing(2),
-    },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        // maxWidth: 200,
+        maxWidth: 200,
         backgroundColor: Color.blue(),
         color: Color.white(),
         '&:hover': {
@@ -95,8 +105,14 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: Color.white(),
         },
     },
+    submitButtonrow: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
 }));
 
 NewSourceForm.propTypes = {
-    closeModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    item: PropTypes.object,
 };

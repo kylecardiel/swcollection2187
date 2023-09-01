@@ -202,7 +202,7 @@ export const Admin = ({ helperData }) => {
                             <ActionButton
                                 buttonLabel={ADMIN.BUTTON.NEW_SOURCE}
                                 icon={<AddBoxIcon />}
-                                onClick={() => openGenericModal(newSourceModal, { height: '50%', width: '50%' })}
+                                onClick={() => openGenericModal(newSourceModal, { height: '35%', width: '50%' })}
                                 color={Color.blue()}
                             />
                         </Grid>
@@ -323,7 +323,7 @@ export const Admin = ({ helperData }) => {
                             </Container>
                         </Grid>
                         <Grid item xs={12} className={classes.formDataContainer}>
-                            <SourceMaterialTable sourceMaterials={helperData.sourceMaterial}/>
+                            <SourceMaterialTable sourceMaterials={helperData.sourceMaterial} hideOtherInput={setDisplayFormDataInput}/>
                         </Grid>
                     </Grid>
                 </div>
